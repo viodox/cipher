@@ -455,23 +455,53 @@ async function generateReport(){
   const btn=document.getElementById('gen-btn'),out=document.getElementById('report-output'),cta=document.getElementById('report-cta');
   btn.disabled=true;btn.textContent='decrypting...';cta.style.display='none';
   out.innerHTML='<span style="color:var(--muted);font-size:11px">// intercepting signals for '+c.symbol.toUpperCase()+'...</span>';
+
+  const sym=c.symbol.toUpperCase();
   const chg=(c.price_change_percentage_24h||0).toFixed(2);
-  try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":"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","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:`You are DegenGPT inside CIPHER, a dark classified crypto intelligence tool. Write a punchy degen report for ${c.name} (${c.symbol.toUpperCase()}).
+  const chgAbs=Math.abs(parseFloat(chg));
+  const isUp=parseFloat(chg)>=0;
 
-Live data: Price ${c.current_price}, 24h change ${chg}%, market cap ${fmtMcap(c.market_cap)}, 24h volume ${fmtMcap(c.total_volume)}, viral score ${c.viral}/100, rug risk ${c.rug}/100, sentiment ${c.sentiment}/100.
+  const roasts=[
+    `${sym} walked so every other meme coin could run — and then tripped.`,
+    `${sym} is the coin your cousin told you about at Thanksgiving. You know the one.`,
+    `${sym} has the energy of a guy who calls himself an entrepreneur but has no product.`,
+    `${sym} — because why invest in something useful when you can invest in vibes?`,
+    `${sym} is what happens when a community votes with their hearts instead of their brains.`,
+    `${sym} chart looks like my sleep schedule — unpredictable and deeply concerning.`,
+    `${sym}: the financial decision you'll either brag about or never mention again.`,
+  ];
+  const roast=roasts[Math.floor(Math.random()*roasts.length)];
 
-Include: 1) one-liner roast, 2) read on the live price action and momentum, 3) viral potential analysis, 4) rug risk verdict, 5) final call: SEND IT / WAIT / NGMI.
+  const priceRead=isUp
+    ?`Up ${chg}% in 24h — ${chgAbs>20?'absolutely sending it ser, the bulls are fully in control right now':'modest gains, nothing to write home about but the momentum is quietly there'}.`
+    :`Down ${chg}% in the last 24h — ${chgAbs>20?'getting absolutely cooked right now, the bears are feasting on this one':'bleeding slowly, the kind of pain that makes you question your life choices'}.`;
 
-Under 200 words. Crypto Twitter slang (ser, fren, gm, ngmi, wagmi, aping, wen moon, etc). Dark, punchy, entertaining. Reference the actual live data numbers. No financial disclaimers. Short punchy paragraphs.`}]})});
-    const data=await res.json();
-    const text=data.content?.find(b=>b.type==='text')?.text||"Error decrypting signal.";
-    out.innerHTML='';let i=0;
-    const iv=setInterval(()=>{if(i>=text.length){clearInterval(iv);cta.style.display='block';btn.disabled=false;btn.textContent='decrypt coin';return;}out.textContent+=text[i];i++;},11);
-  }catch(e){
-    out.innerHTML='<span style="color:#ff3355">// signal lost — check connection</span>';
-    btn.disabled=false;btn.textContent='decrypt coin';
-  }
+  const viralRead=c.viral>=70
+    ?`Viral potential is ${c.viral}/100 — this thing is primed to blow up on Crypto Twitter. Volume/mcap ratio is spiking and momentum is building fast. One big account picks this up and it could 3x overnight.`
+    :c.viral>=40
+    ?`Viral potential sitting at ${c.viral}/100 — some buzz building but hasn't hit escape velocity yet. Could go either way in the next 48 hours. Watch the volume closely.`
+    :`Viral potential is ${c.viral}/100 — pretty quiet out there ser. Nobody is really talking about this one right now. Might be early, might just be dead.`;
+
+  const rugRead=c.rug>=70
+    ?`Rug risk is ${c.rug}/100 — this is a HIGH RISK play fren. Contract signals are sketchy as hell. Only ape in what you can afford to lose entirely, and even then think twice.`
+    :c.rug>=40
+    ?`Rug risk at ${c.rug}/100 — moderate risk, not the sketchiest thing on the market but not exactly battle-tested either. DYOR hard before putting real money in.`
+    :`Rug risk is ${c.rug}/100 — relatively clean signals for a meme coin. Contract looks more legit than most in this category which is honestly a low bar but still.`;
+
+  const verdict=c.sentiment>=65&&c.viral>=60
+    ?'🟢 VERDICT: SEND IT — momentum and sentiment are aligned ser. This is the play.'
+    :c.sentiment<35&&c.rug>=70
+    ?'🔴 VERDICT: NGMI — too much risk, too little reward. Hard pass fren, protect the bag.'
+    :'🟡 VERDICT: WAIT — signals are mixed. Set a price alert and watch from the sidelines for now.';
+
+  const report=`${roast}\n\n${priceRead}\n\n${viralRead}\n\n${rugRead}\n\n${verdict}`;
+
+  await new Promise(r=>setTimeout(r,900));
+  out.innerHTML='';let i=0;
+  const iv=setInterval(()=>{
+    if(i>=report.length){clearInterval(iv);cta.style.display='block';btn.disabled=false;btn.textContent='decrypt coin';return;}
+    out.textContent+=report[i];i++;
+  },14);
 }
 
 // QUIZ
