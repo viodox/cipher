@@ -249,6 +249,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="https://twitter.com/intent/tweet?text=just+found+CIPHER+%E2%80%94+free+meme+coin+intelligence+for+150%2B+coins+%F0%9F%94%90+AI+rug+radar+%2B+degen+reports&url=www.ciphersignal.xyz" target="_blank">share on x</a>
       <a href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank">coinbase ↗</a>
       <a href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank">binance us ↗</a>
+      <a href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank">kraken ↗</a>
+      <a href="https://crypto.com/app/8hxtmyan6d" target="_blank">crypto.com ↗</a>
     </div>
   </div>
   <div class="disclaimer">cipher // live data via coingecko · not financial advice · always dyor · affiliate links keep this tool free<br>© 2025 CIPHER — meme coin intelligence</div>
@@ -542,17 +544,20 @@ async function subscribeEmail(){
   const btn=document.querySelector('.nl-btn');
   btn.textContent='subscribing...';btn.disabled=true;
   try{
+    console.log('Subscribing email:',email);
     const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({api_key:'op8kssmsdDX0WUkh6d8pXg',email})
+      body:JSON.stringify({api_key:'op8kssmsdDX0WUkh6d8pXg',email_address:email})
     });
     const data=await res.json();
-    if(data.subscription||res.ok){
+    console.log('Kit response:',res.status, data);
+    if(data.subscription){
       document.getElementById('nl-email').value='';
       document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// subscribed. first drop incoming.</span>';
     } else {
       btn.textContent='subscribe';btn.disabled=false;
+      console.error('Kit error:',data);
       alert('something went wrong — try again');
     }
   }catch(e){
