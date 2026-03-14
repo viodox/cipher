@@ -127,7 +127,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .q-step{font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
 .q-text{font-family:var(--font-disp);font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--text);margin-bottom:1.25rem;line-height:1.5}
 .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.q-opt{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:12px;cursor:pointer;font-size:11px;color:var(--muted);transition:all .18s;text-align:left;font-family:var(--font-mono);line-height:1.5}
+.q-opt{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:12px;cursor:pointer;font-size:12px;color:#8a9ab8;transition:all .18s;text-align:left;font-family:var(--font-mono);line-height:1.5}
 .q-opt:hover{border-color:var(--accent);color:var(--text);background:var(--surface2)}
 .result-box{background:var(--surface);border:1px solid rgba(0,229,255,.3);border-radius:8px;padding:1.5rem;text-align:center;position:relative;overflow:hidden}
 .result-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
@@ -275,7 +275,7 @@ const rcMap={high:'#ff3355',mid:'#ffb400',low:'#00ff99'};
 function col(v){return v>=65?'#00ff99':v>=35?'#ffb400':'#ff3355';}
 function sentLbl(v){return v>=65?['Bullish','ctag-g']:v>=35?['Neutral','ctag-y']:['Bearish','ctag-r'];}
 function rugLbl(v){return v>=70?['High Risk','ctag-r']:v>=40?['Moderate','ctag-y']:['Low Risk','ctag-g'];}
-function viralLbl(v){return v>=70?['CT Viral','ctag-b']:v>=40?['Building','ctag-y']:['Low Buzz','ctag-g'];}
+function viralLbl(v){return v>=70?['Crypto Twitter Viral','ctag-b']:v>=40?['Building','ctag-y']:['Low Buzz','ctag-g'];}
 function fmtPrice(p){if(!p)return'$—';if(p>=1)return'$'+p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=0.01)return'$'+p.toFixed(4);if(p>=0.0001)return'$'+p.toFixed(6);return'$'+p.toExponential(2);}
 function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
 
@@ -457,13 +457,13 @@ async function generateReport(){
   out.innerHTML='<span style="color:var(--muted);font-size:11px">// intercepting signals for '+c.symbol.toUpperCase()+'...</span>';
   const chg=(c.price_change_percentage_24h||0).toFixed(2);
   try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:`You are DegenGPT inside CIPHER, a dark classified crypto intelligence tool. Write a punchy degen report for ${c.name} (${c.symbol.toUpperCase()}).
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":"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","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:`You are DegenGPT inside CIPHER, a dark classified crypto intelligence tool. Write a punchy degen report for ${c.name} (${c.symbol.toUpperCase()}).
 
 Live data: Price ${c.current_price}, 24h change ${chg}%, market cap ${fmtMcap(c.market_cap)}, 24h volume ${fmtMcap(c.total_volume)}, viral score ${c.viral}/100, rug risk ${c.rug}/100, sentiment ${c.sentiment}/100.
 
 Include: 1) one-liner roast, 2) read on the live price action and momentum, 3) viral potential analysis, 4) rug risk verdict, 5) final call: SEND IT / WAIT / NGMI.
 
-Under 200 words. CT slang (ser, fren, gm, ngmi, wagmi, aping, wen moon, etc). Dark, punchy, entertaining. Reference the actual live data numbers. No financial disclaimers. Short punchy paragraphs.`}]})});
+Under 200 words. Crypto Twitter slang (ser, fren, gm, ngmi, wagmi, aping, wen moon, etc). Dark, punchy, entertaining. Reference the actual live data numbers. No financial disclaimers. Short punchy paragraphs.`}]})});
     const data=await res.json();
     const text=data.content?.find(b=>b.type==='text')?.text||"Error decrypting signal.";
     out.innerHTML='';let i=0;
@@ -476,14 +476,14 @@ Under 200 words. CT slang (ser, fren, gm, ngmi, wagmi, aping, wen moon, etc). Da
 
 // QUIZ
 const QS=[
-  {q:"Your read on the market right now?",opts:["Everything is a buy","Everything is a trap","I just follow CT hive mind","I built my own indicator, trust me"]},
-  {q:"How do you handle a -60% drawdown?",opts:["Buy more. Obviously.","Rage post on CT","Meditate and cope","Cry, then buy more"]},
+  {q:"Your read on the market right now?",opts:["Everything is a buy","Everything is a trap","I just follow Crypto Twitter hive mind","I built my own indicator, trust me"]},
+  {q:"How do you handle a -60% drawdown?",opts:["Buy more. Obviously.","Rage post on Crypto Twitter","Meditate and cope","Cry, then buy more"]},
   {q:"What's your entry signal?",opts:["Influencer with 3 followers shills it","Chart says go","Gut feeling at 3am","Dev wallet hasn't moved in 30 days"]},
-  {q:"Ideal exit strategy?",opts:["I don't exit, I ascend","Sell 10% every 2x","When CT calls it a bluechip","I've never successfully exited"]},
+  {q:"Ideal exit strategy?",opts:["I don't exit, I ascend","Sell 10% every 2x","When Crypto Twitter calls it a bluechip","I've never successfully exited"]},
 ];
 const RES={
   DOGE:{tagline:"the original degen",d:"You've been here since before it was cool and you'll be here long after everyone else rugs. Loyal, stubborn, endearingly chaotic.",ex:"Coinbase",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
-  PEPE:{tagline:"chaos agent",d:"Pure meme energy. You live for the culture, not the profit. You'd rather make CT laugh than make a trade. Cult-brained in the best way.",ex:"Binance US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
+  PEPE:{tagline:"chaos agent",d:"Pure meme energy. You live for the culture, not the profit. You'd rather make Crypto Twitter laugh than make a trade. Cult-brained in the best way.",ex:"Binance US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
   WIF:{tagline:"deceptively calculating",d:"You look casual but you're three moves ahead. You caught the wave early and you're not telling anyone your entries.",ex:"Kraken",link:"https://invite.kraken.com/JDNW/bkxtyuas"},
   BONK:{tagline:"community general",d:"Community-first always. You're the one who gets the group chat to ape in. Somehow always right at the most inconvenient times.",ex:"Crypto.com",link:"https://crypto.com/app/8hxtmyan6d"},
   SHIB:{tagline:"long game player",d:"Quietly accumulating while everyone else chases the new thing. Mildly seething. Fully convinced you'll eventually be right.",ex:"Coinbase",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
