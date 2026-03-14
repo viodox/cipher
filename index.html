@@ -558,7 +558,7 @@ async function subscribeEmail(){
     console.log('Kit response:',res.status, data);
     if(data.subscription){
       document.getElementById('nl-email').value='';
-      document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// subscribed. first drop incoming.</span>';
+      document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
     } else {
       btn.textContent='subscribe';btn.disabled=false;
       console.error('Kit error:',data);
