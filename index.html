@@ -258,6 +258,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 // STATE
 let allCoins=[],filteredCoins=[],currentFilter='all',currentPage=1,selectedCoin=null,sortCol='viral',sortDir=-1;
 const PAGE_SIZE=25;
+let lastFetch=0;const FETCH_COOLDOWN=60000;
 const FLAGS=[
   {t:"Dev wallet holds >15% of supply",r:"high"},{t:"Contract ownership not renounced",r:"high"},
   {t:"Liquidity pool unlocked",r:"high"},{t:"Honeypot pattern detected in code",r:"high"},
@@ -299,6 +300,12 @@ function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug
 
 // FETCH
 async function loadCoins(){
+  const now=Date.now();
+  if(now-lastFetch<FETCH_COOLDOWN&&allCoins.length>0){
+    document.getElementById('status-text').textContent='cached — refreshes in '+Math.round((FETCH_COOLDOWN-(now-lastFetch))/1000)+'s';
+    return;
+  }
+  lastFetch=now;
   document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 150 meme coins...</div>';
   document.getElementById('status-text').textContent='fetching data';
   document.getElementById('coin-count').textContent='loading...';
@@ -510,7 +517,7 @@ function subscribeEmail(){
 // INIT
 renderQuiz();
 loadCoins();
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins();},300000);
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins();},600000);
 </script>
 </body>
 </html>
