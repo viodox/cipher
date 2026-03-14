@@ -546,10 +546,13 @@ async function subscribeEmail(){
   btn.textContent='subscribing...';btn.disabled=true;
   try{
     console.log('Subscribing email:',email);
+    const params=new URLSearchParams();
+    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
+    params.append('email',email);
     const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({api_key:'op8kssmsdDX0WUkh6d8pXg',email:email})
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:params.toString()
     });
     const data=await res.json();
     console.log('Kit response:',res.status, data);
