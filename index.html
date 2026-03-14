@@ -512,12 +512,13 @@ async function subscribeEmail(){
   const btn=document.querySelector('.nl-btn');
   btn.textContent='subscribing...';btn.disabled=true;
   try{
-    const res=await fetch('https://api.kit.com/v4/forms/9207350/subscribers',{
+    const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
       method:'POST',
-      headers:{'Content-Type':'application/json','X-Kit-Api-Key':'op8kssmsdDX0WUkh6d8pXg'},
-      body:JSON.stringify({email_address:email})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({api_key:'op8kssmsdDX0WUkh6d8pXg',email})
     });
-    if(res.ok||res.status===200||res.status===201){
+    const data=await res.json();
+    if(data.subscription||res.ok){
       document.getElementById('nl-email').value='';
       document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// subscribed. first drop incoming.</span>';
     } else {
