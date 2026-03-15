@@ -284,20 +284,32 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <div style="background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem">
     
     <!-- TOP ROW: advertising banner -->
-    <div style="background:linear-gradient(135deg,rgba(0,255,153,.08),rgba(0,229,255,.05));border:1px solid rgba(0,255,153,.3);border-radius:6px;padding:14px 18px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
-        <div style="font-size:12px;color:#8a9ab8;line-height:1.6">Reach <strong style="color:#c8d8f0">150+ active meme coin traders</strong> daily. Banner slots, newsletter features & sponsored picks.</div>
+    <div style="background:linear-gradient(135deg,rgba(0,255,153,.08),rgba(0,229,255,.05));border:1px solid rgba(0,255,153,.3);border-radius:6px;padding:14px 18px;margin-bottom:1.25rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
+          <div style="font-size:12px;color:#8a9ab8;line-height:1.6">Reach <strong style="color:#c8d8f0">150+ active meme coin traders</strong> daily. Banner slots, newsletter features & sponsored picks.</div>
+        </div>
       </div>
-      <a href="mailto:hello@ciphersignal.xyz?subject=Advertising%20Inquiry&body=Hi%2C%20I'm%20interested%20in%20advertising%20on%20CIPHER." style="font-family:'Orbitron',monospace;font-size:9px;padding:10px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;text-decoration:none;background:rgba(0,255,153,.1);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</a>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="adv-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:160px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
+        <input id="adv-project" type="text" placeholder="project / coin name" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:140px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
+        <button onclick="submitAdvert()" id="adv-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:9px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;background:rgba(0,255,153,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</button>
+      </div>
+      <span id="adv-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em;margin-top:8px;display:none">// message received — we'll be in touch ser 🔐</span>
     </div>
 
     <!-- BOTTOM ROW: contact + suggestions -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
       <div>
         <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.6rem;text-transform:uppercase">get in touch</div>
-        <p style="font-size:12px;color:#8a9ab8;line-height:1.8">Questions, feedback, or just want to say gm? We read everything.</p>
-        <a href="mailto:hello@ciphersignal.xyz" style="display:inline-block;margin-top:.75rem;font-size:12px;color:#00e5ff;text-decoration:none;letter-spacing:.04em;border-bottom:1px solid rgba(0,229,255,.3);padding-bottom:1px">hello@ciphersignal.xyz ↗</a>
+        <p style="font-size:12px;color:#8a9ab8;line-height:1.8;margin-bottom:.75rem">Questions, feedback, or just want to say gm? We read everything.</p>
+        <input id="contact-email" type="email" placeholder="your@email.com" style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;margin-bottom:8px;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
+        <textarea id="contact-msg" placeholder="what's on your mind..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;resize:none;height:64px;line-height:1.6;transition:border-color .2s;margin-bottom:8px" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="submitContact()" id="contact-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">send message</button>
+          <span id="contact-confirm" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em">// message sent 🔐</span>
+        </div>
       </div>
       <div>
         <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.6rem;text-transform:uppercase">suggest a feature</div>
@@ -636,7 +648,57 @@ async function subscribeEmail(){
   }
 }
 
-// SUGGESTIONS
+// CONTACT
+async function submitContact(){
+  const email=document.getElementById('contact-email').value.trim();
+  const msg=document.getElementById('contact-msg').value.trim();
+  const btn=document.getElementById('contact-btn');
+  const confirm=document.getElementById('contact-confirm');
+  if(!email||!email.includes('@')){alert('enter your email first');return;}
+  if(!msg){alert('type your message first');return;}
+  btn.textContent='sending...';btn.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/xykndeqk',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email,message:msg})
+    });
+    const data=await res.json();
+    if(data.ok||res.ok){
+      document.getElementById('contact-email').value='';
+      document.getElementById('contact-msg').value='';
+      btn.textContent='send message';btn.disabled=false;
+      confirm.style.display='inline';
+      setTimeout(()=>confirm.style.display='none',4000);
+    } else {btn.textContent='send message';btn.disabled=false;alert('something went wrong');}
+  }catch(e){btn.textContent='send message';btn.disabled=false;alert('connection error');}
+}
+
+// ADVERTISING
+async function submitAdvert(){
+  const email=document.getElementById('adv-email').value.trim();
+  const project=document.getElementById('adv-project').value.trim();
+  const btn=document.getElementById('adv-btn');
+  const msg=document.getElementById('adv-msg');
+  if(!email||!email.includes('@')){alert('enter your email first');return;}
+  if(!project){alert('enter your project name');return;}
+  btn.textContent='sending...';btn.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/xzdjaele',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email,project,inquiry:'Advertising on CIPHER'})
+    });
+    const data=await res.json();
+    if(data.ok||res.ok){
+      document.getElementById('adv-email').value='';
+      document.getElementById('adv-project').value='';
+      btn.textContent='get featured ↗';btn.disabled=false;
+      msg.style.display='block';
+      setTimeout(()=>msg.style.display='none',5000);
+    } else {btn.textContent='get featured ↗';btn.disabled=false;alert('something went wrong');}
+  }catch(e){btn.textContent='get featured ↗';btn.disabled=false;alert('connection error');}
+}
 async function submitSuggestion(){
   const input=document.getElementById('suggestion-input');
   const btn=document.getElementById('suggestion-btn');
