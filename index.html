@@ -645,23 +645,25 @@ async function submitSuggestion(){
   if(!text){alert('type your idea first ser');return;}
   btn.textContent='sending...';btn.disabled=true;
   try{
-    // Store suggestion by subscribing with a tag via Kit
-    const params=new URLSearchParams();
-    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
-    params.append('email','suggestion+'+Date.now()+'@ciphersignal.xyz');
-    params.append('fields[suggestion]',text);
-    await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
+    const res=await fetch('https://formspree.io/f/mzdjaeqe',{
       method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:params.toString()
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({message:text})
     });
-  }catch(e){}
-  // Also open mailto as fallback
-  window.location.href='mailto:hello@ciphersignal.xyz?subject='+encodeURIComponent('CIPHER Feature Suggestion')+'&body='+encodeURIComponent('Suggestion:\n\n'+text);
-  input.value='';
-  btn.textContent='submit idea';btn.disabled=false;
-  msg.style.display='block';
-  setTimeout(()=>msg.style.display='none',4000);
+    const data=await res.json();
+    if(data.ok||res.ok){
+      input.value='';
+      btn.textContent='submit idea';btn.disabled=false;
+      msg.style.display='block';
+      setTimeout(()=>msg.style.display='none',4000);
+    } else {
+      btn.textContent='submit idea';btn.disabled=false;
+      alert('something went wrong — try again');
+    }
+  }catch(e){
+    btn.textContent='submit idea';btn.disabled=false;
+    alert('connection error — try again');
+  }
 }
 
 // TOP EMAIL SUBSCRIBE
