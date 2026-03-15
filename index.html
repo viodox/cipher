@@ -288,7 +288,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.15);border-radius:6px;padding:12px 14px">
         <div style="font-family:'Orbitron',monospace;font-size:9px;color:#00ff99;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">💰 advertise on cipher</div>
         <div style="font-size:12px;color:#8a9ab8;line-height:1.7;margin-bottom:8px">Crypto project? Get your coin or platform in front of <strong style="color:#c8d8f0">150+ active meme coin traders</strong> daily. Banner slots, newsletter features & more.</div>
-        <a href="mailto:hello@ciphersignal.xyz?subject=Advertising%20Inquiry" style="display:inline-flex;align-items:center;gap:6px;font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,255,153,.3);color:#00ff99;text-decoration:none;background:rgba(0,255,153,.05);letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.12)'" onmouseout="this.style.background='rgba(0,255,153,.05)'">get featured ↗</a>
+        <a href="mailto:hello@ciphersignal.xyz?subject=Advertising%20Inquiry&body=Hi%2C%20I'm%20interested%20in%20advertising%20on%20CIPHER." style="display:inline-flex;align-items:center;gap:6px;font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,255,153,.3);color:#00ff99;text-decoration:none;background:rgba(0,255,153,.05);letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.12)'" onmouseout="this.style.background='rgba(0,255,153,.05)'">get featured ↗</a>
       </div>
     </div>
     <div>
@@ -297,17 +297,6 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <textarea id="suggestion-input" placeholder="e.g. add SOL wallet tracker, show trending hashtags..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:10px 12px;border-radius:4px;outline:none;resize:none;height:80px;line-height:1.6;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
       <button onclick="submitSuggestion()" id="suggestion-btn" style="margin-top:8px;font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">submit idea</button>
       <div id="suggestion-msg" style="display:none;margin-top:8px;font-size:11px;color:#00ff99;letter-spacing:.06em">// idea received. ser you might just change crypto.</div>
-    </div>
-  </div>
-
-  <div class="newsletter">
-    <div class="nl-text">
-      <div class="nl-title">daily cipher drop</div>
-      <div class="nl-desc">Top meme coin signals + rug alerts every morning. Free. No spam.</div>
-    </div>
-    <div class="nl-form">
-      <input class="nl-input" type="email" id="nl-email" placeholder="your@email.com">
-      <button class="nl-btn" onclick="subscribeEmail()">subscribe</button>
     </div>
   </div>
 
@@ -638,25 +627,31 @@ async function subscribeEmail(){
 }
 
 // SUGGESTIONS
-function submitSuggestion(){
+async function submitSuggestion(){
   const input=document.getElementById('suggestion-input');
   const btn=document.getElementById('suggestion-btn');
   const msg=document.getElementById('suggestion-msg');
   const text=input.value.trim();
   if(!text){alert('type your idea first ser');return;}
   btn.textContent='sending...';btn.disabled=true;
-  // Tag the subscriber with their suggestion via Kit
-  const subject=encodeURIComponent('CIPHER Feature Suggestion');
-  const body=encodeURIComponent('Suggestion from ciphersignal.xyz:\n\n'+text);
-  const mailLink=document.createElement('a');
-  mailLink.href='mailto:hello@ciphersignal.xyz?subject='+subject+'&body='+body;
-  mailLink.click();
+  try{
+    // Store suggestion by subscribing with a tag via Kit
+    const params=new URLSearchParams();
+    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
+    params.append('email','suggestion+'+Date.now()+'@ciphersignal.xyz');
+    params.append('fields[suggestion]',text);
+    await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:params.toString()
+    });
+  }catch(e){}
+  // Also open mailto as fallback
+  window.location.href='mailto:hello@ciphersignal.xyz?subject='+encodeURIComponent('CIPHER Feature Suggestion')+'&body='+encodeURIComponent('Suggestion:\n\n'+text);
   input.value='';
-  setTimeout(()=>{
-    btn.textContent='submit idea';btn.disabled=false;
-    msg.style.display='block';
-    setTimeout(()=>msg.style.display='none',4000);
-  },500);
+  btn.textContent='submit idea';btn.disabled=false;
+  msg.style.display='block';
+  setTimeout(()=>msg.style.display='none',4000);
 }
 
 // TOP EMAIL SUBSCRIBE
