@@ -635,23 +635,18 @@ async function subscribeEmail(){
   const btn=document.querySelector('.nl-btn');
   btn.textContent='subscribing...';btn.disabled=true;
   try{
-    console.log('Subscribing email:',email);
-    const params=new URLSearchParams();
-    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
-    params.append('email',email);
-    const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
+    const formData=new FormData();
+    formData.append('email_address',email);
+    const res=await fetch('https://app.kit.com/forms/9207350/subscriptions',{
       method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:params.toString()
+      headers:{'Accept':'application/json'},
+      body:formData
     });
-    const data=await res.json();
-    console.log('Kit response:',res.status, data);
-    if(data.subscription){
+    if(res.ok||res.status===200||res.status===201){
       document.getElementById('nl-email').value='';
       document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
     } else {
       btn.textContent='subscribe';btn.disabled=false;
-      console.error('Kit error:',data);
       alert('something went wrong — try again');
     }
   }catch(e){
@@ -747,16 +742,14 @@ async function subscribeBanner(){
   const btn=document.querySelector('#nl-banner-form button');
   btn.textContent='joining...';btn.disabled=true;
   try{
-    const params=new URLSearchParams();
-    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
-    params.append('email',email);
-    const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
+    const formData=new FormData();
+    formData.append('email_address',email);
+    const res=await fetch('https://app.kit.com/forms/9207350/subscriptions',{
       method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:params.toString()
+      headers:{'Accept':'application/json'},
+      body:formData
     });
-    const data=await res.json();
-    if(data.subscription){
+    if(res.ok||res.status===200||res.status===201){
       document.getElementById('nl-banner-form').innerHTML='<span style="color:#00ff99;font-size:13px;letter-spacing:.06em">// access granted. daily drop incoming 🔐</span>';
     } else {
       btn.textContent='get the drop →';btn.disabled=false;
@@ -774,16 +767,14 @@ async function subscribeTopEmail(){
   const btn=document.querySelector('#top-nl-form button');
   btn.textContent='joining...';btn.disabled=true;
   try{
-    const params=new URLSearchParams();
-    params.append('api_key','op8kssmsdDX0WUkh6d8pXg');
-    params.append('email',email);
-    const res=await fetch('https://api.convertkit.com/v3/forms/9207350/subscribe',{
+    const formData=new FormData();
+    formData.append('email_address',email);
+    const res=await fetch('https://app.kit.com/forms/9207350/subscriptions',{
       method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:params.toString()
+      headers:{'Accept':'application/json'},
+      body:formData
     });
-    const data=await res.json();
-    if(data.subscription){
+    if(res.ok||res.status===200||res.status===201){
       document.getElementById('top-nl-form').innerHTML='<span style="color:#00ff99;font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
     } else {
       btn.textContent='get the drop';btn.disabled=false;
