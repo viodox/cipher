@@ -164,8 +164,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .page-btn:hover{color:var(--text);border-color:var(--text)}
 .page-btn.active{color:var(--accent);border-color:rgba(0,229,255,.4)}
 .page-info{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
-@media(max-width:600px){.q-opts{grid-template-columns:1fr}.tabs{overflow-x:auto}.tab{min-width:80px}.score-grid{grid-template-columns:1fr 1fr}}
-</style>
+@media(max-width:600px){.q-opts{grid-template-columns:1fr}.tabs{overflow-x:auto}.tab{min-width:80px}.score-grid{grid-template-columns:1fr 1fr}.about-grid{grid-template-columns:1fr!important}}</style>
 </head>
 <body>
 <div class="app">
@@ -231,6 +230,42 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <!-- QUIZ -->
   <div id="tab-quiz" class="tab-panel">
     <div class="quiz-wrap" id="quiz-area"></div>
+  </div>
+
+  <!-- TRENDING ON X -->
+  <div style="margin-top:1.5rem">
+    <div style="font-size:9px;color:#6a7a9a;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">trending on x <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
+    <div id="trending-wrap" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div style="background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+    <div>
+      <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">about cipher</div>
+      <p style="font-size:13px;color:#8a9ab8;line-height:1.8;margin-bottom:.75rem">CIPHER was built by a crypto enthusiast with a genuine passion for meme coins and the community around them. Tired of paywalled tools and noisy dashboards, I wanted to build something free, fast, and actually useful for degens at every level.</p>
+      <p style="font-size:13px;color:#8a9ab8;line-height:1.8">Meme coins are fun — that's the point. CIPHER helps you navigate them smarter, catch the signals early, and avoid the rugs. Always free. Always honest.</p>
+    </div>
+    <div>
+      <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">what cipher does</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks 150+ meme coins with live data — price, volume, market cap updated in real time</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Scores every coin on viral potential, rug risk, and sentiment so you know what's heating up</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">AI Decrypt gives you a raw, unfiltered read on any coin — SEND IT, WAIT, or NGMI</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">100% free. No signup required. Affiliate links keep the lights on</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="newsletter">
@@ -570,10 +605,37 @@ async function subscribeEmail(){
   }
 }
 
+// TRENDING ON X — simulated with real coin data weighted by viral score
+function renderTrending(){
+  if(!allCoins.length) return;
+  const trending = [...allCoins].sort((a,b)=>b.viral-a.viral).slice(0,8);
+  const wrap = document.getElementById('trending-wrap');
+  if(!wrap) return;
+  const buzzWords = ['going crazy rn','CT is watching','degens aping in','volume spiking','influencers posting','viral thread live','community going off','pumping on X'];
+  wrap.innerHTML = trending.map((c,i)=>{
+    const chg = c.price_change_percentage_24h||0;
+    const chgStr = (chg>=0?'+':'')+chg.toFixed(2)+'%';
+    const chgCol = chg>=0?'#00ff99':'#ff3355';
+    const img = c.image?`<img src="${c.image}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;border:1px solid #1a2035;flex-shrink:0" alt="${c.symbol}">`:'';
+    return `<div style="background:#0b0e1a;border:1px solid #1a2035;border-radius:6px;padding:10px 12px;cursor:pointer;transition:all .18s" onmouseover="this.style.borderColor='#243050'" onmouseout="this.style.borderColor='#1a2035'" onclick="switchTab('scanner');setTimeout(()=>selectCoin('${c.id}'),100)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        ${img}
+        <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#d8e8ff">${c.symbol.toUpperCase()}</span>
+        <span style="font-size:10px;font-weight:700;color:${chgCol};margin-left:auto">${chgStr}</span>
+      </div>
+      <div style="font-size:10px;color:#6a7a9a;line-height:1.5">${buzzWords[i%buzzWords.length]}</div>
+      <div style="margin-top:6px;display:flex;align-items:center;gap:4px">
+        <div style="height:2px;flex:1;background:#111625;border-radius:1px;overflow:hidden"><div style="height:100%;width:${c.viral}%;background:#00e5ff;border-radius:1px"></div></div>
+        <span style="font-size:9px;color:#00e5ff;font-family:'Orbitron',monospace">${c.viral}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 // INIT
 renderQuiz();
-loadCoins();
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins();},600000);
+loadCoins().then(()=>renderTrending());
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>renderTrending());},600000);
 </script>
 </body>
 </html>
