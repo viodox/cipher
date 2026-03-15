@@ -645,6 +645,7 @@ async function subscribeEmail(){
     if(res.ok||res.status===200||res.status===201){
       document.getElementById('nl-email').value='';
       document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
+      fetch('https://formspree.io/f/xykndeqk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,type:'new subscriber — bottom form'})});
     } else {
       btn.textContent='subscribe';btn.disabled=false;
       alert('something went wrong — try again');
@@ -751,6 +752,7 @@ async function subscribeBanner(){
     });
     if(res.ok||res.status===200||res.status===201){
       document.getElementById('nl-banner-form').innerHTML='<span style="color:#00ff99;font-size:13px;letter-spacing:.06em">// access granted. daily drop incoming 🔐</span>';
+      fetch('https://formspree.io/f/xykndeqk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,type:'new subscriber — banner'})});
     } else {
       btn.textContent='get the drop →';btn.disabled=false;
       alert('something went wrong — try again');
@@ -776,6 +778,7 @@ async function subscribeTopEmail(){
     });
     if(res.ok||res.status===200||res.status===201){
       document.getElementById('top-nl-form').innerHTML='<span style="color:#00ff99;font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
+      fetch('https://formspree.io/f/xykndeqk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,type:'new subscriber — top bar'})});
     } else {
       btn.textContent='get the drop';btn.disabled=false;
       alert('something went wrong — try again');
