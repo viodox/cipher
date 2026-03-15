@@ -299,25 +299,22 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <span id="adv-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em;margin-top:8px">// message received — we'll be in touch ser 🔐</span>
     </div>
 
-    <!-- BOTTOM ROW: contact + suggestions -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.6rem;text-transform:uppercase">get in touch</div>
-        <p style="font-size:12px;color:#8a9ab8;line-height:1.8;margin-bottom:.75rem">Questions, feedback, or just want to say gm? We read everything.</p>
-        <input id="contact-email" type="email" placeholder="your@email.com" style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;margin-bottom:8px;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
-        <textarea id="contact-msg" placeholder="what's on your mind..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;resize:none;height:64px;line-height:1.6;transition:border-color .2s;margin-bottom:8px" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button onclick="submitContact()" id="contact-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">send message</button>
-          <span id="contact-confirm" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em">// message sent 🔐</span>
-        </div>
+    <!-- BOTTOM ROW: unified contact form -->
+    <div>
+      <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">get in touch</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <input id="contact-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
+        <select id="contact-type" style="background:#060810;border:1px solid #243050;color:#6a7a9a;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
+          <option value="general">general question</option>
+          <option value="suggestion">feature suggestion</option>
+          <option value="bug">report a bug</option>
+          <option value="other">something else</option>
+        </select>
       </div>
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.6rem;text-transform:uppercase">suggest a feature</div>
-        <textarea id="suggestion-input" placeholder="e.g. add SOL wallet tracker, show trending hashtags..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:10px 12px;border-radius:4px;outline:none;resize:none;height:72px;line-height:1.6;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
-          <button onclick="submitSuggestion()" id="suggestion-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">submit idea</button>
-          <span id="suggestion-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em">// idea received 🔐</span>
-        </div>
+      <textarea id="contact-msg" placeholder="what's on your mind? suggestions, bugs, questions — we read everything..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:10px 12px;border-radius:4px;outline:none;resize:none;height:80px;line-height:1.6;transition:border-color .2s;margin-bottom:8px" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button onclick="submitContact()" id="contact-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">send message</button>
+        <span id="contact-confirm" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em">// message received. gm ser 🔐</span>
       </div>
     </div>
   </div>
@@ -652,15 +649,17 @@ async function subscribeEmail(){
 async function submitContact(){
   const email=document.getElementById('contact-email').value.trim();
   const msg=document.getElementById('contact-msg').value.trim();
+  const type=document.getElementById('contact-type')?document.getElementById('contact-type').value:'general';
   const btn=document.getElementById('contact-btn');
   const confirm=document.getElementById('contact-confirm');
   if(!email||!email.includes('@')){alert('enter your email first');return;}
+  if(!msg){alert('type your message first');return;}
   btn.textContent='sending...';btn.disabled=true;
   try{
     const res=await fetch('https://formspree.io/f/xykndeqk',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({email,message:msg})
+      body:JSON.stringify({email,type,message:msg})
     });
     const data=await res.json();
     if(data.ok||res.ok){
