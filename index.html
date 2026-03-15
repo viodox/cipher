@@ -296,7 +296,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
         <input id="adv-project" type="text" placeholder="project / coin name" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:140px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
         <button onclick="submitAdvert()" id="adv-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:9px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;background:rgba(0,255,153,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</button>
       </div>
-      <span id="adv-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em;margin-top:8px;display:none">// message received — we'll be in touch ser 🔐</span>
+      <span id="adv-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em;margin-top:8px">// message received — we'll be in touch ser 🔐</span>
     </div>
 
     <!-- BOTTOM ROW: contact + suggestions -->
@@ -655,7 +655,6 @@ async function submitContact(){
   const btn=document.getElementById('contact-btn');
   const confirm=document.getElementById('contact-confirm');
   if(!email||!email.includes('@')){alert('enter your email first');return;}
-  if(!msg){alert('type your message first');return;}
   btn.textContent='sending...';btn.disabled=true;
   try{
     const res=await fetch('https://formspree.io/f/xykndeqk',{
@@ -681,7 +680,6 @@ async function submitAdvert(){
   const btn=document.getElementById('adv-btn');
   const msg=document.getElementById('adv-msg');
   if(!email||!email.includes('@')){alert('enter your email first');return;}
-  if(!project){alert('enter your project name');return;}
   btn.textContent='sending...';btn.disabled=true;
   try{
     const res=await fetch('https://formspree.io/f/xzdjaele',{
