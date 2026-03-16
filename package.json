@@ -1,0 +1,13 @@
+{
+  "name": "cipher-x-bot",
+  "version": "1.0.0",
+  "description": "Automated daily X/Twitter posts for CIPHER — meme coin intelligence",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "preview": "PREVIEW_ONLY=true node bot.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
