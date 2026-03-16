@@ -527,13 +527,15 @@ function renderTable(){
 function goPage(p){currentPage=p;selectedCoin=null;document.getElementById('detail-area').innerHTML='';renderTable();window.scrollTo({top:0,behavior:'smooth'});}
 
 // DETAIL
-function selectCoin(id){
+async function selectCoin(id){
   selectedCoin=id;
   const c=allCoins.find(x=>x.id===id);if(!c)return;
   renderTable();
   const chg=c.price_change_percentage_24h||0;
   const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
   const chgCol=chg>=0?'#00ff99':'#ff3355';
+
+  // Show initial detail with loading state for contract info
   document.getElementById('detail-area').innerHTML=`
     <div class="detail">
       <div class="d-header">
@@ -551,22 +553,92 @@ function selectCoin(id){
         <div class="sbox"><div class="sbox-lbl">24h volume</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">trading activity</div></div>
         <div class="sbox"><div class="sbox-lbl">Price</div><div class="sbox-val" style="color:var(--text);font-size:15px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
       </div>
-      <div class="section-label">contract risk signals</div>
-      <div class="flags-wrap">${c.flags.map(f=>`<div class="flag"><span class="flag-lv" style="color:${rcMap[f.r]}">[${f.r.toUpperCase()}]</span><span style="font-size:11px">${f.t}</span></div>`).join('')}</div>
+      <div class="section-label">contract info</div>
+      <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
         <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">AI decrypt ↗</button>
         <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
-        <button class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3)" onclick="switchTab('cipherpot');document.getElementById('cp-chain').value='1';">check honeypot ↗</button>
+        <button id="hp-btn-detail" class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3);opacity:.5;pointer-events:none">check honeypot ↗</button>
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>
       </div>
-      ${c.contract_address?`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-        <div>
-          <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address</div>
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${c.contract_address}</div>
-        </div>
-        <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
-      </div>`:'<div style="margin-top:.75rem;font-size:10px;color:var(--muted);letter-spacing:.04em">// contract address not available via CoinGecko free tier</div>'}
+      <div id="contract-address-area"></div>
     </div>`;
+
+  // Fetch real contract data from CoinGecko
+  try{
+    const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
+    if(!res.ok) throw new Error('fetch failed');
+    const data=await res.json();
+    const platforms=data.detail_platforms||data.platforms||{};
+    const platformId=data.asset_platform_id||'';
+    
+    // Find best contract address (prefer ethereum, then bsc, then base, then solana)
+    let contractAddr='';
+    let chainId='1';
+    let chainName='';
+    
+    if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
+    else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
+    else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
+    else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
+    else if(platformId==='solana'&&data.contract_address){contractAddr=data.contract_address;chainId='sol';chainName='Solana';}
+    else{
+      // Try to find any available platform
+      for(const[plat,info] of Object.entries(platforms)){
+        const addr=typeof info==='object'?info.contract_address:info;
+        if(addr&&addr.length>5){
+          contractAddr=addr;
+          chainName=plat;
+          if(plat.includes('binance'))chainId='56';
+          else if(plat==='base')chainId='8453';
+          else if(plat==='solana')chainId='sol';
+          else chainId='1';
+          break;
+        }
+      }
+    }
+
+    // Store on coin object for later use
+    c.contract_address=contractAddr;
+    c.asset_platform_id=platformId;
+    c._chainId=chainId;
+    c._chainName=chainName;
+
+    // Build real contract info
+    const infoEl=document.getElementById('contract-info');
+    const addrEl=document.getElementById('contract-address-area');
+    const hpBtn=document.getElementById('hp-btn-detail');
+
+    if(contractAddr){
+      const realFlags=[];
+      if(chainName) realFlags.push({icon:'🔗',text:'Chain: '+chainName,color:'var(--text)'});
+      realFlags.push({icon:'📄',text:'Contract: '+contractAddr.substring(0,8)+'...'+contractAddr.substring(contractAddr.length-6),color:'var(--text)'});
+      if(data.watchlist_portfolio_users) realFlags.push({icon:'👀',text:data.watchlist_portfolio_users.toLocaleString()+' watchlists on CoinGecko',color:'#00ff99'});
+      if(data.community_score) realFlags.push({icon:'👥',text:'Community score: '+data.community_score+'/100',color:data.community_score>30?'#00ff99':'#ffb400'});
+      if(data.liquidity_score) realFlags.push({icon:'💧',text:'Liquidity score: '+data.liquidity_score.toFixed(1),color:data.liquidity_score>20?'#00ff99':'#ffb400'});
+
+      infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:11px;color:${f.color}">${f.text}</span></div>`).join('');
+
+      // Enable honeypot button
+      hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
+      hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
+
+      // Show contract address
+      addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${contractAddr}</div>
+        </div>
+        <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+      </div>`;
+    } else {
+      infoEl.innerHTML='<div class="flag"><span style="font-size:14px">ℹ️</span><span style="font-size:11px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
+      addrEl.innerHTML='';
+    }
+  }catch(e){
+    const infoEl=document.getElementById('contract-info');
+    if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:14px">⚠️</span><span style="font-size:11px;color:var(--muted)">Could not fetch contract data — CoinGecko rate limit. Try again in 60s.</span></div>';
+  }
 }
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
 
