@@ -100,9 +100,9 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .d-fullname{font-size:10px;color:var(--muted);margin-top:2px}
 .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
 .sbox{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px}
-.sbox-lbl{font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.sbox-lbl{font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
 .sbox-val{font-family:var(--font-disp);font-size:18px;font-weight:700}
-.sbox-sub{font-size:9px;color:var(--muted);margin-top:2px}
+.sbox-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .sbox-bar{height:1.5px;background:var(--border);margin-top:8px;overflow:hidden;border-radius:1px}
 .sbox-fill{height:100%;border-radius:1px}
 .section-label{font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
@@ -551,8 +551,17 @@ function selectCoin(id){
       <div class="flags-wrap">${c.flags.map(f=>`<div class="flag"><span class="flag-lv" style="color:${rcMap[f.r]}">[${f.r.toUpperCase()}]</span><span style="font-size:11px">${f.t}</span></div>`).join('')}</div>
       <div class="detail-actions">
         <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">AI decrypt ↗</button>
+        <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
+        <button class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3)" onclick="switchTab('cipherpot');document.getElementById('cp-chain').value='1';">check honeypot ↗</button>
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>
       </div>
+      ${c.contract_address?`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${c.contract_address}</div>
+        </div>
+        <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+      </div>`:'<div style="margin-top:.75rem;font-size:10px;color:var(--muted);letter-spacing:.04em">// contract address not available via CoinGecko free tier</div>'}
     </div>`;
 }
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
@@ -562,7 +571,7 @@ function switchTab(n){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+n).classList.add('active');
-  ['scanner','report','quiz'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
+  ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
 }
 
 // AI REPORT
