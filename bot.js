@@ -22,7 +22,7 @@ const CONFIG = {
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h",
 
   // Site
-  SITE_URL: "ciphersignal.xyz",
+  SITE_URL: "https://www.ciphersignal.xyz",
 };
 
 // ── HTTP helpers (zero dependencies) ────────
