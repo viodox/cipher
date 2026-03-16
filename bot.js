@@ -247,21 +247,21 @@ function buildSpotlight(coins) {
 🍯 Scan contract → ${CONFIG.SITE_URL}`;
 }
 
-// EVENING — Rug radar / safety check
+// EVENING — Volatility alert
 function buildRugAlert(coins) {
   const volatile = coins.filter((c) => c.change24h <= -10 || c.change24h >= 50);
 
   if (volatile.length === 0) {
-    return `🍯 CIPHER Rug Radar
+    return `⚡ CIPHER Volatility Alert
 
 All clear — no extreme movers in 24h.
 
 Stay safe ser. Scan any contract free → ${CONFIG.SITE_URL}`;
   }
 
-  let tweet = `🍯 CIPHER Rug Radar\n\n⚠️ Extreme movers:\n`;
+  let tweet = `⚡ CIPHER Volatility Alert\n\n🔔 Big movers:\n`;
   volatile.slice(0, 3).forEach((c) => {
-    const emoji = c.change24h >= 50 ? "🚀" : "💀";
+    const emoji = c.change24h >= 50 ? "📈" : "📉";
     tweet += `${emoji} $${c.symbol} ${formatChange(c.change24h)}\n↳ ${cgLink(c)}\n`;
   });
   tweet += `\nScan before you ape → ${CONFIG.SITE_URL}`;
@@ -277,7 +277,7 @@ function buildDipAlert(coins) {
   top3.forEach((c, i) => {
     tweet += `${i + 1}. 🔴 $${c.symbol} ${formatChange(c.change24h)}\n↳ ${cgLink(c)}\n`;
   });
-  tweet += `\nDip or rug? Scan it → ${CONFIG.SITE_URL}`;
+  tweet += `\nVerify before you buy → ${CONFIG.SITE_URL}`;
   return tweet;
 }
 
