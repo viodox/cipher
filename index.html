@@ -307,6 +307,10 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
           <span style="font-size:12px;color:#8a9ab8;line-height:1.6">AI Decrypt gives you a raw, unfiltered read on any coin — SEND IT, WAIT, or NGMI</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
+          <span style="color:#ffb400;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">CIPHERPOT 🍯 — paste any contract address to instantly detect honeypots, buy/sell taxes & rug signals across ETH, BSC, Base & Solana</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
           <span style="font-size:12px;color:#8a9ab8;line-height:1.6">100% free. No signup required. Affiliate links keep the lights on</span>
         </div>
@@ -572,7 +576,15 @@ function switchTab(n){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+n).classList.add('active');
   ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
+  history.pushState({tab:n},'',' ');
 }
+window.addEventListener('popstate',function(e){
+  const tab=e.state&&e.state.tab?e.state.tab:'scanner';
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+});
 
 // AI REPORT
 async function generateReport(){
