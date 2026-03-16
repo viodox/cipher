@@ -48,10 +48,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .banner-cta{font-size:9px;padding:5px 12px;border-radius:3px;background:var(--accent);color:#000;text-decoration:none;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;font-weight:700;white-space:nowrap;transition:background .2s}
 .banner-cta:hover{background:#33eeff}
 .tabs{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--border2);border-radius:6px;overflow:hidden}
-.tab{flex:1;font-family:var(--font-disp);font-size:9px;padding:11px 6px;background:none;border:none;border-right:1px solid var(--border2);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;white-space:nowrap}
+.tab{flex:1;font-family:var(--font-disp);font-size:10px;padding:11px 6px;background:none;border:none;border-right:1px solid var(--border2);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;white-space:nowrap;font-weight:700}
 .tab:last-child{border-right:none}
 .tab:hover{color:var(--text);background:var(--surface)}
-.tab.active{color:var(--accent);background:var(--surface2);box-shadow:inset 0 -2px 0 var(--accent)}
+.tab.active{color:var(--accent);background:var(--surface2);box-shadow:inset 0 -2px 0 var(--accent);font-weight:900;letter-spacing:.1em}
 .tab-panel{display:none}.tab-panel.active{display:block}
 .controls{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
 .search-input{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;width:180px;transition:border-color .2s}
@@ -210,6 +210,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <button class="tab active" onclick="switchTab('scanner')">01 // scanner</button>
     <button class="tab" onclick="switchTab('report')">02 // AI decrypt</button>
     <button class="tab" onclick="switchTab('quiz')">03 // profile</button>
+    <button class="tab" onclick="switchTab('cipherpot')">04 // cipherpot</button>
   </div>
 
   <!-- SCANNER -->
@@ -251,6 +252,27 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <!-- QUIZ -->
   <div id="tab-quiz" class="tab-panel">
     <div class="quiz-wrap" id="quiz-area"></div>
+  </div>
+
+  <!-- CIPHERPOT -->
+  <div id="tab-cipherpot" class="tab-panel">
+    <div class="report-card">
+      <div class="rc-top">
+        <span class="ai-tag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">CIPHERPOT</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.04em">honeypot detector</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:1rem;line-height:1.7">Paste a contract address to check if a token is a honeypot — meaning you can buy but never sell. Supports Ethereum, BSC & Base.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+        <select id="cp-chain" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:11px;padding:8px 10px;border-radius:4px;outline:none;cursor:pointer">
+          <option value="1">Ethereum</option>
+          <option value="56">BSC</option>
+          <option value="8453">Base</option>
+        </select>
+        <input id="cp-address" type="text" placeholder="paste contract address..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='#ffb400'" onblur="this.style.borderColor='var(--border2)'">
+        <button onclick="checkHoneypot()" id="cp-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:9px 18px;border-radius:4px;border:1px solid rgba(255,180,0,.4);background:rgba(255,180,0,.08);color:#ffb400;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.18)'" onmouseout="this.style.background='rgba(255,180,0,.08)'">scan contract</button>
+      </div>
+      <div id="cp-result" style="min-height:60px"></div>
+    </div>
   </div>
 
   <!-- TRENDING ON X -->
@@ -735,6 +757,60 @@ async function submitSuggestion(){
     btn.textContent='submit idea';btn.disabled=false;
     alert('connection error — try again');
   }
+}
+
+// CIPHERPOT
+async function checkHoneypot(){
+  const address=document.getElementById('cp-address').value.trim();
+  const chain=document.getElementById('cp-chain').value;
+  const btn=document.getElementById('cp-btn');
+  const result=document.getElementById('cp-result');
+  if(!address||address.length<10){alert('paste a valid contract address');return;}
+  btn.textContent='scanning...';btn.disabled=true;
+  result.innerHTML='<div class="loading"><div class="spinner"></div>intercepting contract signals...</div>';
+  try{
+    const res=await fetch(`https://api.honeypot.is/v2/IsHoneypot?address=${address}&chainID=${chain}`);
+    const data=await res.json();
+    const hp=data.honeypotResult;
+    const sim=data.simulationResult;
+    const token=data.token;
+    const isHoneypot=hp&&hp.isHoneypot;
+    const risk=data.summary&&data.summary.riskLevel||'unknown';
+    const buyTax=sim?sim.buyTax:null;
+    const sellTax=sim?sim.sellTax:null;
+    const name=token?token.name:'Unknown Token';
+    const symbol=token?token.symbol:'???';
+
+    const statusColor=isHoneypot?'#ff3355':risk==='LOW'?'#00ff99':risk==='MEDIUM'?'#ffb400':'#ff6680';
+    const statusLabel=isHoneypot?'🚨 HONEYPOT DETECTED':'✅ NOT A HONEYPOT';
+    const statusBg=isHoneypot?'rgba(255,51,85,.08)':'rgba(0,255,153,.08)';
+    const statusBorder=isHoneypot?'rgba(255,51,85,.3)':'rgba(0,255,153,.3)';
+
+    result.innerHTML=`
+      <div style="border:1px solid ${statusBorder};background:${statusBg};border-radius:8px;padding:1.25rem;margin-bottom:1rem">
+        <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:${statusColor};margin-bottom:.5rem;letter-spacing:.08em">${statusLabel}</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:1rem">${name} <span style="color:var(--muted)">(${symbol})</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px">
+            <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">buy tax</div>
+            <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:${buyTax>10?'#ff3355':'#00ff99'}">${buyTax!=null?buyTax.toFixed(1)+'%':'n/a'}</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px">
+            <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">sell tax</div>
+            <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:${sellTax>10?'#ff3355':'#00ff99'}">${sellTax!=null?sellTax.toFixed(1)+'%':'n/a'}</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px">
+            <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">risk level</div>
+            <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:${statusColor}">${risk}</div>
+          </div>
+        </div>
+        ${hp&&hp.isHoneypot&&hp.honeypotReason?`<div style="margin-top:1rem;font-size:12px;color:#ff6680;border-left:2px solid #ff3355;padding-left:.75rem">// ${hp.honeypotReason}</div>`:''}
+      </div>
+      <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · always dyor · not financial advice</div>`;
+  }catch(e){
+    result.innerHTML='<div style="color:var(--accent4);font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// could not scan contract. check the address and try again.</div>';
+  }
+  btn.textContent='scan contract';btn.disabled=false;
 }
 
 // BANNER NEWSLETTER SUBSCRIBE
