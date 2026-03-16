@@ -854,6 +854,12 @@ async function checkHoneypot(){
               <div style="height:100%;width:${riskPct}%;background:linear-gradient(90deg,#00ff99,#ffb400,#ff3355);border-radius:5px;transition:width 1s ease"></div>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
+            <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap">
+              <span style="font-size:9px;color:#00ff99;letter-spacing:.06em">● LOW — score &lt;300</span>
+              <span style="font-size:9px;color:#ffb400;letter-spacing:.06em">● MODERATE — score 300–600</span>
+              <span style="font-size:9px;color:#ff6680;letter-spacing:.06em">● HIGH — score 600–900</span>
+              <span style="font-size:9px;color:#ff3355;letter-spacing:.06em">● CRITICAL — score 900+</span>
+            </div>
           </div>
           ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+': '+r.description,r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
         </div>
@@ -873,7 +879,8 @@ async function checkHoneypot(){
       const token=data.token;
       const pair=data.pair;
       const isHoneypot=hp&&hp.isHoneypot;
-      const risk=data.summary?.riskLevel||'UNKNOWN';
+      const riskRaw=data.summary?.riskLevel||'UNKNOWN';
+      const risk=typeof riskRaw==='number'?(riskRaw<=1?'LOW':riskRaw<=2?'MEDIUM':'HIGH'):riskRaw;
       const buyTax=sim?.buyTax??null;
       const sellTax=sim?.sellTax??null;
       const name=token?.name||'Unknown Token';
@@ -914,6 +921,12 @@ async function checkHoneypot(){
               <div style="height:100%;width:${riskScore}%;background:linear-gradient(90deg,#00ff99,#ffb400,#ff3355);border-radius:5px;transition:width 1s ease"></div>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
+            <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap">
+              <span style="font-size:9px;color:#00ff99;letter-spacing:.06em">● LOW — no major flags</span>
+              <span style="font-size:9px;color:#ffb400;letter-spacing:.06em">● MEDIUM — proceed with caution</span>
+              <span style="font-size:9px;color:#ff6680;letter-spacing:.06em">● HIGH — significant risk detected</span>
+              <span style="font-size:9px;color:#ff3355;letter-spacing:.06em">● HONEYPOT — do not buy</span>
+            </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem">
             ${cpStatBox('buy tax',buyTax!=null?buyTax.toFixed(1)+'%':'n/a','',buyTax>10?'#ff3355':buyTax!=null?'#00ff99':'var(--muted)')}
