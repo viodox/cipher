@@ -1,7 +1,10 @@
 name: Daily CIPHER Tweet
 on:
   schedule:
-    - cron: '0 14 * * *'
+    - cron: '0 14 * * *'   # 9am EST — Morning signal
+    - cron: '0 17 * * *'   # 12pm EST — Midday movers
+    - cron: '0 20 * * *'   # 3pm EST — Afternoon spotlight
+    - cron: '0 23 * * *'   # 6pm EST — Evening rug radar
   workflow_dispatch:
 
 jobs:
