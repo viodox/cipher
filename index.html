@@ -567,80 +567,105 @@ async function selectCoin(id){
   // Scroll to detail area
   setTimeout(()=>{const el=document.getElementById('detail-area');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},50);
 
-  // Fetch real contract data from CoinGecko
-  try{
-    const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
-    if(!res.ok) throw new Error('fetch failed');
-    const data=await res.json();
-    const platforms=data.detail_platforms||data.platforms||{};
-    const platformId=data.asset_platform_id||'';
-    
-    // Find best contract address (prefer ethereum, then bsc, then base, then solana)
-    let contractAddr='';
-    let chainId='1';
-    let chainName='';
-    
-    if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
-    else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
-    else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
-    else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
-    else if(platformId==='solana'&&data.contract_address){contractAddr=data.contract_address;chainId='sol';chainName='Solana';}
-    else{
-      // Try to find any available platform
-      for(const[plat,info] of Object.entries(platforms)){
-        const addr=typeof info==='object'?info.contract_address:info;
-        if(addr&&addr.length>5){
-          contractAddr=addr;
-          chainName=plat;
-          if(plat.includes('binance'))chainId='56';
-          else if(plat==='base')chainId='8453';
-          else if(plat==='solana')chainId='sol';
-          else chainId='1';
-          break;
+  // Check if we already have cached contract data for this coin
+  if(c._contractFetched){
+    renderContractInfo(c);
+    return;
+  }
+
+  // Fetch real contract data from CoinGecko (with retry)
+  async function fetchContractData(retries=2){
+    try{
+      const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
+      if(res.status===429&&retries>0){
+        // Rate limited — wait and retry
+        const infoEl=document.getElementById('contract-info');
+        if(infoEl) infoEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>rate limited — retrying in 5s...</div>';
+        await new Promise(r=>setTimeout(r,5000));
+        return fetchContractData(retries-1);
+      }
+      if(!res.ok) throw new Error('fetch failed');
+      const data=await res.json();
+      const platforms=data.detail_platforms||data.platforms||{};
+      const platformId=data.asset_platform_id||'';
+      
+      // Find best contract address (prefer ethereum, then bsc, then base, then solana)
+      let contractAddr='';
+      let chainId='1';
+      let chainName='';
+      
+      if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
+      else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
+      else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
+      else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
+      else if(platformId==='solana'&&data.contract_address){contractAddr=data.contract_address;chainId='sol';chainName='Solana';}
+      else{
+        for(const[plat,info] of Object.entries(platforms)){
+          const addr=typeof info==='object'?info.contract_address:info;
+          if(addr&&addr.length>5){
+            contractAddr=addr;
+            chainName=plat;
+            if(plat.includes('binance'))chainId='56';
+            else if(plat==='base')chainId='8453';
+            else if(plat==='solana')chainId='sol';
+            else chainId='1';
+            break;
+          }
         }
       }
+
+      // Cache on coin object
+      c.contract_address=contractAddr;
+      c.asset_platform_id=platformId;
+      c._chainId=chainId;
+      c._chainName=chainName;
+      c._watchlists=data.watchlist_portfolio_users||0;
+      c._communityScore=data.community_score||0;
+      c._liquidityScore=data.liquidity_score||0;
+      c._contractFetched=true;
+
+      renderContractInfo(c);
+    }catch(e){
+      const infoEl=document.getElementById('contract-info');
+      if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:14px">⚠️</span><span style="font-size:11px;color:var(--muted)">Could not fetch contract data. <a href="#" onclick="selectCoin(\''+c.id+'\');return false;" style="color:var(--accent);text-decoration:none">tap to retry</a></span></div>';
     }
+  }
+  fetchContractData();
+}
 
-    // Store on coin object for later use
-    c.contract_address=contractAddr;
-    c.asset_platform_id=platformId;
-    c._chainId=chainId;
-    c._chainName=chainName;
+function renderContractInfo(c){
+  const infoEl=document.getElementById('contract-info');
+  const addrEl=document.getElementById('contract-address-area');
+  const hpBtn=document.getElementById('hp-btn-detail');
+  if(!infoEl)return;
 
-    // Build real contract info
-    const infoEl=document.getElementById('contract-info');
-    const addrEl=document.getElementById('contract-address-area');
-    const hpBtn=document.getElementById('hp-btn-detail');
+  const contractAddr=c.contract_address||'';
+  const chainId=c._chainId||'1';
+  const chainName=c._chainName||'';
 
-    if(contractAddr){
-      const realFlags=[];
-      if(chainName) realFlags.push({icon:'🔗',text:'Chain: '+chainName,color:'var(--text)'});
-      realFlags.push({icon:'📄',text:'Contract: '+contractAddr.substring(0,8)+'...'+contractAddr.substring(contractAddr.length-6),color:'var(--text)'});
-      if(data.watchlist_portfolio_users) realFlags.push({icon:'👀',text:data.watchlist_portfolio_users.toLocaleString()+' watchlists on CoinGecko',color:'#00ff99'});
-      if(data.community_score) realFlags.push({icon:'👥',text:'Community score: '+data.community_score+'/100',color:data.community_score>30?'#00ff99':'#ffb400'});
-      if(data.liquidity_score) realFlags.push({icon:'💧',text:'Liquidity score: '+data.liquidity_score.toFixed(1),color:data.liquidity_score>20?'#00ff99':'#ffb400'});
+  if(contractAddr){
+    const realFlags=[];
+    if(chainName) realFlags.push({icon:'🔗',text:'Chain: '+chainName,color:'var(--text)'});
+    realFlags.push({icon:'📄',text:'Contract: '+contractAddr.substring(0,8)+'...'+contractAddr.substring(contractAddr.length-6),color:'var(--text)'});
+    if(c._watchlists) realFlags.push({icon:'👀',text:c._watchlists.toLocaleString()+' watchlists on CoinGecko',color:'#00ff99'});
+    if(c._communityScore) realFlags.push({icon:'👥',text:'Community score: '+c._communityScore+'/100',color:c._communityScore>30?'#00ff99':'#ffb400'});
+    if(c._liquidityScore) realFlags.push({icon:'💧',text:'Liquidity score: '+c._liquidityScore.toFixed(1),color:c._liquidityScore>20?'#00ff99':'#ffb400'});
 
-      infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:11px;color:${f.color}">${f.text}</span></div>`).join('');
+    infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:11px;color:${f.color}">${f.text}</span></div>`).join('');
 
-      // Enable honeypot button
-      hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
-      hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
+    hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
+    hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
 
-      // Show contract address
-      addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-        <div>
-          <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${contractAddr}</div>
-        </div>
-        <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
-      </div>`;
-    } else {
-      infoEl.innerHTML='<div class="flag"><span style="font-size:14px">ℹ️</span><span style="font-size:11px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
-      addrEl.innerHTML='';
-    }
-  }catch(e){
-    const infoEl=document.getElementById('contract-info');
-    if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:14px">⚠️</span><span style="font-size:11px;color:var(--muted)">Could not fetch contract data — CoinGecko rate limit. Try again in 60s.</span></div>';
+    addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${contractAddr}</div>
+      </div>
+      <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+    </div>`;
+  } else {
+    infoEl.innerHTML='<div class="flag"><span style="font-size:14px">ℹ️</span><span style="font-size:11px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
+    addrEl.innerHTML='';
   }
 }
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
