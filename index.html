@@ -564,6 +564,9 @@ async function selectCoin(id){
       <div id="contract-address-area"></div>
     </div>`;
 
+  // Scroll to detail area
+  setTimeout(()=>{const el=document.getElementById('detail-area');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},50);
+
   // Fetch real contract data from CoinGecko
   try{
     const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
