@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+  // GitHub Pages SPA redirect — preserves the URL path
+  // so index.html can read it and show the right tab
+  var path = window.location.pathname;
+  var validPaths = ['/ai-decrypt', '/profile', '/cipherpot'];
+  if (validPaths.includes(path)) {
+    // Redirect to home with the path stored in sessionStorage
+    sessionStorage.setItem('redirect_path', path);
+    window.location.replace('/');
+  } else {
+    // Unknown path — redirect to home
+    window.location.replace('/');
+  }
+</script>
+</head>
+<body></body>
+</html>
