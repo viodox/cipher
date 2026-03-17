@@ -901,10 +901,48 @@ async function generateReport(){
 
   const report=`${roast}\n\n${priceRead}\n\n${viralRead}\n\n${rugRead}\n\n${verdict}`;
 
+  // Fetch contract data if not cached
+  if(!c._contractFetched){
+    try{
+      const cRes=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+      if(cRes.ok){
+        const cData=await cRes.json();
+        const platforms=cData.detail_platforms||cData.platforms||{};
+        let contractAddr='',chainId='1',chainName='';
+        if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
+        else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
+        else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
+        else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
+        else{for(const[plat,info] of Object.entries(platforms)){const addr=typeof info==='object'?info.contract_address:info;if(addr&&addr.length>5){contractAddr=addr;chainName=plat;break;}}}
+        c.contract_address=contractAddr;c._chainId=chainId;c._chainName=chainName;c._contractFetched=true;
+      }
+    }catch(e){}
+  }
+
   await new Promise(r=>setTimeout(r,900));
   out.innerHTML='';let i=0;
   const iv=setInterval(()=>{
-    if(i>=report.length){clearInterval(iv);cta.style.display='block';btn.disabled=false;btn.textContent='decrypt coin';return;}
+    if(i>=report.length){
+      clearInterval(iv);
+      // Add CoinGecko link + contract address after report
+      let linksHtml='<div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center">';
+      linksHtml+=`<a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:11px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">view on CoinGecko 🦎</a>`;
+      linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){document.getElementById('cp-address').value=coin.contract_address;checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:11px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
+      linksHtml+='</div>';
+      // Show contract address if available
+      if(c.contract_address){
+        linksHtml+=`<div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">contract address${c._chainName?' · '+c._chainName:''}</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--text);word-break:break-all">${c.contract_address}</div>
+          </div>
+          <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+        </div>`;
+      }
+      out.innerHTML+=linksHtml;
+      cta.style.display='block';btn.disabled=false;btn.textContent='decrypt coin';
+      return;
+    }
     out.textContent+=report[i];i++;
   },14);
 }
