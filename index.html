@@ -367,7 +367,15 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="https://crypto.com/app/8hxtmyan6d" target="_blank">crypto.com ↗</a>
     </div>
   </div>
-  <div class="disclaimer">cipher // live data via coingecko · not financial advice · always dyor · affiliate links keep this tool free<br>© 2026 CIPHER — meme coin intelligence</div>
+  <div class="disclaimer">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
+      <span style="font-size:10px;color:var(--muted);letter-spacing:.04em">data powered by</span>
+      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none">
+        <img src="https://static.coingecko.com/s/coingecko-logo-8903d34ce19ca4be1c81f0db30e924571babbd4000c801b8a093c476e0d4dba2.png" alt="CoinGecko" style="height:20px;opacity:.8">
+      </a>
+    </div>
+    cipher // not financial advice · always dyor · affiliate links keep this tool free<br>© 2026 CIPHER — meme coin intelligence
+  </div>
 </div>
 
 <script>
@@ -428,9 +436,9 @@ async function loadCoins(){
   selectedCoin=null;document.getElementById('detail-area').innerHTML='';
   try{
     const [p1,p2,p3]=await Promise.all([
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=1&sparkline=false').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=2&sparkline=false').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=3&sparkline=false').then(r=>r.json()),
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=1&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=2&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=3&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
 
     ]);
     const seen=new Set();
@@ -576,7 +584,7 @@ async function selectCoin(id){
   // Fetch real contract data from CoinGecko (with retry)
   async function fetchContractData(retries=2){
     try{
-      const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
+      const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
       if(res.status===429&&retries>0){
         // Rate limited — wait and retry
         const infoEl=document.getElementById('contract-info');
