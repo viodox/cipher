@@ -966,21 +966,34 @@ async function checkHoneypot(){
 
   try{
     if(chain==='sol'){
-      // SOLANA via rugcheck.xyz
-      const res=await fetch(`https://api.rugcheck.xyz/v1/tokens/${address}/report/summary`);
+      // SOLANA via rugcheck.xyz (full report for more data)
+      const res=await fetch(`https://api.rugcheck.xyz/v1/tokens/${address}/report`);
       if(!res.ok) throw new Error('not found');
       const data=await res.json();
       const score=data.score||0;
       const risks=data.risks||[];
       const name=data.tokenMeta?.name||'Unknown Token';
       const symbol=data.tokenMeta?.symbol||'???';
+      const isRugged=data.rugged||false;
+      const totalLiq=data.totalMarketLiquidity||0;
+      const topHolders=data.topHolders||[];
+      const creator=data.creator||null;
+      const mintAuth=data.mintAuthority||null;
+      const freezeAuth=data.freezeAuthority||null;
+      const totalLPProviders=data.totalLPProviders||0;
+      const markets=data.markets||[];
       
       // If token is unknown and score is suspiciously low, flag it
       const isUnknown=name==='Unknown Token'||symbol==='???';
       const isSuspicious=isUnknown&&score<100;
       
       let verdict,vColor,vBg,vBorder;
-      if(isSuspicious){
+      if(isRugged){
+        verdict='🚨 RUGGED';
+        vColor='#ff3355';
+        vBg='rgba(255,51,85,.08)';
+        vBorder='rgba(255,51,85,.3)';
+      } else if(isSuspicious){
         verdict='⚠️ INSUFFICIENT DATA';
         vColor='#ffb400';
         vBg='rgba(255,180,0,.08)';
@@ -991,9 +1004,14 @@ async function checkHoneypot(){
         vBg=score<300?'rgba(0,255,153,.08)':score<600?'rgba(255,180,0,.08)':score<900?'rgba(255,102,128,.08)':'rgba(255,51,85,.08)';
         vBorder=score<300?'rgba(0,255,153,.3)':score<600?'rgba(255,180,0,.3)':score<900?'rgba(255,102,128,.3)':'rgba(255,51,85,.3)';
       }
-      const riskPct=isSuspicious?50:Math.min(100,Math.round(score/10));
+      const riskPct=isRugged?100:isSuspicious?50:Math.min(100,Math.round(score/10));
+      
+      // Calculate top holder concentration
+      const top10Pct=topHolders.slice(0,10).reduce((sum,h)=>sum+(h.pct||0),0);
+      const top1Pct=topHolders.length>0?(topHolders[0].pct||0):0;
 
       result.innerHTML=`
+        ${isRugged?'<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ff3355;line-height:1.6">🚨 <strong>WARNING:</strong> This token has been identified as a rug pull. Do NOT buy this token.</div>':''}
         ${isSuspicious?'<div style="background:rgba(255,180,0,.1);border:1px solid rgba(255,180,0,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ffb400;line-height:1.6">⚠️ <strong>Heads up:</strong> This token returned minimal data. A low score does NOT mean it\'s safe — it may mean the scanner couldn\'t fully analyze it. Always verify on multiple sources before buying.</div>':''}
         <div style="border:1px solid ${vBorder};background:${vBg};border-radius:8px;padding:1.5rem;margin-bottom:1rem;position:relative;overflow:hidden">
           <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,${vColor},transparent)"></div>
@@ -1020,7 +1038,23 @@ async function checkHoneypot(){
               <span style="font-size:9px;color:#ff3355;letter-spacing:.06em">● CRITICAL — score 900+</span>
             </div>
           </div>
-          ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+': '+r.description,r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem">
+            ${cpStatBox('liquidity',totalLiq?'$'+Number(totalLiq).toLocaleString(undefined,{maximumFractionDigits:0}):'n/a','',totalLiq>50000?'#00ff99':totalLiq>5000?'#ffb400':'#ff3355')}
+            ${cpStatBox('top holder',top1Pct?(top1Pct*100).toFixed(1)+'%':'n/a','largest wallet',top1Pct>0.5?'#ff3355':top1Pct>0.1?'#ffb400':'#00ff99')}
+            ${cpStatBox('top 10',top10Pct?(top10Pct*100).toFixed(1)+'%':'n/a','concentration',top10Pct>0.7?'#ff3355':top10Pct>0.4?'#ffb400':'#00ff99')}
+            ${cpStatBox('LP providers',totalLPProviders||'n/a','',totalLPProviders>10?'#00ff99':totalLPProviders>0?'#ffb400':'var(--muted)')}
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+              <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">mint authority</div>
+              <div style="font-size:12px;color:${mintAuth?'#ff3355':'#00ff99'};font-weight:700">${mintAuth?'⚠️ Still active — can mint more':'✅ Disabled'}</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+              <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">freeze authority</div>
+              <div style="font-size:12px;color:${freezeAuth?'#ff3355':'#00ff99'};font-weight:700">${freezeAuth?'⚠️ Still active — can freeze wallets':'✅ Disabled'}</div>
+            </div>
+          </div>
+          ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+(r.description?': '+r.description:'')+(r.value?` (${typeof r.value==='number'?(r.value*100).toFixed(1)+'%':r.value})`:''),r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
           <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
