@@ -238,7 +238,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
         <select class="cipher-select" id="report-coin-select"><option value="">— select coin —</option></select>
         <button class="gen-btn" id="gen-btn" onclick="generateReport()">decrypt coin</button>
       </div>
-      <div style="font-size:10px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">AI decrypts live price data, viral potential, and rug signals. Raw. No fluff.</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--muted)">or paste a contract address:</span>
+        <input id="report-ca-input" type="text" placeholder="paste contract address or search by name..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')lookupAndDecrypt()">
+        <button onclick="lookupAndDecrypt()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 16px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">search & decrypt</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">AI decrypts live price data, viral potential, and rug signals. Raw. No fluff.</div>
       <div class="report-out" id="report-output"><span style="color:var(--muted);font-size:11px">// select a coin above and hit decrypt</span></div>
       <div id="report-cta" style="display:none">
         <div class="section-label" style="margin-top:1.25rem">trade this coin</div>
@@ -453,10 +458,44 @@ async function loadCoins(){
     document.getElementById('status-text').textContent='live scan active';
     document.getElementById('coin-count').textContent=allCoins.length+' coins tracked';
     currentPage=1;applyFilters();
+    // Load extended coin list for AI Decrypt (extra pages in background)
+    loadExtendedCoins();
   }catch(e){
     document.getElementById('scanner-body').innerHTML=`<div class="error-msg">// CoinGecko API rate limited or unreachable.<br><br>The free tier allows ~10-30 calls/min. Wait 60 seconds and hit refresh.<br><br>For high traffic: get a free API key at coingecko.com/api and add it as a query param: <code>&x_cg_demo_api_key=YOUR_KEY</code></div>`;
     document.getElementById('status-text').textContent='signal lost';
   }
+}
+
+// EXTENDED COINS FOR AI DECRYPT (loads pages 6-20 in background)
+let extendedCoins=[];
+async function loadExtendedCoins(){
+  try{
+    const pages=[];
+    for(let p=6;p<=20;p++){
+      pages.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=${p}&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`).then(r=>r.ok?r.json():[]));
+    }
+    // Fetch in batches of 3 to avoid rate limits
+    const results=[];
+    for(let i=0;i<pages.length;i+=3){
+      const batch=await Promise.all(pages.slice(i,i+3));
+      results.push(...batch);
+      if(i+3<pages.length) await new Promise(r=>setTimeout(r,2500));
+    }
+    const existingIds=new Set(allCoins.map(c=>c.id));
+    const extra=results.flat().filter(c=>c&&c.id&&!existingIds.has(c.id)&&c.total_volume>100);
+    extendedCoins=extra.map(enrich);
+    // Update AI Decrypt dropdown with all coins
+    const sel=document.getElementById('report-coin-select');
+    const allForSelect=[...allCoins,...extendedCoins].sort((a,b)=>a.symbol.localeCompare(b.symbol));
+    sel.innerHTML='<option value="">— select coin —</option>'+allForSelect.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
+    console.log(`📡 AI Decrypt: ${allForSelect.length} coins available (${allCoins.length} scanner + ${extendedCoins.length} extended)`);
+  }catch(e){
+    console.log('Extended coin fetch skipped:',e.message);
+  }
+}
+
+function findCoin(id){
+  return allCoins.find(x=>x.id===id)||extendedCoins.find(x=>x.id===id);
 }
 
 // FILTERS + SORT
@@ -710,11 +749,113 @@ window.addEventListener('popstate',function(e){
   ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
 });
 
+// AI REPORT — LOOKUP BY CONTRACT ADDRESS OR NAME
+async function lookupAndDecrypt(){
+  const input=document.getElementById('report-ca-input').value.trim();
+  if(!input||input.length<2){alert('paste a contract address or type a coin name');return;}
+  const btn=document.getElementById('gen-btn');
+  const out=document.getElementById('report-output');
+  const cta=document.getElementById('report-cta');
+  btn.disabled=true;cta.style.display='none';
+  out.innerHTML='<span style="color:var(--muted);font-size:12px"><div class="spinner" style="display:inline-block;width:14px;height:14px;border-width:2px;vertical-align:middle;margin-right:8px"></div>searching for token...</span>';
+
+  try{
+    let coinData=null;
+
+    // Check if it looks like a contract address (starts with 0x or is a Solana-style address)
+    const isCA=input.startsWith('0x')||(/^[A-HJ-NP-Za-km-z1-9]{32,44}$/.test(input));
+
+    if(isCA){
+      // Try multiple platforms for contract address lookup
+      const platforms=['ethereum','binance-smart-chain','base','solana','polygon-pos','arbitrum-one'];
+      for(const platform of platforms){
+        try{
+          const res=await fetch(`https://api.coingecko.com/api/v3/coins/${platform}/contract/${input}?x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+          if(res.ok){
+            const data=await res.json();
+            if(data&&data.id){
+              coinData={
+                id:data.id,
+                name:data.name,
+                symbol:data.symbol,
+                image:data.image?.small||data.image?.thumb||'',
+                current_price:data.market_data?.current_price?.usd||0,
+                price_change_percentage_24h:data.market_data?.price_change_percentage_24h||0,
+                market_cap:data.market_data?.market_cap?.usd||0,
+                market_cap_rank:data.market_data?.market_cap_rank||null,
+                total_volume:data.market_data?.total_volume?.usd||0,
+              };
+              coinData=enrich(coinData);
+              break;
+            }
+          }
+        }catch(e){}
+      }
+    } else {
+      // Search by name/symbol via CoinGecko search
+      try{
+        const res=await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(input)}&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+        if(res.ok){
+          const data=await res.json();
+          const coins=data.coins||[];
+          if(coins.length>0){
+            // Get full market data for the top result
+            const topResult=coins[0];
+            const mktRes=await fetch(`https://api.coingecko.com/api/v3/coins/${topResult.id}?localization=false&tickers=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+            if(mktRes.ok){
+              const mktData=await mktRes.json();
+              coinData={
+                id:mktData.id,
+                name:mktData.name,
+                symbol:mktData.symbol,
+                image:mktData.image?.small||'',
+                current_price:mktData.market_data?.current_price?.usd||0,
+                price_change_percentage_24h:mktData.market_data?.price_change_percentage_24h||0,
+                market_cap:mktData.market_data?.market_cap?.usd||0,
+                market_cap_rank:mktData.market_data?.market_cap_rank||null,
+                total_volume:mktData.market_data?.total_volume?.usd||0,
+              };
+              coinData=enrich(coinData);
+            }
+          }
+        }
+      }catch(e){}
+    }
+
+    if(!coinData){
+      out.innerHTML='<div style="color:#ff3355;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// token not found. double check the contract address or try a different search term.</div>';
+      btn.disabled=false;
+      return;
+    }
+
+    // Add to extended coins so generateReport can find it
+    if(!findCoin(coinData.id)){
+      extendedCoins.push(coinData);
+    }
+
+    // Select it in dropdown and run report
+    const sel=document.getElementById('report-coin-select');
+    // Add option if not already there
+    if(!sel.querySelector(`option[value="${coinData.id}"]`)){
+      const opt=document.createElement('option');
+      opt.value=coinData.id;
+      opt.textContent=`${coinData.symbol.toUpperCase()} — ${coinData.name}`;
+      sel.appendChild(opt);
+    }
+    sel.value=coinData.id;
+    btn.disabled=false;
+    generateReport();
+  }catch(e){
+    out.innerHTML='<div style="color:#ff3355;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// search failed. CoinGecko may be rate limited — try again in 60s.</div>';
+    btn.disabled=false;
+  }
+}
+
 // AI REPORT
 async function generateReport(){
   const id=document.getElementById('report-coin-select').value;
   if(!id){alert('select a coin first');return;}
-  const c=allCoins.find(x=>x.id===id);
+  const c=findCoin(id);
   if(!c){alert('coin not found — try refreshing data');return;}
   const btn=document.getElementById('gen-btn'),out=document.getElementById('report-output'),cta=document.getElementById('report-cta');
   btn.disabled=true;btn.textContent='decrypting...';cta.style.display='none';
