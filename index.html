@@ -993,7 +993,7 @@ async function checkHoneypot(){
           <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
           <button onclick="navigator.clipboard.writeText('Just scanned ${symbol} on CIPHERPOT 🍯\\n\\nVerdict: ${verdict}\\nRisk Score: ${score}\\n\\nCheck any token free → https://www.ciphersignal.xyz')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(29,161,242,.3);color:#1da1f2;background:rgba(29,161,242,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s">share result ↗</button>
         </div>
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · always dyor · not financial advice</div>`;
+        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
 
     } else {
       // EVM via honeypot.is
@@ -1068,7 +1068,7 @@ async function checkHoneypot(){
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
           <button onclick="navigator.clipboard.writeText('Just scanned ${symbol} on CIPHERPOT 🍯\\n\\nVerdict: ${isHoneypot?'HONEYPOT DETECTED':risk+' RISK'}\\nBuy Tax: ${buyTax!=null?buyTax.toFixed(1)+'%':'n/a'} · Sell Tax: ${sellTax!=null?sellTax.toFixed(1)+'%':'n/a'}\\n\\nCheck any token free → https://www.ciphersignal.xyz').then(()=>alert('copied to clipboard — paste on X 🔐'))" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(29,161,242,.3);color:#1da1f2;background:rgba(29,161,242,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s">share result ↗</button>
         </div>
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · always dyor · not financial advice</div>`;
+        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
     }
   }catch(e){
     result.innerHTML='<div style="color:var(--accent4);font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// could not scan contract. double check the address and selected chain, then try again.</div>';
