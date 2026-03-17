@@ -278,6 +278,11 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     </div>
   </div>
 
+  <!-- AD SLOT - BETWEEN SCANNER AND TRENDING -->
+  <div style="margin-top:1.5rem;margin-bottom:.5rem;min-height:90px;display:flex;align-items:center;justify-content:center" id="ad-main-slot">
+    <!-- INSERT GOOGLE ADSENSE CODE HERE AFTER APPROVAL -->
+  </div>
+
   <!-- TRENDING ON X -->
   <div style="margin-top:1.5rem">
     <div style="font-size:9px;color:#6a7a9a;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">trending on x <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
@@ -567,6 +572,18 @@ async function selectCoin(id){
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>
       </div>
       <div id="contract-address-area"></div>
+      <!-- SPONSORED PLACEMENT IN DETAIL VIEW -->
+      <div style="margin-top:1rem;padding:12px 16px;background:linear-gradient(135deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border:1px solid rgba(255,180,0,.2);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,180,0,.2);padding:2px 6px;border-radius:2px">ad</span>
+          <span style="font-size:12px;color:var(--text)">New to crypto? Start with <strong style="color:#ffb400">$10 free</strong> on Coinbase</span>
+        </div>
+        <a href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 14px;border-radius:4px;background:#ffb400;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap">claim bonus ↗</a>
+      </div>
+      <!-- ADSENSE SLOT (replace with your AdSense code once approved) -->
+      <div id="ad-detail-slot" style="margin-top:.75rem;min-height:90px;display:flex;align-items:center;justify-content:center">
+        <!-- INSERT GOOGLE ADSENSE CODE HERE AFTER APPROVAL -->
+      </div>
     </div>`;
 
   // Scroll to detail area
