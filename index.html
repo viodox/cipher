@@ -734,19 +734,35 @@ function renderContractInfo(c){
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
 
 // TABS
+const TAB_URLS={scanner:'/',report:'/ai-decrypt',quiz:'/profile',cipherpot:'/cipherpot'};
+const URL_TABS={'/':'scanner','/ai-decrypt':'report','/profile':'quiz','/cipherpot':'cipherpot'};
+
 function switchTab(n){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+n).classList.add('active');
   ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
-  history.pushState({tab:n},'',' ');
+  const url=TAB_URLS[n]||'/';
+  history.pushState({tab:n},'',url);
 }
-window.addEventListener('popstate',function(e){
-  const tab=e.state&&e.state.tab?e.state.tab:'scanner';
+function loadTabFromURL(){
+  const path=window.location.pathname;
+  const tab=URL_TABS[path]||'scanner';
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+}
+window.addEventListener('popstate',function(e){
+  if(e.state&&e.state.tab){
+    const tab=e.state.tab;
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+    ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+  } else {
+    loadTabFromURL();
+  }
 });
 
 // AI REPORT — LOOKUP BY CONTRACT ADDRESS OR NAME
@@ -1402,6 +1418,13 @@ function renderTrending(){
 }
 
 // INIT
+// Check if we were redirected from 404.html (GitHub Pages SPA workaround)
+const redirectPath=sessionStorage.getItem('redirect_path');
+if(redirectPath){
+  sessionStorage.removeItem('redirect_path');
+  history.replaceState({},'',(redirectPath));
+}
+loadTabFromURL();
 renderQuiz();
 loadCoins().then(()=>renderTrending());
 setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>renderTrending());},600000);
