@@ -88,7 +88,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .bar-wrap{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
 .bar-fill{height:100%;border-radius:2px}
 .score-val{font-family:var(--font-disp);font-size:11px;font-weight:700}
-.ctag{font-size:8px;padding:2px 5px;border-radius:2px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1px solid;white-space:nowrap}
+.ctag{font-size:10px;padding:3px 7px;border-radius:2px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1px solid;white-space:nowrap}
 .ctag-g{background:rgba(0,255,153,.08);color:#00ff99;border-color:rgba(0,255,153,.25)}
 .ctag-r{background:rgba(255,51,85,.08);color:#ff6680;border-color:rgba(255,51,85,.25)}
 .ctag-b{background:rgba(0,229,255,.08);color:#00e5ff;border-color:rgba(0,229,255,.25)}
@@ -96,24 +96,24 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .detail{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem;margin-top:.75rem;position:relative;overflow:hidden}
 .detail::before{content:'CIPHER//ANALYSIS';position:absolute;top:10px;right:14px;font-size:8px;color:var(--muted);letter-spacing:.15em}
 .d-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap}
-.d-img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--border2)}
-.d-name{font-family:var(--font-disp);font-size:20px;font-weight:900;letter-spacing:.1em;color:var(--accent)}
-.d-fullname{font-size:10px;color:var(--muted);margin-top:2px}
+.d-img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid var(--border2)}
+.d-name{font-family:var(--font-disp);font-size:24px;font-weight:900;letter-spacing:.1em;color:var(--accent)}
+.d-fullname{font-size:13px;color:var(--muted);margin-top:4px}
 .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
 .sbox{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px}
-.sbox-lbl{font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.sbox-lbl{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
 .sbox-val{font-family:var(--font-disp);font-size:18px;font-weight:700}
-.sbox-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.sbox-sub{font-size:12px;color:var(--muted);margin-top:3px}
 .sbox-bar{height:1.5px;background:var(--border);margin-top:8px;overflow:hidden;border-radius:1px}
 .sbox-fill{height:100%;border-radius:1px}
-.section-label{font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-label{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .flags-wrap{margin-bottom:1rem}
-.flag{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.flag{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
 .flag:last-child{border:none}
-.flag-lv{font-size:8px;letter-spacing:.06em;min-width:40px;font-weight:700}
+.flag-lv{font-size:10px;letter-spacing:.06em;min-width:40px;font-weight:700}
 .detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
-.dact-btn{font-size:9px;padding:7px 14px;border-radius:4px;border:1px solid;background:none;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.dact-btn{font-size:11px;padding:9px 16px;border-radius:4px;border:1px solid;background:none;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
 .report-card{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem}
 .rc-top{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
 .ai-tag{font-size:8px;padding:3px 9px;border-radius:3px;background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.25);letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-disp)}
@@ -945,9 +945,9 @@ function cpRiskBar(score,max=100){
 
 function cpStatBox(label,value,sub,color){
   return `<div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px">
-    <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">${label}</div>
-    <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:700;color:${color||'var(--text)'}">${value}</div>
-    ${sub?`<div style="font-size:9px;color:var(--muted);margin-top:3px">${sub}</div>`:''}
+    <div style="font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">${label}</div>
+    <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:${color||'var(--text)'}">${value}</div>
+    ${sub?`<div style="font-size:11px;color:var(--muted);margin-top:3px">${sub}</div>`:''}
   </div>`;
 }
 
