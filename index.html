@@ -369,10 +369,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
   <div class="disclaimer">
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
-      <span style="font-size:10px;color:var(--muted);letter-spacing:.04em">data powered by</span>
-      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none">
-        <img src="https://static.coingecko.com/s/coingecko-logo-8903d34ce19ca4be1c81f0db30e924571babbd4000c801b8a093c476e0d4dba2.png" alt="CoinGecko" style="height:20px;opacity:.8">
-      </a>
+      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:10px;color:var(--muted);letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='var(--muted)'">data powered by <span style="font-family:var(--font-disp);font-weight:700;color:#8dc63f;letter-spacing:.08em">🦎 CoinGecko</span></a>
     </div>
     cipher // not financial advice · always dyor · affiliate links keep this tool free<br>© 2026 CIPHER — meme coin intelligence
   </div>
@@ -554,12 +551,12 @@ async function selectCoin(id){
         </div>
       </div>
       <div class="score-grid">
-        <div class="sbox"><div class="sbox-lbl">Viral potential</div><div class="sbox-val" style="color:${col(c.viral)}">${c.viral}</div><div class="sbox-sub">vol/mcap + momentum</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">Sentiment</div><div class="sbox-val" style="color:${col(c.sentiment)}">${c.sentiment}</div><div class="sbox-sub">price action derived</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.sentiment}%;background:${col(c.sentiment)}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">Rug risk</div><div class="sbox-val" style="color:${col(100-c.rug)}">${c.rug}</div><div class="sbox-sub">mcap + volatility</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.rug}%;background:${col(100-c.rug)}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">Market cap</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.market_cap)}</div><div class="sbox-sub">rank #${c.market_cap_rank||'—'}</div></div>
-        <div class="sbox"><div class="sbox-lbl">24h volume</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">trading activity</div></div>
-        <div class="sbox"><div class="sbox-lbl">Price</div><div class="sbox-val" style="color:var(--text);font-size:15px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
+        <div class="sbox"><div class="sbox-lbl">🔥 Hype Level</div><div class="sbox-val" style="color:${col(c.viral)};font-size:15px">${c.viral>=70?'High':c.viral>=40?'Medium':'Low'}</div><div class="sbox-sub">${c.viral>=70?'trending — people are watching this':'not much buzz yet'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">📊 Mood</div><div class="sbox-val" style="color:${col(c.sentiment)};font-size:15px">${c.sentiment>=65?'Bullish':c.sentiment>=35?'Neutral':'Bearish'}</div><div class="sbox-sub">${c.sentiment>=65?'buyers in control right now':c.sentiment>=35?'no clear direction':'sellers in control right now'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.sentiment}%;background:${col(c.sentiment)}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">⚠️ Risk Level</div><div class="sbox-val" style="color:${col(100-c.rug)};font-size:15px">${c.rug>=70?'High Risk':c.rug>=40?'Medium Risk':'Lower Risk'}</div><div class="sbox-sub">${c.rug>=70?'be very careful with this one':c.rug>=40?'do your research first':'relatively safer for a meme coin'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.rug}%;background:${col(100-c.rug)}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">🏦 Market Cap</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.market_cap)}</div><div class="sbox-sub">rank #${c.market_cap_rank||'—'}</div></div>
+        <div class="sbox"><div class="sbox-lbl">🔊 24h Volume</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">how much is being traded</div></div>
+        <div class="sbox"><div class="sbox-lbl">💰 Price</div><div class="sbox-val" style="color:var(--text);font-size:15px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
       </div>
       <div class="section-label">contract info</div>
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
