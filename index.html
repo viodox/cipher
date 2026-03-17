@@ -420,7 +420,15 @@ function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B'
 function calcViral(c){
   const change=Math.abs(c.price_change_percentage_24h||0);
   const volRatio=c.market_cap>0?Math.min((c.total_volume/c.market_cap)*100,100):0;
-  return Math.round(Math.max(5,Math.min(99,change*2*0.6+volRatio*0.4+(Math.random()-0.5)*12)));
+  // Absolute volume bonus — high-volume coins are clearly getting attention
+  const vol=c.total_volume||0;
+  const volBonus=vol>=1e9?35:vol>=500e6?28:vol>=100e6?22:vol>=50e6?16:vol>=10e6?10:vol>=1e6?5:0;
+  // Market cap rank bonus — top coins have inherent visibility
+  const rank=c.market_cap_rank||9999;
+  const rankBonus=rank<=50?12:rank<=200?8:rank<=500?4:0;
+  // Combine: ratio matters for small coins, absolute volume matters for big coins
+  const raw=change*1.5*0.3+volRatio*0.25+volBonus*0.25+rankBonus*0.2+(Math.random()-0.5)*10;
+  return Math.round(Math.max(5,Math.min(99,raw)));
 }
 function calcSentiment(c){
   const chg=c.price_change_percentage_24h||0;
