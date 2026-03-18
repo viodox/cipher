@@ -435,7 +435,7 @@ function col(v){return v>=65?'#00ff99':v>=35?'#ffb400':'#ff3355';}
 function sentLbl(v){return v>=65?['Bullish','ctag-g']:v>=35?['Neutral','ctag-y']:['Bearish','ctag-r'];}
 function rugLbl(v){return v>=70?['High Risk','ctag-r']:v>=40?['Moderate','ctag-y']:['Low Risk','ctag-g'];}
 function viralLbl(v){return v>=70?['Crypto Twitter Viral','ctag-b']:v>=40?['Building','ctag-y']:['Low Buzz','ctag-g'];}
-function fmtPrice(p){if(!p)return'$—';if(p>=1)return'$'+p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=0.01)return'$'+p.toFixed(4);if(p>=0.0001)return'$'+p.toFixed(6);return'$'+p.toExponential(2);}
+function fmtPrice(p){if(!p)return'$—';if(p>=1)return'$'+p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=0.01)return'$'+p.toFixed(4);if(p>=0.0001)return'$'+p.toFixed(6);if(p>=0.00000001)return'$'+p.toFixed(10).replace(/0+$/,'');return'$'+p.toFixed(14).replace(/0+$/,'');}
 function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
 
 function calcViral(c){
@@ -751,8 +751,14 @@ function renderContractInfo(c){
 
     infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:11px;color:${f.color}">${f.text}</span></div>`).join('');
 
-    hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
-    hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
+    // Only show honeypot button for supported chains (ETH, BSC, Base, Solana)
+    const supportedChains=['1','56','8453','sol'];
+    if(supportedChains.includes(chainId)){
+      hpBtn.style.display='';hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
+      hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
+    } else {
+      hpBtn.style.display='none';
+    }
 
     addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
       <div>
