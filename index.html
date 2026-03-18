@@ -456,11 +456,14 @@ function calcSentiment(c){
   return Math.round(Math.max(5,Math.min(99,50+chg*1.5+(Math.random()-0.5)*14)));
 }
 function calcRug(c){
-  let r=50;
+  let r=35;
   const m=c.market_cap||0;
-  if(m<1e6)r+=28;else if(m<10e6)r+=18;else if(m<100e6)r+=8;else r-=15;
-  r+=Math.min(Math.abs(c.price_change_percentage_24h||0)*0.5,20);
-  r+=(Math.random()-0.5)*14;
+  if(m<500e3)r+=30;else if(m<2e6)r+=20;else if(m<10e6)r+=12;else if(m<50e6)r+=5;else if(m<200e6)r-=5;else r-=15;
+  // High volatility adds some risk
+  r+=Math.min(Math.abs(c.price_change_percentage_24h||0)*0.3,12);
+  // Very low volume relative to mcap is risky
+  if(m>0&&c.total_volume/m<0.02)r+=8;
+  r+=(Math.random()-0.5)*16;
   return Math.round(Math.max(5,Math.min(95,r)));
 }
 function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>Math.random()-.5).slice(0,5)};}
