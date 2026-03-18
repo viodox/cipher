@@ -1467,12 +1467,15 @@ function renderCoinOfTheDay(){
   const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
   
   // Score coins by a mix of volume spike, price action, and viral score
-  const scored=[...allCoins].map(c=>{
+  // Filter out high risk coins — COTD should only feature credible picks
+  const scored=[...allCoins].filter(c=>c.rug<70).map(c=>{
     const absChange=Math.abs(c.price_change_percentage_24h||0);
     const volRatio=c.market_cap>0?(c.total_volume/c.market_cap):0;
     const score=(absChange*2)+(volRatio*50)+(c.viral*0.5);
     return{...c,cotdScore:score};
   }).sort((a,b)=>b.cotdScore-a.cotdScore);
+  
+  if(!scored.length) return;
   
   // Use seed to pick from top 10 most interesting coins
   const top10=scored.slice(0,10);
@@ -1481,10 +1484,9 @@ function renderCoinOfTheDay(){
   const chg=coin.price_change_percentage_24h||0;
   const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
   const chgCol=chg>=0?'#00ff99':'#ff3355';
-  const verdict=coin.sentiment>=65&&coin.viral>=60?'SEND IT':coin.sentiment<35&&coin.rug>=70?'NGMI':'WAIT';
-  const verdictCol=verdict==='SEND IT'?'#00ff99':verdict==='NGMI'?'#ff3355':'#ffb400';
-  const riskLabel=coin.rug>=70?'High Risk':coin.rug>=40?'Medium Risk':'Lower Risk';
-  const riskCol=coin.rug>=70?'#ff3355':coin.rug>=40?'#ffb400':'#00ff99';
+  const verdict=coin.sentiment>=65&&coin.viral>=60?'SEND IT':coin.sentiment<35?'WAIT':'BULLISH';
+  const verdictCol=verdict==='SEND IT'?'#00ff99':verdict==='BULLISH'?'#00e5ff':'#ffb400';
+  const hypeLabel=coin.viral>=70?'🔥 Trending':coin.viral>=40?'📈 Building':'';
   
   const wrap=document.getElementById('cotd-wrap');
   const content=document.getElementById('cotd-content');
@@ -1506,7 +1508,7 @@ function renderCoinOfTheDay(){
           <span style="font-size:10px;color:var(--muted)">MCap: ${fmtMcap(coin.market_cap)}</span>
           <span style="font-size:10px;color:var(--muted)">Vol: ${fmtMcap(coin.total_volume)}</span>
           <span style="font-family:'Orbitron',monospace;font-size:10px;padding:2px 8px;border-radius:3px;border:1px solid ${verdictCol};color:${verdictCol};background:${verdictCol}11;letter-spacing:.06em">${verdict}</span>
-          <span style="font-size:10px;color:${riskCol}">⚠️ ${riskLabel}</span>
+          ${hypeLabel?`<span style="font-size:10px;color:var(--accent)">${hypeLabel}</span>`:''}
         </div>
       </div>
     </div>`;
