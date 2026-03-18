@@ -1435,6 +1435,33 @@ function renderTrending(){
   }).join('');
 }
 
+// CLICK SOUND EFFECT
+const AudioCtx=window.AudioContext||window.webkitAudioContext;
+let audioCtx;
+function playClick(){
+  try{
+    if(!audioCtx) audioCtx=new AudioCtx();
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type='sine';
+    osc.frequency.setValueAtTime(800,audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(400,audioCtx.currentTime+0.06);
+    gain.gain.setValueAtTime(0.08,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.06);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime+0.06);
+  }catch(e){}
+}
+// Attach click sound to all interactive elements
+document.addEventListener('click',function(e){
+  const t=e.target;
+  if(t.tagName==='BUTTON'||t.classList.contains('tab')||t.classList.contains('filter-btn')||t.classList.contains('dact-btn')||t.classList.contains('q-opt')||t.classList.contains('page-btn')||t.tagName==='TH'||(t.closest&&t.closest('tr[onclick]'))){
+    playClick();
+  }
+});
+
 // INIT
 // Check if we were redirected from 404.html (GitHub Pages SPA workaround)
 const redirectPath=sessionStorage.getItem('redirect_path');
