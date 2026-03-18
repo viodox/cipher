@@ -448,25 +448,30 @@ function calcViral(c){
   const rank=c.market_cap_rank||9999;
   const rankBonus=rank<=50?12:rank<=200?8:rank<=500?4:0;
   // Combine: ratio matters for small coins, absolute volume matters for big coins
-  const raw=change*1.5*0.3+volRatio*0.25+volBonus*0.25+rankBonus*0.2+(Math.random()-0.5)*10;
+  const raw=change*1.5*0.3+volRatio*0.25+volBonus*0.25+rankBonus*0.2+(seedRand(c.id+'viral')-0.5)*10;
   return Math.round(Math.max(5,Math.min(99,raw)));
+}
+// Seeded random: same coin + same day = same "random" value
+function seedRand(str){
+  const today=new Date();
+  const key=str+(today.getFullYear()*10000+today.getMonth()*100+today.getDate());
+  let h=0;for(let i=0;i<key.length;i++){h=((h<<5)-h)+key.charCodeAt(i);h|=0;}
+  return((h>>>0)%10000)/10000;
 }
 function calcSentiment(c){
   const chg=c.price_change_percentage_24h||0;
-  return Math.round(Math.max(5,Math.min(99,50+chg*1.5+(Math.random()-0.5)*14)));
+  return Math.round(Math.max(5,Math.min(99,50+chg*1.5+(seedRand(c.id+'sent')-0.5)*14)));
 }
 function calcRug(c){
   let r=35;
   const m=c.market_cap||0;
   if(m<500e3)r+=30;else if(m<2e6)r+=20;else if(m<10e6)r+=12;else if(m<50e6)r+=5;else if(m<200e6)r-=5;else r-=15;
-  // High volatility adds some risk
   r+=Math.min(Math.abs(c.price_change_percentage_24h||0)*0.3,12);
-  // Very low volume relative to mcap is risky
   if(m>0&&c.total_volume/m<0.02)r+=8;
-  r+=(Math.random()-0.5)*16;
+  r+=(seedRand(c.id+'rug')-0.5)*16;
   return Math.round(Math.max(5,Math.min(95,r)));
 }
-function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>Math.random()-.5).slice(0,5)};}
+function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>seedRand(c.id+'flag')-0.5).slice(0,5)};}
 
 // FETCH
 async function loadCoins(){
