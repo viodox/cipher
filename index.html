@@ -213,6 +213,23 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     </div>
   </div>
 
+  <!-- COIN OF THE DAY -->
+  <div id="cotd-wrap" style="display:none;background:linear-gradient(135deg,rgba(0,229,255,.05),rgba(255,180,0,.03));border:1px solid rgba(0,229,255,.25);border-radius:8px;padding:16px 20px;margin-bottom:1.25rem;position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00e5ff,#ffb400,transparent)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+      <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:250px">
+        <div>
+          <div style="font-family:'Orbitron',monospace;font-size:9px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">🏆 coin of the day</div>
+          <div id="cotd-content" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div class="spinner" style="width:14px;height:14px;border-width:2px"></div>
+            <span style="font-size:12px;color:var(--muted)">selecting today's pick...</span>
+          </div>
+        </div>
+      </div>
+      <div id="cotd-actions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </div>
+  </div>
+
   <div class="tabs">
     <button class="tab active" onclick="switchTab('scanner')">01 // scanner</button>
     <button class="tab" onclick="switchTab('report')">02 // AI decrypt</button>
@@ -1435,6 +1452,65 @@ function renderTrending(){
   }).join('');
 }
 
+// COIN OF THE DAY
+function renderCoinOfTheDay(){
+  if(!allCoins.length) return;
+  
+  // Pick coin deterministically based on date (same coin all day)
+  const today=new Date();
+  const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
+  
+  // Score coins by a mix of volume spike, price action, and viral score
+  const scored=[...allCoins].map(c=>{
+    const absChange=Math.abs(c.price_change_percentage_24h||0);
+    const volRatio=c.market_cap>0?(c.total_volume/c.market_cap):0;
+    const score=(absChange*2)+(volRatio*50)+(c.viral*0.5);
+    return{...c,cotdScore:score};
+  }).sort((a,b)=>b.cotdScore-a.cotdScore);
+  
+  // Use seed to pick from top 10 most interesting coins
+  const top10=scored.slice(0,10);
+  const coin=top10[seed%top10.length];
+  
+  const chg=coin.price_change_percentage_24h||0;
+  const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
+  const chgCol=chg>=0?'#00ff99':'#ff3355';
+  const verdict=coin.sentiment>=65&&coin.viral>=60?'SEND IT':coin.sentiment<35&&coin.rug>=70?'NGMI':'WAIT';
+  const verdictCol=verdict==='SEND IT'?'#00ff99':verdict==='NGMI'?'#ff3355':'#ffb400';
+  const riskLabel=coin.rug>=70?'High Risk':coin.rug>=40?'Medium Risk':'Lower Risk';
+  const riskCol=coin.rug>=70?'#ff3355':coin.rug>=40?'#ffb400':'#00ff99';
+  
+  const wrap=document.getElementById('cotd-wrap');
+  const content=document.getElementById('cotd-content');
+  const actions=document.getElementById('cotd-actions');
+  
+  wrap.style.display='block';
+  
+  content.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px">
+      ${coin.image?`<img src="${coin.image}" style="width:36px;height:36px;border-radius:50%;border:2px solid rgba(0,229,255,.3)" alt="${coin.symbol}">`:''}
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--accent);letter-spacing:.08em">${coin.symbol.toUpperCase()}</span>
+          <span style="font-size:13px;color:var(--muted)">${coin.name}</span>
+          <span style="font-size:13px;font-weight:700;color:${chgCol}">${chgStr}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:4px;flex-wrap:wrap">
+          <span style="font-size:12px;color:var(--text)">${fmtPrice(coin.current_price)}</span>
+          <span style="font-size:10px;color:var(--muted)">MCap: ${fmtMcap(coin.market_cap)}</span>
+          <span style="font-size:10px;color:var(--muted)">Vol: ${fmtMcap(coin.total_volume)}</span>
+          <span style="font-family:'Orbitron',monospace;font-size:10px;padding:2px 8px;border-radius:3px;border:1px solid ${verdictCol};color:${verdictCol};background:${verdictCol}11;letter-spacing:.06em">${verdict}</span>
+          <span style="font-size:10px;color:${riskCol}">⚠️ ${riskLabel}</span>
+        </div>
+      </div>
+    </div>`;
+  
+  actions.innerHTML=`
+    <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${coin.id}'),100)" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">view profile</button>
+    <button onclick="document.getElementById('report-coin-select').value='${coin.id}';switchTab('report');generateReport()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">AI decrypt</button>
+    <a href="https://www.coingecko.com/en/coins/${coin.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">CoinGecko 🦎</a>`;
+}
+
 // CLICK SOUND EFFECT
 const AudioCtx=window.AudioContext||window.webkitAudioContext;
 let audioCtx;
@@ -1471,8 +1547,8 @@ if(redirectPath){
 }
 loadTabFromURL();
 renderQuiz();
-loadCoins().then(()=>renderTrending());
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>renderTrending());},600000);
+loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();});
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();});},600000);
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
