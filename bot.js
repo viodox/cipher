@@ -311,14 +311,33 @@ function buildMarketPulse(coins) {
 🍯 Scan any contract → ${CONFIG.SITE_URL}`;
 }
 
-// ── Schedule: 4 posts per day, no repeats ───
+// BONUS — CipherPot promo
+function buildCipherPotPromo(coins) {
+  const topGainer = coins.reduce((a, b) => (a.change24h > b.change24h ? a : b));
+  return `🍯 Don't ape blind
+
+Paste any contract address into CipherPot and scan for honeypots, taxes & rug signals instantly.
+
+Supports ETH · BSC · Base · Solana
+
+Today's top mover: $${topGainer.symbol} ${formatChange(topGainer.change24h)}
+↳ ${cgLink(topGainer)}
+
+Scan free → ${CONFIG.SITE_URL}`;
+}
+
+// ── Schedule: 8 posts per day, no repeats ───
 // Each hour gets a pool of templates it picks from
 // based on the day, so no two posts in one day are the same
 const SCHEDULE = {
-  morning: [buildDailySignal, buildMarketPulse],
-  midday: [buildTopMovers, buildVolumeAlert],
-  afternoon: [buildSpotlight, buildDipAlert],
-  evening: [buildRugAlert, buildDipAlert, buildMarketPulse],
+  early: [buildDailySignal, buildMarketPulse],
+  morning: [buildTopMovers, buildDailySignal],
+  midday: [buildSpotlight, buildVolumeAlert],
+  earlyAfternoon: [buildDipAlert, buildMarketPulse],
+  afternoon: [buildTopMovers, buildCipherPotPromo],
+  evening: [buildRugAlert, buildSpotlight],
+  night: [buildVolumeAlert, buildDipAlert],
+  lateNight: [buildMarketPulse, buildCipherPotPromo],
 };
 
 function getTemplateForSlot(slot) {
@@ -330,11 +349,15 @@ function getTemplateForSlot(slot) {
 
 function getCurrentSlot() {
   const hour = new Date().getUTCHours();
-  // 14 UTC = 9am EST, 17 UTC = 12pm EST, 20 UTC = 3pm EST, 23 UTC = 6pm EST
+  // 12 UTC = 7am EST, 14 = 9am, 16 = 11am, 18 = 1pm, 20 = 3pm, 22 = 5pm, 0 = 7pm, 2 = 9pm
+  if (hour <= 13) return "early";
   if (hour <= 15) return "morning";
-  if (hour <= 18) return "midday";
+  if (hour <= 17) return "midday";
+  if (hour <= 19) return "earlyAfternoon";
   if (hour <= 21) return "afternoon";
-  return "evening";
+  if (hour <= 23) return "evening";
+  if (hour <= 1) return "night";
+  return "lateNight";
 }
 
 // ── Main ────────────────────────────────────
