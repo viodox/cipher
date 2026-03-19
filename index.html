@@ -438,17 +438,45 @@ function viralLbl(v){return v>=70?['Crypto Twitter Viral','ctag-b']:v>=40?['Buil
 function fmtPrice(p){if(!p)return'$—';if(p>=1)return'$'+p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=0.01)return'$'+p.toFixed(4);if(p>=0.0001)return'$'+p.toFixed(6);if(p>=0.00000001)return'$'+p.toFixed(10).replace(/0+$/,'');return'$'+p.toFixed(14).replace(/0+$/,'');}
 function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
 
+// TRENDING DATA — real signal from CoinGecko
+let trendingIds=new Set();
+async function fetchTrending(){
+  try{
+    const res=await fetch('https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+    if(res.ok){
+      const data=await res.json();
+      trendingIds=new Set((data.coins||[]).map(c=>c.item?.id).filter(Boolean));
+      console.log('🔥 Trending coins:',trendingIds.size);
+    }
+  }catch(e){}
+}
+
 function calcViral(c){
+  // 1. Volume/MCap ratio — the #1 signal for unusual activity
+  // A coin with volume 2x its mcap is getting way more attention than normal
+  const volRatio=c.market_cap>0?Math.min(c.total_volume/c.market_cap,5):0;
+  const volRatioScore=Math.min(40,volRatio*20);
+
+  // 2. Price movement — big moves mean people are paying attention
   const change=Math.abs(c.price_change_percentage_24h||0);
-  const volRatio=c.market_cap>0?Math.min((c.total_volume/c.market_cap)*100,100):0;
-  // Absolute volume bonus — high-volume coins are clearly getting attention
+  const changeScore=Math.min(25,change*0.8);
+
+  // 3. CoinGecko trending — if CG says it's trending, it actually is
+  const trendingBonus=trendingIds.has(c.id)?25:0;
+
+  // 4. Absolute volume — high volume = real money flowing in
   const vol=c.total_volume||0;
-  const volBonus=vol>=1e9?35:vol>=500e6?28:vol>=100e6?22:vol>=50e6?16:vol>=10e6?10:vol>=1e6?5:0;
-  // Market cap rank bonus — top coins have inherent visibility
-  const rank=c.market_cap_rank||9999;
-  const rankBonus=rank<=50?12:rank<=200?8:rank<=500?4:0;
-  // Combine: ratio matters for small coins, absolute volume matters for big coins
-  const raw=change*1.5*0.3+volRatio*0.25+volBonus*0.25+rankBonus*0.2+(seedRand(c.id+'viral')-0.5)*10;
+  const volScore=vol>=1e9?15:vol>=100e6?12:vol>=10e6?8:vol>=1e6?4:0;
+
+  // 5. Small cap with high volume is MORE viral than big cap with high volume
+  // A $1M mcap coin doing $5M volume is way more noteworthy than DOGE doing $2B
+  const mcap=c.market_cap||1;
+  const punchAboveWeight=mcap<10e6&&volRatio>1?10:mcap<50e6&&volRatio>0.5?5:0;
+
+  // Tiny seed variance (±3) just so identical coins don't stack
+  const variance=(seedRand(c.id+'viral')-0.5)*6;
+
+  const raw=volRatioScore+changeScore+trendingBonus+volScore+punchAboveWeight+variance;
   return Math.round(Math.max(5,Math.min(99,raw)));
 }
 // Seeded random: same coin + same day = same "random" value
@@ -486,6 +514,8 @@ async function loadCoins(){
   document.getElementById('coin-count').textContent='loading...';
   selectedCoin=null;document.getElementById('detail-area').innerHTML='';
   try{
+    // Fetch trending coins first for viral scoring
+    await fetchTrending();
     const [p1,p2,p3,p4,p5]=await Promise.all([
       fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=1&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
       fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=2&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
