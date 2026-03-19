@@ -1516,33 +1516,49 @@ function renderTrending(){
 function renderCoinOfTheDay(){
   if(!allCoins.length) return;
   
-  // Pick coin deterministically based on date (same coin all day)
+  // If we already picked a COTD today, keep it
   const today=new Date();
+  const dateKey=today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+  const storedCotd=sessionStorage.getItem('cotd_'+dateKey);
+  if(storedCotd){
+    const coin=allCoins.find(c=>c.id===storedCotd);
+    if(coin){renderCotdDisplay(coin);return;}
+  }
+  
   const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
   
   // STRICT FILTERS — Coin of the Day must be a credible, active coin
   const eligible=[...allCoins].filter(c=>{
-    if(c.rug>=70) return false;                          // No high risk
-    if((c.total_volume||0)<50000) return false;          // Must have at least $50K volume
-    if((c.market_cap||0)<100000) return false;           // Must have at least $100K mcap
-    if(Math.abs(c.price_change_percentage_24h||0)<0.01&&(c.total_volume||0)<500000) return false; // No dead coins (0% change + low vol)
+    if(c.rug>=70) return false;
+    if((c.total_volume||0)<50000) return false;
+    if((c.market_cap||0)<100000) return false;
+    if(Math.abs(c.price_change_percentage_24h||0)<0.01&&(c.total_volume||0)<500000) return false;
     return true;
   });
   
   if(!eligible.length){document.getElementById('cotd-wrap').style.display='none';return;}
   
-  // Score by real activity signals
+  // Score each coin with a stable seed-based tiebreaker using coin ID
   const scored=eligible.map(c=>{
     const absChange=Math.abs(c.price_change_percentage_24h||0);
     const volRatio=c.market_cap>0?(c.total_volume/c.market_cap):0;
     const isTrending=trendingIds.has(c.id)?30:0;
-    const score=(absChange*1.5)+(volRatio*40)+(c.viral*0.4)+isTrending;
+    // Stable tiebreaker based on coin ID + date
+    const tiebreaker=seedRand(c.id+'cotd')*5;
+    const score=(absChange*1.5)+(volRatio*40)+(c.viral*0.4)+isTrending+tiebreaker;
     return{...c,cotdScore:score};
   }).sort((a,b)=>b.cotdScore-a.cotdScore);
   
-  // Pick from top 5 most interesting eligible coins
-  const top5=scored.slice(0,5);
-  const coin=top5[seed%top5.length];
+  // Always pick #1 — the scoring already has a date-seeded tiebreaker
+  const coin=scored[0];
+  
+  // Cache the pick for the day
+  sessionStorage.setItem('cotd_'+dateKey,coin.id);
+  
+  renderCotdDisplay(coin);
+}
+
+function renderCotdDisplay(coin){
   
   const chg=coin.price_change_percentage_24h||0;
   const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
