@@ -488,7 +488,23 @@ function seedRand(str){
 }
 function calcSentiment(c){
   const chg=c.price_change_percentage_24h||0;
-  return Math.round(Math.max(5,Math.min(99,50+chg*1.5+(seedRand(c.id+'sent')-0.5)*14)));
+  const vol=c.total_volume||0;
+  const mcap=c.market_cap||0;
+  
+  // Base sentiment from price change
+  let s=50+chg*1.5;
+  
+  // No volume or extremely low volume = force neutral
+  if(vol<1000) return Math.round(Math.max(30,Math.min(55,s+(seedRand(c.id+'sent')-0.5)*6)));
+  
+  // Low volume relative to mcap dampens sentiment toward neutral
+  if(mcap>0&&vol/mcap<0.01) s=50+(s-50)*0.3;
+  
+  // High volume confirms the move (amplify sentiment slightly)
+  if(mcap>0&&vol/mcap>0.5) s=50+(s-50)*1.2;
+  
+  s+=(seedRand(c.id+'sent')-0.5)*10;
+  return Math.round(Math.max(5,Math.min(99,s)));
 }
 function calcRug(c){
   let r=35;
