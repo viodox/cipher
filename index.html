@@ -679,6 +679,7 @@ async function selectCoin(id){
   document.getElementById('detail-area').innerHTML=`
     <div class="detail">
       <div class="d-header">
+        ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:9px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">🎲 feeling lucky pick</div>':''}
         ${c.image?`<img class="d-img" src="${c.image}" alt="${c.symbol}">`:''}
         <div>
           <div class="d-name">${c.symbol.toUpperCase()}</div>
@@ -798,12 +799,12 @@ function renderContractInfo(c){
   if(contractAddr){
     const realFlags=[];
     if(chainName) realFlags.push({icon:'🔗',text:'Chain: '+chainName,color:'var(--text)'});
-    realFlags.push({icon:'📄',text:'Contract: '+contractAddr.substring(0,8)+'...'+contractAddr.substring(contractAddr.length-6),color:'var(--text)'});
+    realFlags.push({icon:'📄',text:`<span style="cursor:pointer;transition:color .2s" onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>{this.style.color='#00ff99';this.textContent='copied!';setTimeout(()=>{this.style.color='var(--text)';this.textContent='${contractAddr}'},1500)})" title="click to copy">${contractAddr}</span>`,color:'var(--text)',raw:true});
     if(c._watchlists) realFlags.push({icon:'👀',text:c._watchlists.toLocaleString()+' watchlists on CoinGecko',color:'#00ff99'});
     if(c._communityScore) realFlags.push({icon:'👥',text:'Community score: '+c._communityScore+'/100',color:c._communityScore>30?'#00ff99':'#ffb400'});
     if(c._liquidityScore) realFlags.push({icon:'💧',text:'Liquidity score: '+c._liquidityScore.toFixed(1),color:c._liquidityScore>20?'#00ff99':'#ffb400'});
 
-    infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:11px;color:${f.color}">${f.text}</span></div>`).join('');
+    infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:${f.raw?'12px':'11px'};color:${f.color};word-break:break-all">${f.text}</span></div>`).join('');
 
     // Only show honeypot button for supported chains (ETH, BSC, Base, Solana)
     const supportedChains=['1','56','8453','sol'];
@@ -1201,6 +1202,7 @@ async function submitSuggestion(){
 function feelingLucky(){
   if(!allCoins.length){alert('// loading coins — try again in a sec');return;}
   const coin=allCoins[Math.floor(Math.random()*allCoins.length)];
+  window._isLucky=true;
   switchTab('scanner');
   setTimeout(()=>{
     selectCoin(coin.id);
@@ -1212,7 +1214,7 @@ function feelingLucky(){
     banner.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.4);border-radius:6px;padding:10px 20px;font-family:"Orbitron",monospace;font-size:10px;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;z-index:9999;box-shadow:0 0 20px rgba(255,180,0,.2);animation:fadeInDown .3s ease';
     banner.innerHTML=`🎲 feeling lucky — decrypting ${coin.symbol.toUpperCase()} · always dyor 🔐`;
     document.body.appendChild(banner);
-    setTimeout(()=>banner.remove(),3000);
+    setTimeout(()=>{banner.remove();window._isLucky=false;},4000);
   },100);
 }
 
