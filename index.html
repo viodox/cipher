@@ -71,8 +71,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .spinner{width:16px;height:16px;border:1.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-msg{padding:1.5rem;color:var(--accent4);font-size:12px;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.8}
-.table-wrap{overflow-x:auto;margin-bottom:1rem}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
+.table-wrap{overflow-x:auto;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
 thead tr{border-bottom:1px solid var(--border2)}
 th{font-size:10px;color:#6a7a9a;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:400;cursor:pointer;white-space:nowrap;transition:color .2s;user-select:none}
 th:hover{color:var(--accent)}
@@ -640,7 +640,7 @@ function renderTable(){
   const total=Math.ceil(filteredCoins.length/PAGE_SIZE);
   if(!page.length){document.getElementById('scanner-body').innerHTML='<div style="padding:2rem;color:var(--muted);font-size:12px">// no coins match this filter</div>';return;}
   const arr=c=>sortCol===c?(sortDir===-1?'↓':'↑'):'';
-  let h=`<div class="table-wrap"><table><thead><tr>
+  let h=`<div class="table-wrap"><table><colgroup><col style="width:35px"><col><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:120px"><col style="width:100px"><col style="width:95px"></colgroup><thead><tr>
     <th style="width:30px">#</th>
     <th>coin</th>
     <th onclick="setSort('change')" class="${sortCol==='change'?'sort-active':''}">24h ${arr('change')}</th>
