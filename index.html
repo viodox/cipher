@@ -507,12 +507,32 @@ function calcSentiment(c){
   return Math.round(Math.max(5,Math.min(99,s)));
 }
 function calcRug(c){
-  let r=35;
+  let r=30;
   const m=c.market_cap||0;
-  if(m<500e3)r+=30;else if(m<2e6)r+=20;else if(m<10e6)r+=12;else if(m<50e6)r+=5;else if(m<200e6)r-=5;else r-=15;
-  r+=Math.min(Math.abs(c.price_change_percentage_24h||0)*0.3,12);
-  if(m>0&&c.total_volume/m<0.02)r+=8;
-  r+=(seedRand(c.id+'rug')-0.5)*16;
+  const vol=c.total_volume||0;
+  
+  // Market cap tiers
+  if(m<100e3)r+=40;        // under 100K - genuinely risky
+  else if(m<500e3)r+=28;   // under 500K - very small
+  else if(m<2e6)r+=18;     // under 2M - small but real
+  else if(m<10e6)r+=10;    // under 10M - normal meme coin
+  else if(m<50e6)r+=3;     // under 50M - established meme
+  else if(m<200e6)r-=5;    // under 200M - solid
+  else r-=12;              // 200M+ - well established
+  
+  // Extreme volatility adds risk (50%+ moves are unusual)
+  const absChg=Math.abs(c.price_change_percentage_24h||0);
+  if(absChg>50)r+=10;else if(absChg>25)r+=5;
+  
+  // Dead coin with no volume = suspicious
+  if(vol<1000)r+=15;
+  else if(m>0&&vol/m<0.01)r+=5;
+  
+  // High volume relative to mcap = healthy activity (reduces risk)
+  if(m>0&&vol/m>0.3)r-=5;
+  
+  // Small variance so scores don't look identical
+  r+=(seedRand(c.id+'rug')-0.5)*8;
   return Math.round(Math.max(5,Math.min(95,r)));
 }
 function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>seedRand(c.id+'flag')-0.5).slice(0,5)};}
