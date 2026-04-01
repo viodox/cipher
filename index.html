@@ -1520,19 +1520,18 @@ function renderCoinOfTheDay(){
   
   if(!eligible.length){document.getElementById('cotd-wrap').style.display='none';return;}
   
-  // Score each coin with a stable seed-based tiebreaker using coin ID
+  // Score each coin — CAP individual signals so no single coin dominates
   const scored=eligible.map(c=>{
-    const absChange=Math.abs(c.price_change_percentage_24h||0);
-    const volRatio=c.market_cap>0?(c.total_volume/c.market_cap):0;
-    const isTrending=trendingIds.has(c.id)?30:0;
-    // Stable tiebreaker based on coin ID + date
-    const tiebreaker=seedRand(c.id+'cotd')*5;
-    const score=(absChange*1.5)+(volRatio*40)+(c.viral*0.4)+isTrending+tiebreaker;
+    const absChange=Math.min(Math.abs(c.price_change_percentage_24h||0),100);
+    const volRatio=c.market_cap>0?Math.min(c.total_volume/c.market_cap,3):0;
+    const isTrending=trendingIds.has(c.id)?15:0;
+    const score=(absChange*0.3)+(volRatio*10)+(c.viral*0.3)+isTrending;
     return{...c,cotdScore:score};
   }).sort((a,b)=>b.cotdScore-a.cotdScore);
   
-  // Always pick #1 — the scoring already has a date-seeded tiebreaker
-  const coin=scored[0];
+  // Pick from top 10 using date seed — guarantees daily rotation
+  const pool=scored.slice(0,Math.min(10,scored.length));
+  const coin=pool[seed%pool.length];
   
   // Cache the pick for the day
   sessionStorage.setItem('cotd_'+dateKey,coin.id);
