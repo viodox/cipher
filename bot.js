@@ -77,214 +77,251 @@ function fV(v) { return v>=1e9?`$${(v/1e9).toFixed(1)}B`:v>=1e6?`$${(v/1e6).toFi
 function cg(c) { return `coingecko.com/en/coins/${c.cgId}`; }
 function pick(a) { return a[Math.floor(Math.random()*a.length)]; }
 function topN(c,k,n=3,d='d') { return [...c].sort((a,b)=>d==='d'?b[k]-a[k]:a[k]-b[k]).slice(0,n); }
-function rating(c) { return c>=20?'SEND IT':c>=5?'BULLISH':c>=-5?'HOLD':c>=-15?'BEARISH':'NGMI'; }
+function randCoins(coins,n) { return [...coins].sort(()=>Math.random()-.5).slice(0,n); }
 
-// ── 16 Tweet Templates (branded style) ──────
+// ══════════════════════════════════════════════
+// 20 TICKER-HEAVY TWEET TEMPLATES
+// ══════════════════════════════════════════════
 
-function tpl_dailySignal(coins) {
+// ── 1. DAILY SIGNAL ─────────────────────────
+function tpl01(coins) {
   const top = topN(coins,'change24h',1)[0];
   const vol = topN(coins,'volume',1)[0];
+  const hot = topN(coins,'change24h',5);
   return `🔐 CIPHER Daily Signal
 
-📈 Top Gainer: $${top.symbol} ${fC(top.change24h)}
-↳ ${cg(top)}
-🔊 Most Volume: $${vol.symbol} (${fV(vol.volume)})
+📈 $${top.symbol} leading at ${fC(top.change24h)}
+🔊 $${vol.symbol} doing ${fV(vol.volume)} in volume
+👀 Also watching: $${hot[2].symbol} $${hot[3].symbol} $${hot[4].symbol}
 
-🤖 Verdict: ${rating(top.change24h)}
-
-🍯 Scan before you ape → ${CONFIG.SITE_URL}`;
+🍯 Scan contracts → ${CONFIG.SITE_URL}`;
 }
 
-function tpl_topMovers(coins) {
-  const top = topN(coins,'change24h',3);
-  let t = `🔐 CIPHER Top 3 Movers\n\n`;
-  top.forEach((c,i) => { t += `${i+1}. ${c.change24h>=0?'🟢':'🔴'} $${c.symbol} ${fC(c.change24h)}\n↳ ${cg(c)}\n`; });
-  t += `\n🍯 Scan contracts → ${CONFIG.SITE_URL}`;
+// ── 2. TOP 5 MOVERS ─────────────────────────
+function tpl02(coins) {
+  const top = topN(coins,'change24h',5);
+  let t = `🔐 CIPHER Top 5 Movers\n\n`;
+  top.forEach((c,i) => { t += `${['🥇','🥈','🥉','4️⃣','5️⃣'][i]} $${c.symbol} ${fC(c.change24h)}\n`; });
+  t += `\nWhich $ticker are you holding? 👇\n\n🍯 ${CONFIG.SITE_URL}`;
   return t;
 }
 
-function tpl_spotlight(coins) {
-  const c = pick(topN(coins,'volume',5));
-  return `🔐 CIPHER Spotlight: $${c.symbol}
+// ── 3. COIN SPOTLIGHT ───────────────────────
+function tpl03(coins) {
+  const c = pick(topN(coins,'volume',8));
+  const peers = randCoins(coins.filter(x=>x.symbol!==c.symbol),3);
+  return `🔐 CIPHER Spotlight: $${c.symbol} 🔍
 
-💰 ${fP(c.price)} · 📊 ${fC(c.change24h)}
-🔊 Vol: ${fV(c.volume)} · MCap: ${fV(c.marketCap)}
-🤖 Signal: ${rating(c.change24h)}
+💰 ${fP(c.price)} · ${fC(c.change24h)}
+🔊 ${fV(c.volume)} volume
+💎 MCap: ${fV(c.marketCap)}
 
-✅ Verify → ${cg(c)}
-🍯 Scan contract → ${CONFIG.SITE_URL}`;
+Also on radar: $${peers[0].symbol} $${peers[1].symbol} $${peers[2].symbol}
+
+Bullish or nah? 👇
+
+🍯 ${CONFIG.SITE_URL}`;
 }
 
-function tpl_volatility(coins) {
-  const v = coins.filter(c => c.change24h<=-10 || c.change24h>=50);
-  if (!v.length) return `🔐 CIPHER Volatility Check\n\n✅ No extreme movers in 24h\n\nStay safe. Scan any contract free → ${CONFIG.SITE_URL}`;
-  let t = `⚡ CIPHER Volatility Alert\n\n`;
-  v.slice(0,3).forEach(c => { t += `${c.change24h>=0?'📈':'📉'} $${c.symbol} ${fC(c.change24h)}\n↳ ${cg(c)}\n`; });
-  t += `\n🍯 Scan before you ape → ${CONFIG.SITE_URL}`;
+// ── 4. MEME COIN ROLLERCOASTER ──────────────
+function tpl04(coins) {
+  const tops = topN(coins,'change24h',3);
+  const bots = topN(coins,'change24h',3,'a');
+  return `⚡ CIPHER Meme Coin Rollercoaster
+
+🚀 Pumping:
+$${tops[0].symbol} ${fC(tops[0].change24h)} | $${tops[1].symbol} ${fC(tops[1].change24h)} | $${tops[2].symbol} ${fC(tops[2].change24h)}
+
+📉 Dumping:
+$${bots[0].symbol} ${fC(bots[0].change24h)} | $${bots[1].symbol} ${fC(bots[1].change24h)} | $${bots[2].symbol} ${fC(bots[2].change24h)}
+
+Which side are you on? 👇
+
+🔐 ${CONFIG.SITE_URL}`;
+}
+
+// ── 5. TICKER WALL ──────────────────────────
+function tpl05(coins) {
+  const green = coins.filter(c=>c.change24h>0).sort((a,b)=>b.change24h-a.change24h).slice(0,8);
+  let tickers = green.map(c=>`$${c.symbol}`).join(' ');
+  return `🟢 CIPHER Green Board\n\n${tickers}\n\nAll green in the last 24h ✅\n\nDrop your favorite $ticker from this list 👇\n\n🔐 ${CONFIG.SITE_URL}`;
+}
+
+// ── 6. VOLUME KINGS ─────────────────────────
+function tpl06(coins) {
+  const top = topN(coins,'volume',5);
+  let t = `🐋 CIPHER Volume Kings\n\n💰 Where the money is flowing today:\n\n`;
+  top.forEach((c,i) => { t += `${i+1}. $${c.symbol} — ${fV(c.volume)}\n`; });
+  t += `\n$${top[0].symbol} eating everyone\'s lunch rn 🍽️\n\n🔐 ${CONFIG.SITE_URL}`;
   return t;
 }
 
-function tpl_dipRadar(coins) {
-  const dips = topN(coins,'change24h',3,'a');
-  let t = `📉 CIPHER Dip Radar\n\n`;
-  dips.forEach((c,i) => { t += `${i+1}. 🔴 $${c.symbol} ${fC(c.change24h)}\n↳ ${cg(c)}\n`; });
-  t += `\n🍯 Verify before you buy → ${CONFIG.SITE_URL}`;
-  return t;
-}
-
-function tpl_volumeWatch(coins) {
-  const top = topN(coins,'volume',3);
-  let t = `🔊 CIPHER Volume Watch\n\n`;
-  top.forEach((c,i) => { t += `${i+1}. $${c.symbol} — ${fV(c.volume)} vol\n↳ ${cg(c)}\n`; });
-  t += `\n🍯 Scan contracts → ${CONFIG.SITE_URL}`;
-  return t;
-}
-
-function tpl_marketPulse(coins) {
+// ── 7. MARKET MOOD ──────────────────────────
+function tpl07(coins) {
   const avg = coins.reduce((s,c)=>s+c.change24h,0)/coins.length;
   const bull = coins.filter(c=>c.change24h>0).length;
-  const bear = coins.length - bull;
+  const bear = coins.length-bull;
   const top = topN(coins,'change24h',1)[0];
-  return `🔐 CIPHER Market Pulse
+  const bot = topN(coins,'change24h',1,'a')[0];
+  const emoji = avg>5?'🟢':avg>0?'🟡':avg>-5?'🟠':'🔴';
+  return `${emoji} CIPHER Market Mood
 
-📊 ${bull} bullish / ${bear} bearish
-📈 Avg: ${fC(avg)}
-👑 Top: $${top.symbol} ${fC(top.change24h)}
-↳ ${cg(top)}
+${bull} green / ${bear} red
+👑 $${top.symbol} ${fC(top.change24h)}
+💀 $${bot.symbol} ${fC(bot.change24h)}
 
-🍯 Scan any contract → ${CONFIG.SITE_URL}`;
+Is $${top.symbol} the play rn or overcooked? 👇
+
+🔐 ${CONFIG.SITE_URL}`;
 }
 
-function tpl_cipherPot(coins) {
-  const top = topN(coins,'change24h',1)[0];
-  return `🍯 CIPHER CipherPot
-
-Paste any contract address → instant scan
-
-✅ Honeypot detection
-✅ Hidden buy/sell taxes
-✅ Mint & freeze authority
-✅ Top holder concentration
-
-ETH · BSC · Base · Solana
-
-Today's top mover: $${top.symbol} ${fC(top.change24h)}
-
-Scan free → ${CONFIG.SITE_URL}`;
+// ── 8. CIPHERPOT PROMO ──────────────────────
+function tpl08(coins) {
+  const c = pick(topN(coins,'change24h',5));
+  const hooks = [
+    `$${c.symbol} is pumping ${fC(c.change24h)} — but is the contract safe?\n\n5 seconds on CipherPot and you\'ll know 🍯`,
+    `Before you ape into $${c.symbol} or any meme coin — scan the contract first\n\nFree. Takes 5 seconds. Saves your bag 🍯`,
+    `$${c.symbol} doing numbers today. But have you checked the contract?\n\nPaste any CA into CipherPot → instant rug scan 🍯`,
+  ];
+  return `${pick(hooks)}\n\n✅ Honeypot detection\n✅ Hidden taxes\n✅ Mint authority\n\nETH · BSC · Base · Solana\n\n${CONFIG.SITE_URL}`;
 }
 
-// ── NEW templates for variety ───────────────
-
-function tpl_volumeSpike(coins) {
+// ── 9. VOLUME ANOMALY ───────────────────────
+function tpl09(coins) {
   const spikes = coins.filter(c=>c.marketCap>0&&c.volume/c.marketCap>1).sort((a,b)=>(b.volume/b.marketCap)-(a.volume/a.marketCap));
-  if (!spikes.length) return tpl_volumeWatch(coins);
-  let t = `🔐 CIPHER Volume Spike Alert\n\n🚨 Volume > Market Cap:\n\n`;
-  spikes.slice(0,3).forEach(c => { t += `$${c.symbol} — ${(c.volume/c.marketCap).toFixed(1)}x vol/mcap\n↳ ${cg(c)}\n`; });
-  t += `\n⚠️ Unusual activity. DYOR\n${CONFIG.SITE_URL}`;
+  if (!spikes.length) return tpl06(coins);
+  let t = `🚨 CIPHER Volume Alert\n\n`;
+  spikes.slice(0,4).forEach(c => { t += `$${c.symbol} — ${(c.volume/c.marketCap).toFixed(1)}x vol/mcap 🔥\n`; });
+  t += `\n$${spikes[0].symbol} has more 24h volume than its entire market cap\n\nSomething brewing 👀\n\n🔐 ${CONFIG.SITE_URL}`;
   return t;
 }
 
-function tpl_greenDay(coins) {
-  const green = coins.filter(c=>c.change24h>0).length;
-  const pct = ((green/coins.length)*100).toFixed(0);
+// ── 10. THIS OR THAT ────────────────────────
+function tpl10(coins) {
+  const pool = topN(coins,'volume',10);
+  const a = pool[Math.floor(Math.random()*5)];
+  let b = pool[5+Math.floor(Math.random()*5)];
+  if (!b) b = pool[1];
+  return `🔐 CIPHER — Pick One
+
+$${a.symbol} (${fC(a.change24h)}) 🆚 $${b.symbol} (${fC(b.change24h)})
+
+Reply with your pick 👇
+
+Check both → ${CONFIG.SITE_URL}`;
+}
+
+// ── 11. SMALL CAP RADAR ─────────────────────
+function tpl11(coins) {
+  const small = coins.filter(c=>c.marketCap>100e3&&c.marketCap<5e6&&c.change24h>5);
+  if (small.length<2) return tpl03(coins);
+  const picks = small.sort((a,b)=>b.change24h-a.change24h).slice(0,4);
+  let t = `🔐 CIPHER Low Cap Radar 🔍\n\n`;
+  picks.forEach(c => { t += `$${c.symbol} — ${fV(c.marketCap)} mcap, ${fC(c.change24h)} 📈\n`; });
+  t += `\nLow cap szn? Or just noise?\n\nScan contracts first 🍯\n${CONFIG.SITE_URL}`;
+  return t;
+}
+
+// ── 12. SLEEPER WATCH ───────────────────────
+function tpl12(coins) {
+  const s = coins.filter(c=>Math.abs(c.change24h)<3&&c.volume>1e6);
+  if (s.length<3) return tpl07(coins);
+  const picks = s.sort(()=>Math.random()-.5).slice(0,4);
+  let t = `👀 CIPHER Sleeper Watch\n\nFlat price. Real volume. 🤔\n\n`;
+  picks.forEach(c => { t += `$${c.symbol} — ${fV(c.volume)} vol\n`; });
+  t += `\nWhich $ticker wakes up first? 👇\n\n📌 Save this\n${CONFIG.SITE_URL}`;
+  return t;
+}
+
+// ── 13. HOT TAKES ───────────────────────────
+function tpl13(coins) {
+  const top = topN(coins,'change24h',3);
+  const vol = topN(coins,'volume',1)[0];
+  const takes = [
+    `$${top[0].symbol} ${fC(top[0].change24h)} today and most of you missed it\n\nCIPHER had it on the scanner all morning 🔐\n\n${CONFIG.SITE_URL}`,
+    `Your friend: "bro just buy $${pick(topN(coins,'volume',5)).symbol}"\n\nCipherPot: "honeypot risk detected"\n\nWho you listening to? 🍯\n\n${CONFIG.SITE_URL}`,
+    `$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping today\n\nBut did you check the contracts? 🍯\n\nFree scanner → ${CONFIG.SITE_URL}`,
+    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER scans 250+ meme coins live. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
+    `Meme coin season is not about finding pumps\n\nIt\'s about avoiding rugs\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — but are they safe?\n\n🍯 ${CONFIG.SITE_URL}`,
+  ];
+  return pick(takes);
+}
+
+// ── 14. WHAT ARE YOU BUYING ─────────────────
+function tpl14(coins) {
+  const hot = topN(coins,'change24h',6);
+  return `🔐 CIPHER Check-In\n\nWhat are you buying today?\n\n$${hot[0].symbol} · $${hot[1].symbol} · $${hot[2].symbol} · $${hot[3].symbol} · $${hot[4].symbol} · $${hot[5].symbol}\n\nOr something else? Drop your $ticker 👇\n\n${CONFIG.SITE_URL}`;
+}
+
+// ── 15. DAILY WRAP ──────────────────────────
+function tpl15(coins) {
   const best = topN(coins,'change24h',1)[0];
   const worst = topN(coins,'change24h',1,'a')[0];
-  return `🔐 CIPHER Market Snapshot
-
-${pct}% of meme coins are green right now
-
-🟢 Best: $${best.symbol} ${fC(best.change24h)}
-🔴 Worst: $${worst.symbol} ${fC(worst.change24h)}
-
-250+ coins tracked live
-${CONFIG.SITE_URL}`;
+  const vol = topN(coins,'volume',1)[0];
+  return `🔐 CIPHER Daily Wrap\n\n🏆 MVP: $${best.symbol} ${fC(best.change24h)}\n💀 Rekt: $${worst.symbol} ${fC(worst.change24h)}\n🐋 Vol king: $${vol.symbol} (${fV(vol.volume)})\n\nDid you hold $${best.symbol} today? 👇\n\n${CONFIG.SITE_URL}`;
 }
 
-function tpl_smallCap(coins) {
-  const small = coins.filter(c=>c.marketCap>100e3&&c.marketCap<5e6&&c.change24h>10);
-  if (!small.length) return tpl_spotlight(coins);
-  const c = pick(small);
-  return `🔐 CIPHER Low Cap Alert
-
-🔍 $${c.symbol}
-💰 MCap: ${fV(c.marketCap)}
-📊 24h: ${fC(c.change24h)}
-🔊 Vol: ${fV(c.volume)}
-
-Low cap + momentum 👀
-
-✅ ${cg(c)}
-🍯 Scan contract → ${CONFIG.SITE_URL}`;
+// ── 16. RAPID FIRE ──────────────────────────
+function tpl16(coins) {
+  const r = randCoins(topN(coins,'volume',15),6);
+  return `🔐 CIPHER Rapid Fire\n\n$${r[0].symbol} — ${fC(r[0].change24h)}\n$${r[1].symbol} — ${fC(r[1].change24h)}\n$${r[2].symbol} — ${fC(r[2].change24h)}\n$${r[3].symbol} — ${fC(r[3].change24h)}\n$${r[4].symbol} — ${fC(r[4].change24h)}\n$${r[5].symbol} — ${fC(r[5].change24h)}\n\nWhich ones are you in? 👇\n\n🍯 ${CONFIG.SITE_URL}`;
 }
 
-function tpl_whaleWatch(coins) {
-  const big = topN(coins,'volume',3);
-  let t = `🐋 CIPHER Whale Watch\n\n💰 Where the money is flowing:\n\n`;
-  big.forEach((c,i) => { t += `${i+1}. $${c.symbol} — ${fV(c.volume)} in 24h\n↳ ${cg(c)}\n`; });
-  t += `\n🔐 Track it live → ${CONFIG.SITE_URL}`;
-  return t;
+// ── 17. MEME COIN WISDOM ────────────────────
+function tpl17(coins) {
+  const top = topN(coins,'change24h',3);
+  const wisdom = [
+    `Meme coin checklist before aping:\n\n✅ Check $ticker on CIPHER\n✅ Read the AI Decrypt report\n✅ Scan contract on CipherPot\n✅ Check top holders\n❌ Trust random CT calls\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — did you check?`,
+    `$${top[0].symbol} is up ${fC(top[0].change24h)} today\n\nThe people who caught it early?\n\nThey were watching the volume spike on CIPHER before CT even noticed 📡`,
+    `Every meme coin looks like a 100x until you check the contract\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping\n\nBut only CipherPot tells you if they\'re safe 🍯`,
+  ];
+  return `🔐 ${pick(wisdom)}\n\n${CONFIG.SITE_URL}`;
 }
 
-function tpl_sleepers(coins) {
-  const s = coins.filter(c=>Math.abs(c.change24h)<3&&c.volume>1e6);
-  if (s.length<2) return tpl_marketPulse(coins);
-  const picks = s.sort(()=>Math.random()-.5).slice(0,3);
-  let t = `🔐 CIPHER Sleeper Watch\n\n🔇 Flat price but real volume:\n\n`;
-  picks.forEach(c => { t += `$${c.symbol} — ${fC(c.change24h)} w/ ${fV(c.volume)} vol\n`; });
-  t += `\n👀 Something brewing?\n${CONFIG.SITE_URL}`;
-  return t;
-}
-
-function tpl_didYouKnow(coins) {
+// ── 18. COMMUNITY ENGAGEMENT ────────────────
+function tpl18(coins) {
   const top = topN(coins,'change24h',1)[0];
+  const shouts = [
+    `Drop your best meme coin play this week\n\nMost liked reply gets a CIPHER shoutout 🔐\n\n$${top.symbol} is leading the board at ${fC(top.change24h)}\n\n${CONFIG.SITE_URL}`,
+    `What $ticker are you most bullish on rn?\n\nWe\'ll scan the top reply on CipherPot live 🍯\n\n${CONFIG.SITE_URL}`,
+    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\n250+ meme coins tracked live\n\n${CONFIG.SITE_URL}`,
+    `RT if you\'ve dodged a rug pull by scanning the contract first 🫡\n\nIf you haven\'t started:\n🍯 ${CONFIG.SITE_URL}`,
+  ];
+  return `🔐 ${pick(shouts)}`;
+}
+
+// ── 19. DID YOU KNOW ────────────────────────
+function tpl19(coins) {
+  const hot = topN(coins,'change24h',3);
   const facts = [
-    '🔐 CIPHER scans 250+ meme coins every 10 min\n\nCompletely free. No signup. No paywall.',
-    '🍯 CipherPot catches honeypots before you buy\n\nPaste any contract address → instant scan',
-    '🔐 CIPHER tracks real CoinGecko trending data\n\nNot random numbers. Real signals.',
-    '🤖 AI Decrypt gives raw analysis on any meme coin\n\nPrice action, viral potential, rug signals.',
-    '🔐 CIPHER has no premium tier\n\nNo token. No paywall. Just a free tool for the community.',
-    '🔍 Search by contract address on CIPHER\n\nNot just ticker names. Paste any CA.',
+    `CIPHER scans 250+ meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol} and updates every 10 min\n\nCompletely free. No signup. No paywall.`,
+    `CipherPot has caught honeypots on coins that looked legit on the surface\n\nPaste any CA → instant scan\n\nETH · BSC · Base · Solana`,
+    `$${hot[0].symbol} is up ${fC(hot[0].change24h)} today\n\nCIPHER\'s viral score flagged unusual volume before the pump 📡\n\nReal signals. Not vibes.`,
+    `You can search $${hot[0].symbol} $${hot[1].symbol} or any coin by contract address on CIPHER\n\nNot just ticker names. Paste any CA and get a full breakdown.`,
   ];
-  return `${pick(facts)}\n\nTop mover: $${top.symbol} ${fC(top.change24h)}\n\n${CONFIG.SITE_URL}`;
+  return `🔐 Did you know?\n\n${pick(facts)}\n\n${CONFIG.SITE_URL}`;
 }
 
-function tpl_endOfDay(coins) {
-  const best = topN(coins,'change24h',1)[0];
-  const totalVol = coins.reduce((s,c)=>s+c.volume,0);
-  const avg = coins.reduce((s,c)=>s+c.change24h,0)/coins.length;
-  return `🔐 CIPHER Daily Wrap
-
-📊 Total vol scanned: ${fV(totalVol)}
-📈 Avg move: ${fC(avg)}
-👑 MVP: $${best.symbol} ${fC(best.change24h)}
-
-Scanner runs 24/7 🔐
-${CONFIG.SITE_URL}`;
+// ── 20. ALPHA DROP ──────────────────────────
+function tpl20(coins) {
+  const top = topN(coins,'change24h',5);
+  const vol = topN(coins,'volume',3);
+  return `🔐 CIPHER Alpha Drop\n\n🔥 Hottest: $${top[0].symbol} ${fC(top[0].change24h)}\n📈 Runner up: $${top[1].symbol} ${fC(top[1].change24h)}\n🐋 Volume: $${vol[0].symbol} (${fV(vol[0].volume)})\n👀 Watch: $${top[3].symbol} $${top[4].symbol}\n\nAll verified on CoinGecko ✅\n\n🍯 ${CONFIG.SITE_URL}`;
 }
 
-function tpl_quickHit(coins) {
-  const c = pick(topN(coins,'volume',10));
-  const lines = [
-    `$${c.symbol} doing ${fV(c.volume)} volume on ${fV(c.marketCap)} mcap 👀`,
-    `$${c.symbol} at ${fP(c.price)} — ${fC(c.change24h)} today`,
-    `$${c.symbol} — ${fV(c.volume)} vol, ${fC(c.change24h)} change`,
-  ];
-  return `🔐 CIPHER Quick Signal\n\n${pick(lines)}\n\n✅ ${cg(c)}\n🍯 ${CONFIG.SITE_URL}`;
-}
-
-// ── All 16 templates ────────────────────────
+// ── Template pool & scheduling ──────────────
 const TEMPLATES = [
-  tpl_dailySignal, tpl_topMovers, tpl_spotlight, tpl_volatility,
-  tpl_dipRadar, tpl_volumeWatch, tpl_marketPulse, tpl_cipherPot,
-  tpl_volumeSpike, tpl_greenDay, tpl_smallCap, tpl_whaleWatch,
-  tpl_sleepers, tpl_didYouKnow, tpl_endOfDay, tpl_quickHit,
+  tpl01, tpl02, tpl03, tpl04, tpl05,
+  tpl06, tpl07, tpl08, tpl09, tpl10,
+  tpl11, tpl12, tpl13, tpl14, tpl15,
+  tpl16, tpl17, tpl18, tpl19, tpl20,
 ];
 
 function getTemplate() {
   const now = new Date();
   const day = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
   const hour = now.getUTCHours();
-  const idx = (day * 13 + hour * 7) % TEMPLATES.length;
+  const idx = (day * 17 + hour * 11) % TEMPLATES.length;
   return TEMPLATES[idx];
 }
 
@@ -300,13 +337,10 @@ async function main() {
   try {
     const coins = await fetchMemeCoins();
     console.log(`📊 ${coins.length} coins loaded`);
-
     const fn = getTemplate();
     console.log(`📝 Template: ${fn.name}`);
-
     let tweet = fn(coins);
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
-
     console.log(`\n--- (${tweet.length}/280) ---\n${tweet}\n---\n`);
     await postTweet(tweet);
   } catch (err) {
