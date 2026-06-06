@@ -73,11 +73,22 @@ async function fetchMemeCoins() {
 // ── Helpers ──────────────────────────────────
 function fP(p) { return p>=1?`$${p.toFixed(2)}`:p>=0.001?`$${p.toFixed(4)}`:`$${p.toFixed(8)}`; }
 function fC(c) { return `${c>=0?"+":""}${c.toFixed(1)}%`; }
-function fV(v) { return v>=1e9?`$${(v/1e9).toFixed(1)}B`:v>=1e6?`$${(v/1e6).toFixed(1)}M`:v>=1e3?`$${(v/1e3).toFixed(0)}K`:`$${v}`; }
+function fV(v) { return v>=1e9?`${(v/1e9).toFixed(1)}B`:v>=1e6?`${(v/1e6).toFixed(1)}M`:v>=1e3?`${(v/1e3).toFixed(0)}K`:`${v}`; }
 function cg(c) { return `coingecko.com/en/coins/${c.cgId}`; }
 function pick(a) { return a[Math.floor(Math.random()*a.length)]; }
 function topN(c,k,n=3,d='d') { return [...c].sort((a,b)=>d==='d'?b[k]-a[k]:a[k]-b[k]).slice(0,n); }
 function randCoins(coins,n) { return [...coins].sort(()=>Math.random()-.5).slice(0,n); }
+
+// X API only allows 1 cashtag per tweet — keep the first $TICKER, strip $ from the rest
+function limitCashtags(text) {
+  let found = false;
+  return text.replace(/\$([A-Za-z\u4e00-\u9fff]{1,20})/g, (match, ticker) => {
+    // Skip dollar amounts like $1.5M, $0.001
+    if (/^\d/.test(ticker)) return match;
+    if (!found) { found = true; return match; }
+    return ticker;
+  });
+}
 
 // ══════════════════════════════════════════════
 // 20 TICKER-HEAVY TWEET TEMPLATES
@@ -340,6 +351,7 @@ async function main() {
     const fn = getTemplate();
     console.log(`📝 Template: ${fn.name}`);
     let tweet = fn(coins);
+    tweet = limitCashtags(tweet);
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
     console.log(`\n--- (${tweet.length}/280) ---\n${tweet}\n---\n`);
     await postTweet(tweet);
