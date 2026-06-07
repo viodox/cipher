@@ -328,90 +328,10 @@ const TEMPLATES = [
   tpl16, tpl17, tpl18, tpl19, tpl20,
 ];
 
-// ══════════════════════════════════════════════
-// ROOBET AFFILIATE TEMPLATES (5 per day)
-// ══════════════════════════════════════════════
-
-function roo01() {
-  const hooks = [
-    '🎰 Looking for a crypto casino that actually pays out?',
-    '🎰 Tired of boring casinos? Try Roobet.',
-    '🎰 Where the degens play after hours 👀',
-  ];
-  return `${pick(hooks)}
-
-Sign up with code "ctg" → roobet.com/?ref=ctg
-
-💰 DM me proof you signed up + deposited under my code and I'll send you $10 in ETH 🤝`;
-}
-
-function roo02() {
-  return `🎲 Roobet giveaway
-
-Sign up using my code "ctg"
-Make a deposit
-DM me proof
-
-= $10 in ETH sent to your wallet 💰
-
-roobet.com/?ref=ctg
-
-Real offer. Real payout. LFG 🚀`;
-}
-
-function roo03() {
-  return `🎰 Free $10 in ETH — here's how:
-
-1. Sign up on Roobet with code "ctg"
-2. Make your first deposit
-3. DM me the proof
-
-That's it. I'll send $10 ETH to your wallet 🤝
-
-roobet.com/?ref=ctg
-
-Limited time. Don't sleep on it`;
-}
-
-function roo04() {
-  const lines = [
-    'Crypto + casino = Roobet\n\nUse code "ctg" when you sign up and DM me proof of your first deposit\n\nI\'ll send you $10 in ETH. Simple as that 💰',
-    'If you\'re gonna gamble, at least get paid to sign up\n\nCode "ctg" on Roobet → deposit → DM me proof → $10 ETH in your wallet 🤝',
-    'Roobet is where CT goes after the market closes\n\nSign up with code "ctg" + deposit + DM proof = $10 in ETH from me 💰',
-  ];
-  return `🎰 ${pick(lines)}\n\nroobet.com/?ref=ctg`;
-}
-
-function roo05() {
-  return `💰 Still running the Roobet promo
-
-Use code: ctg
-Link: roobet.com/?ref=ctg
-
-Sign up → Deposit → DM me proof
-
-= $10 ETH straight to your wallet
-
-No cap. Been paying out every time 🤝`;
-}
-
-const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05];
-
-// ── Scheduling ──────────────────────────────
-// 12 time slots per day (every 2h): 5 Roobet, 7 CIPHER
-// Roobet slots: 2 UTC, 6 UTC, 10 UTC, 16 UTC, 22 UTC
-const ROOBET_HOURS = [2, 6, 10, 16, 22];
-
 function getTemplate() {
   const now = new Date();
   const day = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
   const hour = now.getUTCHours();
-  
-  if (ROOBET_HOURS.includes(hour)) {
-    const idx = (day * 7 + hour) % ROOBET_TEMPLATES.length;
-    return ROOBET_TEMPLATES[idx];
-  }
-  
   const idx = (day * 17 + hour * 11) % TEMPLATES.length;
   return TEMPLATES[idx];
 }
@@ -426,20 +346,12 @@ async function main() {
   if (missing.length) { console.error(`❌ Missing: ${missing.join(", ")}`); process.exit(1); }
 
   try {
+    const coins = await fetchMemeCoins();
+    console.log(`📊 ${coins.length} coins loaded`);
     const fn = getTemplate();
     console.log(`📝 Template: ${fn.name}`);
-    
-    let tweet;
-    // Roobet templates don't need coin data
-    if (fn.name.startsWith('roo')) {
-      tweet = fn();
-    } else {
-      const coins = await fetchMemeCoins();
-      console.log(`📊 ${coins.length} coins loaded`);
-      tweet = fn(coins);
-      tweet = limitCashtags(tweet);
-    }
-    
+    let tweet = fn(coins);
+    tweet = limitCashtags(tweet);
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
     console.log(`\n--- (${tweet.length}/280) ---\n${tweet}\n---\n`);
     await postTweet(tweet);
