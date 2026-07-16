@@ -1,18 +1,24 @@
 name: Daily CIPHER Tweet
 on:
   schedule:
-    - cron: '0 0 * * *'    # 7pm EST
-    - cron: '0 2 * * *'    # 9pm EST
-    - cron: '0 4 * * *'    # 11pm EST
-    - cron: '0 6 * * *'    # 1am EST
-    - cron: '0 8 * * *'    # 3am EST
-    - cron: '0 10 * * *'   # 5am EST
-    - cron: '0 12 * * *'   # 7am EST
-    - cron: '0 14 * * *'   # 9am EST
-    - cron: '0 16 * * *'   # 11am EST
-    - cron: '0 18 * * *'   # 1pm EST
-    - cron: '0 20 * * *'   # 3pm EST
-    - cron: '0 22 * * *'   # 5pm EST
+    # Roobet slots (every 3h starting 0 UTC = 7pm EST)
+    - cron: '0 0 * * *'    # 7pm EST — Roobet
+    - cron: '0 3 * * *'    # 10pm EST — Roobet
+    - cron: '0 6 * * *'    # 1am EST — Roobet
+    - cron: '0 9 * * *'    # 4am EST — Roobet
+    - cron: '0 12 * * *'   # 7am EST — Roobet
+    - cron: '0 15 * * *'   # 10am EST — Roobet
+    - cron: '0 18 * * *'   # 1pm EST — Roobet
+    - cron: '0 21 * * *'   # 4pm EST — Roobet
+    # CIPHER slots (every 3h starting 1 UTC = 8pm EST)
+    - cron: '0 1 * * *'    # 8pm EST — CIPHER
+    - cron: '0 4 * * *'    # 11pm EST — CIPHER
+    - cron: '0 7 * * *'    # 2am EST — CIPHER
+    - cron: '0 10 * * *'   # 5am EST — CIPHER
+    - cron: '0 13 * * *'   # 8am EST — CIPHER
+    - cron: '0 16 * * *'   # 11am EST — CIPHER
+    - cron: '0 19 * * *'   # 2pm EST — CIPHER
+    - cron: '0 22 * * *'   # 5pm EST — CIPHER
   workflow_dispatch:
 
 jobs:
