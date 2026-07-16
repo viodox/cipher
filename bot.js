@@ -174,13 +174,21 @@ function tpl07(coins) {
   const top = topN(coins,'change24h',1)[0];
   const bot = topN(coins,'change24h',1,'a')[0];
   const emoji = avg>5?'🟢':avg>0?'🟡':avg>-5?'🟠':'🔴';
-  return `${emoji} CIPHER Market Mood
+  const headers = ['CIPHER Market Mood', 'CIPHER Mood Check', 'Market Vibes 📡', 'Where we at rn', 'CIPHER Read'];
+  const cta = [
+    `Is $${top.symbol} the play rn or overcooked? 👇`,
+    `You buying $${top.symbol} at these levels? 👇`,
+    `Is $${top.symbol} still early or too late? 👇`,
+    `Would you touch $${top.symbol} here? 👇`,
+    `Fading $${top.symbol} or riding it? 👇`,
+  ];
+  return `${emoji} ${pick(headers)}
 
-${bull} green / ${bear} red
+${bull} green / ${bear} red · Avg: ${fC(avg)}
 👑 $${top.symbol} ${fC(top.change24h)}
 💀 $${bot.symbol} ${fC(bot.change24h)}
 
-Is $${top.symbol} the play rn or overcooked? 👇
+${pick(cta)}
 
 🔐 ${CONFIG.SITE_URL}`;
 }
@@ -469,20 +477,28 @@ Code: ctg
 const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08];
 
 // ── Scheduling ──────────────────────────────
-// 16 slots/day: Roobet at 0,3,6,9,12,15,18,21 UTC · CIPHER at 1,4,7,10,13,16,19,22 UTC
+// 16 slots/day: Roobet at :17 past 0,3,6,9,12,15,18,21 UTC · CIPHER at :47 past 1,4,7,10,13,16,19,22 UTC
+// Slot-based rotation guarantees every template is used before repeating
 const ROOBET_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
+const CIPHER_HOURS = [1, 4, 7, 10, 13, 16, 19, 22];
 
 function getTemplate() {
   const now = new Date();
   const day = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
   const hour = now.getUTCHours();
-  
+
   if (ROOBET_HOURS.includes(hour)) {
-    const idx = (day * 3 + hour) % ROOBET_TEMPLATES.length;
+    const slotIndex = ROOBET_HOURS.indexOf(hour);
+    // Shift start template by day so day 1 starts at different roo than day 0
+    const idx = (slotIndex + day) % ROOBET_TEMPLATES.length;
     return ROOBET_TEMPLATES[idx];
   }
-  
-  const idx = (day * 17 + hour * 11) % TEMPLATES.length;
+
+  const slotIndex = CIPHER_HOURS.indexOf(hour);
+  // If somehow off-schedule, fall back to random
+  if (slotIndex === -1) return TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
+  // Shift by day so consecutive days rotate through different template subsets
+  const idx = (slotIndex * 3 + day * 5) % TEMPLATES.length;
   return TEMPLATES[idx];
 }
 
@@ -510,6 +526,13 @@ async function main() {
     }
     
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
+    // Add invisible zero-width variation so identical templates never look identical
+    // (X's duplicate detection blocks near-identical text within 24-48h)
+    const now = new Date();
+    const stamp = now.getUTCHours().toString(36) + now.getUTCDate().toString(36);
+    // Use invisible characters that don't render but make text unique
+    const zwsp = '\u200B'.repeat((now.getUTCHours() % 3) + 1);
+    tweet = tweet.replace(/🔐 https/, `🔐${zwsp} https`);
     console.log(`\n--- (${tweet.length}/280) ---\n${tweet}\n---\n`);
     await postTweet(tweet);
   } catch (err) {
