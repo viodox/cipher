@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CIPHER — Meme Coin Intelligence</title>
-<meta name="description" content="CIPHER decrypts meme coin sentiment, viral potential, and rug pull risk in real time. Free AI-powered crypto intelligence. 250+ coins tracked.">
+<meta name="description" content="CIPHER decrypts meme coin sentiment, viral potential, and rug pull risk in real time. Free AI-powered crypto intelligence. 500+ coins tracked.">
 <meta property="og:title" content="CIPHER — Meme Coin Intelligence">
-<meta property="og:description" content="AI-powered rug radar, viral scores & degen reports for 250+ meme coins. Free tool.">
+<meta property="og:description" content="AI-powered rug radar, viral scores & degen reports for 500+ meme coins. Free tool.">
 <meta property="og:image" content="https://www.ciphersignal.xyz/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CIPHER — Meme Coin Intelligence">
-<meta name="twitter:description" content="AI decrypts meme coin sentiment, rug risk & viral potential for 250+ coins. Free. No signup.">
+<meta name="twitter:description" content="AI decrypts meme coin sentiment, rug risk & viral potential for 500+ coins. Free. No signup.">
 <meta name="twitter:image" content="https://www.ciphersignal.xyz/og-image.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23060810'/><circle cx='50' cy='50' r='25' fill='none' stroke='%2300e5ff' stroke-width='4'/><line x1='50' y1='10' x2='50' y2='90' stroke='%2300e5ff' stroke-width='3' opacity='0.5'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,6 +221,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <button class="tab" onclick="switchTab('report')">02 // AI decrypt</button>
     <button class="tab" onclick="switchTab('quiz')">03 // profile</button>
     <button class="tab" onclick="switchTab('cipherpot')">04 // cipherpot</button>
+    <button class="tab" onclick="switchTab('rwa')">05 // on-chain stocks</button>
   </div>
 
   <!-- SCANNER -->
@@ -233,8 +234,26 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="filter-btn" id="f-highrisk" onclick="setFilter('highrisk')">high rug risk</button>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
-    <div id="scanner-body"><div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 250 meme coins...</div></div>
+    <div id="scanner-body"><div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 500 meme coins...</div></div>
     <div id="detail-area"></div>
+  </div>
+
+  <!-- ON-CHAIN STOCKS (RWA) -->
+  <div id="tab-rwa" class="tab-panel">
+    <div style="margin-bottom:1rem">
+      <span style="font-family:var(--font-disp);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(0,229,255,.3);padding:4px 10px;border-radius:3px;background:rgba(0,229,255,.06)">⚡ Robinhood Chain</span>
+      <span style="font-size:12px;color:var(--muted);margin-left:10px">tokenized stocks · live on-chain</span>
+    </div>
+    <div style="font-size:13px;color:#8a9ab8;line-height:1.7;margin-bottom:1rem">
+      Robinhood launched its own blockchain in July 2026 — an Ethereum L2 where tokenized stocks like NVIDIA, Tesla &amp; AMD trade 24/7 and plug into DeFi. This is live data for tokens in the Robinhood Chain ecosystem, straight from CoinGecko.
+      <br><span style="color:#6a7a9a;font-size:11px">⚠️ Stock Tokens are debt securities (no shareholder rights) and are not available to US persons. This is information, not investment advice.</span>
+    </div>
+    <div id="rwa-body"><div class="loading"><div class="spinner"></div>loading on-chain stock data...</div></div>
+    <!-- Robinhood referral banner -->
+    <div style="background:linear-gradient(135deg,rgba(0,255,153,.06),rgba(0,229,255,.04));border:1px solid rgba(0,255,153,.3);border-radius:8px;padding:14px 18px;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div style="font-size:13px;color:#c8d8f0"><span style="font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:2px 6px;border-radius:2px;margin-right:8px">AD</span>🇺🇸 US-based? Trade stocks &amp; crypto commission-free on Robinhood — <strong style="color:#00ff99">we BOTH get a free stock</strong> when you sign up</div>
+      <a href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="font-family:var(--font-disp);font-size:11px;padding:10px 22px;border-radius:4px;background:#00ff99;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap;box-shadow:0 0 15px rgba(0,255,153,.3)">🎁 claim free stock ↗</a>
+    </div>
   </div>
 
   <!-- AI REPORT -->
@@ -255,10 +274,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div id="report-cta" style="display:none">
         <div class="section-label" style="margin-top:1.25rem">trade this coin</div>
         <div class="aff-grid">
-          <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener"><div class="aff-name">COINBASE</div><div class="aff-desc">Best for beginners. Earn $10 bonus.</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="noopener"><div class="aff-name">BINANCE US</div><div class="aff-desc">Largest meme coin selection in the US.</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="noopener"><div class="aff-name">KRAKEN</div><div class="aff-desc">Trusted US exchange, low fees.</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="noopener"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">Popular app, earn crypto rewards.</div><div class="aff-link">get started ↗</div></a>
+          <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener"><div class="aff-name">COINBASE</div><div class="aff-desc">🎁 Get $10 FREE just for signing up</div><div class="aff-link">get started ↗</div></a>
+          <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="noopener"><div class="aff-name">BINANCE US</div><div class="aff-desc">🔥 Biggest meme coin selection in the US</div><div class="aff-link">get started ↗</div></a>
+          <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="noopener"><div class="aff-name">KRAKEN</div><div class="aff-desc">⚡ Pro-grade exchange, lowest fees</div><div class="aff-link">get started ↗</div></a>
+          <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="noopener"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">💎 Earn rewards on every trade</div><div class="aff-link">get started ↗</div></a>
+          <a class="aff-card" href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="border-color:rgba(0,255,153,.3)"><div class="aff-name" style="color:#00ff99">ROBINHOOD</div><div class="aff-desc">🎁 Free stock for signing up — stocks &amp; crypto</div><div class="aff-link" style="color:#00ff99">get free stock ↗</div></a>
+          <a class="aff-card" href="https://roobet.com/?ref=ctg" target="_blank" rel="noopener" style="border-color:rgba(255,180,0,.3)"><div class="aff-name" style="color:#ffb400">ROOBET</div><div class="aff-desc">🎰 #1 crypto casino — use code "ctg"</div><div class="aff-link" style="color:#ffb400">play now ↗</div></a>
         </div>
       </div>
     </div>
@@ -314,7 +335,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks 250+ meme coins with live data — price, volume, market cap updated in real time</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks 500+ meme coins with live data — price, volume, market cap updated in real time</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
@@ -554,23 +575,20 @@ async function loadCoins(){
     return;
   }
   lastFetch=now;
-  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 250 meme coins...</div>';
+  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 500 meme coins...</div>';
   document.getElementById('status-text').textContent='fetching data';
   document.getElementById('coin-count').textContent='loading...';
   selectedCoin=null;document.getElementById('detail-area').innerHTML='';
   try{
     // Fetch trending coins first for viral scoring
     await fetchTrending();
-    const [p1,p2,p3,p4,p5]=await Promise.all([
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=1&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=2&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=3&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=4&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=5&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
+    const [p1,p2]=await Promise.all([
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C7d&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
     ]);
     const seen=new Set();
-    let raw=[...p1,...p2,...p3,...p4,...p5].filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
-    allCoins=raw.slice(0,250).map(enrich);
+    let raw=[...(Array.isArray(p1)?p1:[]),...(Array.isArray(p2)?p2:[])].filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
+    allCoins=raw.slice(0,500).map(enrich);
     const sel=document.getElementById('report-coin-select');
     sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
     document.getElementById('status-text').textContent='live scan active';
@@ -579,25 +597,24 @@ async function loadCoins(){
     // Load extended coin list for AI Decrypt (extra pages in background)
     loadExtendedCoins();
   }catch(e){
-    document.getElementById('scanner-body').innerHTML=`<div class="error-msg">// CoinGecko API rate limited or unreachable.<br><br>The free tier allows ~10-30 calls/min. Wait 60 seconds and hit refresh.<br><br>For high traffic: get a free API key at coingecko.com/api and add it as a query param: <code>&x_cg_demo_api_key=YOUR_KEY</code></div>`;
+    document.getElementById('scanner-body').innerHTML=`<div class="error-msg">// CoinGecko API rate limited or unreachable.<br><br>The API allows 100 calls/min. Wait 60 seconds and hit refresh.<br><br>For high traffic: get a free API key at coingecko.com/api and add it as a query param: <code>&x_cg_demo_api_key=YOUR_KEY</code></div>`;
     document.getElementById('status-text').textContent='signal lost';
   }
 }
 
-// EXTENDED COINS FOR AI DECRYPT (loads pages 6-20 in background)
+// EXTENDED COINS FOR AI DECRYPT (loads pages 3-4 in background = coins 501-1000)
 let extendedCoins=[];
 async function loadExtendedCoins(){
   try{
     const pages=[];
-    for(let p=6;p<=20;p++){
-      pages.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=50&page=${p}&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`).then(r=>r.ok?r.json():[]));
+    for(let p=3;p<=4;p++){
+      pages.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=${p}&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`).then(r=>r.ok?r.json():[]));
     }
-    // Fetch in batches of 3 to avoid rate limits
+    // Small delay between the two calls to be gentle on rate limits
     const results=[];
-    for(let i=0;i<pages.length;i+=3){
-      const batch=await Promise.all(pages.slice(i,i+3));
-      results.push(...batch);
-      if(i+3<pages.length) await new Promise(r=>setTimeout(r,2500));
+    for(let i=0;i<pages.length;i++){
+      results.push(await pages[i]);
+      if(i<pages.length-1) await new Promise(r=>setTimeout(r,2000));
     }
     const existingIds=new Set(allCoins.map(c=>c.id));
     const extra=results.flat().filter(c=>c&&c.id&&!existingIds.has(c.id)&&c.total_volume>100);
@@ -634,12 +651,13 @@ function applyFilters(){
 }
 function sortCoins(){
   filteredCoins.sort((a,b)=>{
-    const av=sortCol==='viral'?a.viral:sortCol==='sentiment'?a.sentiment:sortCol==='rug'?a.rug:sortCol==='change'?(a.price_change_percentage_24h||0):sortCol==='mcap'?(a.market_cap||0):a.viral;
-    const bv=sortCol==='viral'?b.viral:sortCol==='sentiment'?b.sentiment:sortCol==='rug'?b.rug:sortCol==='change'?(b.price_change_percentage_24h||0):sortCol==='mcap'?(b.market_cap||0):b.viral;
+    const av=sortCol==='viral'?a.viral:sortCol==='sentiment'?a.sentiment:sortCol==='rug'?a.rug:sortCol==='change'?(a.price_change_percentage_24h||0):sortCol==='change7d'?(a.price_change_percentage_7d_in_currency||0):sortCol==='mcap'?(a.market_cap||0):a.viral;
+    const bv=sortCol==='viral'?b.viral:sortCol==='sentiment'?b.sentiment:sortCol==='rug'?b.rug:sortCol==='change'?(b.price_change_percentage_24h||0):sortCol==='change7d'?(b.price_change_percentage_7d_in_currency||0):sortCol==='mcap'?(b.market_cap||0):b.viral;
     return(av-bv)*sortDir;
   });
   renderTable();
 }
+// (7d sort handled in applyFilters via sortCol)
 function setSort(c){if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=-1;}sortCoins();}
 
 // TABLE
@@ -653,6 +671,7 @@ function renderTable(){
     <th style="width:30px">#</th>
     <th>coin</th>
     <th onclick="setSort('change')" class="${sortCol==='change'?'sort-active':''}">24h ${arr('change')}</th>
+    <th onclick="setSort('change7d')" class="${sortCol==='change7d'?'sort-active':''}">7d ${arr('change7d')}</th>
     <th onclick="setSort('mcap')" class="${sortCol==='mcap'?'sort-active':''}">mkt cap ${arr('mcap')}</th>
     <th>volume</th>
     <th onclick="setSort('viral')" class="${sortCol==='viral'?'sort-active':''}">viral ${arr('viral')}</th>
@@ -662,7 +681,7 @@ function renderTable(){
   <tr style="background:linear-gradient(90deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border-bottom:1px solid rgba(255,180,0,.2)">
     <td class="td-rank" style="color:#ffb400">★</td>
     <td><div class="td-coin"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px">💰</div><div><div class="coin-sym" style="color:#ffb400">YOUR COIN</div><div class="coin-name-sm">advertise here</div></div></div></td>
-    <td colspan="5" style="font-size:11px;color:#6a7a9a;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
+    <td colspan="6" style="font-size:11px;color:#6a7a9a;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
     <td><span class="ctag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">sponsored</span></td>
   </tr>`;
   page.forEach((c,i)=>{
@@ -671,11 +690,15 @@ function renderTable(){
     const chg=c.price_change_percentage_24h||0;
     const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
     const chgCls=chg>=0?'pos':'neg';
+    const chg7=c.price_change_percentage_7d_in_currency||0;
+    const chg7Str=(chg7>=0?'+':'')+chg7.toFixed(1)+'%';
+    const newBadge=c.isNew?'<span style="font-size:8px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
     const img=c.image?`<img class="coin-img" src="${c.image}" alt="${c.symbol}" onerror="this.style.display='none'">`:'';
     h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
       <td class="td-rank">${rank}</td>
-      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
+      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
       <td><span class="${chgCls}" style="font-size:11px;font-weight:700">${chgStr}</span></td>
+      <td><span class="${chg7>=0?'pos':'neg'}" style="font-size:11px;font-weight:700">${chg7Str}</span></td>
       <td class="td-mcap">${fmtMcap(c.market_cap)}</td>
       <td class="td-mcap">${fmtMcap(c.total_volume)}</td>
       <td><div style="display:flex;align-items:center;gap:6px"><div class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div><span class="score-val" style="color:${col(c.viral)}">${c.viral}</span></div></td>
@@ -683,7 +706,7 @@ function renderTable(){
       <td><span class="ctag ${sl[1]}">${sl[0]}</span></td>
     </tr>`;
   });
-  h+='</tbody></table></div>';
+  h+='</tbody></table></div><div style="font-size:10px;color:var(--muted);padding:4px 2px">Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>';
   if(total>1){
     h+='<div class="pagination"><span class="page-info">'+filteredCoins.length+' coins · pg '+currentPage+'/'+total+'</span>';
     if(currentPage>1)h+=`<button class="page-btn" onclick="goPage(${currentPage-1})">← prev</button>`;
@@ -723,6 +746,8 @@ async function selectCoin(id){
         <div class="sbox"><div class="sbox-lbl">🔊 24h Volume</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">how much is being traded</div></div>
         <div class="sbox"><div class="sbox-lbl">💰 Price</div><div class="sbox-val" style="color:var(--text);font-size:15px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
       </div>
+      <div class="section-label">7-day price chart</div>
+      <div id="price-chart-wrap" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:1rem"><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>loading chart...</div></div>
       <div class="section-label">contract info</div>
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
@@ -813,6 +838,7 @@ async function selectCoin(id){
     }
   }
   fetchContractData();
+  loadPriceChart(c);
 }
 
 function renderContractInfo(c){
@@ -859,14 +885,15 @@ function renderContractInfo(c){
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
 
 // TABS
-const TAB_URLS={scanner:'/',report:'/ai-decrypt',quiz:'/profile',cipherpot:'/cipherpot'};
-const URL_TABS={'/':'scanner','/ai-decrypt':'report','/profile':'quiz','/cipherpot':'cipherpot'};
+const TAB_URLS={scanner:'/',report:'/ai-decrypt',quiz:'/profile',cipherpot:'/cipherpot',rwa:'/on-chain-stocks'};
+const URL_TABS={'/':'scanner','/ai-decrypt':'report','/profile':'quiz','/cipherpot':'cipherpot','/on-chain-stocks':'rwa'};
 
 function switchTab(n){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+n).classList.add('active');
-  ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
+  ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
+  if(n==='rwa')loadRWA();
   const url=TAB_URLS[n]||'/';
   history.pushState({tab:n},'',url);
 }
@@ -876,7 +903,8 @@ function loadTabFromURL(){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+  ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+  if(tab==='rwa')loadRWA();
 }
 window.addEventListener('popstate',function(e){
   if(e.state&&e.state.tab){
@@ -884,7 +912,8 @@ window.addEventListener('popstate',function(e){
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     document.getElementById('tab-'+tab).classList.add('active');
-    ['scanner','report','quiz','cipherpot'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+    ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
+  if(tab==='rwa')loadRWA();
   } else {
     loadTabFromURL();
   }
@@ -1539,6 +1568,32 @@ function renderCoinOfTheDay(){
   renderCotdDisplay(coin);
 }
 
+
+// RUG OF THE DAY — biggest loser, for entertainment
+function renderRugOfTheDay(){
+  if(!allCoins.length) return;
+  const losers=[...allCoins].filter(c=>(c.total_volume||0)>10000).sort((a,b)=>(a.price_change_percentage_24h||0)-(b.price_change_percentage_24h||0));
+  if(!losers.length) return;
+  const rug=losers[0];
+  const chg=rug.price_change_percentage_24h||0;
+  let el=document.getElementById('rotd-wrap');
+  if(!el){
+    el=document.createElement('div');
+    el.id='rotd-wrap';
+    el.style.cssText='background:linear-gradient(135deg,rgba(255,51,85,.05),rgba(255,51,85,.02));border:1px solid rgba(255,51,85,.25);border-radius:8px;padding:10px 20px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap';
+    const cotd=document.getElementById('cotd-wrap');
+    if(cotd)cotd.insertAdjacentElement('afterend',el);else return;
+  }
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
+    <div style="font-family:var(--font-disp);font-size:9px;color:#ff3355;letter-spacing:.15em;text-transform:uppercase">💀 rekt of the day</div>
+    ${rug.image?`<img src="${rug.image}" style="width:24px;height:24px;border-radius:50%;filter:grayscale(60%)" alt="">`:''}
+    <span style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:#c8d8f0">${rug.symbol.toUpperCase()}</span>
+    <span style="font-size:13px;font-weight:700;color:#ff3355">${chg.toFixed(1)}%</span>
+    <span style="font-size:11px;color:var(--muted)">in 24h · F in the chat</span>
+  </div>
+  <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${rug.id}'),100)" style="font-family:var(--font-disp);font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,51,85,.3);color:#ff6680;background:rgba(255,51,85,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase">view the damage</button>`;
+}
+
 function renderCotdDisplay(coin){
   
   const chg=coin.price_change_percentage_24h||0;
@@ -1580,6 +1635,121 @@ function renderCotdDisplay(coin){
     <a href="https://www.coingecko.com/en/coins/${coin.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">CoinGecko 🦎</a>`;
 }
 
+// ON-CHAIN STOCKS (Robinhood Chain ecosystem via CoinGecko)
+let rwaLoaded=false;
+async function loadRWA(){
+  if(rwaLoaded) return;
+  try{
+    const res=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=robinhood-chain-stocks-ecosystem&order=market_cap_desc&per_page=50&page=1&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+    const data=await res.json();
+    if(!Array.isArray(data)||!data.length){
+      document.getElementById('rwa-body').innerHTML='<div class="error-msg">// could not load on-chain stock data. try again in a minute.</div>';
+      return;
+    }
+    rwaLoaded=true;
+    const rows=data.filter(c=>c&&c.id).map((c,i)=>{
+      const chg=c.price_change_percentage_24h||0;
+      const chgCol=chg>=0?'#00ff99':'#ff3355';
+      return `<tr onclick="window.open('https://www.coingecko.com/en/coins/${c.id}','_blank')" style="cursor:pointer">
+        <td style="color:var(--muted)">${i+1}</td>
+        <td><div style="display:flex;align-items:center;gap:10px">${c.image?`<img src="${c.image}" style="width:26px;height:26px;border-radius:50%" alt="">`:''}<div><div style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:var(--accent)">${(c.symbol||'').toUpperCase()}</div><div style="font-size:10px;color:var(--muted)">${(c.name||'').replace(' • Robinhood Token','')}</div></div></div></td>
+        <td style="color:${chgCol};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(2)}%</td>
+        <td>${fmtPrice(c.current_price)}</td>
+        <td style="color:var(--muted)">${fmtMcap(c.market_cap)}</td>
+        <td style="color:var(--muted)">${fmtMcap(c.total_volume)}</td>
+      </tr>`;
+    }).join('');
+    document.getElementById('rwa-body').innerHTML=`<div class="table-wrap"><table><thead><tr><th>#</th><th>token</th><th>24h</th><th>price</th><th>mkt cap</th><th>volume</th></tr></thead><tbody>${rows}</tbody></table></div><div style="font-size:10px;color:var(--muted);margin-top:8px">click any token for full details · Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>`;
+  }catch(e){
+    document.getElementById('rwa-body').innerHTML='<div class="error-msg">// rate limited. wait a minute and reopen this tab.</div>';
+  }
+}
+
+// TOP MOVERS TICKER BAR
+function renderTickerBar(){
+  if(!allCoins.length) return;
+  let bar=document.getElementById('ticker-bar');
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='ticker-bar';
+    bar.style.cssText='overflow:hidden;white-space:nowrap;background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:8px 0;margin-bottom:1rem;position:relative';
+    const app=document.querySelector('.app');
+    const topbar=document.querySelector('.topbar');
+    topbar.insertAdjacentElement('afterend',bar);
+  }
+  const movers=[...allCoins].sort((a,b)=>Math.abs(b.price_change_percentage_24h||0)-Math.abs(a.price_change_percentage_24h||0)).slice(0,15);
+  const items=movers.map(c=>{
+    const chg=c.price_change_percentage_24h||0;
+    const col=chg>=0?'#00ff99':'#ff3355';
+    return `<span style="margin-right:32px;font-size:12px"><span style="font-family:var(--font-disp);font-weight:700;color:var(--accent)">${c.symbol.toUpperCase()}</span> <span style="color:${col};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(1)}%</span></span>`;
+  }).join('');
+  bar.innerHTML=`<div style="display:inline-block;animation:tickerScroll 45s linear infinite">${items}${items}</div>`;
+  if(!document.getElementById('ticker-style')){
+    const st=document.createElement('style');
+    st.id='ticker-style';
+    st.textContent='@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}';
+    document.head.appendChild(st);
+  }
+}
+
+// NEW COIN BADGES — track which coins entered the list today
+function markNewCoins(){
+  try{
+    const today=new Date();
+    const dateKey='coins_'+today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+    const yesterday=new Date(today.getTime()-86400000);
+    const yKey='coins_'+yesterday.getFullYear()+'-'+yesterday.getMonth()+'-'+yesterday.getDate();
+    const prevList=localStorage.getItem(yKey);
+    if(prevList){
+      const prevIds=new Set(JSON.parse(prevList));
+      allCoins.forEach(c=>{c.isNew=!prevIds.has(c.id);});
+    }
+    localStorage.setItem(dateKey,JSON.stringify(allCoins.map(c=>c.id)));
+    // Clean old keys
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('coins_')&&k!==dateKey&&k!==yKey)localStorage.removeItem(k);
+    }
+  }catch(e){}
+}
+
+
+// 7-DAY PRICE CHART (cached per coin per session)
+async function loadPriceChart(coin){
+  const wrap=document.getElementById('price-chart-wrap');
+  if(!wrap) return;
+  try{
+    if(!coin._chart){
+      const res=await fetch(`https://api.coingecko.com/api/v3/coins/${coin.id}/market_chart?vs_currency=usd&days=7&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+      if(!res.ok)throw new Error('rate');
+      const data=await res.json();
+      coin._chart=(data.prices||[]).map(p=>p[1]);
+    }
+    const prices=coin._chart;
+    if(!prices||prices.length<2){wrap.innerHTML='<div style="font-size:11px;color:var(--muted)">// no chart data available</div>';return;}
+    const w=wrap.clientWidth-24||600,h=140;
+    const min=Math.min(...prices),max=Math.max(...prices);
+    const range=max-min||1;
+    const up=prices[prices.length-1]>=prices[0];
+    const col=up?'#00ff99':'#ff3355';
+    const pts=prices.map((p,i)=>`${(i/(prices.length-1))*w},${h-((p-min)/range)*(h-20)-10}`).join(' ');
+    const areaPts=`0,${h} ${pts} ${w},${h}`;
+    const chgPct=((prices[prices.length-1]-prices[0])/prices[0]*100);
+    wrap.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+        <span style="font-size:11px;color:var(--muted)">7d range: ${fmtPrice(min)} — ${fmtPrice(max)}</span>
+        <span style="font-size:12px;font-weight:700;color:${col}">${(chgPct>=0?'+':'')+chgPct.toFixed(1)}% this week</span><span style="font-size:9px;color:var(--muted)">Powered by <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko API</a></span>
+      </div>
+      <svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block">
+        <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity="0.25"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
+        <polygon points="${areaPts}" fill="url(#chartGrad)"/>
+        <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      </svg>`;
+  }catch(e){
+    wrap.innerHTML='<div style="font-size:11px;color:var(--muted)">// chart temporarily unavailable (rate limit) — try again shortly</div>';
+  }
+}
+
 // CLICK SOUND EFFECT
 const AudioCtx=window.AudioContext||window.webkitAudioContext;
 let audioCtx;
@@ -1616,8 +1786,8 @@ if(redirectPath){
 }
 loadTabFromURL();
 renderQuiz();
-loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();});
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();});},600000);
+loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();});
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();});},600000);
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
