@@ -328,10 +328,118 @@ const TEMPLATES = [
   tpl16, tpl17, tpl18, tpl19, tpl20,
 ];
 
+// ══════════════════════════════════════════════
+// ROOBET AFFILIATE TEMPLATES (8 per day)
+// ══════════════════════════════════════════════
+
+function roo01() {
+  return `🎰 Zeus vs Hades. Gates of Olympus. Sweet Bonanza. Crash. Dice.
+
+Roobet has every game that matters — all crypto, instant deposits & withdrawals.
+
+Sign up with code "ctg"
+→ roobet.com/?ref=ctg
+
+🍀 Good luck out there`;
+}
+
+function roo02() {
+  return `⚡ Why Roobet over other crypto casinos?
+
+✅ Provably fair games
+✅ Instant crypto withdrawals
+✅ No KYC to start playing
+✅ Originals you can't find anywhere else
+
+Code: ctg
+→ roobet.com/?ref=ctg`;
+}
+
+function roo03() {
+  return `🎲 I hit a 10000x on Zeus vs Hades on Roobet
+
+Yes, ten thousand X. Replay is pinned on my profile 📌
+
+If you're playing anywhere else, you're missing out
+
+Code "ctg" → roobet.com/?ref=ctg`;
+}
+
+function roo04() {
+  const games = ['Zeus vs Hades ⚡', 'Gates of Olympus ⚡', 'Sugar Rush 🍭', 'Sweet Bonanza 🍬', 'Crash 📈', 'Mines 💣'];
+  return `🎰 Tonight's rotation: ${pick(games)}
+
+Roobet — the crypto casino CT actually uses
+
+Instant deposits. Instant withdrawals. Provably fair.
+
+Sign up with code "ctg"
+→ roobet.com/?ref=ctg`;
+}
+
+function roo05() {
+  return `💰 Deposit crypto. Play instantly. Withdraw instantly.
+
+No banks. No waiting. No nonsense.
+
+That's Roobet.
+
+Code: ctg
+→ roobet.com/?ref=ctg
+
+🍀 Play smart, play responsibly`;
+}
+
+function roo06() {
+  return `🎰 The slots hit different when you can withdraw in crypto seconds later
+
+Roobet — BTC, ETH, SOL, LTC & more accepted
+
+My code: ctg
+→ roobet.com/?ref=ctg
+
+May the RNG be with you 🍀`;
+}
+
+function roo07() {
+  return `⚡ Real talk: I hit 10000x on Zeus vs Hades
+
+Proof is pinned on my profile — full replay link 📌
+
+Roobet is where I play. Code "ctg" if you want in
+
+→ roobet.com/?ref=ctg`;
+}
+
+function roo08() {
+  return `🎲 Weekend plans:
+
+1. Check the CIPHER scanner 🔐
+2. Take some profits
+3. Spin a little on Roobet 🎰
+
+Balance in all things.
+
+Code: ctg
+→ roobet.com/?ref=ctg`;
+}
+
+const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08];
+
+// ── Scheduling ──────────────────────────────
+// 16 slots/day: Roobet at 0,3,6,9,12,15,18,21 UTC · CIPHER at 1,4,7,10,13,16,19,22 UTC
+const ROOBET_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
+
 function getTemplate() {
   const now = new Date();
   const day = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
   const hour = now.getUTCHours();
+  
+  if (ROOBET_HOURS.includes(hour)) {
+    const idx = (day * 3 + hour) % ROOBET_TEMPLATES.length;
+    return ROOBET_TEMPLATES[idx];
+  }
+  
   const idx = (day * 17 + hour * 11) % TEMPLATES.length;
   return TEMPLATES[idx];
 }
@@ -346,12 +454,19 @@ async function main() {
   if (missing.length) { console.error(`❌ Missing: ${missing.join(", ")}`); process.exit(1); }
 
   try {
-    const coins = await fetchMemeCoins();
-    console.log(`📊 ${coins.length} coins loaded`);
     const fn = getTemplate();
     console.log(`📝 Template: ${fn.name}`);
-    let tweet = fn(coins);
-    tweet = limitCashtags(tweet);
+    
+    let tweet;
+    if (fn.name.startsWith('roo')) {
+      tweet = fn();
+    } else {
+      const coins = await fetchMemeCoins();
+      console.log(`📊 ${coins.length} coins loaded`);
+      tweet = fn(coins);
+      tweet = limitCashtags(tweet);
+    }
+    
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
     console.log(`\n--- (${tweet.length}/280) ---\n${tweet}\n---\n`);
     await postTweet(tweet);
