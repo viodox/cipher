@@ -79,14 +79,13 @@ function pick(a) { return a[Math.floor(Math.random()*a.length)]; }
 function topN(c,k,n=3,d='d') { return [...c].sort((a,b)=>d==='d'?b[k]-a[k]:a[k]-b[k]).slice(0,n); }
 function randCoins(coins,n) { return [...coins].sort(()=>Math.random()-.5).slice(0,n); }
 
-// X API only allows 1 cashtag per tweet — keep the first $TICKER, strip $ from the rest
+// X API only allows 1 cashtag per tweet — keep the first $TICKER as cashtag, convert rest to #TICKER
 function limitCashtags(text) {
   let found = false;
   return text.replace(/\$([A-Za-z\u4e00-\u9fff]{1,20})/g, (match, ticker) => {
-    // Skip dollar amounts like $1.5M, $0.001
     if (/^\d/.test(ticker)) return match;
     if (!found) { found = true; return match; }
-    return ticker;
+    return '#' + ticker;
   });
 }
 
@@ -252,7 +251,7 @@ function tpl13(coins) {
     `$${top[0].symbol} ${fC(top[0].change24h)} today and most of you missed it\n\nCIPHER had it on the scanner all morning 🔐\n\n${CONFIG.SITE_URL}`,
     `Your friend: "bro just buy $${pick(topN(coins,'volume',5)).symbol}"\n\nCipherPot: "honeypot risk detected"\n\nWho you listening to? 🍯\n\n${CONFIG.SITE_URL}`,
     `$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping today\n\nBut did you check the contracts? 🍯\n\nFree scanner → ${CONFIG.SITE_URL}`,
-    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER scans 250+ meme coins live. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
+    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER scans 500+ meme coins live. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
     `Meme coin season is not about finding pumps\n\nIt\'s about avoiding rugs\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — but are they safe?\n\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return pick(takes);
@@ -295,7 +294,7 @@ function tpl18(coins) {
   const shouts = [
     `Drop your best meme coin play this week\n\nMost liked reply gets a CIPHER shoutout 🔐\n\n$${top.symbol} is leading the board at ${fC(top.change24h)}\n\n${CONFIG.SITE_URL}`,
     `What $ticker are you most bullish on rn?\n\nWe\'ll scan the top reply on CipherPot live 🍯\n\n${CONFIG.SITE_URL}`,
-    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\n250+ meme coins tracked live\n\n${CONFIG.SITE_URL}`,
+    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\n500+ meme coins tracked live\n\n${CONFIG.SITE_URL}`,
     `RT if you\'ve dodged a rug pull by scanning the contract first 🫡\n\nIf you haven\'t started:\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return `🔐 ${pick(shouts)}`;
@@ -305,7 +304,7 @@ function tpl18(coins) {
 function tpl19(coins) {
   const hot = topN(coins,'change24h',3);
   const facts = [
-    `CIPHER scans 250+ meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol} and updates every 10 min\n\nCompletely free. No signup. No paywall.`,
+    `CIPHER scans 500+ meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol} and updates every 10 min\n\nCompletely free. No signup. No paywall.`,
     `CipherPot has caught honeypots on coins that looked legit on the surface\n\nPaste any CA → instant scan\n\nETH · BSC · Base · Solana`,
     `$${hot[0].symbol} is up ${fC(hot[0].change24h)} today\n\nCIPHER\'s viral score flagged unusual volume before the pump 📡\n\nReal signals. Not vibes.`,
     `You can search $${hot[0].symbol} $${hot[1].symbol} or any coin by contract address on CIPHER\n\nNot just ticker names. Paste any CA and get a full breakdown.`,
