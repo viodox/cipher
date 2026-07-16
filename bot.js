@@ -320,12 +320,55 @@ function tpl20(coins) {
   return `🔐 CIPHER Alpha Drop\n\n🔥 Hottest: $${top[0].symbol} ${fC(top[0].change24h)}\n📈 Runner up: $${top[1].symbol} ${fC(top[1].change24h)}\n🐋 Volume: $${vol[0].symbol} (${fV(vol[0].volume)})\n👀 Watch: $${top[3].symbol} $${top[4].symbol}\n\nAll verified on CoinGecko ✅\n\n🍯 ${CONFIG.SITE_URL}`;
 }
 
+// ── 21-24. ROBINHOOD CHAIN / RWA COMMENTARY ──
+function tpl21(coins) {
+  const takes = [
+    `Robinhood launched their own chain and tokenized stocks trade 24/7 now\n\nNVDA, AAPL, GOOG — on-chain, usable as DeFi collateral\n\nTradFi and crypto are merging in real time 👀\n\nMeme coins won\'t be the only thing on-chain anymore`,
+    `Stocks that trade 24/7 on-chain. Lending pools for NVDA tokens. AI agents trading equities.\n\nThat\'s not a prediction — Robinhood Chain is live rn\n\nThe on-chain economy is getting bigger every week 🔐`,
+    `Robinhood Chain did 4M transactions in its first week\n\nTokenized stocks are the fastest growing RWA segment\n\nCrypto rails are winning. The scanner stays busy 🔐`,
+  ];
+  return `${pick(takes)}\n\n${CONFIG.SITE_URL}`;
+}
+
+function tpl22(coins) {
+  const top = topN(coins,'change24h',1)[0];
+  return `⚡ On-chain now: tokenized NVDA, AAPL & GOOG trading 24/7 on Robinhood Chain
+
+Meanwhile in meme land: $${top.symbol} up ${fC(top.change24h)}
+
+Two very different corners of crypto. Same blockchain rails 🔐
+
+${CONFIG.SITE_URL}`;
+}
+
+function tpl23(coins) {
+  return `Heads up: Robinhood\'s Stock Tokens are NOT available in the US
+
+And they\'re debt securities — you don\'t get shareholder rights, just price exposure
+
+Always read the fine print. On stocks AND meme coins 🔍
+
+That\'s why we scan contracts → ${CONFIG.SITE_URL}`;
+}
+
+function tpl24(coins) {
+  const top = topN(coins,'change24h',3);
+  return `The RWA market just crossed $30B
+
+BlackRock has tokenized treasuries. Robinhood has tokenized stocks. Coinbase is next.
+
+Institutions are on-chain. Are you still not checking contracts before you buy?
+
+🍯 ${CONFIG.SITE_URL}`;
+}
+
 // ── Template pool & scheduling ──────────────
 const TEMPLATES = [
   tpl01, tpl02, tpl03, tpl04, tpl05,
   tpl06, tpl07, tpl08, tpl09, tpl10,
   tpl11, tpl12, tpl13, tpl14, tpl15,
   tpl16, tpl17, tpl18, tpl19, tpl20,
+  tpl21, tpl22, tpl23, tpl24,
 ];
 
 // ══════════════════════════════════════════════
