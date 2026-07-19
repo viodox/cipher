@@ -379,108 +379,155 @@ const TEMPLATES = [
 ];
 
 // ══════════════════════════════════════════════
-// ROOBET AFFILIATE TEMPLATES (8 per day)
+// ROOBET AFFILIATE TEMPLATES (12 rotating templates)
 // ══════════════════════════════════════════════
 
 function roo01() {
-  return `🎰 Zeus vs Hades. Gates of Olympus. Sweet Bonanza. Crash. Dice.
+  return `🚨 Sign up on Roobet with code "ctg"
 
-Roobet has every game that matters — all crypto, instant deposits & withdrawals.
+Deposit → play → cash out crypto in seconds
 
-Sign up with code "ctg"
+Big wins hit every single day. Could be your turn tonight.
+
 → roobet.com/?ref=ctg
 
-🍀 Good luck out there`;
+💰 Let's get you paid`;
 }
 
 function roo02() {
-  return `⚡ Why Roobet over other crypto casinos?
+  const amounts = ['$1,000', '$2,500', '$5,000', '$10,000', '$25,000', '$50,000'];
+  return `💰 Somebody wins ${pick(amounts)} on Roobet every day
 
-✅ Provably fair games
-✅ Instant crypto withdrawals
-✅ No KYC to start playing
-✅ Originals you can't find anywhere else
+The only question is who.
 
-Code: ctg
-→ roobet.com/?ref=ctg`;
+Sign up with code "ctg" and find out
+→ roobet.com/?ref=ctg
+
+🎰 Your name could be next`;
 }
 
 function roo03() {
-  return `🎲 I hit a 10000x on Zeus vs Hades on Roobet
+  return `⚡ I hit 10,000x on Roobet — that's a $10 spin turned into $100,000
 
-Yes, ten thousand X. Replay is pinned on my profile 📌
+Real replay. Pinned to my profile 📌
 
-If you're playing anywhere else, you're missing out
+I'm not the last one. Could be you tonight.
 
 Code "ctg" → roobet.com/?ref=ctg`;
 }
 
 function roo04() {
-  const games = ['Zeus vs Hades ⚡', 'Gates of Olympus ⚡', 'Sugar Rush 🍭', 'Sweet Bonanza 🍬', 'Crash 📈', 'Mines 💣'];
-  return `🎰 Tonight's rotation: ${pick(games)}
+  return `💸 Fastest crypto payouts in the game
 
-Roobet — the crypto casino CT actually uses
+Win $10K → in your wallet in under a minute
+Win $100K → same story
+No banks. No holds. No excuses.
 
-Instant deposits. Instant withdrawals. Provably fair.
-
-Sign up with code "ctg"
+Sign up under code "ctg"
 → roobet.com/?ref=ctg`;
 }
 
 function roo05() {
-  return `💰 Deposit crypto. Play instantly. Withdraw instantly.
+  return `🎰 Reminder: I turned $10 into $100,000 on Roobet
 
-No banks. No waiting. No nonsense.
+$1 → $10K
+$5 → $50K
+$10 → $100K
+$100 → $1,000,000
 
-That's Roobet.
+All possible. All real. Proof pinned 📌
 
-Code: ctg
-→ roobet.com/?ref=ctg
-
-🍀 Play smart, play responsibly`;
+Code: ctg → roobet.com/?ref=ctg`;
 }
 
 function roo06() {
-  return `🎰 The slots hit different when you can withdraw in crypto seconds later
+  const wins = ['$4,200', '$8,700', '$15,000', '$32,000', '$67,000', '$140,000'];
+  return `💰 Just saw someone bag ${pick(wins)} on Roobet
 
-Roobet — BTC, ETH, SOL, LTC & more accepted
+That could be you tonight.
 
-My code: ctg
+Sign up with code "ctg"
 → roobet.com/?ref=ctg
 
-May the RNG be with you 🍀`;
+🚀 Life-changing money isn't a fantasy over here`;
 }
 
 function roo07() {
-  return `⚡ Real talk: I hit 10000x on Zeus vs Hades
+  return `🚨 Why sign up under code "ctg":
 
-Proof is pinned on my profile — full replay link 📌
+✅ Instant crypto payouts
+✅ Real 5-figure and 6-figure wins daily
+✅ No delays, no games with your money
+✅ I've hit 10,000x here — proof pinned 📌
 
-Roobet is where I play. Code "ctg" if you want in
-
-→ roobet.com/?ref=ctg`;
+Get in → roobet.com/?ref=ctg`;
 }
 
 function roo08() {
-  return `🎲 Weekend plans:
+  return `💰 Someone reading this signs up tonight
+Deposits $50
+Hits a 5,000x
+Wakes up with $250,000
 
-1. Check the CIPHER scanner 🔐
-2. Take some profits
-3. Spin a little on Roobet 🎰
-
-Balance in all things.
+That's not a fairytale. That's Roobet.
 
 Code: ctg
 → roobet.com/?ref=ctg`;
 }
 
-const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08];
+function roo09() {
+  return `⚡ Real talk — the biggest life-changing win I've ever hit was on Roobet
+
+10,000x. $100K on one bet.
+
+The proof is pinned to this profile 📌
+
+Your shot → code "ctg"
+roobet.com/?ref=ctg`;
+}
+
+function roo10() {
+  return `💸 Big winners on Roobet this week alone:
+
+$47K on Sweet Bonanza
+$83K on Zeus vs Hades
+$210K on Crash
+
+You watching or joining?
+
+Code "ctg" → roobet.com/?ref=ctg`;
+}
+
+function roo11() {
+  return `🎰 Nothing hits like watching your wallet 100x in one night
+
+That's why I'm on Roobet.
+
+Sign up under code "ctg" — deposits are instant, so are the payouts
+→ roobet.com/?ref=ctg
+
+💰 Come get your bag`;
+}
+
+function roo12() {
+  return `🚨 Life-changing money is being paid out on Roobet RIGHT NOW
+
+Every hour. Every day. Real winners. Real crypto.
+
+I hit 10,000x. Others hit more.
+
+Your turn → code "ctg"
+roobet.com/?ref=ctg`;
+}
+
+const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10, roo11, roo12];
 
 // ── Scheduling ──────────────────────────────
-// 16 slots/day: Roobet at :17 past 0,3,6,9,12,15,18,21 UTC · CIPHER at :47 past 1,4,7,10,13,16,19,22 UTC
-// Slot-based rotation guarantees every template is used before repeating
-const ROOBET_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
-const CIPHER_HOURS = [1, 4, 7, 10, 13, 16, 19, 22];
+// 16 slots/day: 10 Roobet + 6 CIPHER
+// Roobet at :17 past 0,2,4,6,8,12,14,16,20,22 UTC
+// CIPHER at :47 past 1,5,10,13,18,23 UTC
+const ROOBET_HOURS = [0, 2, 4, 6, 8, 12, 14, 16, 20, 22];
+const CIPHER_HOURS = [1, 5, 10, 13, 18, 23];
 
 function getTemplate() {
   const now = new Date();
