@@ -1681,7 +1681,6 @@ function renderTickerBar(){
     bar=document.createElement('div');
     bar.id='ticker-bar';
     bar.style.cssText='overflow:hidden;white-space:nowrap;background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:8px 0;margin-bottom:1rem;position:relative';
-    const app=document.querySelector('.app');
     const topbar=document.querySelector('.topbar');
     topbar.insertAdjacentElement('afterend',bar);
   }
@@ -1689,9 +1688,12 @@ function renderTickerBar(){
   const items=movers.map(c=>{
     const chg=c.price_change_percentage_24h||0;
     const col=chg>=0?'#00ff99':'#ff3355';
-    return `<span style="margin-right:32px;font-size:12px"><span style="font-family:var(--font-disp);font-weight:700;color:var(--accent)">${c.symbol.toUpperCase()}</span> <span style="color:${col};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(1)}%</span></span>`;
+    return `<a href="javascript:void(0)" onclick="event.stopPropagation();switchTab('scanner');setTimeout(()=>{selectCoin('${c.id}');const el=document.getElementById('detail-area');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},80);" style="margin-right:32px;font-size:12px;text-decoration:none;cursor:pointer;display:inline-block;transition:transform .15s,filter .15s" onmouseover="this.style.transform='translateY(-1px)';this.style.filter='brightness(1.25)'" onmouseout="this.style.transform='';this.style.filter=''"><span style="font-family:var(--font-disp);font-weight:700;color:var(--accent)">${c.symbol.toUpperCase()}</span> <span style="color:${col};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(1)}%</span></a>`;
   }).join('');
-  bar.innerHTML=`<div style="display:inline-block;animation:tickerScroll 45s linear infinite">${items}${items}</div>`;
+  bar.innerHTML=`<div id="ticker-scroll" style="display:inline-block;animation:tickerScroll 60s linear infinite">${items}${items}</div>`;
+  // Pause scroll on hover so users can click accurately
+  bar.onmouseenter=()=>{const s=document.getElementById('ticker-scroll');if(s)s.style.animationPlayState='paused';};
+  bar.onmouseleave=()=>{const s=document.getElementById('ticker-scroll');if(s)s.style.animationPlayState='running';};
   if(!document.getElementById('ticker-style')){
     const st=document.createElement('style');
     st.id='ticker-style';
