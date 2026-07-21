@@ -220,6 +220,28 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div id="signal-feed" style="height:150px;overflow-y:auto;padding:10px 14px;font-family:var(--font-mono);font-size:11px;line-height:1.9"></div>
   </div>
 
+  <!-- DAILY PREDICTION GAME + STREAK -->
+  <div id="predict-wrap" style="display:none;background:linear-gradient(135deg,rgba(255,180,0,.06),rgba(0,255,153,.03));border:1px solid rgba(255,180,0,.28);border-radius:8px;padding:16px 20px;margin-bottom:1.25rem;position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#ffb400,#00ff99,transparent)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-family:var(--font-disp);font-size:10px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px">🎯 daily prediction</div>
+        <div id="predict-headline" style="font-size:12px;color:#c8d8f0"></div>
+      </div>
+      <div id="streak-badge" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="text-align:right">
+          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">streak</div>
+          <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#ffb400">🔥 <span id="streak-days">0</span></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">pick rate</div>
+          <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#00ff99"><span id="streak-pct">0</span>%</div>
+        </div>
+      </div>
+    </div>
+    <div id="predict-body"></div>
+  </div>
+
   <!-- COIN OF THE DAY -->
   <div id="cotd-wrap" style="display:none;background:linear-gradient(135deg,rgba(0,229,255,.05),rgba(255,180,0,.03));border:1px solid rgba(0,229,255,.25);border-radius:8px;padding:16px 20px;margin-bottom:1.25rem;position:relative;overflow:hidden">
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00e5ff,#ffb400,transparent)"></div>
@@ -592,6 +614,127 @@ function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug
 
 
 
+// ═══ DAILY PREDICTION GAME + STREAK ═══
+const DAY_MS = 86400000;
+function dateKey(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function loadStreak(){
+  try{ return JSON.parse(localStorage.getItem('cipher_streak')||'{}'); }catch(e){ return {}; }
+}
+function saveStreak(s){ try{ localStorage.setItem('cipher_streak',JSON.stringify(s)); }catch(e){} }
+
+// Deterministic pick of 3 candidates for today based on date seed
+function pickTodaysCandidates(){
+  if(!allCoins.length) return null;
+  const today=new Date();
+  const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
+  // Eligible: enough volume + mcap, not high risk
+  const eligible=allCoins.filter(c=>{
+    if(c.rug>=70) return false;
+    if((c.total_volume||0)<200000) return false;
+    if((c.market_cap||0)<500000) return false;
+    return true;
+  });
+  if(eligible.length<3) return null;
+  // Score by momentum (viral + volume ratio) and pick top 15, then use seed to pick 3
+  const scored=eligible.map(c=>{
+    const volRatio=c.market_cap>0?Math.min(c.total_volume/c.market_cap,3):0;
+    return {c, s:(c.viral*0.5)+(volRatio*20)+seedRand(c.id+'pick')*10};
+  }).sort((a,b)=>b.s-a.s).slice(0,15);
+  const pool=scored.map(x=>x.c);
+  // Deterministically pick 3 from the top 15 using seed
+  const picks=[];
+  let idx=seed;
+  while(picks.length<3){
+    const k=Math.abs(idx)%pool.length;
+    if(!picks.includes(pool[k])) picks.push(pool[k]);
+    idx=Math.floor(idx*1103515245+12345);
+  }
+  return picks;
+}
+
+function resolveYesterday(streak){
+  // Check if yesterday's pick can be resolved (needs 24h delta on stored baseline)
+  const yesterday=new Date(Date.now()-DAY_MS);
+  const yKey=dateKey(yesterday);
+  if(!streak.pending || streak.pending.dateKey!==yKey) return streak;
+  // Look up the picked coin in current data
+  const picked=streak.pending.picked;
+  const options=streak.pending.options||[];
+  const winners=options.map(o=>{
+    const cur=allCoins.find(c=>c.id===o.id);
+    return { id:o.id, symbol:o.symbol, baseline:o.baseline, current:cur?cur.current_price:null, change:cur&&o.baseline?((cur.current_price-o.baseline)/o.baseline*100):null };
+  }).filter(w=>w.change!==null);
+  if(winners.length<2){ return streak; } // Not enough data to resolve; leave pending
+  winners.sort((a,b)=>b.change-a.change);
+  const actualWinnerId=winners[0].id;
+  const wasRight=picked===actualWinnerId;
+  streak.history=streak.history||[];
+  streak.history.push({ dateKey:yKey, pickedId:picked, winnerId:actualWinnerId, correct:wasRight, results:winners });
+  // Update streak counter
+  if(wasRight){
+    streak.days=(streak.days||0)+1;
+    streak.correct=(streak.correct||0)+1;
+  } else {
+    streak.days=0;
+  }
+  streak.total=(streak.total||0)+1;
+  streak.pending=null;
+  saveStreak(streak);
+  return streak;
+}
+
+function renderPrediction(){
+  const streak=resolveYesterday(loadStreak());
+  const wrap=document.getElementById('predict-wrap');
+  const body=document.getElementById('predict-body');
+  const headline=document.getElementById('predict-headline');
+  if(!wrap||!body) return;
+  const today=new Date();
+  const tKey=dateKey(today);
+  document.getElementById('streak-days').textContent=streak.days||0;
+  const pct=streak.total?Math.round((streak.correct||0)/streak.total*100):0;
+  document.getElementById('streak-pct').textContent=pct;
+  const candidates=pickTodaysCandidates();
+  if(!candidates){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const alreadyPicked=streak.pending && streak.pending.dateKey===tKey;
+  const yesterdayResult=(streak.history||[]).find(h=>h.dateKey===dateKey(new Date(Date.now()-DAY_MS)));
+  // Show yesterday's result if we just resolved it
+  if(yesterdayResult && !alreadyPicked){
+    const r=yesterdayResult;
+    const okBadge=r.correct?'<span style="color:#00ff99;font-weight:700">✅ NAILED IT</span>':'<span style="color:#ff6680;font-weight:700">❌ MISSED</span>';
+    const yourPick=r.results.find(x=>x.id===r.pickedId);
+    const winner=r.results.find(x=>x.id===r.winnerId);
+    headline.innerHTML=`Yesterday: ${okBadge} — winner was <strong style="color:#00e5ff">$${winner.symbol}</strong> at ${winner.change>=0?'+':''}${winner.change.toFixed(1)}%${yourPick?` · your pick $${yourPick.symbol}: ${yourPick.change>=0?'+':''}${yourPick.change.toFixed(1)}%`:''}`;
+  } else {
+    headline.textContent=alreadyPicked?'Your pick is locked in — come back tomorrow to see the result':'Which of these 3 coins will pump the most in the next 24 hours?';
+  }
+  body.innerHTML=candidates.map(c=>{
+    const picked=alreadyPicked && streak.pending.picked===c.id;
+    return `<div onclick="${alreadyPicked?'':`makePrediction('${c.id}')`}" style="display:flex;align-items:center;gap:14px;padding:12px;margin-bottom:6px;background:${picked?'rgba(255,180,0,.1)':'var(--bg)'};border:1px solid ${picked?'rgba(255,180,0,.5)':'var(--border)'};border-radius:6px;cursor:${alreadyPicked?'default':'pointer'};transition:all .18s" ${alreadyPicked?'':`onmouseover="this.style.borderColor='rgba(255,180,0,.35)';this.style.background='rgba(255,180,0,.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'"`}>
+      ${c.image?`<img src="${c.image}" style="width:32px;height:32px;border-radius:50%" alt="">`:''}
+      <div style="flex:1;min-width:0">
+        <div style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:${picked?'#ffb400':'var(--accent)'}">$${c.symbol.toUpperCase()}${picked?' <span style="font-size:9px;color:#ffb400;letter-spacing:.1em">· YOUR PICK</span>':''}</div>
+        <div style="font-size:11px;color:var(--muted)">${c.name} · MCap ${fmtMcap(c.market_cap)} · Viral ${c.viral}</div>
+      </div>
+      <div style="font-size:12px;color:${(c.price_change_percentage_24h||0)>=0?'#00ff99':'#ff3355'};font-weight:700;white-space:nowrap">${((c.price_change_percentage_24h||0)>=0?'+':'')}${(c.price_change_percentage_24h||0).toFixed(1)}% 24h</div>
+    </div>`;
+  }).join('') + (alreadyPicked?'':'<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center">Pick locks in for 24h · resolves tomorrow · maintain your streak 🔥</div>');
+}
+
+function makePrediction(coinId){
+  const streak=loadStreak();
+  const today=new Date();
+  const tKey=dateKey(today);
+  if(streak.pending && streak.pending.dateKey===tKey) return; // already picked today
+  const candidates=pickTodaysCandidates();
+  if(!candidates) return;
+  const options=candidates.map(c=>({id:c.id,symbol:c.symbol.toUpperCase(),baseline:c.current_price}));
+  streak.pending={ dateKey:tKey, picked:coinId, options:options, ts:Date.now() };
+  saveStreak(streak);
+  renderPrediction();
+}
+
 // ═══ SIGNAL FEED TERMINAL ═══
 let signalQueue=[];
 let signalFeedCollapsed=false;
@@ -674,7 +817,7 @@ function startSignalFeed(){
 
 // ═══ SHAREABLE SCAN RESULTS ═══
 let lastScanShare=null; // {symbol, verdict, chainName, address}
-function shareScanOnX(){
+async function shareScanOnX(){
   if(!lastScanShare) return;
   const s=lastScanShare;
   const verdictLine=s.verdict==='HONEYPOT'?'🚨 HONEYPOT DETECTED on $'+s.symbol
@@ -683,11 +826,28 @@ function shareScanOnX(){
     :s.verdict==='MEDIUM'?'⚠️ $'+s.symbol+' has some risk flags'
     :'✅ $'+s.symbol+' passed the CipherPot scan';
   const text=verdictLine+'\n\nScanned free on CIPHER — honeypot & rug detector for meme coins\n\nhttps://www.ciphersignal.xyz';
-  const url='https://x.com/intent/post?text='+encodeURIComponent(text);
-  // Open in a new tab (safer than window.open for browser compatibility)
-  const w=window.open('','_blank');
-  if(w) w.location.href=url;
-  else window.location.href=url; // fallback if popup blocked
+  const btn=document.querySelector('button[onclick="shareScanOnX()"]');
+  try{
+    await navigator.clipboard.writeText(text);
+    if(btn){
+      const orig=btn.textContent;
+      btn.textContent='✅ COPIED — OPENING X...';
+      btn.style.background='rgba(0,255,153,.15)';
+      btn.style.color='#00ff99';
+      btn.style.borderColor='rgba(0,255,153,.4)';
+      setTimeout(()=>{
+        btn.textContent=orig;
+        btn.style.background='rgba(0,229,255,.07)';
+        btn.style.color='#00e5ff';
+        btn.style.borderColor='rgba(0,229,255,.35)';
+      },2500);
+    }
+    // Small delay so user sees the "copied" confirmation, then open X compose
+    setTimeout(()=>window.open('https://x.com/compose/post','_blank'),400);
+  }catch(e){
+    // Clipboard blocked — fall back to intent URL
+    window.open('https://x.com/intent/post?text='+encodeURIComponent(text),'_blank');
+  }
 }
 function shareButtonHtml(){
   return `<button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">📤 share result on X</button>`;
@@ -2026,8 +2186,8 @@ if(redirectPath){
 loadTabFromURL();
 renderQuiz();
 updateWatchCount();
-loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();startSignalFeed();setTimeout(showWatchlistHint,4000);});
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();});},600000);
+loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();renderPrediction();startSignalFeed();setTimeout(showWatchlistHint,4000);});
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();renderPrediction();});},600000);
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
