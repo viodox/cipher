@@ -1546,9 +1546,12 @@ async function checkHoneypot(){
       </div>`;
     } else if(msg==='not_found'){
       errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
-        // contract not found on this chain<br>
-        Double-check the address and make sure you've selected the right chain in the dropdown.<br>
-        <span style="color:var(--muted);font-size:11px">Ethereum, BSC, Base and Solana each have completely different token universes.</span>
+        // scanner couldn't analyze this contract<br>
+        <span style="color:var(--muted)">Most common reasons:</span><br>
+        <span style="color:var(--text)">·</span> <strong style="color:#ffb400">No active trading pair</strong> — the scanner simulates a buy/sell, which requires liquidity on a major DEX (Uniswap, PancakeSwap, etc.)<br>
+        <span style="color:var(--text)">·</span> Token is dead, delisted, or only on obscure DEXes<br>
+        <span style="color:var(--text)">·</span> Wrong chain selected in the dropdown<br>
+        <span style="color:var(--muted);font-size:11px;display:block;margin-top:6px">⚠️ A token that can't be scanned is not automatically safe. It might just be too illiquid, too dead, or too new for the API.</span>
       </div>`;
     } else {
       errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
