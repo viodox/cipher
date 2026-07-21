@@ -398,6 +398,37 @@ Watching $${top.symbol} bag ${fC(top.change24h)} rn 👀
 📡 ${CONFIG.SITE_URL}`;
 }
 
+// ── 27-28. DAILY PREDICTION + STREAK HYPE ────
+function tpl27(coins) {
+  const top = topN(coins,'change24h',3);
+  return `🎯 NEW on CIPHER — Daily Prediction Game
+
+Every day we pick 3 coins going into 24h.
+You pick the one you think will pump the most.
+Come back tomorrow and see if you were right.
+
+Correct picks build your streak 🔥
+Miss a day → streak resets.
+
+Today's contenders include $${top[0].symbol}, ${top[1].symbol.toUpperCase()}, ${top[2].symbol.toUpperCase()} 👀
+
+📡 ${CONFIG.SITE_URL}`;
+}
+
+function tpl28(coins) {
+  const top = topN(coins,'change24h',1)[0];
+  return `🔥 What's your CIPHER streak?
+
+Daily prediction. Pick 1 of 3 coins. Right = streak++
+Wrong = streak resets to 0.
+
+The all-time pick rate on your profile is the flex.
+
+Today: $${top.symbol} is one of the movers to beat at ${fC(top.change24h)}
+
+🎯 Lock in your pick → ${CONFIG.SITE_URL}`;
+}
+
 // ── Template pool & scheduling ──────────────
 const TEMPLATES = [
   tpl01, tpl02, tpl03, tpl04, tpl05,
@@ -405,6 +436,7 @@ const TEMPLATES = [
   tpl11, tpl12, tpl13, tpl14, tpl15,
   tpl16, tpl17, tpl18, tpl19, tpl20,
   tpl21, tpl22, tpl23, tpl24, tpl25, tpl26,
+  tpl27, tpl28,
 ];
 
 // ══════════════════════════════════════════════
