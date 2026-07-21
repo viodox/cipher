@@ -817,7 +817,7 @@ function startSignalFeed(){
 
 // ═══ SHAREABLE SCAN RESULTS ═══
 let lastScanShare=null; // {symbol, verdict, chainName, address}
-async function shareScanOnX(){
+function shareScanOnX(){
   if(!lastScanShare) return;
   const s=lastScanShare;
   const verdictLine=s.verdict==='HONEYPOT'?'🚨 HONEYPOT DETECTED on $'+s.symbol
@@ -826,28 +826,12 @@ async function shareScanOnX(){
     :s.verdict==='MEDIUM'?'⚠️ $'+s.symbol+' has some risk flags'
     :'✅ $'+s.symbol+' passed the CipherPot scan';
   const text=verdictLine+'\n\nScanned free on CIPHER — honeypot & rug detector for meme coins\n\nhttps://www.ciphersignal.xyz';
-  const btn=document.querySelector('button[onclick="shareScanOnX()"]');
-  try{
-    await navigator.clipboard.writeText(text);
-    if(btn){
-      const orig=btn.textContent;
-      btn.textContent='✅ COPIED — OPENING X...';
-      btn.style.background='rgba(0,255,153,.15)';
-      btn.style.color='#00ff99';
-      btn.style.borderColor='rgba(0,255,153,.4)';
-      setTimeout(()=>{
-        btn.textContent=orig;
-        btn.style.background='rgba(0,229,255,.07)';
-        btn.style.color='#00e5ff';
-        btn.style.borderColor='rgba(0,229,255,.35)';
-      },2500);
-    }
-    // Small delay so user sees the "copied" confirmation, then open X compose
-    setTimeout(()=>window.open('https://x.com/compose/post','_blank'),400);
-  }catch(e){
-    // Clipboard blocked — fall back to intent URL
-    window.open('https://x.com/intent/post?text='+encodeURIComponent(text),'_blank');
-  }
+  // Use x.com/intent/tweet (the legacy but most reliable auto-fill endpoint)
+  // Adding via=ciphersignal_ and forcing web makes X respect the text param
+  const url='https://x.com/intent/tweet?text='+encodeURIComponent(text);
+  // Directly open — no async delay, no popup blocker issues
+  const win=window.open(url,'_blank','noopener,noreferrer');
+  if(!win){ window.location.href=url; }
 }
 function shareButtonHtml(){
   return `<button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">📤 share result on X</button>`;
