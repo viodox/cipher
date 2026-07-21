@@ -207,6 +207,19 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <a href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:9px 18px;border-radius:4px;background:#00ff99;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap;box-shadow:0 0 12px rgba(0,255,153,.25)">🎁 free stock ↗</a>
   </div>
 
+  <!-- SIGNAL FEED TERMINAL -->
+  <div id="signal-feed-wrap" style="background:#04060c;border:1px solid rgba(0,229,255,.2);border-radius:8px;margin-bottom:1.25rem;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(0,229,255,.04);border-bottom:1px solid rgba(0,229,255,.12);cursor:pointer" onclick="toggleSignalFeed()">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#00ff99;display:inline-block;animation:pulse 2s infinite"></span>
+        <span style="font-family:var(--font-disp);font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">signal feed</span>
+        <span style="font-size:10px;color:var(--muted)">live market events</span>
+      </div>
+      <span id="sf-toggle-icon" style="font-size:11px;color:var(--muted)">▼</span>
+    </div>
+    <div id="signal-feed" style="height:150px;overflow-y:auto;padding:10px 14px;font-family:var(--font-mono);font-size:11px;line-height:1.9"></div>
+  </div>
+
   <!-- COIN OF THE DAY -->
   <div id="cotd-wrap" style="display:none;background:linear-gradient(135deg,rgba(0,229,255,.05),rgba(255,180,0,.03));border:1px solid rgba(0,229,255,.25);border-radius:8px;padding:16px 20px;margin-bottom:1.25rem;position:relative;overflow:hidden">
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00e5ff,#ffb400,transparent)"></div>
@@ -578,6 +591,87 @@ function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug
 
 
 
+
+// ═══ SIGNAL FEED TERMINAL ═══
+let signalQueue=[];
+let signalFeedCollapsed=false;
+function toggleSignalFeed(){
+  const feed=document.getElementById('signal-feed');
+  const icon=document.getElementById('sf-toggle-icon');
+  signalFeedCollapsed=!signalFeedCollapsed;
+  feed.style.display=signalFeedCollapsed?'none':'block';
+  icon.textContent=signalFeedCollapsed?'▶':'▼';
+}
+function buildSignalEvents(){
+  if(!allCoins.length) return;
+  const ev=[];
+  const push=(icon,tag,text,color,coinId)=>ev.push({icon,tag,text,color,coinId});
+  // Volume spikes
+  allCoins.filter(c=>c.market_cap>0&&c.total_volume/c.market_cap>1.5).slice(0,6).forEach(c=>{
+    push('⚡','VOLUME SPIKE',`${c.symbol.toUpperCase()} 24h vol hits ${(c.total_volume/c.market_cap).toFixed(1)}x market cap`,'#00e5ff',c.id);
+  });
+  // Big pumps
+  allCoins.filter(c=>(c.price_change_percentage_24h||0)>25).slice(0,6).forEach(c=>{
+    push('🚀','PUMP DETECT',`${c.symbol.toUpperCase()} +${(c.price_change_percentage_24h).toFixed(1)}% in 24h — momentum building`,'#00ff99',c.id);
+  });
+  // Big dumps
+  allCoins.filter(c=>(c.price_change_percentage_24h||0)<-25).slice(0,6).forEach(c=>{
+    push('📉','DUMP DETECT',`${c.symbol.toUpperCase()} ${(c.price_change_percentage_24h).toFixed(1)}% · high volatility flagged`,'#ff3355',c.id);
+  });
+  // Trending entries
+  allCoins.filter(c=>trendingIds.has(c.id)).slice(0,5).forEach(c=>{
+    push('🔥','TRENDING',`${c.symbol.toUpperCase()} is on CoinGecko trending right now`,'#ffb400',c.id);
+  });
+  // High risk flags
+  allCoins.filter(c=>c.rug>=70&&(c.total_volume||0)>100000).slice(0,4).forEach(c=>{
+    push('🚨','RISK FLAG',`${c.symbol.toUpperCase()} rug score elevated — trade carefully`,'#ff6680',c.id);
+  });
+  // 7d movers
+  allCoins.filter(c=>(c.price_change_percentage_7d_in_currency||0)>60).slice(0,4).forEach(c=>{
+    push('📈','WEEKLY RUNNER',`${c.symbol.toUpperCase()} +${(c.price_change_percentage_7d_in_currency).toFixed(0)}% over 7 days`,'#00ff99',c.id);
+  });
+  // Leader
+  const top=[...allCoins].sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0))[0];
+  if(top) push('👑','LEADER',`${top.symbol.toUpperCase()} holds the #1 gainer spot at +${(top.price_change_percentage_24h||0).toFixed(1)}%`,'#ffb400',top.id);
+  // Whale volume
+  [...allCoins].sort((a,b)=>(b.total_volume||0)-(a.total_volume||0)).slice(0,3).forEach(c=>{
+    push('🐋','WHALE VOLUME',`${c.symbol.toUpperCase()} moving ${fmtMcap(c.total_volume)} in 24h volume`,'#00e5ff',c.id);
+  });
+  // New entries
+  allCoins.filter(c=>c.isNew).slice(0,4).forEach(c=>{
+    push('🆕','NEW ENTRY',`${c.symbol.toUpperCase()} just entered the top 500 scanner`,'#c8d8f0',c.id);
+  });
+  // Shuffle so the mix feels organic
+  signalQueue=ev.sort(()=>Math.random()-.5);
+}
+function tickSignalFeed(){
+  const feed=document.getElementById('signal-feed');
+  if(!feed||signalFeedCollapsed) return;
+  if(!signalQueue.length) buildSignalEvents();
+  if(!signalQueue.length) return;
+  const e=signalQueue.shift();
+  const now=new Date();
+  const ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  const line=document.createElement('div');
+  line.style.cssText='opacity:0;transform:translateY(-4px);transition:opacity .4s,transform .4s;cursor:pointer';
+  line.innerHTML=`<span style="color:var(--muted)">[${ts}]</span> <span>${e.icon}</span> <span style="color:${e.color};font-weight:700">${e.tag}</span> <span style="color:#8a9ab8">— ${e.text}</span>`;
+  line.onclick=()=>{switchTab('scanner');setTimeout(()=>selectCoin(e.coinId),80);};
+  line.onmouseover=()=>{line.style.background='rgba(0,229,255,.04)';};
+  line.onmouseout=()=>{line.style.background='';};
+  feed.insertBefore(line,feed.firstChild);
+  requestAnimationFrame(()=>{line.style.opacity='1';line.style.transform='translateY(0)';});
+  // Cap at 40 lines
+  while(feed.children.length>40) feed.removeChild(feed.lastChild);
+}
+// Start feed: first burst of 6 lines, then one every 4-9 seconds
+function startSignalFeed(){
+  buildSignalEvents();
+  for(let i=0;i<6;i++) setTimeout(tickSignalFeed,i*350);
+  (function loop(){
+    setTimeout(()=>{tickSignalFeed();loop();},4000+Math.random()*5000);
+  })();
+}
+
 // ═══ SHAREABLE SCAN RESULTS ═══
 let lastScanShare=null; // {symbol, verdict, chainName, address}
 function shareScanOnX(){
@@ -609,6 +703,24 @@ function toggleWatch(id){
   saveWatchlist();
   updateWatchCount();
   renderTable();
+}
+
+// One-time watchlist hint
+function showWatchlistHint(){
+  try{
+    if(localStorage.getItem('cipher_wl_hint')) return;
+    const hint=document.createElement('div');
+    hint.id='wl-hint';
+    hint.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.45);border-radius:8px;padding:14px 20px;z-index:9998;box-shadow:0 4px 30px rgba(0,0,0,.6);display:flex;align-items:center;gap:14px;max-width:90vw';
+    hint.innerHTML='<span style="font-size:20px">⭐</span><span style="font-size:12px;color:#c8d8f0;line-height:1.5">Click the <strong style="color:#ffb400">☆ star</strong> next to any coin to build your personal watchlist — then filter with the <strong style="color:#ffb400">⭐ watchlist</strong> button</span><button onclick="document.getElementById(\'wl-hint\').remove();localStorage.setItem(\'cipher_wl_hint\',\'1\')" style="font-family:var(--font-disp);font-size:9px;padding:7px 14px;border-radius:4px;border:none;background:#ffb400;color:#000;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap">got it</button>';
+    document.body.appendChild(hint);
+    setTimeout(()=>{const h=document.getElementById('wl-hint');if(h){h.remove();localStorage.setItem('cipher_wl_hint','1');}},15000);
+  }catch(e){}
+}
+
+function updateDetailWatchBtn(id){
+  const b=document.getElementById('detail-watch-btn');
+  if(b) b.textContent=watchlist.has(id)?'⭐ watching':'☆ add to watchlist';
 }
 function updateWatchCount(){
   const btn=document.getElementById('f-watchlist');
@@ -710,6 +822,15 @@ function setSort(c){if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=-1;}sortCo
 
 // TABLE
 function renderTable(){
+  if(currentFilter==='watchlist'&&filteredCoins.length===0){
+    document.getElementById('scanner-body').innerHTML=`<div style="text-align:center;padding:3rem 1rem;color:var(--muted)">
+      <div style="font-size:32px;margin-bottom:12px">⭐</div>
+      <div style="font-family:var(--font-disp);font-size:13px;color:#c8d8f0;letter-spacing:.08em;margin-bottom:8px">YOUR WATCHLIST IS EMPTY</div>
+      <div style="font-size:12px;line-height:1.7">Click the <span style="color:#ffb400">☆ star</span> next to any coin in the scanner to start tracking it.<br>Your watchlist is saved in your browser — no account needed.</div>
+      <button onclick="setFilter('all')" style="margin-top:16px;font-family:var(--font-disp);font-size:9px;padding:8px 18px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.1em;text-transform:uppercase">← back to all coins</button>
+    </div>`;
+    return;
+  }
   const start=(currentPage-1)*PAGE_SIZE;
   const page=filteredCoins.slice(start,start+PAGE_SIZE);
   const total=Math.ceil(filteredCoins.length/PAGE_SIZE);
@@ -744,7 +865,7 @@ function renderTable(){
     const img=c.image?`<img class="coin-img" src="${c.image}" alt="${c.symbol}" onerror="this.style.display='none'">`:'';
     const starred=watchlist.has(c.id);
     h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
-      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:13px;opacity:${starred?'1':'.35'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.35'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
+      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:13px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
       <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
       <td><span class="${chgCls}" style="font-size:11px;font-weight:700">${chgStr}</span></td>
@@ -782,6 +903,7 @@ async function selectCoin(id){
     <div class="detail">
       <div class="d-header">
         ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:9px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">🎲 feeling lucky pick</div>':''}
+        <button id="detail-watch-btn" onclick="toggleWatch('${c.id}');updateDetailWatchBtn('${c.id}')" style="position:absolute;top:8px;right:110px;font-family:var(--font-disp);font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">${watchlist.has(c.id)?'⭐ watching':'☆ add to watchlist'}</button>
         ${c.image?`<img class="d-img" src="${c.image}" alt="${c.symbol}">`:''}
         <div>
           <div class="d-name">${c.symbol.toUpperCase()}</div>
@@ -1905,7 +2027,7 @@ if(redirectPath){
 loadTabFromURL();
 renderQuiz();
 updateWatchCount();
-loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();});
+loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();startSignalFeed();setTimeout(showWatchlistHint,4000);});
 setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();});},600000);
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
