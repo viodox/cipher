@@ -240,6 +240,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="filter-btn" id="f-bullish" onclick="setFilter('bullish')">bullish</button>
       <button class="filter-btn" id="f-bearish" onclick="setFilter('bearish')">bearish</button>
       <button class="filter-btn" id="f-highrisk" onclick="setFilter('highrisk')">high rug risk</button>
+      <button class="filter-btn" id="f-watchlist" onclick="setFilter('watchlist')">⭐ watchlist</button>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
     <div id="scanner-body"><div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 500 meme coins...</div></div>
@@ -575,6 +576,45 @@ function calcRug(c){
 }
 function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>seedRand(c.id+'flag')-0.5).slice(0,5)};}
 
+
+
+// ═══ SHAREABLE SCAN RESULTS ═══
+let lastScanShare=null; // {symbol, verdict, chainName, address}
+function shareScanOnX(){
+  if(!lastScanShare) return;
+  const s=lastScanShare;
+  const verdictLine=s.verdict==='HONEYPOT'?'🚨 HONEYPOT DETECTED on $'+s.symbol
+    :s.verdict==='RUGGED'?'💀 $'+s.symbol+' shows RUGGED signals'
+    :s.verdict==='HIGH'?'⚠️ HIGH RISK flags on $'+s.symbol
+    :s.verdict==='MEDIUM'?'⚠️ $'+s.symbol+' has some risk flags'
+    :'✅ $'+s.symbol+' passed the honeypot scan';
+  const text=`${verdictLine}
+
+Scanned on CipherPot (${s.chainName}) — free honeypot & rug detector
+
+Scan any contract yourself 👇
+https://www.ciphersignal.xyz/cipherpot`;
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
+}
+function shareButtonHtml(){
+  return `<button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">📤 share result on X</button>`;
+}
+
+// ═══ WATCHLIST ═══
+let watchlist=new Set();
+try{ watchlist=new Set(JSON.parse(localStorage.getItem('cipher_watchlist')||'[]')); }catch(e){}
+function saveWatchlist(){ try{ localStorage.setItem('cipher_watchlist',JSON.stringify([...watchlist])); }catch(e){} }
+function toggleWatch(id){
+  if(watchlist.has(id)) watchlist.delete(id); else watchlist.add(id);
+  saveWatchlist();
+  updateWatchCount();
+  renderTable();
+}
+function updateWatchCount(){
+  const btn=document.getElementById('f-watchlist');
+  if(btn) btn.textContent='⭐ watchlist'+(watchlist.size?' ('+watchlist.size+')':'');
+}
+
 // FETCH
 async function loadCoins(){
   const now=Date.now();
@@ -652,7 +692,7 @@ function applyFilters(){
   const q=(document.getElementById('search').value||'').toLowerCase();
   filteredCoins=allCoins.filter(c=>{
     const ms=!q||c.symbol.toLowerCase().includes(q)||c.name.toLowerCase().includes(q);
-    const mf=currentFilter==='all'||(currentFilter==='bullish'&&c.sentiment>=65)||(currentFilter==='bearish'&&c.sentiment<35)||(currentFilter==='highrisk'&&c.rug>=70);
+    const mf=currentFilter==='all'||(currentFilter==='bullish'&&c.sentiment>=65)||(currentFilter==='bearish'&&c.sentiment<35)||(currentFilter==='highrisk'&&c.rug>=70)||(currentFilter==='watchlist'&&watchlist.has(c.id));
     return ms&&mf;
   });
   sortCoins();
@@ -689,7 +729,7 @@ function renderTable(){
   <tr style="background:linear-gradient(90deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border-bottom:1px solid rgba(255,180,0,.2)">
     <td class="td-rank" style="color:#ffb400">★</td>
     <td><div class="td-coin"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px">💰</div><div><div class="coin-sym" style="color:#ffb400">YOUR COIN</div><div class="coin-name-sm">advertise here</div></div></div></td>
-    <td colspan="6" style="font-size:11px;color:#6a7a9a;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
+    <td colspan="7" style="font-size:11px;color:#6a7a9a;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
     <td><span class="ctag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">sponsored</span></td>
   </tr>`;
   page.forEach((c,i)=>{
@@ -702,7 +742,9 @@ function renderTable(){
     const chg7Str=(chg7>=0?'+':'')+chg7.toFixed(1)+'%';
     const newBadge=c.isNew?'<span style="font-size:8px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
     const img=c.image?`<img class="coin-img" src="${c.image}" alt="${c.symbol}" onerror="this.style.display='none'">`:'';
+    const starred=watchlist.has(c.id);
     h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
+      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:13px;opacity:${starred?'1':'.35'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.35'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
       <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
       <td><span class="${chgCls}" style="font-size:11px;font-weight:700">${chgStr}</span></td>
@@ -1442,8 +1484,10 @@ async function checkHoneypot(){
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
           <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
-          <button onclick="navigator.clipboard.writeText('Just scanned ${symbol} on CIPHERPOT 🍯\\n\\nVerdict: ${verdict}\\nRisk Score: ${score}\\n\\nCheck any token free → https://www.ciphersignal.xyz')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(29,161,242,.3);color:#1da1f2;background:rgba(29,161,242,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s">share result ↗</button>
-        </div>
+          ${shareButtonHtml()}
+        </div>`;
+      lastScanShare={symbol:symbol,verdict:isRugged?'RUGGED':(score>=900?'HIGH':score>=600?'HIGH':score>=300?'MEDIUM':'LOW'),chainName:'Solana',address:address};
+      result.innerHTML+=`
         <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
 
     } else {
@@ -1523,9 +1567,10 @@ async function checkHoneypot(){
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
-          <button onclick="navigator.clipboard.writeText('Just scanned ${symbol} on CIPHERPOT 🍯\\n\\nVerdict: ${isHoneypot?'HONEYPOT DETECTED':risk+' RISK'}\\nBuy Tax: ${buyTax!=null?buyTax.toFixed(1)+'%':'n/a'} · Sell Tax: ${sellTax!=null?sellTax.toFixed(1)+'%':'n/a'}\\n\\nCheck any token free → https://www.ciphersignal.xyz').then(()=>alert('copied to clipboard — paste on X 🔐'))" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid rgba(29,161,242,.3);color:#1da1f2;background:rgba(29,161,242,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s">share result ↗</button>
+          ${shareButtonHtml()}
         </div>
         <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
+      lastScanShare={symbol:symbol,verdict:isHoneypot?'HONEYPOT':risk,chainName:chainName,address:address};
     }
   }catch(e){
     const msg=(e&&e.message)||'unknown';
@@ -1859,6 +1904,7 @@ if(redirectPath){
 }
 loadTabFromURL();
 renderQuiz();
+updateWatchCount();
 loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();});
 setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();});},600000);
 </script>
