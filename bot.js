@@ -369,13 +369,42 @@ Institutions are on-chain. Are you still not checking contracts before you buy?
 🍯 ${CONFIG.SITE_URL}`;
 }
 
+// ── 25-26. SIGNAL FEED TERMINAL HYPE ────────
+function tpl25(coins) {
+  const spikes = coins.filter(c => c.marketCap > 0 && c.volume/c.marketCap > 1).sort((a,b)=>(b.volume/b.marketCap)-(a.volume/a.marketCap));
+  const example = spikes[0] || topN(coins,'change24h',1)[0];
+  return `📡 We just shipped the Signal Feed — a live market terminal on CIPHER
+
+Real-time alerts:
+⚡ Volume spikes
+🚀 Pump detects
+🚨 Risk flags
+🐋 Whale moves
+
+Right now flagging: $${example.symbol}
+
+See the feed live 👇
+${CONFIG.SITE_URL}`;
+}
+
+function tpl26(coins) {
+  const top = topN(coins,'change24h',1)[0];
+  return `🔐 NEW on CIPHER — the Signal Feed
+
+It's a live terminal ticking out market events in real time. Volume spikes, pumps, risk flags, whale volume — all clickable, all straight from the data.
+
+Watching $${top.symbol} bag ${fC(top.change24h)} rn 👀
+
+📡 ${CONFIG.SITE_URL}`;
+}
+
 // ── Template pool & scheduling ──────────────
 const TEMPLATES = [
   tpl01, tpl02, tpl03, tpl04, tpl05,
   tpl06, tpl07, tpl08, tpl09, tpl10,
   tpl11, tpl12, tpl13, tpl14, tpl15,
   tpl16, tpl17, tpl18, tpl19, tpl20,
-  tpl21, tpl22, tpl23, tpl24,
+  tpl21, tpl22, tpl23, tpl24, tpl25, tpl26,
 ];
 
 // ══════════════════════════════════════════════
@@ -492,29 +521,7 @@ Your turn → roobet.com/?ref=ctg
 💰 Let's cook`;
 }
 
-function roo11() {
-  return `💸 Deposit $10. Win $10,000.
-Deposit $100. Win $100,000.
-Deposit any. Win big.
-
-It happens on Roobet every day.
-Code: ctg → roobet.com/?ref=ctg
-
-🎰 Come get paid`;
-}
-
-function roo12() {
-  return `🚨 Roobet winners hit $$$ every single day
-
-Code "ctg" gets you in the game
-No banks. No delays. Just crypto → play → cash out
-
-→ roobet.com/?ref=ctg
-
-💰 Tonight could be the night`;
-}
-
-const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10, roo11, roo12];
+const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10];
 
 // ── Scheduling ──────────────────────────────
 // 16 slots/day: 10 Roobet + 6 CIPHER
