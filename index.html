@@ -809,21 +809,21 @@ async function selectCoin(id){
       let chainId='1';
       let chainName='';
       
+      // Priority: only use chains CipherPot actually supports (ETH, BSC, Base, Solana)
       if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
       else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
       else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
       else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
       else if(platformId==='solana'&&data.contract_address){contractAddr=data.contract_address;chainId='sol';chainName='Solana';}
       else{
+        // No supported chain — but display the contract if we have one so users can see it
         for(const[plat,info] of Object.entries(platforms)){
           const addr=typeof info==='object'?info.contract_address:info;
           if(addr&&addr.length>5){
             contractAddr=addr;
-            chainName=plat;
-            if(plat.includes('binance'))chainId='56';
-            else if(plat==='base')chainId='8453';
-            else if(plat==='solana')chainId='sol';
-            else chainId='1';
+            // Human-readable chain name
+            chainName=plat.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+            chainId='unsupported';
             break;
           }
         }
@@ -1318,7 +1318,30 @@ async function checkHoneypot(){
   const chain=document.getElementById('cp-chain').value;
   const btn=document.getElementById('cp-btn');
   const result=document.getElementById('cp-result');
-  if(!address||address.length<10){alert('paste a valid contract address');return;}
+  if(!address){
+    result.innerHTML='<div style="color:#ffb400;font-size:12px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05)">// paste a contract address to scan</div>';
+    return;
+  }
+  // Validate address format per chain
+  const isEvmChain=chain==='1'||chain==='56'||chain==='8453';
+  const isEvmFormat=/^0x[a-fA-F0-9]{40}$/.test(address);
+  const isSolFormat=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address);
+  if(isEvmChain&&!isEvmFormat){
+    result.innerHTML=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+      // that doesn't look like an EVM address<br>
+      Expected: <span style="color:var(--text);font-family:var(--font-mono)">0x</span> followed by 40 hex characters<br>
+      <span style="color:var(--muted);font-size:11px">If this is a Solana token, switch the chain dropdown to Solana.</span>
+    </div>`;
+    return;
+  }
+  if(chain==='sol'&&!isSolFormat){
+    result.innerHTML=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+      // that doesn't look like a Solana address<br>
+      Solana addresses are 32-44 characters, no <span style="font-family:var(--font-mono)">0x</span> prefix.<br>
+      <span style="color:var(--muted);font-size:11px">If this is an Ethereum/BSC/Base token, switch the chain dropdown.</span>
+    </div>`;
+    return;
+  }
   btn.textContent='scanning...';btn.disabled=true;
   result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:12px;letter-spacing:.08em"><div class="spinner"></div>intercepting contract signals for ${chain==='sol'?'Solana':'EVM'} chain...</div>`;
 
@@ -1326,8 +1349,11 @@ async function checkHoneypot(){
     if(chain==='sol'){
       // SOLANA via rugcheck.xyz (full report for more data)
       const res=await fetch(`https://api.rugcheck.xyz/v1/tokens/${address}/report`);
-      if(!res.ok) throw new Error('not found');
+      if(res.status===429) throw new Error('rate_limit');
+      if(res.status===404) throw new Error('not_found');
+      if(!res.ok) throw new Error('api_error');
       const data=await res.json();
+      if(!data||!data.tokenMeta) throw new Error('no_liquidity');
       const score=data.score||0;
       const risks=data.risks||[];
       const name=data.tokenMeta?.name||'Unknown Token';
@@ -1423,8 +1449,14 @@ async function checkHoneypot(){
     } else {
       // EVM via honeypot.is
       const res=await fetch(`https://api.honeypot.is/v2/IsHoneypot?address=${address}&chainID=${chain}`);
-      if(!res.ok) throw new Error('not found');
+      if(res.status===429) throw new Error('rate_limit');
+      if(res.status===404||res.status===400) throw new Error('not_found');
+      if(!res.ok) throw new Error('api_error');
       const data=await res.json();
+      // Some tokens return but have no simulation data (no liquidity pool)
+      if(!data.token||(!data.simulationResult&&!data.honeypotResult)){
+        throw new Error('no_liquidity');
+      }
       const hp=data.honeypotResult;
       const sim=data.simulationResult;
       const token=data.token;
@@ -1496,7 +1528,35 @@ async function checkHoneypot(){
         <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
     }
   }catch(e){
-    result.innerHTML='<div style="color:var(--accent4);font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// could not scan contract. double check the address and selected chain, then try again.</div>';
+    const msg=(e&&e.message)||'unknown';
+    let errorHtml;
+    if(msg==='rate_limit'){
+      errorHtml=`<div style="color:#ffb400;font-size:12px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05);line-height:1.7">
+        // scanner rate limited<br>
+        Too many scans in a short time. Wait 30 seconds and try again.
+      </div>`;
+    } else if(msg==='no_liquidity'){
+      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+        // no tradeable liquidity found for this token<br>
+        <span style="color:var(--muted)">This usually means one of:</span><br>
+        <span style="color:var(--text)">·</span> The token has no liquidity pool yet (brand new launch or already rugged)<br>
+        <span style="color:var(--text)">·</span> Wrong chain — try switching between Ethereum / BSC / Base<br>
+        <span style="color:var(--text)">·</span> The contract exists but isn't traded on a supported DEX<br>
+        <span style="color:var(--muted);font-size:11px;display:block;margin-top:6px">⚠️ A token with no liquidity is not necessarily safe — it may just be too new or too dead to analyze.</span>
+      </div>`;
+    } else if(msg==='not_found'){
+      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+        // contract not found on this chain<br>
+        Double-check the address and make sure you've selected the right chain in the dropdown.<br>
+        <span style="color:var(--muted);font-size:11px">Ethereum, BSC, Base and Solana each have completely different token universes.</span>
+      </div>`;
+    } else {
+      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+        // scanner is temporarily unavailable<br>
+        The rug/honeypot API returned an error. Wait a minute and try again.
+      </div>`;
+    }
+    result.innerHTML=errorHtml;
   }
   btn.textContent='scan contract';btn.disabled=false;
 }
