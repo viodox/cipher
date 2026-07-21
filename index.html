@@ -681,14 +681,13 @@ function shareScanOnX(){
     :s.verdict==='RUGGED'?'💀 $'+s.symbol+' shows RUGGED signals'
     :s.verdict==='HIGH'?'⚠️ HIGH RISK flags on $'+s.symbol
     :s.verdict==='MEDIUM'?'⚠️ $'+s.symbol+' has some risk flags'
-    :'✅ $'+s.symbol+' passed the honeypot scan';
-  const text=`${verdictLine}
-
-Scanned on CipherPot (${s.chainName}) — free honeypot & rug detector
-
-Scan any contract yourself 👇
-https://www.ciphersignal.xyz/cipherpot`;
-  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
+    :'✅ $'+s.symbol+' passed the CipherPot scan';
+  const text=verdictLine+'\n\nScanned free on CIPHER — honeypot & rug detector for meme coins\n\nhttps://www.ciphersignal.xyz';
+  const url='https://x.com/intent/post?text='+encodeURIComponent(text);
+  // Open in a new tab (safer than window.open for browser compatibility)
+  const w=window.open('','_blank');
+  if(w) w.location.href=url;
+  else window.location.href=url; // fallback if popup blocked
 }
 function shareButtonHtml(){
   return `<button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">📤 share result on X</button>`;
