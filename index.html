@@ -177,7 +177,106 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .page-btn:hover{color:var(--text);border-color:var(--text)}
 .page-btn.active{color:var(--accent);border-color:rgba(0,229,255,.4)}
 .page-info{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
-@media(max-width:600px){.q-opts{grid-template-columns:1fr}.tabs{overflow-x:auto}.tab{min-width:80px}.score-grid{grid-template-columns:1fr 1fr}.about-grid{grid-template-columns:1fr!important}}</style>
+@media(max-width:600px){
+  /* App container: tighter padding, less horizontal drift */
+  .app{padding:0.75rem 0.6rem 3rem}
+  .topbar{margin-bottom:0.75rem}
+  
+  /* Tabs: horizontally scrollable, larger tap targets */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;gap:6px;padding-bottom:4px}
+  .tab{min-width:auto;flex-shrink:0;padding:12px 14px;font-size:11px;min-height:44px}
+  
+  /* Quiz: stack options */
+  .q-opts{grid-template-columns:1fr}
+  .score-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr!important}
+  
+  /* Signal feed: shorter on mobile */
+  #signal-feed{height:120px!important;font-size:10px!important;padding:8px 10px!important;line-height:1.7!important}
+  
+  /* Prediction game: cleaner spacing */
+  #predict-wrap{padding:12px 14px!important}
+  #streak-badge{gap:16px!important}
+  
+  /* Coin detail: 2x3 grid instead of 6-across for stat boxes */
+  .score-cards{grid-template-columns:1fr 1fr!important}
+  
+  /* Controls: filters wrap cleanly with better spacing */
+  .controls{gap:6px;flex-wrap:wrap;margin-bottom:0.75rem}
+  .controls input.search-input{width:100%;order:-1;padding:11px 14px;font-size:13px;min-height:44px}
+  .filter-btn{padding:10px 12px;font-size:10px;min-height:40px;flex-grow:1;min-width:calc(50% - 3px)}
+  .scan-btn{padding:10px 12px;font-size:10px;min-height:40px;width:100%;margin-top:4px}
+  
+  /* ═══ SCANNER TABLE → CARDS on mobile ═══ */
+  .table-wrap{overflow-x:visible}
+  table thead{display:none}
+  table,table tbody,table tr,table td{display:block;width:100%;box-sizing:border-box}
+  table tr{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;padding:12px 14px;cursor:pointer;position:relative}
+  table tr.selected{background:var(--surface2);border-color:rgba(0,229,255,.4)}
+  table td{padding:0;border:none!important;text-align:left;white-space:normal}
+  /* Star column becomes floating top-right */
+  table tr td:first-child{position:absolute;top:10px;right:10px;padding:0;width:auto}
+  /* Rank as small subscript on symbol row */
+  table td.td-rank{position:absolute;top:12px;left:14px;font-size:9px;color:var(--muted);font-weight:400;padding:0;width:auto}
+  /* Coin cell full row */
+  table td .td-coin{margin-left:26px;margin-bottom:10px}
+  .coin-img{width:32px!important;height:32px!important}
+  .coin-sym{font-size:15px!important}
+  .coin-name-sm{font-size:11px!important}
+  /* Change/mcap/vol/viral/rug/sentiment: 3-col grid layout inside the card */
+  table tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;padding-top:38px}
+  table td:nth-child(3){grid-column:1;grid-row:2}  /* 24h */
+  table td:nth-child(4){grid-column:2;grid-row:2}  /* 7d */
+  table td:nth-child(5){grid-column:3;grid-row:2}  /* mcap */
+  table td:nth-child(6){grid-column:1/-1;grid-row:3}  /* volume */
+  table td:nth-child(7){grid-column:1/-1;grid-row:4}  /* viral bar */
+  table td:nth-child(8){grid-column:1;grid-row:5}  /* rug */
+  table td:nth-child(9){grid-column:3;grid-row:5}  /* sentiment */
+  table td:nth-child(2){grid-column:1/-1;grid-row:1;padding-top:0}
+  /* Column labels for mobile card view */
+  table td:nth-child(3)::before{content:'24h ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(4)::before{content:'7d ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(5)::before{content:'mcap ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(6)::before{content:'volume · ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:inline}
+  /* Sponsored row: force full-width for its colspan cell */
+  table tr:first-child{grid-template-columns:1fr;padding-top:12px}
+  table tr:first-child td[colspan]{grid-column:1/-1}
+  
+  /* Detail view: tighter and mobile-friendly */
+  .d-header{gap:10px}
+  .d-img{width:44px!important;height:44px!important}
+  .d-name{font-size:20px!important}
+  .d-fullname{font-size:11px!important}
+  #detail-watch-btn{position:static!important;margin-left:auto}
+  
+  /* Bigger tappable buttons */
+  .dact-btn{padding:11px 14px!important;font-size:10px!important;min-height:44px}
+  
+  /* Ticker bar: bigger text */
+  #ticker-bar{padding:9px 0!important}
+  #ticker-bar span,#ticker-bar a{font-size:13px!important;margin-right:24px!important}
+  
+  /* Coin of the Day: stack cleanly */
+  #cotd-wrap{padding:14px 16px!important}
+  #cotd-content{flex-direction:column;align-items:flex-start!important}
+  #cotd-actions{width:100%;justify-content:stretch}
+  #cotd-actions button,#cotd-actions a{flex:1;text-align:center;padding:11px 12px!important;min-height:44px;display:flex;align-items:center;justify-content:center}
+  
+  /* Affiliate banners: bigger CTAs, stack content */
+  .banner-slot{padding:14px 16px!important}
+  .banner-cta{padding:12px 20px!important;font-size:11px!important;min-height:44px;width:100%;text-align:center;margin-top:8px}
+  .banner-content{flex-direction:column;align-items:flex-start!important;gap:6px}
+  
+  /* Pagination */
+  .page-btn{min-width:44px;min-height:44px}
+  
+  /* Prediction cards need bigger tap targets */
+  #predict-body > div{padding:14px 12px!important;min-height:56px}
+}
+@media(max-width:600px){
+  #ticker-bar{position:sticky;top:0;z-index:50;background:var(--surface);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+}
+</style>
 </head>
 <body>
 <div class="app">
