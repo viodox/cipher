@@ -440,117 +440,112 @@ const TEMPLATES = [
 ];
 
 // ══════════════════════════════════════════════
-// ROOBET AFFILIATE TEMPLATES (12 rotating templates)
+// ROOBET AFFILIATE TEMPLATES (10 rotating templates)
 // ══════════════════════════════════════════════
 
 function roo01() {
-  return `💰 Win $$$ using code "ctg" on Roobet
+  return `💰 Use my code "ctg" on Roobet and stack extra value from day one
 
-Sign up, deposit, cash out crypto in seconds
-Real money. Real wins. Real fast.
-
+Sign up → deposit → play with more
 → roobet.com/?ref=ctg
 
-🎰 Your bag is waiting`;
+🎰 Don't leave free money on the table`;
 }
 
 function roo02() {
-  const amounts = ['$1,000', '$2,500', '$5,000', '$10,000', '$25,000', '$50,000', '$100,000'];
-  return `💰 Win ${pick(amounts)} tonight using code "ctg"
+  const amounts = ['$1,000', '$2,500', '$5,000', '$10,000', '$25,000', '$50,000'];
+  return `💰 People are winning ${pick(amounts)} on Roobet using code "ctg"
 
-Roobet pays out life-changing money every single day
+Same code. Same games. Could be your turn.
 
 → roobet.com/?ref=ctg
 
-🚀 Could be your name on the winners list`;
+🚀 Sign up and go get it`;
 }
 
 function roo03() {
-  return `🎰 Use code "ctg" on Roobet and win big $$$
+  return `🎰 Signing up with code "ctg" is the smart way to start on Roobet
 
-I did — $10 turned into $100,000 (proof pinned 📌)
-Now it's your turn.
+More perks. More value. Same shot at big wins.
 
 → roobet.com/?ref=ctg
 
-💰 Nothing hits like a real win`;
+💰 Why start with less?`;
 }
 
 function roo04() {
-  return `💸 Winners this week using code "ctg":
+  return `💸 Reminder: use code "ctg" when you join Roobet
 
-$4K · $12K · $47K · $83K · $210K
+It's the difference between starting flat and starting ahead
 
-Real crypto. Real wallets. Real fast payouts.
+→ roobet.com/?ref=ctg
 
-You in? → roobet.com/?ref=ctg
-
-🎰 Get your bag`;
+🎰 Stack every edge you can get`;
 }
 
 function roo05() {
-  return `🚨 Sign up with code "ctg" → win $$$ on Roobet
+  return `💰 Code "ctg" on Roobet = extra value on your signup
 
-$50 deposit + one lucky spin = life-changing money
-It happens every day. Just needs to be your day.
+Deposit crypto, play instantly, cash out in seconds
+No banks. No delays. No leaving money behind.
 
 → roobet.com/?ref=ctg
 
-💰 Manifest that bag`;
+🚀 Let's get you set up`;
 }
 
 function roo06() {
-  const wins = ['$4,200', '$8,700', '$15,000', '$32,000', '$67,000', '$140,000', '$250,000'];
-  return `💰 Somebody just cashed out ${pick(wins)} on Roobet
+  const wins = ['$4,200', '$8,700', '$15,000', '$32,000', '$67,000', '$140,000'];
+  return `🚨 Someone just cashed out ${pick(wins)} on Roobet
 
-Winners use code "ctg" — join them
+They signed up. They played. They won.
+
+Use code "ctg" and get in the game
 → roobet.com/?ref=ctg
 
-🚀 The next big win doesn't wait`;
+💰 Extra value for using the code`;
 }
 
 function roo07() {
-  return `⚡ Why use code "ctg" on Roobet:
+  return `⚡ Why sign up under code "ctg" on Roobet:
 
-💰 Win real money (6-figure hits weekly)
-⚡ Instant crypto payouts to your wallet
-📌 I've won 10,000x here — proof pinned
-
-Get in → roobet.com/?ref=ctg`;
-}
-
-function roo08() {
-  return `🎰 Story:
-Someone reading this signs up under code "ctg"
-Deposits $50
-Hits big
-Wakes up rich
-
-That's Roobet. That's tonight. That's you if you move.
+💰 Extra value on your signup
+⚡ Instant crypto payouts
+🎰 Same shot at life-changing wins
+📌 I've hit 10,000x here — proof pinned
 
 → roobet.com/?ref=ctg`;
 }
 
+function roo08() {
+  return `💰 Don't sign up for Roobet without code "ctg"
+
+You'd be leaving free value on the table.
+
+Code "ctg" → roobet.com/?ref=ctg
+
+🎰 Start ahead, not behind`;
+}
+
 function roo09() {
-  return `💰 Real talk — my biggest win ever was on Roobet
+  return `🎰 Use code "ctg" — I did, and I hit 10,000x on Roobet
 
-10,000x. $100,000 profit. Replay pinned 📌
+$10 turned into $100,000. Proof pinned 📌
 
-Use code "ctg" and go get yours
+Sign up under the code and chase yours
 → roobet.com/?ref=ctg
 
-🚀 Big wins are meant for you too`;
+💰 The code costs nothing, the upside is everything`;
 }
 
 function roo10() {
-  return `🚨 Life-changing $$$ paid out on Roobet every hour
+  return `🚨 Winning extra on Roobet starts with one thing: code "ctg"
 
-Winners use code "ctg"
-Signups are 30 seconds. Payouts are instant.
+Sign up with it. Deposit. Play with more value than you'd get otherwise.
 
-Your turn → roobet.com/?ref=ctg
+→ roobet.com/?ref=ctg
 
-💰 Let's cook`;
+💰 Smart degens use the code`;
 }
 
 const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10];
