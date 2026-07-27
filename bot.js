@@ -548,7 +548,107 @@ Sign up with it. Deposit. Play with more value than you'd get otherwise.
 💰 Smart degens use the code`;
 }
 
-const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10];
+function roo11() {
+  return `🎰 The move: sign up on Roobet with code "ctg"
+
+Instant crypto deposits. Instant payouts. Extra value for using the code.
+
+→ roobet.com/?ref=ctg
+
+💰 No reason not to`;
+}
+
+function roo12() {
+  const amounts = ['$3,000', '$7,500', '$18,000', '$40,000', '$90,000'];
+  return `💰 Latest Roobet winner just pulled ${pick(amounts)}
+
+They used a code. You should too.
+
+Code "ctg" → roobet.com/?ref=ctg
+
+🚀 Get your edge`;
+}
+
+function roo13() {
+  return `⚡ Crypto in. Crypto out. Instantly.
+
+That's Roobet — and code "ctg" gets you extra value on the way in.
+
+→ roobet.com/?ref=ctg
+
+💰 Start smarter`;
+}
+
+function roo14() {
+  return `🎰 Smart degens don't sign up raw
+
+Code "ctg" on Roobet = more value from your first deposit
+
+→ roobet.com/?ref=ctg
+
+💰 Play the game right`;
+}
+
+function roo15() {
+  return `🚨 If you're joining Roobet anyway, use code "ctg"
+
+Same signup. More value. Zero downside.
+
+→ roobet.com/?ref=ctg
+
+💰 Free edge, take it`;
+}
+
+function roo16() {
+  return `💰 I run everything through Roobet — deposits, spins, payouts
+
+Sign up under code "ctg" and stack the same value I do
+→ roobet.com/?ref=ctg
+
+🎰 Let's eat`;
+}
+
+function roo17() {
+  const wins = ['$5,500', '$11,000', '$28,000', '$54,000', '$120,000'];
+  return `🎰 ${pick(wins)} just hit on Roobet 👀
+
+The winners keep coming. The code stays the same: "ctg"
+
+→ roobet.com/?ref=ctg
+
+💰 Join the run`;
+}
+
+function roo18() {
+  return `⚡ Roobet payouts hit your wallet in seconds — not days
+
+Sign up with code "ctg" for extra value
+→ roobet.com/?ref=ctg
+
+💰 Fast money, done right`;
+}
+
+function roo19() {
+  return `🎰 Code "ctg" is your Roobet cheat code
+
+Extra value. Instant crypto. Real wins.
+
+→ roobet.com/?ref=ctg
+
+💰 Use it or lose the edge`;
+}
+
+function roo20() {
+  return `🚨 Last call reminder: code "ctg" on Roobet
+
+Sign up, deposit, play with more than you'd have otherwise
+
+→ roobet.com/?ref=ctg
+
+💰 Don't sleep on free value`;
+}
+
+const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10, roo11, roo12, roo13, roo14, roo15, roo16, roo17, roo18, roo19, roo20];
 
 // ── Scheduling ──────────────────────────────
 // 16 slots/day: 10 Roobet + 6 CIPHER
