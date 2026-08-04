@@ -440,212 +440,162 @@ const TEMPLATES = [
 ];
 
 // ══════════════════════════════════════════════
-// ROOBET AFFILIATE TEMPLATES (10 rotating templates)
+// ROOBET AFFILIATE TEMPLATES (20 rotating templates)
+// Subtler, proof-driven. Real win: 10,000x = ~$3K
 // ══════════════════════════════════════════════
 
 function roo01() {
-  return `💰 Use my code "ctg" on Roobet and stack extra value from day one
+  return `hit a 10,000x on Roobet a while back — turned a small bet into $3K
 
-Sign up → deposit → play with more
-→ roobet.com/?ref=ctg
+replay's pinned if you wanna see it
 
-🎰 Don't leave free money on the table`;
+if you play, use code "ctg" when you sign up
+roobet.com/?ref=ctg`;
 }
 
 function roo02() {
-  const amounts = ['$1,000', '$2,500', '$5,000', '$10,000', '$25,000', '$50,000'];
-  return `💰 People are winning ${pick(amounts)} on Roobet using code "ctg"
+  return `been running everything through Roobet lately
 
-Same code. Same games. Could be your turn.
+instant crypto deposits, instant withdrawals, no waiting around
 
-→ roobet.com/?ref=ctg
-
-🚀 Sign up and go get it`;
+if you're gonna sign up, use code "ctg" for a little extra on the way in
+roobet.com/?ref=ctg`;
 }
 
 function roo03() {
-  return `🎰 Signing up with code "ctg" is the smart way to start on Roobet
+  return `pulled another withdrawal off Roobet today 💸
 
-More perks. More value. Same shot at big wins.
+fastest payouts I've used, no cap
 
-→ roobet.com/?ref=ctg
-
-💰 Why start with less?`;
+code "ctg" if you wanna check it out
+roobet.com/?ref=ctg`;
 }
 
 function roo04() {
-  return `💸 Reminder: use code "ctg" when you join Roobet
+  return `friendly tip: if you're signing up for Roobet anyway, use a referral code
 
-It's the difference between starting flat and starting ahead
-
-→ roobet.com/?ref=ctg
-
-🎰 Stack every edge you can get`;
+mine's "ctg" — gets you a bit of extra value, costs you nothing
+roobet.com/?ref=ctg`;
 }
 
 function roo05() {
-  return `💰 Code "ctg" on Roobet = extra value on your signup
+  return `10,000x on Roobet. $3K off one bet. still feels unreal
 
-Deposit crypto, play instantly, cash out in seconds
-No banks. No delays. No leaving money behind.
+replay pinned to my profile 📌
 
-→ roobet.com/?ref=ctg
-
-🚀 Let's get you set up`;
+if you play, code "ctg" → roobet.com/?ref=ctg`;
 }
 
 function roo06() {
-  const wins = ['$4,200', '$8,700', '$15,000', '$32,000', '$67,000', '$140,000'];
-  return `🚨 Someone just cashed out ${pick(wins)} on Roobet
+  return `what I like about Roobet: crypto in, crypto out, seconds not days
 
-They signed up. They played. They won.
-
-Use code "ctg" and get in the game
-→ roobet.com/?ref=ctg
-
-💰 Extra value for using the code`;
+if you sign up, use code "ctg" for some extra value
+roobet.com/?ref=ctg`;
 }
 
 function roo07() {
-  return `⚡ Why sign up under code "ctg" on Roobet:
+  return `people always ask where I play — it's Roobet
 
-💰 Extra value on your signup
-⚡ Instant crypto payouts
-🎰 Same shot at life-changing wins
-📌 I've hit 10,000x here — proof pinned
+deposits and withdrawals are instant, games are provably fair
 
-→ roobet.com/?ref=ctg`;
+code "ctg" if you want in
+roobet.com/?ref=ctg`;
 }
 
 function roo08() {
-  return `💰 Don't sign up for Roobet without code "ctg"
+  return `if you're gonna sign up for Roobet, don't do it without a code
 
-You'd be leaving free value on the table.
-
-Code "ctg" → roobet.com/?ref=ctg
-
-🎰 Start ahead, not behind`;
+mine's "ctg" — little bit of extra value, no downside
+roobet.com/?ref=ctg`;
 }
 
 function roo09() {
-  return `🎰 Use code "ctg" — I did, and I hit 10,000x on Roobet
+  return `still my favorite hit — 10,000x on Roobet, $3K off a tiny bet
 
-$10 turned into $100,000. Proof pinned 📌
+proof's pinned 📌
 
-Sign up under the code and chase yours
-→ roobet.com/?ref=ctg
-
-💰 The code costs nothing, the upside is everything`;
+play smart, and use code "ctg" if you join
+roobet.com/?ref=ctg`;
 }
 
 function roo10() {
-  return `🚨 Winning extra on Roobet starts with one thing: code "ctg"
+  return `Roobet withdrawal hit my wallet in like 20 seconds 💸
 
-Sign up with it. Deposit. Play with more value than you'd get otherwise.
+that's why I keep playing here
 
-→ roobet.com/?ref=ctg
-
-💰 Smart degens use the code`;
+code "ctg" to sign up → roobet.com/?ref=ctg`;
 }
 
 function roo11() {
-  return `🎰 The move: sign up on Roobet with code "ctg"
+  return `the move if you're joining Roobet: use a referral code
 
-Instant crypto deposits. Instant payouts. Extra value for using the code.
-
-→ roobet.com/?ref=ctg
-
-💰 No reason not to`;
+"ctg" gets you extra value on your first deposit
+roobet.com/?ref=ctg`;
 }
 
 function roo12() {
-  const amounts = ['$3,000', '$7,500', '$18,000', '$40,000', '$90,000'];
-  return `💰 Latest Roobet winner just pulled ${pick(amounts)}
+  return `crypto casino that actually pays out fast? Roobet's the one I use
 
-They used a code. You should too.
-
-Code "ctg" → roobet.com/?ref=ctg
-
-🚀 Get your edge`;
+if you sign up, code "ctg" gets you a little extra
+roobet.com/?ref=ctg`;
 }
 
 function roo13() {
-  return `⚡ Crypto in. Crypto out. Instantly.
+  return `not gonna oversell it — I play on Roobet, hit a 10,000x once ($3K), and the withdrawals are instant
 
-That's Roobet — and code "ctg" gets you extra value on the way in.
-
-→ roobet.com/?ref=ctg
-
-💰 Start smarter`;
+if you play too, use code "ctg"
+roobet.com/?ref=ctg`;
 }
 
 function roo14() {
-  return `🎰 Smart degens don't sign up raw
+  return `signing up for Roobet raw is leaving value on the table
 
-Code "ctg" on Roobet = more value from your first deposit
-
-→ roobet.com/?ref=ctg
-
-💰 Play the game right`;
+use a code — mine's "ctg" — takes 2 seconds
+roobet.com/?ref=ctg`;
 }
 
 function roo15() {
-  return `🚨 If you're joining Roobet anyway, use code "ctg"
+  return `if you're gonna gamble crypto anyway, at least play somewhere that pays fast
 
-Same signup. More value. Zero downside.
-
-→ roobet.com/?ref=ctg
-
-💰 Free edge, take it`;
+Roobet does. code "ctg" if you sign up
+roobet.com/?ref=ctg`;
 }
 
 function roo16() {
-  return `💰 I run everything through Roobet — deposits, spins, payouts
+  return `been on Roobet for a minute now — instant payouts keep me here
 
-Sign up under code "ctg" and stack the same value I do
-→ roobet.com/?ref=ctg
+my biggest hit was a 10,000x ($3K), replay's pinned 📌
 
-🎰 Let's eat`;
+code "ctg" to join → roobet.com/?ref=ctg`;
 }
 
 function roo17() {
-  const wins = ['$5,500', '$11,000', '$28,000', '$54,000', '$120,000'];
-  return `🎰 ${pick(wins)} just hit on Roobet 👀
+  return `quick one: if you play on Roobet, use code "ctg"
 
-The winners keep coming. The code stays the same: "ctg"
-
-→ roobet.com/?ref=ctg
-
-💰 Join the run`;
+extra value on signup, costs you nothing
+roobet.com/?ref=ctg`;
 }
 
 function roo18() {
-  return `⚡ Roobet payouts hit your wallet in seconds — not days
+  return `withdrawals in seconds. deposits in seconds. that's the Roobet difference
 
-Sign up with code "ctg" for extra value
-→ roobet.com/?ref=ctg
-
-💰 Fast money, done right`;
+sign up with code "ctg" for a little extra
+roobet.com/?ref=ctg`;
 }
 
 function roo19() {
-  return `🎰 Code "ctg" is your Roobet cheat code
+  return `people sleep on using referral codes
 
-Extra value. Instant crypto. Real wins.
-
-→ roobet.com/?ref=ctg
-
-💰 Use it or lose the edge`;
+if you're joining Roobet, "ctg" gets you extra value for free
+roobet.com/?ref=ctg`;
 }
 
 function roo20() {
-  return `🚨 Last call reminder: code "ctg" on Roobet
+  return `10,000x. $3K. one bet. still my favorite Roobet moment
 
-Sign up, deposit, play with more than you'd have otherwise
+replay pinned if you don't believe me 📌
 
-→ roobet.com/?ref=ctg
-
-💰 Don't sleep on free value`;
+code "ctg" if you wanna play → roobet.com/?ref=ctg`;
 }
 
 const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10, roo11, roo12, roo13, roo14, roo15, roo16, roo17, roo18, roo19, roo20];
