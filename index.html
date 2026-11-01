@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- route-meta:start -->
 <title>CIPHER — Meme Coin Intelligence</title>
-<meta name="description" content="Free meme coin scanner for up to 500 coins from CoinGecko. Signal scores are formulas over price, volume, and market cap — not an AI model. CipherPot checks contracts.">
+<meta name="description" content="Free meme coin scanner for up to 1,000 coins from CoinGecko. Signal scores are formulas over price, volume, and market cap — not an AI model. CipherPot checks contracts.">
 <link rel="canonical" href="https://www.ciphersignal.xyz/">
 <meta property="og:title" content="CIPHER — Meme Coin Intelligence">
-<meta property="og:description" content="Up to 500 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
+<meta property="og:description" content="Up to 1,000 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
 <meta property="og:image" content="https://www.ciphersignal.xyz/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ciphersignal_">
 <meta name="twitter:title" content="CIPHER — Meme Coin Intelligence">
-<meta name="twitter:description" content="Up to 500 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
+<meta name="twitter:description" content="Up to 1,000 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
 <meta name="twitter:image" content="https://www.ciphersignal.xyz/og-image.png">
 <!-- route-meta:end -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -181,6 +181,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .site-nav a{font-family:var(--font-disp);font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--border2);padding:7px 10px;border-radius:4px}
 .site-nav a:hover{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
 .new-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
+.soon-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .buy-note{font-size:12px;color:#8a9ab8;line-height:1.6;margin-bottom:12px}
 .scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
 .scores h2{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
@@ -311,7 +312,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <nav class="site-nav" aria-label="primary">
     <a href="/">scanner</a>
     <a href="/movers">top movers</a>
-    <a href="/alerts">price alerts</a>
+    <a href="/alerts" id="nav-alerts">price alerts</a>
     <a href="/updates">what's new <span class="new-badge">new</span></a>
     <a href="/rug-radar">rug radar</a>
     <a href="#where-to-buy">where to buy</a>
@@ -391,7 +392,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
     <div id="data-updated" style="font-size:11px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
-    <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 500 with 24h volume over $500)...</div></div>
+    <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 1,000 with 24h volume over $500)...</div></div>
     <div id="detail-area"></div>
   </div>
 
@@ -491,7 +492,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks up to 500 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks up to 1,000 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
@@ -577,7 +578,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <section class="scores" id="how-scores">
     <h2>how scores work</h2>
-    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many coins came back on the last successful fetch (capped at 500, skipping pairs with under $500 of 24h volume).</p>
+    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many coins came back on the last successful fetch (five market pages, skipping pairs with under $500 of 24h volume). Markets are cached about an hour on the server so the free CoinGecko plan stays inside its monthly cap.</p>
     <ul>
       <li><strong>Hype (viral):</strong> volume relative to market cap, the size of the 24h move, whether CoinGecko currently lists the coin as trending, absolute volume, and a small boost when a tiny cap is trading more than its size. A ±3 daily jitter keeps identical inputs from stacking.</li>
       <li><strong>Mood (sentiment):</strong> starts at 50 and moves with the 24h price change. Very low volume pulls it back toward neutral. High volume relative to market cap amplifies the move.</li>
@@ -630,6 +631,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
 </div>
 
+<script src="/quality.js"></script>
 <script>
 // STATE
 let allCoins=[],filteredCoins=[],currentFilter='all',currentPage=1,selectedCoin=null,sortCol='viral',sortDir=-1;
@@ -637,6 +639,20 @@ const PAGE_SIZE=25;
 let lastFetch=0;const FETCH_COOLDOWN=60000;
 let dataUpdatedAt=null;
 const SITE_ORIGIN='https://www.ciphersignal.xyz';
+const MARKET_PAGES=5;
+let canon=window.CipherQuality?CipherQuality.staticCanon():{symbols:{},names:{},ids:{}};
+function spotlightOk(c){return window.CipherQuality?CipherQuality.spotlightOk(c,canon):false;}
+function refreshCanon(){
+  return fetch('/api/canon').then(r=>r.ok?r.json():null).then(data=>{
+    if(data&&data.symbols) canon=data;
+  }).catch(()=>{});
+}
+function paintAlertsNav(){
+  fetch('/api/alerts').then(r=>r.ok?r.json():null).then(data=>{
+    const link=document.getElementById('nav-alerts');
+    if(link&&data&&data.ready===false) link.innerHTML='price alerts <span class="soon-badge">soon</span>';
+  }).catch(()=>{});
+}
 
 function col(v){return v>=65?'#00ff99':v>=35?'#ffb400':'#ff3355';}
 function sentLbl(v){return v>=65?['Bullish','ctag-g']:v>=35?['Neutral','ctag-y']:['Bearish','ctag-r'];}
@@ -773,6 +789,7 @@ function pickTodaysCandidates(){
   const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
   // Eligible: enough volume + mcap, not high risk
   const eligible=allCoins.filter(c=>{
+    if(!spotlightOk(c)) return false;
     if(c.rug>=70) return false;
     if((c.total_volume||0)<200000) return false;
     if((c.market_cap||0)<500000) return false;
@@ -891,42 +908,43 @@ function toggleSignalFeed(){
 }
 function buildSignalEvents(){
   if(!allCoins.length) return;
+  const pool=allCoins.filter(spotlightOk);
   const ev=[];
   const push=(icon,tag,text,color,coinId)=>ev.push({icon,tag,text,color,coinId});
   // Volume spikes
-  allCoins.filter(c=>c.market_cap>0&&c.total_volume/c.market_cap>1.5).slice(0,6).forEach(c=>{
+  pool.filter(c=>c.market_cap>0&&c.total_volume/c.market_cap>1.5).slice(0,6).forEach(c=>{
     push('⚡','VOLUME SPIKE',`${c.symbol.toUpperCase()} 24h vol hits ${(c.total_volume/c.market_cap).toFixed(1)}x market cap`,'#00e5ff',c.id);
   });
   // Big pumps
-  allCoins.filter(c=>(c.price_change_percentage_24h||0)>25).slice(0,6).forEach(c=>{
+  pool.filter(c=>(c.price_change_percentage_24h||0)>25).slice(0,6).forEach(c=>{
     push('🚀','PUMP DETECT',`${c.symbol.toUpperCase()} +${(c.price_change_percentage_24h).toFixed(1)}% in 24h — momentum building`,'#00ff99',c.id);
   });
   // Big dumps
-  allCoins.filter(c=>(c.price_change_percentage_24h||0)<-25).slice(0,6).forEach(c=>{
+  pool.filter(c=>(c.price_change_percentage_24h||0)<-25).slice(0,6).forEach(c=>{
     push('📉','DUMP DETECT',`${c.symbol.toUpperCase()} ${(c.price_change_percentage_24h).toFixed(1)}% · high volatility flagged`,'#ff3355',c.id);
   });
   // Trending entries
-  allCoins.filter(c=>trendingIds.has(c.id)).slice(0,5).forEach(c=>{
+  pool.filter(c=>trendingIds.has(c.id)).slice(0,5).forEach(c=>{
     push('🔥','TRENDING',`${c.symbol.toUpperCase()} is on CoinGecko trending right now`,'#ffb400',c.id);
   });
   // High risk flags
-  allCoins.filter(c=>c.rug>=70&&(c.total_volume||0)>100000).slice(0,4).forEach(c=>{
+  pool.filter(c=>c.rug>=70&&(c.total_volume||0)>100000).slice(0,4).forEach(c=>{
     push('🚨','RISK FLAG',`${c.symbol.toUpperCase()} rug score elevated — trade carefully`,'#ff6680',c.id);
   });
   // 7d movers
-  allCoins.filter(c=>(c.price_change_percentage_7d_in_currency||0)>60).slice(0,4).forEach(c=>{
+  pool.filter(c=>(c.price_change_percentage_7d_in_currency||0)>60).slice(0,4).forEach(c=>{
     push('📈','WEEKLY RUNNER',`${c.symbol.toUpperCase()} +${(c.price_change_percentage_7d_in_currency).toFixed(0)}% over 7 days`,'#00ff99',c.id);
   });
   // Leader
-  const top=[...allCoins].sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0))[0];
+  const top=[...pool].sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0))[0];
   if(top) push('👑','LEADER',`${top.symbol.toUpperCase()} holds the #1 gainer spot at +${(top.price_change_percentage_24h||0).toFixed(1)}%`,'#ffb400',top.id);
   // Whale volume
-  [...allCoins].sort((a,b)=>(b.total_volume||0)-(a.total_volume||0)).slice(0,3).forEach(c=>{
+  [...pool].sort((a,b)=>(b.total_volume||0)-(a.total_volume||0)).slice(0,3).forEach(c=>{
     push('🐋','WHALE VOLUME',`${c.symbol.toUpperCase()} moving ${fmtMcap(c.total_volume)} in 24h volume`,'#00e5ff',c.id);
   });
   // New entries
-  allCoins.filter(c=>c.isNew).slice(0,4).forEach(c=>{
-    push('🆕','NEW ENTRY',`${c.symbol.toUpperCase()} just entered the top 500 scanner`,'#c8d8f0',c.id);
+  pool.filter(c=>c.isNew).slice(0,4).forEach(c=>{
+    push('🆕','NEW ENTRY',`${c.symbol.toUpperCase()} just entered the scanner`,'#c8d8f0',c.id);
   });
   // Shuffle so the mix feels organic
   signalQueue=ev.sort(()=>Math.random()-.5);
@@ -1039,27 +1057,29 @@ async function loadCoins(){
     return;
   }
   lastFetch=now;
-  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 500)...</div>';
+  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 1,000)...</div>';
   document.getElementById('status-text').textContent='fetching data';
   document.getElementById('coin-count').textContent='loading...';
   selectedCoin=null;document.getElementById('detail-area').innerHTML='';
   try{
-    const [, p1, p2]=await Promise.all([
-      fetchTrending(),
-      fetch('/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C7d').then(r=>r.ok?r.json():[]),
-      fetch('/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d').then(r=>r.ok?r.json():[]),
-    ]);
+    const trendingPromise=fetchTrending();
+    const pages=[];
+    for(let p=1;p<=MARKET_PAGES;p++){
+      const res=await fetch('/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page='+p+'&sparkline=false&price_change_percentage=24h%2C7d');
+      pages.push(res.ok?await res.json():[]);
+      if(p<MARKET_PAGES) await new Promise(r=>setTimeout(r,1500));
+    }
+    await trendingPromise;
     const seen=new Set();
-    let raw=[...(Array.isArray(p1)?p1:[]),...(Array.isArray(p2)?p2:[])].filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
+    let raw=pages.flat().filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
     if(!raw.length) throw new Error('empty');
-    allCoins=raw.slice(0,500).map(enrich);
+    allCoins=raw.map(enrich);
     const sel=document.getElementById('report-coin-select');
     sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
     document.getElementById('status-text').textContent='live scan active';
     document.getElementById('coin-count').textContent=allCoins.length+' coins tracked';
     stampUpdated();
     currentPage=1;applyFilters();
-    loadExtendedCoins();
   }catch(e){
     document.getElementById('scanner-body').innerHTML='<div class="error-msg">// CoinGecko is rate limited or unreachable.<br><br>Wait about a minute and hit refresh. Market data is cached for 60 seconds on the server.</div>';
     document.getElementById('status-text').textContent='signal lost';
@@ -2084,13 +2104,14 @@ function renderCoinOfTheDay(){
   const storedCotd=sessionStorage.getItem('cotd_'+dateKey);
   if(storedCotd){
     const coin=allCoins.find(c=>c.id===storedCotd);
-    if(coin){renderCotdDisplay(coin);return;}
+    if(coin&&spotlightOk(coin)){renderCotdDisplay(coin);return;}
   }
   
   const seed=today.getFullYear()*10000+today.getMonth()*100+today.getDate();
   
   // STRICT FILTERS — Coin of the Day must be a credible, active coin
   const eligible=[...allCoins].filter(c=>{
+    if(!spotlightOk(c)) return false;
     if(c.rug>=70) return false;
     if((c.total_volume||0)<50000) return false;
     if((c.market_cap||0)<100000) return false;
@@ -2123,7 +2144,7 @@ function renderCoinOfTheDay(){
 // RUG OF THE DAY — biggest loser, for entertainment
 function renderRugOfTheDay(){
   if(!allCoins.length) return;
-  const losers=[...allCoins].filter(c=>(c.total_volume||0)>10000).sort((a,b)=>(a.price_change_percentage_24h||0)-(b.price_change_percentage_24h||0));
+  const losers=[...allCoins].filter(c=>spotlightOk(c)&&(c.price_change_percentage_24h||0)<0).sort((a,b)=>(a.price_change_percentage_24h||0)-(b.price_change_percentage_24h||0));
   if(!losers.length) return;
   const rug=losers[0];
   const chg=rug.price_change_percentage_24h||0;
@@ -2227,7 +2248,7 @@ function renderTickerBar(){
     const topbar=document.querySelector('.topbar');
     topbar.insertAdjacentElement('afterend',bar);
   }
-  const movers=[...allCoins].sort((a,b)=>Math.abs(b.price_change_percentage_24h||0)-Math.abs(a.price_change_percentage_24h||0)).slice(0,15);
+  const movers=[...allCoins].filter(spotlightOk).sort((a,b)=>Math.abs(b.price_change_percentage_24h||0)-Math.abs(a.price_change_percentage_24h||0)).slice(0,15);
   const items=movers.map(c=>{
     const chg=c.price_change_percentage_24h||0;
     const col=chg>=0?'#00ff99':'#ff3355';
@@ -2362,8 +2383,9 @@ async function loadRadar(){
 loadTabFromURL();
 renderQuiz();
 updateWatchCount();
-loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();renderPrediction();startSignalFeed();setTimeout(showWatchlistHint,4000);});
-setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();renderPrediction();});},600000);
+paintAlertsNav();
+Promise.all([refreshCanon(),loadCoins()]).then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();renderPrediction();startSignalFeed();setTimeout(showWatchlistHint,4000);});
+setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))Promise.all([refreshCanon(),loadCoins()]).then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();renderPrediction();});},600000);
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CQVB0E2CMB');</script>

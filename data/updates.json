@@ -4,7 +4,7 @@
       "id": "price-alerts",
       "date": "2026-11-01",
       "title": "Price alert signup",
-      "summary": "Leave an email, a CoinGecko coin id, and a USD price threshold. CIPHER stores the signup and does not send mail until a delivery provider is connected.",
+      "summary": "Leave an email, a CoinGecko coin id, and a USD price threshold. CIPHER sends a confirmation, then one alert email when the price crosses it, with a one-click unsubscribe. The form stays hidden until Upstash and Resend are configured.",
       "href": "/alerts"
     },
     {

@@ -4,6 +4,7 @@ const assert = require('assert');
 const { test, beforeEach, afterEach } = require('node:test');
 const { getTransformedRoutes } = require('@vercel/routing-utils');
 const vercelConfig = require('../vercel.json');
+const { ttlFor, cacheControlForTtl } = require('../lib/coingecko');
 
 const SERVER_KEY = 'server-key-not-real';
 const CLIENT_KEY = 'client-key-should-not-leak';
@@ -172,7 +173,12 @@ test('site paths proxy to CoinGecko with the server key, original query, and cac
 
     assert.equal(res.statusCode, 200, call.pathname);
     assert.equal(res.headers['content-type'], 'application/json; charset=utf-8');
-    assert.equal(res.headers['cache-control'], 'public, s-maxage=60, stale-while-revalidate=120');
+    const cgPath = call.pathname.replace(/^\/api\/coingecko\//, '');
+    const ttlParams = Object.assign({}, query);
+    delete ttlParams.path;
+    delete ttlParams.x_cg_demo_api_key;
+    delete ttlParams.x_cg_pro_api_key;
+    assert.equal(res.headers['cache-control'], cacheControlForTtl(ttlFor(cgPath, ttlParams)));
     assert.equal(res.body.includes(SERVER_KEY), false);
     assert.equal(res.body.includes(CLIENT_KEY), false);
 

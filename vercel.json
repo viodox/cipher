@@ -16,6 +16,9 @@
     { "source": "/sitemap-coins.xml", "destination": "/api/sitemap-coins" },
     { "source": "/api/coingecko/:path+", "destination": "/api/coingecko" }
   ],
+  "crons": [
+    { "path": "/api/alerts/run", "schedule": "0 13 * * *" }
+  ],
   "functions": {
     "api/page.js": { "includeFiles": "index.html", "maxDuration": 10 },
     "api/og.js": { "includeFiles": "fonts/**", "maxDuration": 10 },
@@ -28,6 +31,8 @@
     "api/coin.js": { "maxDuration": 10 },
     "api/movers.js": { "maxDuration": 10 },
     "api/alerts.js": { "maxDuration": 10 },
+    "api/alerts/run.js": { "maxDuration": 10 },
+    "api/canon.js": { "maxDuration": 10 },
     "api/sitemap-coins.js": { "maxDuration": 10 }
   }
 }
