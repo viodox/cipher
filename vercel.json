@@ -7,6 +7,13 @@
     { "source": "/rug-radar", "destination": "/api/page?route=rug-radar" },
     { "source": "/scan/:chain/:address", "destination": "/api/scan?chain=:chain&address=:address" },
     { "source": "/og/scan/:chain/:address.png", "destination": "/api/og?chain=:chain&address=:address" },
+    { "source": "/movers", "destination": "/api/content?page=movers" },
+    { "source": "/updates", "destination": "/api/content?page=updates" },
+    { "source": "/alerts", "destination": "/api/content?page=alerts" },
+    { "source": "/coin/:id", "destination": "/api/coin?id=:id" },
+    { "source": "/og/movers.png", "destination": "/api/og?kind=movers" },
+    { "source": "/og/coin/:id.png", "destination": "/api/og?kind=coin&id=:id" },
+    { "source": "/sitemap-coins.xml", "destination": "/api/sitemap-coins" },
     { "source": "/api/coingecko/:path+", "destination": "/api/coingecko" }
   ],
   "functions": {
@@ -15,6 +22,12 @@
     "api/scan.js": { "maxDuration": 10 },
     "api/security.js": { "maxDuration": 10 },
     "api/radar.js": { "maxDuration": 10 },
-    "api/coingecko.js": { "maxDuration": 10 }
+    "api/coingecko.js": { "maxDuration": 10 },
+    "api/content.js": { "includeFiles": "data/updates.json", "maxDuration": 10 },
+    "api/updates.js": { "includeFiles": "data/updates.json", "maxDuration": 10 },
+    "api/coin.js": { "maxDuration": 10 },
+    "api/movers.js": { "maxDuration": 10 },
+    "api/alerts.js": { "maxDuration": 10 },
+    "api/sitemap-coins.js": { "maxDuration": 10 }
   }
 }

@@ -6,8 +6,12 @@ const path = require('path');
 const { proxyCoinGecko } = require('./lib/coingecko');
 const { scanToken } = require('./lib/security');
 const { getRadar } = require('./lib/radar');
-const { renderCard } = require('./lib/og');
+const { renderCard, renderMoversCard, renderCoinCard } = require('./lib/og');
 const { APP_ROUTES, renderAppRoute, renderScanPage, renderScanError } = require('./lib/pages');
+const { loadMovers, renderMoversPage, coinSitemapXml } = require('./lib/movers');
+const { loadCoin, renderCoinPage } = require('./lib/coin');
+const { updatesPayload, renderUpdatesPage } = require('./lib/updates');
+const { handleAlertHttp, renderAlertsPage } = require('./lib/alerts');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 4173;
@@ -69,6 +73,73 @@ async function handle(req, res) {
     return;
   }
 
+  if (pathname === '/api/movers') {
+    const data = await loadMovers();
+    const body = data.ok ? {
+      ok: true,
+      source: data.source,
+      updatedAt: data.updatedAt,
+      note: data.note,
+      universe: data.universe,
+      gainers: data.gainers,
+      losers: data.losers,
+      volumeSpikes: data.volumeSpikes,
+    } : { ok: false, error: data.error || 'unavailable' };
+    sendJson(res, data.ok ? 200 : (data.status || 502), body, data.ok ? 'public, max-age=120' : 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/updates') {
+    sendJson(res, 200, updatesPayload(), 'public, max-age=300');
+    return;
+  }
+
+  if (pathname === '/api/alerts') {
+    const result = await handleAlertHttp(req);
+    sendJson(res, result.status || 500, result.body, 'no-store');
+    return;
+  }
+
+  if (pathname === '/sitemap-coins.xml') {
+    const data = await loadMovers();
+    const xml = coinSitemapXml(data);
+    if (!xml) {
+      send(res, 503, '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>', {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'no-store',
+      });
+      return;
+    }
+    send(res, 200, xml, {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=300',
+    });
+    return;
+  }
+
+  if (pathname === '/movers' || pathname === '/updates' || pathname === '/alerts') {
+    const result = pathname === '/movers'
+      ? await renderMoversPage()
+      : pathname === '/updates'
+        ? renderUpdatesPage()
+        : await renderAlertsPage();
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  const coinMatch = pathname.match(/^\/coin\/([^/]+)$/);
+  if (coinMatch) {
+    const result = await renderCoinPage(coinMatch[1]);
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
   const scanMatch = pathname.match(/^\/scan\/([a-zA-Z0-9]+)\/([^/]+)$/);
   if (scanMatch || (pathname === '/api/scan' && url.searchParams.get('chain'))) {
     const chain = scanMatch ? scanMatch[1] : url.searchParams.get('chain');
@@ -85,6 +156,28 @@ async function handle(req, res) {
     send(res, 200, renderScanPage(report), {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=60',
+    });
+    return;
+  }
+
+  if (pathname === '/og/movers.png' || (pathname === '/api/og' && url.searchParams.get('kind') === 'movers')) {
+    const data = await loadMovers();
+    const png = renderMoversCard(data.ok ? data : { ok: false, gainers: [], losers: [] });
+    send(res, data.ok ? 200 : (data.status || 502), png, {
+      'Content-Type': 'image/png',
+      'Cache-Control': data.ok ? 'public, max-age=120' : 'no-store',
+    });
+    return;
+  }
+
+  const coinOgMatch = pathname.match(/^\/og\/coin\/([^/]+)\.png$/);
+  if (coinOgMatch || (pathname === '/api/og' && url.searchParams.get('kind') === 'coin')) {
+    const id = coinOgMatch ? coinOgMatch[1] : url.searchParams.get('id');
+    const loaded = await loadCoin(id);
+    const png = renderCoinCard(loaded.ok ? loaded.coin : { symbol: '???', name: loaded.error || 'Unavailable', id: '' });
+    send(res, loaded.ok ? 200 : (loaded.status || 502), png, {
+      'Content-Type': 'image/png',
+      'Cache-Control': loaded.ok ? 'public, max-age=120' : 'no-store',
     });
     return;
   }

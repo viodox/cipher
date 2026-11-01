@@ -177,6 +177,10 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .footer-links a:hover{color:var(--accent)}
 .x-link{font-family:var(--font-disp);font-size:10px;letter-spacing:.08em;color:var(--muted);text-decoration:none;text-transform:none;border:1px solid var(--border2);padding:6px 10px;border-radius:4px}
 .x-link:hover{color:var(--accent);border-color:rgba(0,229,255,.4)}
+.site-nav{display:flex;gap:8px;flex-wrap:wrap;margin:-.35rem 0 1.15rem}
+.site-nav a{font-family:var(--font-disp);font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--border2);padding:7px 10px;border-radius:4px}
+.site-nav a:hover{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
+.new-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .buy-note{font-size:12px;color:#8a9ab8;line-height:1.6;margin-bottom:12px}
 .scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
 .scores h2{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
@@ -304,6 +308,14 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div class="status-pill"><div class="status-dot"></div><span id="status-text">fetching data</span></div>
     </div>
   </div>
+  <nav class="site-nav" aria-label="primary">
+    <a href="/">scanner</a>
+    <a href="/movers">top movers</a>
+    <a href="/alerts">price alerts</a>
+    <a href="/updates">what's new <span class="new-badge">new</span></a>
+    <a href="/rug-radar">rug radar</a>
+    <a href="#where-to-buy">where to buy</a>
+  </nav>
 
   <!-- SIGNAL FEED TERMINAL -->
   <div id="signal-feed-wrap" style="background:#04060c;border:1px solid rgba(0,229,255,.2);border-radius:8px;margin-bottom:1.25rem;overflow:hidden">
@@ -375,6 +387,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="filter-btn" id="f-bearish" onclick="setFilter('bearish')">bearish</button>
       <button class="filter-btn" id="f-highrisk" onclick="setFilter('highrisk')">high rug risk</button>
       <button class="filter-btn" id="f-watchlist" onclick="setFilter('watchlist')">⭐ watchlist</button>
+      <a class="filter-btn" href="/movers" style="text-decoration:none">top movers</a>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
     <div id="data-updated" style="font-size:11px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
@@ -572,6 +585,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <li><strong>Signal Score:</strong> the same three numbers, written out as SEND IT / WAIT / NGMI, plus a line of color. No model is called.</li>
       <li><strong>CipherPot:</strong> <strong>honeypot.is</strong> on Ethereum, BSC, and Base (honeypot simulation, taxes, liquidity, holders); <strong>RugCheck</strong> on Solana; <strong>GoPlus</strong> token security on both (mintable, proxy, blacklist function, owner privileges, holder concentration). DexScreener supplies extra liquidity when the other sources don't.</li>
       <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. Cached about two minutes on the server. Open a row for the full scan.</li>
+      <li><strong>Top Movers:</strong> a separate page at <a href="/movers">/movers</a> ranks 24h gainers, losers, and volume relative to market cap. Each name links to a coin page such as <a href="/coin/dogecoin">/coin/dogecoin</a>.</li>
       <li><strong>On-chain stocks:</strong> CoinGecko's Robinhood Chain stocks category. Those tokens are debt securities and are not offered to US persons. That is separate from the Robinhood brokerage link under where to buy.</li>
     </ul>
     <p id="scores-updated">Last market-data refresh: waiting for the first CoinGecko response.</p>
@@ -601,6 +615,9 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="/how-to-spot-rug-pulls.html">rug pull guide</a>
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
       <a href="/rug-radar">rug radar</a>
+      <a href="/movers">top movers</a>
+      <a href="/alerts">price alerts</a>
+      <a href="/updates">what's new</a>
       <a href="/terms">terms</a>
       <a href="/privacy.html">privacy policy</a>
     </div>
@@ -1176,6 +1193,17 @@ function renderTable(){
 }
 function goPage(p){currentPage=p;selectedCoin=null;document.getElementById('detail-area').innerHTML='';renderTable();window.scrollTo({top:0,behavior:'smooth'});}
 
+function shareDetail(id){
+  if(!/^[a-z0-9-]+$/.test(id)) return;
+  const c=allCoins.find(x=>x.id===id);
+  if(!c) return;
+  const chg=c.price_change_percentage_24h||0;
+  const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
+  const url=SITE_ORIGIN+'/coin/'+c.id;
+  const text='$'+String(c.symbol||'').toUpperCase()+' '+chgStr+' in 24h\n\nvia @ciphersignal_\n'+url;
+  window.open('https://x.com/intent/tweet?text='+encodeURIComponent(text),'_blank','noopener');
+}
+
 // DETAIL
 async function selectCoin(id){
   selectedCoin=id;
@@ -1211,6 +1239,8 @@ async function selectCoin(id){
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
         <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">signal score ↗</button>
+        <a class="dact-btn" style="color:var(--text);border-color:var(--border2);text-decoration:none" href="/coin/${c.id}">coin page ↗</a>
+        <button class="dact-btn" style="color:#1da1f2;border-color:rgba(29,161,242,.45)" onclick="shareDetail('${c.id}')">share on X</button>
         <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
         <button id="hp-btn-detail" class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3);opacity:.5;pointer-events:none">check honeypot ↗</button>
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>

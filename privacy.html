@@ -35,7 +35,7 @@
     <h2>Information We Collect</h2>
     <p>CIPHER is designed to work without requiring user accounts or personal information. Here is what we may collect:</p>
     <ul>
-      <li><strong>Email address:</strong> Only if you voluntarily subscribe to our newsletter (Daily Cipher Drop), submit a contact form, or inquire about advertising. We never collect email addresses without your explicit action.</li>
+      <li><strong>Email address:</strong> Only if you voluntarily subscribe to our newsletter (Daily Cipher Drop), submit a contact form, inquire about advertising, or save a price alert. We never collect email addresses without your explicit action. A price alert stores the email, the coin id, and the USD threshold. CIPHER does not send alert email until a delivery provider is connected. Ask us if you want that row deleted.</li>
       <li><strong>Usage data:</strong> We use Cloudflare Web Analytics to collect anonymous, aggregate usage data such as page views, visit duration, and general geographic region. This data cannot be used to identify individual users.</li>
       <li><strong>Contract addresses:</strong> When you scan a token, the address is sent to honeypot.is (EVM), RugCheck (Solana), GoPlus, and DexScreener so they can return a result. Our own server proxies CoinGecko, and it also calls those scan APIs for share pages and Rug Radar. We do not keep a database of addresses you paste. Scan results may sit in a short cache (about 60–120 seconds) so repeat views and link previews don't hammer the free APIs.</li>
     </ul>
@@ -58,6 +58,7 @@
       <li><strong>DexScreener:</strong> Pair liquidity and the public boosted/latest token lists used by Rug Radar.</li>
       <li><strong>Google AdSense and Google Analytics:</strong> Ads and a single Analytics tag. Google may use cookies. See <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</li>
       <li><strong>Vercel:</strong> Hosts the site and the serverless proxies.</li>
+      <li><strong>Upstash or Vercel KV:</strong> When the owner has connected it, this is where price-alert signups are stored. Until then, signups are not kept on the hosted site.</li>
       <li><strong>Cloudflare:</strong> DNS for the domain, plus the Cloudflare Web Analytics beacon. Cloudflare is not the web host.</li>
       <li><strong>Kit (ConvertKit):</strong> Manages our email newsletter subscriptions.</li>
       <li><strong>Formspree:</strong> Processes contact form and advertising inquiry submissions.</li>

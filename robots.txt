@@ -3,3 +3,4 @@ Allow: /
 Disallow: /api/
 
 Sitemap: https://www.ciphersignal.xyz/sitemap.xml
+Sitemap: https://www.ciphersignal.xyz/sitemap-coins.xml
