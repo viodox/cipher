@@ -6,12 +6,16 @@
   "scripts": {
     "start": "node bot.js",
     "dev": "node server.js",
-    "preview": "PREVIEW_ONLY=true node bot.js"
+    "preview": "PREVIEW_ONLY=true node bot.js",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2"
+  },
+  "devDependencies": {
+    "@vercel/routing-utils": "^6.6.1"
   }
 }
