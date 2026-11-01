@@ -43,7 +43,9 @@ Signups are capture only. CIPHER does not send email, and the UI says so.
 
 TODO(alerts-delivery): after KV is set, add a mail provider (Resend's free tier is enough) and a scheduled job that reads pending rows, compares the CoinGecko USD price to the threshold, sends one email, and marks the row. Do not tell users that alerts are being delivered until that job exists.
 
-No new paid services. CoinGecko responses are cached about 60 seconds (`Cache-Control: s-maxage=60` plus an in-memory cache on the function). Scan pages and OG images use the same 60 second window. Rug Radar caches about 120 seconds.
+No new paid services. CoinGecko responses are cached about 60 seconds (`Cache-Control: s-maxage=60, stale-while-revalidate=120` plus an in-memory cache on the function). Scan pages and OG images use the same 60 second window. Rug Radar caches about 120 seconds.
+
+`/api/coingecko/...` is a rewrite to `api/coingecko.js`. This project is not Next.js, and plain Vercel functions only match one dynamic segment, so `api/coingecko/[...path].js` is not a catch-all. The rewrite destination must stay `/api/coingecko` (Vercel appends `?path=$1`). Putting `:path+` in the destination query compiles to a trailing space.
 
 Optional: add `COINGECKO_API_KEY` as a GitHub Actions secret if the daily X bot (`bot.js`) starts getting CoinGecko 429s. The bot calls CoinGecko directly and does not embed a key.
 

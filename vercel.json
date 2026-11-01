@@ -13,7 +13,8 @@
     { "source": "/coin/:id", "destination": "/api/coin?id=:id" },
     { "source": "/og/movers.png", "destination": "/api/og?kind=movers" },
     { "source": "/og/coin/:id.png", "destination": "/api/og?kind=coin&id=:id" },
-    { "source": "/sitemap-coins.xml", "destination": "/api/sitemap-coins" }
+    { "source": "/sitemap-coins.xml", "destination": "/api/sitemap-coins" },
+    { "source": "/api/coingecko/:path+", "destination": "/api/coingecko" }
   ],
   "functions": {
     "api/page.js": { "includeFiles": "index.html", "maxDuration": 10 },
@@ -21,6 +22,7 @@
     "api/scan.js": { "maxDuration": 10 },
     "api/security.js": { "maxDuration": 10 },
     "api/radar.js": { "maxDuration": 10 },
+    "api/coingecko.js": { "maxDuration": 10 },
     "api/content.js": { "includeFiles": "data/updates.json", "maxDuration": 10 },
     "api/updates.js": { "includeFiles": "data/updates.json", "maxDuration": 10 },
     "api/coin.js": { "maxDuration": 10 },
