@@ -11,7 +11,8 @@ const { APP_ROUTES, renderAppRoute, renderScanPage, renderScanError } = require(
 const { loadMovers, renderMoversPage, coinSitemapXml } = require('./lib/movers');
 const { loadCoin, renderCoinPage } = require('./lib/coin');
 const { updatesPayload, renderUpdatesPage } = require('./lib/updates');
-const { handleAlertHttp, renderAlertsPage } = require('./lib/alerts');
+const { handleAlertHttp, handleRun, handleUnsubscribe, renderAlertsPage } = require('./lib/alerts');
+const { loadCanon } = require('./lib/canon');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 4173;
@@ -56,7 +57,7 @@ async function handle(req, res) {
     const result = await proxyCoinGecko(cgPath, queryOf(url));
     send(res, result.status, result.body, {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': result.ok ? 'public, max-age=60' : 'no-store',
+      'Cache-Control': result.ok ? (result.cacheControl || 'public, max-age=60') : 'no-store',
     });
     return;
   }
@@ -94,9 +95,30 @@ async function handle(req, res) {
     return;
   }
 
+  if (pathname === '/api/alerts/run') {
+    const result = await handleRun(req);
+    sendJson(res, result.status || 500, result.body, 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/alerts/unsubscribe') {
+    const result = await handleUnsubscribe(req, url.searchParams.get('token'), url.searchParams.get('confirm') === '1');
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+    });
+    return;
+  }
+
   if (pathname === '/api/alerts') {
     const result = await handleAlertHttp(req);
     sendJson(res, result.status || 500, result.body, 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/canon') {
+    const canon = await loadCanon();
+    sendJson(res, 200, { symbols: canon.symbols, names: canon.names, ids: Object.keys(canon.ids) }, 'public, max-age=300');
     return;
   }
 
@@ -214,7 +236,9 @@ async function handle(req, res) {
   if (fs.existsSync(target) && fs.statSync(target).isDirectory()) target = path.join(target, 'index.html');
   if (fs.existsSync(target) && fs.statSync(target).isFile()) {
     const ext = path.extname(target).toLowerCase();
-    send(res, 200, fs.readFileSync(target), { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+    const headers = { 'Content-Type': MIME[ext] || 'application/octet-stream' };
+    if (ext === '.html') headers['Cache-Control'] = 'no-cache';
+    send(res, 200, fs.readFileSync(target), headers);
     return;
   }
 

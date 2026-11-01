@@ -4,6 +4,7 @@ const assert = require('assert');
 const { test, beforeEach, afterEach } = require('node:test');
 const { getTransformedRoutes } = require('@vercel/routing-utils');
 const vercelConfig = require('../vercel.json');
+const { ttlFor, cacheControlForTtl } = require('../lib/coingecko');
 
 const SERVER_KEY = 'server-key-not-real';
 const CLIENT_KEY = 'client-key-should-not-leak';
@@ -116,22 +117,24 @@ test('vercel compiles the catch-all onto one function and leaves the other api r
   const byDest = Object.fromEntries(
     routes.filter((route) => route.dest).map((route) => [route.dest, route])
   );
-  assert.equal(matchRoute(byDest['/api/page?route=ai-decrypt'], '/ai-decrypt') !== null, true);
-  assert.equal(matchRoute(byDest['/api/page?route=profile'], '/profile') !== null, true);
-  assert.equal(matchRoute(byDest['/api/page?route=cipherpot'], '/cipherpot') !== null, true);
-  assert.equal(matchRoute(byDest['/api/page?route=on-chain-stocks'], '/on-chain-stocks') !== null, true);
-  assert.equal(matchRoute(byDest['/api/page?route=rug-radar'], '/rug-radar') !== null, true);
+  assert.equal(matchRoute(byDest['/api/site?page=ai-decrypt'], '/ai-decrypt') !== null, true);
+  assert.equal(matchRoute(byDest['/api/site?page=profile'], '/profile') !== null, true);
+  assert.equal(matchRoute(byDest['/api/site?page=cipherpot'], '/cipherpot') !== null, true);
+  assert.equal(matchRoute(byDest['/api/site?page=on-chain-stocks'], '/on-chain-stocks') !== null, true);
+  assert.equal(matchRoute(byDest['/api/site?page=rug-radar'], '/rug-radar') !== null, true);
 
   const scan = byDest['/api/scan?chain=$1&address=$2'];
   assert.deepEqual(
     matchRoute(scan, '/scan/eth/0x6982508145454ce325ddbe47a25d4ec3d2311933'),
     ['eth', '0x6982508145454ce325ddbe47a25d4ec3d2311933']
   );
-  const og = byDest['/api/og?chain=$1&address=$2'];
+  const og = byDest['/api/scan?mode=og&chain=$1&address=$2'];
   assert.deepEqual(
     matchRoute(og, '/og/scan/sol/So11111111111111111111111111111111111111112.png'),
     ['sol', 'So11111111111111111111111111111111111111112']
   );
+  assert.equal(matchRoute(byDest['/api/alerts?action=run'], '/api/alerts/run') !== null, true);
+  assert.equal(matchRoute(byDest['/api/alerts?action=unsubscribe'], '/api/alerts/unsubscribe') !== null, true);
 
   for (const pathname of ['/api/og', '/api/scan', '/api/radar', '/api/security', '/api/page', '/api/coingecko']) {
     assert.equal(matchRoute(cg, pathname), null, pathname + ' must not be swallowed by the coingecko rewrite');
@@ -172,7 +175,12 @@ test('site paths proxy to CoinGecko with the server key, original query, and cac
 
     assert.equal(res.statusCode, 200, call.pathname);
     assert.equal(res.headers['content-type'], 'application/json; charset=utf-8');
-    assert.equal(res.headers['cache-control'], 'public, s-maxage=60, stale-while-revalidate=120');
+    const cgPath = call.pathname.replace(/^\/api\/coingecko\//, '');
+    const ttlParams = Object.assign({}, query);
+    delete ttlParams.path;
+    delete ttlParams.x_cg_demo_api_key;
+    delete ttlParams.x_cg_pro_api_key;
+    assert.equal(res.headers['cache-control'], cacheControlForTtl(ttlFor(cgPath, ttlParams)));
     assert.equal(res.body.includes(SERVER_KEY), false);
     assert.equal(res.body.includes(CLIENT_KEY), false);
 
