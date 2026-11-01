@@ -4,7 +4,7 @@
       "id": "price-alerts",
       "date": "2026-11-01",
       "title": "Price alert signup",
-      "summary": "Leave an email, a CoinGecko coin id, and a USD price threshold. CIPHER sends a confirmation, then one alert email when the price crosses it, with a one-click unsubscribe. The form stays hidden until Upstash and Resend are configured.",
+      "summary": "Save an email and a price. CIPHER tries to confirm it, then emails you once when the coin crosses your number. Unsubscribe in one click.",
       "href": "/alerts"
     },
     {
@@ -18,7 +18,7 @@
       "id": "coin-pages",
       "date": "2026-11-01",
       "title": "Coin pages",
-      "summary": "Every market snapshot has a public page at /coin/{id} with price, meta tags, structured data, a share-to-X link, and a contract scan when the token is on Ethereum, BSC, Base, or Solana.",
+      "summary": "Every coin has its own page with the live price, a share link, and a contract scan when the token is on Ethereum, BSC, Base, or Solana.",
       "href": "/coin/dogecoin"
     },
     {
@@ -32,7 +32,7 @@
       "id": "shareable-scans",
       "date": "2026-11-01",
       "title": "Shareable scan links",
-      "summary": "CipherPot results have a public URL at /scan/{chain}/{address}, an Open Graph card, and a share-on-X button prefilled with that URL.",
+      "summary": "Every CipherPot result has a link you can send to a friend, and a preview card when you share it on X.",
       "href": "/cipherpot"
     },
     {
