@@ -1,0 +1,18 @@
+{
+  "rewrites": [
+    { "source": "/ai-decrypt", "destination": "/api/page?route=ai-decrypt" },
+    { "source": "/profile", "destination": "/api/page?route=profile" },
+    { "source": "/cipherpot", "destination": "/api/page?route=cipherpot" },
+    { "source": "/on-chain-stocks", "destination": "/api/page?route=on-chain-stocks" },
+    { "source": "/rug-radar", "destination": "/api/page?route=rug-radar" },
+    { "source": "/scan/:chain/:address", "destination": "/api/scan?chain=:chain&address=:address" },
+    { "source": "/og/scan/:chain/:address.png", "destination": "/api/og?chain=:chain&address=:address" }
+  ],
+  "functions": {
+    "api/page.js": { "includeFiles": "index.html", "maxDuration": 10 },
+    "api/og.js": { "includeFiles": "fonts/**", "maxDuration": 10 },
+    "api/scan.js": { "maxDuration": 10 },
+    "api/security.js": { "maxDuration": 10 },
+    "api/radar.js": { "maxDuration": 10 }
+  }
+}

@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — CIPHER</title>
 <meta name="description" content="CIPHER's privacy policy. How we handle your data, cookies, and third-party services.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23060810'/><circle cx='50' cy='50' r='25' fill='none' stroke='%2300e5ff' stroke-width='4'/><line x1='50' y1='10' x2='50' y2='90' stroke='%2300e5ff' stroke-width='3' opacity='0.5'/></svg>">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5329567907369860" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
@@ -19,14 +21,14 @@
 <div class="app">
   <div class="topbar">
     <a href="/" class="logo-wrap"><div class="logo-icon"></div><div><div class="logo-text">CIPHER</div><div class="logo-sub">meme coin intelligence</div></div></a>
-    <div class="nav-links"><a href="/">scanner</a><a href="/ai-decrypt">AI decrypt</a><a href="/cipherpot">cipherpot</a><a href="/learn">learn</a></div>
+    <div class="nav-links"><a href="/">scanner</a><a href="/ai-decrypt">signal score</a><a href="/cipherpot">cipherpot</a><a href="/learn/">learn</a><a href="https://x.com/ciphersignal_" target="_blank" rel="noopener">@ciphersignal_</a></div>
   </div>
 
   <div class="breadcrumb"><a href="/">CIPHER</a> / Privacy Policy</div>
 
   <div class="article">
     <h1>Privacy Policy</h1>
-    <div class="updated">Last updated: March 2026</div>
+    <div class="updated">Last updated: November 2026</div>
 
     <p>CIPHER ("we," "us," or "our") operates the website ciphersignal.xyz. This Privacy Policy explains how we collect, use, and protect your information when you use our website and services.</p>
 
@@ -35,7 +37,7 @@
     <ul>
       <li><strong>Email address:</strong> Only if you voluntarily subscribe to our newsletter (Daily Cipher Drop), submit a contact form, or inquire about advertising. We never collect email addresses without your explicit action.</li>
       <li><strong>Usage data:</strong> We use Cloudflare Web Analytics to collect anonymous, aggregate usage data such as page views, visit duration, and general geographic region. This data cannot be used to identify individual users.</li>
-      <li><strong>Contract addresses:</strong> When you use CipherPot to scan a token, the contract address you enter is sent to third-party APIs (honeypot.is and rugcheck.xyz) for analysis. We do not store these addresses.</li>
+      <li><strong>Contract addresses:</strong> When you scan a token, the address is sent to honeypot.is (EVM), RugCheck (Solana), GoPlus, and DexScreener so they can return a result. Our own server proxies CoinGecko, and it also calls those scan APIs for share pages and Rug Radar. We do not keep a database of addresses you paste. Scan results may sit in a short cache (about 60–120 seconds) so repeat views and link previews don't hammer the free APIs.</li>
     </ul>
 
     <h2>How We Use Your Information</h2>
@@ -49,23 +51,26 @@
     <h2>Third-Party Services</h2>
     <p>CIPHER integrates with the following third-party services:</p>
     <ul>
-      <li><strong>CoinGecko API:</strong> Provides live cryptocurrency market data. Their privacy policy is available at <a href="https://www.coingecko.com/en/privacy" target="_blank" rel="noopener">coingecko.com/en/privacy</a>.</li>
-      <li><strong>Honeypot.is:</strong> Provides EVM token scanning for honeypot detection.</li>
-      <li><strong>RugCheck.xyz:</strong> Provides Solana token risk analysis.</li>
-      <li><strong>Google AdSense:</strong> Displays advertisements on our site. Google may use cookies to serve ads based on your browsing history. You can learn more at <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</li>
-      <li><strong>Cloudflare:</strong> Provides hosting, CDN, and anonymous web analytics.</li>
+      <li><strong>CoinGecko API:</strong> Provides live cryptocurrency market data. Requests go through our server so the API key is not in the page. Their privacy policy is at <a href="https://www.coingecko.com/en/privacy" target="_blank" rel="noopener">coingecko.com/en/privacy</a>.</li>
+      <li><strong>Honeypot.is:</strong> EVM honeypot simulation.</li>
+      <li><strong>RugCheck.xyz:</strong> Solana token risk reports.</li>
+      <li><strong>GoPlus:</strong> Token security (mint, proxy, blacklist function, owner powers, holders).</li>
+      <li><strong>DexScreener:</strong> Pair liquidity and the public boosted/latest token lists used by Rug Radar.</li>
+      <li><strong>Google AdSense and Google Analytics:</strong> Ads and a single Analytics tag. Google may use cookies. See <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</li>
+      <li><strong>Vercel:</strong> Hosts the site and the serverless proxies.</li>
+      <li><strong>Cloudflare:</strong> DNS for the domain, plus the Cloudflare Web Analytics beacon. Cloudflare is not the web host.</li>
       <li><strong>Kit (ConvertKit):</strong> Manages our email newsletter subscriptions.</li>
       <li><strong>Formspree:</strong> Processes contact form and advertising inquiry submissions.</li>
     </ul>
 
     <h2>Cookies</h2>
-    <p>CIPHER itself does not set any cookies. However, third-party services integrated into our site (specifically Google AdSense and Cloudflare) may use cookies for their own purposes, such as serving relevant ads or providing security features. You can manage cookie preferences through your browser settings.</p>
+    <p>Google Analytics (one tag) and Google AdSense may set cookies. Cloudflare Web Analytics is also loaded. CIPHER's own scanner keeps the watchlist and prediction streak in localStorage, not in a cookie. You can block or clear these in your browser.</p>
 
     <h2>Affiliate Links</h2>
-    <p>CIPHER contains affiliate links to cryptocurrency exchanges including Coinbase, Binance US, Kraken, and Crypto.com. When you click these links and sign up, we may receive a commission at no additional cost to you. These affiliate relationships are clearly disclosed on our website. Affiliate links do not influence our coin analysis, risk ratings, or AI Decrypt reports.</p>
+    <p>CIPHER contains affiliate links to Coinbase, Binance.US, Kraken, Crypto.com, and Robinhood. When you click these links and sign up, we may receive a commission at no additional cost to you. Those links live in the "where to buy" section and do not change scores or scan results.</p>
 
     <h2>Data Security</h2>
-    <p>We take reasonable measures to protect any personal information you provide. Our website is served over HTTPS and hosted on Cloudflare's global network. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+    <p>We take reasonable measures to protect any personal information you provide. The site is served over HTTPS on Vercel. No method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
 
     <h2>Children's Privacy</h2>
     <p>CIPHER is not intended for use by individuals under the age of 18. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us so we can remove it.</p>
@@ -79,7 +84,7 @@
     </ul>
 
     <h2>Disclaimer</h2>
-    <p>CIPHER is a free informational tool and does not provide financial advice. All data, scores, and AI-generated analysis are for informational purposes only. Cryptocurrency investments carry significant risk, including the potential loss of your entire investment. Always do your own research (DYOR) before making any financial decisions.</p>
+    <p>CIPHER is a free informational tool and does not provide financial advice. Scores are formulas and third-party scan results, not an AI model and not a recommendation. Cryptocurrency can go to zero. Always do your own research.</p>
 
     <h2>Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. Changes will be reflected on this page with an updated "Last updated" date. We encourage you to review this page periodically.</p>

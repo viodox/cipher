@@ -13,6 +13,13 @@ const CONFIG = {
   SITE_URL: "https://www.ciphersignal.xyz",
 };
 
+
+function coinGeckoUrl(base) {
+  const key = process.env.COINGECKO_API_KEY;
+  if (!key) return base;
+  return base + (base.includes('?') ? '&' : '?') + 'x_cg_demo_api_key=' + encodeURIComponent(key);
+}
+
 function httpsGet(url) {
   return new Promise((resolve, reject) => {
     https.get(url, { headers: { Accept: "application/json", "User-Agent": "CipherBot/1.0" } }, (res) => {
@@ -59,10 +66,10 @@ async function postTweet(text) {
 
 async function fetchMemeCoins() {
   console.log("📡 Fetching data...");
-  const r = await httpsGet(CONFIG.COINGECKO_URL);
+  const r = await httpsGet(coinGeckoUrl(CONFIG.COINGECKO_URL));
   const coins = Array.isArray(r) ? r : [];
   if (!coins.length) {
-    const t = await httpsGet("https://api.coingecko.com/api/v3/search/trending");
+    const t = await httpsGet(coinGeckoUrl("https://api.coingecko.com/api/v3/search/trending"));
     const tc = t.coins || [];
     if (!tc.length) throw new Error("No data");
     return tc.map(c => ({ name: c.item.name, symbol: c.item.symbol.toUpperCase(), cgId: c.item.id, price: c.item.data?.price||0, change24h: c.item.data?.price_change_percentage_24h?.usd||0, volume: parseFloat(c.item.data?.total_volume||"0"), marketCap: parseFloat(c.item.data?.market_cap||"0") }));
@@ -259,7 +266,7 @@ function tpl13(coins) {
     `$${top[0].symbol} ${fC(top[0].change24h)} today and most of you missed it\n\nCIPHER had it on the scanner all morning 🔐\n\n${CONFIG.SITE_URL}`,
     `Your friend: "bro just buy $${pick(topN(coins,'volume',5)).symbol}"\n\nCipherPot: "honeypot risk detected"\n\nWho you listening to? 🍯\n\n${CONFIG.SITE_URL}`,
     `$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping today\n\nBut did you check the contracts? 🍯\n\nFree scanner → ${CONFIG.SITE_URL}`,
-    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER scans 500+ meme coins live. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
+    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER tracks up to 500 meme coins. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
     `Meme coin season is not about finding pumps\n\nIt\'s about avoiding rugs\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — but are they safe?\n\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return pick(takes);
@@ -289,7 +296,7 @@ function tpl16(coins) {
 function tpl17(coins) {
   const top = topN(coins,'change24h',3);
   const wisdom = [
-    `Meme coin checklist before aping:\n\n✅ Check $ticker on CIPHER\n✅ Read the AI Decrypt report\n✅ Scan contract on CipherPot\n✅ Check top holders\n❌ Trust random CT calls\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — did you check?`,
+    `Meme coin checklist before aping:\n\n✅ Check $ticker on CIPHER\n✅ Read the Signal Score (it\'s a formula, not a model)\n✅ Scan the contract on CipherPot\n✅ Check top holders\n❌ Trust random CT calls\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — did you check?`,
     `$${top[0].symbol} is up ${fC(top[0].change24h)} today\n\nThe people who caught it early?\n\nThey were watching the volume spike on CIPHER before CT even noticed 📡`,
     `Every meme coin looks like a 100x until you check the contract\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping\n\nBut only CipherPot tells you if they\'re safe 🍯`,
   ];
@@ -302,7 +309,7 @@ function tpl18(coins) {
   const shouts = [
     `Drop your best meme coin play this week\n\nMost liked reply gets a CIPHER shoutout 🔐\n\n$${top.symbol} is leading the board at ${fC(top.change24h)}\n\n${CONFIG.SITE_URL}`,
     `What $ticker are you most bullish on rn?\n\nWe\'ll scan the top reply on CipherPot live 🍯\n\n${CONFIG.SITE_URL}`,
-    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\n500+ meme coins tracked live\n\n${CONFIG.SITE_URL}`,
+    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\nUp to 500 meme coins tracked\n\n${CONFIG.SITE_URL}`,
     `RT if you\'ve dodged a rug pull by scanning the contract first 🫡\n\nIf you haven\'t started:\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return `🔐 ${pick(shouts)}`;
@@ -312,7 +319,7 @@ function tpl18(coins) {
 function tpl19(coins) {
   const hot = topN(coins,'change24h',3);
   const facts = [
-    `CIPHER scans 500+ meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol} and updates every 10 min\n\nCompletely free. No signup. No paywall.`,
+    `CIPHER tracks up to 500 meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol}\n\nCompletely free. No signup. No paywall.`,
     `CipherPot has caught honeypots on coins that looked legit on the surface\n\nPaste any CA → instant scan\n\nETH · BSC · Base · Solana`,
     `$${hot[0].symbol} is up ${fC(hot[0].change24h)} today\n\nCIPHER\'s viral score flagged unusual volume before the pump 📡\n\nReal signals. Not vibes.`,
     `You can search $${hot[0].symbol} $${hot[1].symbol} or any coin by contract address on CIPHER\n\nNot just ticker names. Paste any CA and get a full breakdown.`,
@@ -439,190 +446,16 @@ const TEMPLATES = [
   tpl27, tpl28,
 ];
 
-// ══════════════════════════════════════════════
-// ROOBET AFFILIATE TEMPLATES (20 rotating templates)
-// Subtler, proof-driven. Real win: 10,000x = ~$3K
-// ══════════════════════════════════════════════
-
-function roo01() {
-  return `hit a 10,000x on Roobet a while back — turned a small bet into $3K
-
-replay's pinned if you wanna see it
-
-if you play, use code "ctg" when you sign up
-roobet.com/?ref=ctg`;
-}
-
-function roo02() {
-  return `been running everything through Roobet lately
-
-instant crypto deposits, instant withdrawals, no waiting around
-
-if you're gonna sign up, use code "ctg" for a little extra on the way in
-roobet.com/?ref=ctg`;
-}
-
-function roo03() {
-  return `pulled another withdrawal off Roobet today 💸
-
-fastest payouts I've used, no cap
-
-code "ctg" if you wanna check it out
-roobet.com/?ref=ctg`;
-}
-
-function roo04() {
-  return `friendly tip: if you're signing up for Roobet anyway, use a referral code
-
-mine's "ctg" — gets you a bit of extra value, costs you nothing
-roobet.com/?ref=ctg`;
-}
-
-function roo05() {
-  return `10,000x on Roobet. $3K off one bet. still feels unreal
-
-replay pinned to my profile 📌
-
-if you play, code "ctg" → roobet.com/?ref=ctg`;
-}
-
-function roo06() {
-  return `what I like about Roobet: crypto in, crypto out, seconds not days
-
-if you sign up, use code "ctg" for some extra value
-roobet.com/?ref=ctg`;
-}
-
-function roo07() {
-  return `people always ask where I play — it's Roobet
-
-deposits and withdrawals are instant, games are provably fair
-
-code "ctg" if you want in
-roobet.com/?ref=ctg`;
-}
-
-function roo08() {
-  return `if you're gonna sign up for Roobet, don't do it without a code
-
-mine's "ctg" — little bit of extra value, no downside
-roobet.com/?ref=ctg`;
-}
-
-function roo09() {
-  return `still my favorite hit — 10,000x on Roobet, $3K off a tiny bet
-
-proof's pinned 📌
-
-play smart, and use code "ctg" if you join
-roobet.com/?ref=ctg`;
-}
-
-function roo10() {
-  return `Roobet withdrawal hit my wallet in like 20 seconds 💸
-
-that's why I keep playing here
-
-code "ctg" to sign up → roobet.com/?ref=ctg`;
-}
-
-function roo11() {
-  return `the move if you're joining Roobet: use a referral code
-
-"ctg" gets you extra value on your first deposit
-roobet.com/?ref=ctg`;
-}
-
-function roo12() {
-  return `crypto casino that actually pays out fast? Roobet's the one I use
-
-if you sign up, code "ctg" gets you a little extra
-roobet.com/?ref=ctg`;
-}
-
-function roo13() {
-  return `not gonna oversell it — I play on Roobet, hit a 10,000x once ($3K), and the withdrawals are instant
-
-if you play too, use code "ctg"
-roobet.com/?ref=ctg`;
-}
-
-function roo14() {
-  return `signing up for Roobet raw is leaving value on the table
-
-use a code — mine's "ctg" — takes 2 seconds
-roobet.com/?ref=ctg`;
-}
-
-function roo15() {
-  return `if you're gonna gamble crypto anyway, at least play somewhere that pays fast
-
-Roobet does. code "ctg" if you sign up
-roobet.com/?ref=ctg`;
-}
-
-function roo16() {
-  return `been on Roobet for a minute now — instant payouts keep me here
-
-my biggest hit was a 10,000x ($3K), replay's pinned 📌
-
-code "ctg" to join → roobet.com/?ref=ctg`;
-}
-
-function roo17() {
-  return `quick one: if you play on Roobet, use code "ctg"
-
-extra value on signup, costs you nothing
-roobet.com/?ref=ctg`;
-}
-
-function roo18() {
-  return `withdrawals in seconds. deposits in seconds. that's the Roobet difference
-
-sign up with code "ctg" for a little extra
-roobet.com/?ref=ctg`;
-}
-
-function roo19() {
-  return `people sleep on using referral codes
-
-if you're joining Roobet, "ctg" gets you extra value for free
-roobet.com/?ref=ctg`;
-}
-
-function roo20() {
-  return `10,000x. $3K. one bet. still my favorite Roobet moment
-
-replay pinned if you don't believe me 📌
-
-code "ctg" if you wanna play → roobet.com/?ref=ctg`;
-}
-
-const ROOBET_TEMPLATES = [roo01, roo02, roo03, roo04, roo05, roo06, roo07, roo08, roo09, roo10, roo11, roo12, roo13, roo14, roo15, roo16, roo17, roo18, roo19, roo20];
-
 // ── Scheduling ──────────────────────────────
-// 16 slots/day: 10 Roobet + 6 CIPHER
-// Roobet at :17 past 0,2,4,6,8,12,14,16,20,22 UTC
-// CIPHER at :47 past 1,5,10,13,18,23 UTC
-const ROOBET_HOURS = [0, 2, 4, 6, 8, 12, 14, 16, 20, 22];
-const CIPHER_HOURS = [1, 5, 10, 13, 18, 23];
+// Every cron slot posts a CIPHER market note. Casino referrals were removed.
+const POST_HOURS = [0, 1, 2, 4, 5, 6, 8, 10, 12, 13, 14, 16, 18, 20, 22, 23];
 
 function getTemplate() {
   const now = new Date();
   const day = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
   const hour = now.getUTCHours();
-
-  if (ROOBET_HOURS.includes(hour)) {
-    const slotIndex = ROOBET_HOURS.indexOf(hour);
-    // Shift start template by day so day 1 starts at different roo than day 0
-    const idx = (slotIndex + day) % ROOBET_TEMPLATES.length;
-    return ROOBET_TEMPLATES[idx];
-  }
-
-  const slotIndex = CIPHER_HOURS.indexOf(hour);
-  // If somehow off-schedule, fall back to random
+  const slotIndex = POST_HOURS.indexOf(hour);
   if (slotIndex === -1) return TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
-  // Shift by day so consecutive days rotate through different template subsets
   const idx = (slotIndex * 3 + day * 5) % TEMPLATES.length;
   return TEMPLATES[idx];
 }
@@ -640,15 +473,9 @@ async function main() {
     const fn = getTemplate();
     console.log(`📝 Template: ${fn.name}`);
     
-    let tweet;
-    if (fn.name.startsWith('roo')) {
-      tweet = fn();
-    } else {
-      const coins = await fetchMemeCoins();
-      console.log(`📊 ${coins.length} coins loaded`);
-      tweet = fn(coins);
-      tweet = limitCashtags(tweet);
-    }
+    const coins = await fetchMemeCoins();
+    console.log(`📊 ${coins.length} coins loaded`);
+    let tweet = limitCashtags(fn(coins));
     
     if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
     // Add invisible zero-width variation so identical templates never look identical

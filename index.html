@@ -3,27 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- route-meta:start -->
 <title>CIPHER — Meme Coin Intelligence</title>
-<meta name="description" content="CIPHER decrypts meme coin sentiment, viral potential, and rug pull risk in real time. Free AI-powered crypto intelligence. 500+ coins tracked.">
+<meta name="description" content="Free meme coin scanner for up to 500 coins from CoinGecko. Signal scores are formulas over price, volume, and market cap — not an AI model. CipherPot checks contracts.">
+<link rel="canonical" href="https://www.ciphersignal.xyz/">
 <meta property="og:title" content="CIPHER — Meme Coin Intelligence">
-<meta property="og:description" content="AI-powered rug radar, viral scores & degen reports for 500+ meme coins. Free tool.">
+<meta property="og:description" content="Up to 500 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
 <meta property="og:image" content="https://www.ciphersignal.xyz/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://www.ciphersignal.xyz">
+<meta property="og:url" content="https://www.ciphersignal.xyz/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ciphersignal_">
 <meta name="twitter:title" content="CIPHER — Meme Coin Intelligence">
-<meta name="twitter:description" content="AI decrypts meme coin sentiment, rug risk & viral potential for 500+ coins. Free. No signup.">
+<meta name="twitter:description" content="Up to 500 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
 <meta name="twitter:image" content="https://www.ciphersignal.xyz/og-image.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23060810'/><circle cx='50' cy='50' r='25' fill='none' stroke='%2300e5ff' stroke-width='4'/><line x1='50' y1='10' x2='50' y2='90' stroke='%2300e5ff' stroke-width='3' opacity='0.5'/></svg>">
+<!-- route-meta:end -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap"></noscript>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5329567907369860" crossorigin="anonymous"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CQVB0E2CMB');</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CQVB0E2CMB');</script>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -171,6 +175,14 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .footer-links{display:flex;gap:16px;flex-wrap:wrap}
 .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
 .footer-links a:hover{color:var(--accent)}
+.x-link{font-family:var(--font-disp);font-size:10px;letter-spacing:.08em;color:var(--muted);text-decoration:none;text-transform:none;border:1px solid var(--border2);padding:6px 10px;border-radius:4px}
+.x-link:hover{color:var(--accent);border-color:rgba(0,229,255,.4)}
+.buy-note{font-size:12px;color:#8a9ab8;line-height:1.6;margin-bottom:12px}
+.scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
+.scores h2{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.scores p,.scores li{font-size:13px;color:#8a9ab8;line-height:1.7}
+.scores ul{margin:0 0 .5rem 1.1rem}
+.scores strong{color:#c8d8f0}
 .disclaimer{font-size:9px;color:var(--muted);text-align:center;margin-top:1rem;letter-spacing:.06em;line-height:1.7}
 .pagination{display:flex;align-items:center;gap:6px;margin-top:1rem;flex-wrap:wrap}
 .page-btn{font-size:9px;padding:6px 11px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
@@ -286,24 +298,11 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div><div class="logo-text">CIPHER</div><div class="logo-sub">meme coin intelligence</div></div>
     </div>
     <div class="topbar-right">
+      <a class="x-link" href="https://x.com/ciphersignal_" target="_blank" rel="noopener">@ciphersignal_</a>
       <span class="coin-count" id="coin-count">loading...</span>
       <button onclick="feelingLucky()" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);background:rgba(255,180,0,.07);color:#ffb400;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.07)'">🎲 feeling lucky</button>
       <div class="status-pill"><div class="status-dot"></div><span id="status-text">fetching data</span></div>
     </div>
-  </div>
-
-  <div class="banner-slot">
-    <div class="banner-label">sponsored</div>
-    <div class="banner-content"><span class="banner-text">🔥 New to crypto? Get <strong style="color:#ffb400">$10 FREE</strong> when you sign up on Coinbase — takes 2 minutes</span></div>
-    <a class="banner-cta" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener">claim bonus ↗</a>
-  </div>
-
-  <div style="background:linear-gradient(135deg,rgba(0,255,153,.06),rgba(0,229,255,.03));border:1px solid rgba(0,255,153,.25);border-radius:8px;padding:12px 18px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:10px;flex:1">
-      <span style="font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:2px 6px;border-radius:2px">AD</span>
-      <span style="font-size:13px;color:#c8d8f0">🇺🇸 Trade stocks & crypto commission-free — <strong style="color:#00ff99">get a FREE stock</strong> when you join Robinhood</span>
-    </div>
-    <a href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:9px 18px;border-radius:4px;background:#00ff99;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap;box-shadow:0 0 12px rgba(0,255,153,.25)">🎁 free stock ↗</a>
   </div>
 
   <!-- SIGNAL FEED TERMINAL -->
@@ -359,11 +358,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('scanner')">01 // scanner</button>
-    <button class="tab" onclick="switchTab('report')">02 // AI decrypt</button>
-    <button class="tab" onclick="switchTab('quiz')">03 // profile</button>
-    <button class="tab" onclick="switchTab('cipherpot')">04 // cipherpot</button>
-    <button class="tab" onclick="switchTab('rwa')">05 // on-chain stocks</button>
+    <button class="tab active" data-tab="scanner" onclick="switchTab('scanner')">01 // scanner</button>
+    <button class="tab" data-tab="report" onclick="switchTab('report')">02 // signal score</button>
+    <button class="tab" data-tab="quiz" onclick="switchTab('quiz')">03 // profile</button>
+    <button class="tab" data-tab="cipherpot" onclick="switchTab('cipherpot')">04 // cipherpot</button>
+    <button class="tab" data-tab="rwa" onclick="switchTab('rwa')">05 // on-chain stocks</button>
+    <button class="tab" data-tab="radar" onclick="switchTab('radar')">06 // rug radar</button>
   </div>
 
   <!-- SCANNER -->
@@ -377,7 +377,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="filter-btn" id="f-watchlist" onclick="setFilter('watchlist')">⭐ watchlist</button>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
-    <div id="scanner-body"><div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 500 meme coins...</div></div>
+    <div id="data-updated" style="font-size:11px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
+    <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 500 with 24h volume over $500)...</div></div>
     <div id="detail-area"></div>
   </div>
 
@@ -392,38 +393,25 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <br><span style="color:#6a7a9a;font-size:11px">⚠️ Stock Tokens are debt securities (no shareholder rights) and are not available to US persons. This is information, not investment advice.</span>
     </div>
     <div id="rwa-body"><div class="loading"><div class="spinner"></div>loading on-chain stock data...</div></div>
-    <!-- Robinhood referral banner -->
-    <div style="background:linear-gradient(135deg,rgba(0,255,153,.06),rgba(0,229,255,.04));border:1px solid rgba(0,255,153,.3);border-radius:8px;padding:14px 18px;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-      <div style="font-size:13px;color:#c8d8f0"><span style="font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:2px 6px;border-radius:2px;margin-right:8px">AD</span>🇺🇸 US-based? Trade stocks &amp; crypto commission-free on Robinhood — <strong style="color:#00ff99">we BOTH get a free stock</strong> when you sign up</div>
-      <a href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="font-family:var(--font-disp);font-size:11px;padding:10px 22px;border-radius:4px;background:#00ff99;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap;box-shadow:0 0 15px rgba(0,255,153,.3)">🎁 claim free stock ↗</a>
-    </div>
   </div>
 
-  <!-- AI REPORT -->
+  <!-- SIGNAL SCORE -->
   <div id="tab-report" class="tab-panel">
     <div class="report-card">
       <div class="rc-top">
-        <span class="ai-tag">AI decrypt</span>
+        <span class="ai-tag">signal score</span>
         <select class="cipher-select" id="report-coin-select"><option value="">— select coin —</option></select>
-        <button class="gen-btn" id="gen-btn" onclick="generateReport()">decrypt coin</button>
+        <button class="gen-btn" id="gen-btn" onclick="generateReport()">score coin</button>
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:8px;flex-wrap:wrap">
         <span style="font-size:11px;color:var(--muted)">or paste a contract address:</span>
         <input id="report-ca-input" type="text" placeholder="paste contract address or search by name..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')lookupAndDecrypt()">
-        <button onclick="lookupAndDecrypt()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 16px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">search & decrypt</button>
+        <button onclick="lookupAndDecrypt()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 16px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">search &amp; score</button>
       </div>
-      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">AI decrypts live price data, viral potential, and rug signals. Raw. No fluff.</div>
-      <div class="report-out" id="report-output"><span style="color:var(--muted);font-size:11px">// select a coin above and hit decrypt</span></div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">A written read of the signal score, hype, and market-structure risk. Formula over CoinGecko numbers — not a language model. <a href="#how-scores" style="color:var(--accent)">how scores work</a></div>
+      <div class="report-out" id="report-output"><span style="color:var(--muted);font-size:11px">// select a coin above and hit score</span></div>
       <div id="report-cta" style="display:none">
-        <div class="section-label" style="margin-top:1.25rem">trade this coin</div>
-        <div class="aff-grid">
-          <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener"><div class="aff-name">COINBASE</div><div class="aff-desc">🎁 Get $10 FREE just for signing up</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="noopener"><div class="aff-name">BINANCE US</div><div class="aff-desc">🔥 Biggest meme coin selection in the US</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="noopener"><div class="aff-name">KRAKEN</div><div class="aff-desc">⚡ Pro-grade exchange, lowest fees</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="noopener"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">💎 Earn rewards on every trade</div><div class="aff-link">get started ↗</div></a>
-          <a class="aff-card" href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener" style="border-color:rgba(0,255,153,.3)"><div class="aff-name" style="color:#00ff99">ROBINHOOD</div><div class="aff-desc">🎁 Free stock for signing up — stocks &amp; crypto</div><div class="aff-link" style="color:#00ff99">get free stock ↗</div></a>
-          <a class="aff-card" href="https://roobet.com/?ref=ctg" target="_blank" rel="noopener" style="border-color:rgba(255,180,0,.3)"><div class="aff-name" style="color:#ffb400">ROOBET</div><div class="aff-desc">🎰 #1 crypto casino — use code "ctg"</div><div class="aff-link" style="color:#ffb400">play now ↗</div></a>
-        </div>
+        <div style="margin-top:1rem;font-size:12px;color:var(--muted)">Looking for a venue? See <a href="#where-to-buy" style="color:var(--accent)">where to buy</a>. Affiliate links, not a recommendation.</div>
       </div>
     </div>
   </div>
@@ -440,7 +428,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
         <span class="ai-tag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">CIPHERPOT 🍯</span>
         <span style="font-size:11px;color:var(--muted);letter-spacing:.04em">honeypot & rug detector</span>
       </div>
-      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:1rem;line-height:1.7">Paste any contract address to scan for honeypots, rug signals, taxes & more. Supports ETH, BSC, Base & Solana.</div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:1rem;line-height:1.7">Paste a contract on Ethereum, BSC, Base, or Solana. CipherPot reads honeypot.is (EVM), RugCheck (Solana), and GoPlus security (mint, proxy, blacklist, owner powers, holder concentration). Each result has a share link at /scan/…</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
         <select id="cp-chain" onchange="cpChainChange()" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:11px;padding:8px 10px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s">
           <option value="1">Ethereum</option>
@@ -455,6 +443,18 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     </div>
   </div>
 
+  <!-- RUG RADAR -->
+  <div id="tab-radar" class="tab-panel">
+    <div class="report-card">
+      <div class="rc-top">
+        <span class="ai-tag" style="background:rgba(255,51,85,.08);color:#ff6680;border-color:rgba(255,51,85,.3)">RUG RADAR</span>
+        <span style="font-size:11px;color:var(--muted)">DexScreener attention, checked with GoPlus</span>
+      </div>
+      <div id="radar-updated" style="font-size:11px;color:var(--muted);margin-bottom:.75rem;line-height:1.6">Loading the latest boosted and newly listed tokens on chains CipherPot supports.</div>
+      <div id="radar-body"><div class="loading"><div class="spinner"></div>pulling DexScreener and GoPlus…</div></div>
+    </div>
+  </div>
+
   <!-- AD SLOT - BETWEEN SCANNER AND TRENDING -->
   <div style="margin-top:1.5rem;margin-bottom:.5rem;min-height:90px;display:flex;align-items:center;justify-content:center" id="ad-main-slot">
     <!-- INSERT GOOGLE ADSENSE CODE HERE AFTER APPROVAL -->
@@ -462,7 +462,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <!-- TRENDING ON X -->
   <div style="margin-top:1.5rem">
-    <div style="font-size:9px;color:#6a7a9a;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">trending on x <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
+    <div style="font-size:9px;color:#6a7a9a;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">highest signal scores <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
     <div id="trending-wrap" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px"></div>
   </div>
 
@@ -478,15 +478,15 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks 500+ meme coins with live data — price, volume, market cap updated in real time</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks up to 500 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Scores every coin on viral potential, rug risk, and sentiment so you know what's heating up</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Scores every coin on hype, market mood, and a market-structure risk estimate. See <a href="#how-scores" style="color:var(--accent)">how scores work</a>.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">AI Decrypt gives you a raw, unfiltered read on any coin — SEND IT, WAIT, or NGMI</span>
+          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Signal Score writes that read in plain language — SEND IT, WAIT, or NGMI. It is a formula, not an AI model.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#ffb400;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
@@ -508,7 +508,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
         <div>
           <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
-          <div style="font-size:12px;color:#8a9ab8;line-height:1.6">Reach <strong style="color:#c8d8f0">250+ active meme coin traders</strong> daily. Banner slots, newsletter features & sponsored picks.</div>
+          <div style="font-size:12px;color:#8a9ab8;line-height:1.6">Banner slots and sponsored picks for meme-coin projects. We don't publish a visitor count we can't verify.</div>
         </div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -562,19 +562,46 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     </div>
   </div>
 
+  <section class="scores" id="how-scores">
+    <h2>how scores work</h2>
+    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many coins came back on the last successful fetch (capped at 500, skipping pairs with under $500 of 24h volume).</p>
+    <ul>
+      <li><strong>Hype (viral):</strong> volume relative to market cap, the size of the 24h move, whether CoinGecko currently lists the coin as trending, absolute volume, and a small boost when a tiny cap is trading more than its size. A ±3 daily jitter keeps identical inputs from stacking.</li>
+      <li><strong>Mood (sentiment):</strong> starts at 50 and moves with the 24h price change. Very low volume pulls it back toward neutral. High volume relative to market cap amplifies the move.</li>
+      <li><strong>Risk level:</strong> a market-structure guess. Smaller market caps, violent 24h moves, and dead volume raise it. Large caps and healthy volume lower it. It does <strong>not</strong> read the contract. Use CipherPot for that.</li>
+      <li><strong>Signal Score:</strong> the same three numbers, written out as SEND IT / WAIT / NGMI, plus a line of color. No model is called.</li>
+      <li><strong>CipherPot:</strong> <strong>honeypot.is</strong> on Ethereum, BSC, and Base (honeypot simulation, taxes, liquidity, holders); <strong>RugCheck</strong> on Solana; <strong>GoPlus</strong> token security on both (mintable, proxy, blacklist function, owner privileges, holder concentration). DexScreener supplies extra liquidity when the other sources don't.</li>
+      <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. Cached about two minutes on the server. Open a row for the full scan.</li>
+      <li><strong>On-chain stocks:</strong> CoinGecko's Robinhood Chain stocks category. Those tokens are debt securities and are not offered to US persons. That is separate from the Robinhood brokerage link under where to buy.</li>
+    </ul>
+    <p id="scores-updated">Last market-data refresh: waiting for the first CoinGecko response.</p>
+  </section>
+
+  <section class="scores" id="where-to-buy">
+    <h2>where to buy</h2>
+    <p class="buy-note">Affiliate links. CIPHER may earn a commission if you sign up, at no extra cost to you. A listing is not an endorsement, not available in every country, and has nothing to do with a coin's score. <a href="/terms">Terms and disclaimer</a>.</p>
+    <div class="aff-grid">
+      <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener sponsored"><div class="aff-name">COINBASE</div><div class="aff-desc">Sign-up bonus for new accounts where the offer applies.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="noopener sponsored"><div class="aff-name">BINANCE.US</div><div class="aff-desc">US spot exchange. Availability depends on your state.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="noopener sponsored"><div class="aff-name">KRAKEN</div><div class="aff-desc">Exchange account via referral link.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="noopener sponsored"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">App signup via referral link.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener sponsored"><div class="aff-name">ROBINHOOD</div><div class="aff-desc">US brokerage for stocks and crypto. Not the same product as Robinhood Chain stock tokens, which are not offered to US persons.</div><div class="aff-link">referral ↗</div></a>
+    </div>
+  </section>
+
   <div class="footer">
     <div class="footer-logo">CIPHER</div>
     <div class="footer-links">
-      <a href="https://twitter.com/intent/tweet?text=just+found+CIPHER+%E2%80%94+free+meme+coin+intelligence+for+250%2B+coins+%F0%9F%94%90+AI+rug+radar+%2B+degen+reports&url=www.ciphersignal.xyz" target="_blank">share on x</a>
-      <a href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank">coinbase ↗</a>
-      <a href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank">binance us ↗</a>
-      <a href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank">kraken ↗</a>
-      <a href="https://crypto.com/app/8hxtmyan6d" target="_blank">crypto.com ↗</a>
+      <a href="https://x.com/ciphersignal_" target="_blank" rel="noopener">@ciphersignal_</a>
+      <a href="https://x.com/intent/tweet?text=CIPHER%20%E2%80%94%20free%20meme%20coin%20scanner%20and%20contract%20checks%0A%0Avia%20%40ciphersignal_%0Ahttps%3A%2F%2Fwww.ciphersignal.xyz" target="_blank" rel="noopener">share on x</a>
+      <a href="#where-to-buy">where to buy</a>
     </div>
     <div class="footer-links" style="margin-top:8px">
       <a href="/what-are-meme-coins.html">what are meme coins?</a>
       <a href="/how-to-spot-rug-pulls.html">rug pull guide</a>
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
+      <a href="/rug-radar">rug radar</a>
+      <a href="/terms">terms</a>
       <a href="/privacy.html">privacy policy</a>
     </div>
   </div>
@@ -591,18 +618,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 let allCoins=[],filteredCoins=[],currentFilter='all',currentPage=1,selectedCoin=null,sortCol='viral',sortDir=-1;
 const PAGE_SIZE=25;
 let lastFetch=0;const FETCH_COOLDOWN=60000;
-const FLAGS=[
-  {t:"Dev wallet holds >15% of supply",r:"high"},{t:"Contract ownership not renounced",r:"high"},
-  {t:"Liquidity pool unlocked",r:"high"},{t:"Honeypot pattern detected in code",r:"high"},
-  {t:"No verified contract on-chain",r:"high"},{t:"Massive mint function still active",r:"high"},
-  {t:"Team wallets showing sell pressure",r:"mid"},{t:"Anonymous team, no doxxing",r:"mid"},
-  {t:"Low liquidity — easy to manipulate",r:"mid"},{t:"Telegram admin activity dropped 80%",r:"mid"},
-  {t:"No audit from reputable firm",r:"mid"},{t:"High whale concentration (top 10 >40%)",r:"mid"},
-  {t:"Verified contract, ownership renounced",r:"low"},{t:"Liquidity locked 12+ months",r:"low"},
-  {t:"Active dev team, regular commits",r:"low"},{t:"CertiK audit passed",r:"low"},
-  {t:"Large organic community growth",r:"low"},{t:"Multiple CEX listings confirmed",r:"low"},
-];
-const rcMap={high:'#ff3355',mid:'#ffb400',low:'#00ff99'};
+let dataUpdatedAt=null;
+const SITE_ORIGIN='https://www.ciphersignal.xyz';
 
 function col(v){return v>=65?'#00ff99':v>=35?'#ffb400':'#ff3355';}
 function sentLbl(v){return v>=65?['Bullish','ctag-g']:v>=35?['Neutral','ctag-y']:['Bearish','ctag-r'];}
@@ -615,7 +632,7 @@ function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B'
 let trendingIds=new Set();
 async function fetchTrending(){
   try{
-    const res=await fetch('https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+    const res=await fetch('/api/coingecko/search/trending');
     if(res.ok){
       const data=await res.json();
       trendingIds=new Set((data.coins||[]).map(c=>c.item?.id).filter(Boolean));
@@ -708,7 +725,18 @@ function calcRug(c){
   r+=(seedRand(c.id+'rug')-0.5)*8;
   return Math.round(Math.max(5,Math.min(95,r)));
 }
-function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c),flags:[...FLAGS].sort(()=>seedRand(c.id+'flag')-0.5).slice(0,5)};}
+function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c)};}
+function stampUpdated(){
+  dataUpdatedAt=new Date();
+  const label='market data updated '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC · source: CoinGecko';
+  const el=document.getElementById('data-updated');
+  if(el) el.textContent=label;
+  const scores=document.getElementById('scores-updated');
+  if(scores) scores.textContent='Last market-data refresh: '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC.';
+}
+function chainSlug(chain){return chain==='1'?'eth':chain==='56'?'bsc':chain==='8453'?'base':chain==='sol'?'sol':chain;}
+function canonicalScanAddress(chain,address){return (chain==='1'||chain==='56'||chain==='8453')?address.toLowerCase():address;}
+function scanPermalink(chain,address){return '/scan/'+chainSlug(chain)+'/'+canonicalScanAddress(chain,address);}
 
 
 
@@ -919,21 +947,38 @@ let lastScanShare=null; // {symbol, verdict, chainName, address}
 function shareScanOnX(){
   if(!lastScanShare) return;
   const s=lastScanShare;
-  const verdictLine=s.verdict==='HONEYPOT'?'🚨 HONEYPOT DETECTED on $'+s.symbol
-    :s.verdict==='RUGGED'?'💀 $'+s.symbol+' shows RUGGED signals'
-    :s.verdict==='HIGH'?'⚠️ HIGH RISK flags on $'+s.symbol
-    :s.verdict==='MEDIUM'?'⚠️ $'+s.symbol+' has some risk flags'
-    :'✅ $'+s.symbol+' passed the CipherPot scan';
-  const text=verdictLine+'\n\nScanned free on CIPHER — honeypot & rug detector for meme coins\n\nhttps://www.ciphersignal.xyz';
-  // Use x.com/intent/tweet (the legacy but most reliable auto-fill endpoint)
-  // Adding via=ciphersignal_ and forcing web makes X respect the text param
+  const link=SITE_ORIGIN+scanPermalink(s.chain,s.address);
+  const text=(s.stamp||s.verdict)+' — $'+s.symbol+' on '+s.chainName+'\n'+(s.blurb||'Contract scan')+'\n\nvia @ciphersignal_\n'+link;
   const url='https://x.com/intent/tweet?text='+encodeURIComponent(text);
-  // Directly open — no async delay, no popup blocker issues
   const win=window.open(url,'_blank','noopener,noreferrer');
   if(!win){ window.location.href=url; }
 }
 function shareButtonHtml(){
-  return `<button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">📤 share result on X</button>`;
+  if(!lastScanShare) return '';
+  const path=scanPermalink(lastScanShare.chain,lastScanShare.address);
+  const abs=SITE_ORIGIN+path;
+  return `<a href="${path}" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase">permalink</a>
+  <button onclick="navigator.clipboard.writeText('${abs}').then(()=>{this.textContent='copied'})" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase">copy link</button>
+  <button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">share on X</button>`;
+}
+function securityPills(data){
+  if(!data||!data.ok) return '';
+  const c=data.checks||{};
+  const row=(label,on)=>`<div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px"><div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">${label}</div><div style="font-size:12px;color:${on?'#ffb400':'#00ff99'};font-weight:700">${on?'yes':'no'}</div></div>`;
+  const reasons=(data.reasons||[]).slice(0,6).map(r=>`<div style="font-size:12px;color:#c8d8f0;padding:4px 0;border-bottom:1px solid var(--border)">${escHtml(r)}</div>`).join('');
+  return `<div style="margin-top:.5rem;margin-bottom:1rem">
+    <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">// goplus + merged security · ${data.stamp||''} · risk ${data.riskScore==null?'n/a':data.riskScore}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:8px">
+      ${row('mintable',!!c.mintable)}
+      ${row('proxy',!!c.proxy)}
+      ${row('blacklist fn',!!c.blacklist)}
+      ${row('owner changes bal.',!!c.ownerChangeBalance)}
+      ${row('freeze authority',!!c.freezable)}
+      ${row('hidden owner',!!c.hiddenOwner)}
+    </div>
+    ${reasons}
+    <div style="font-size:10px;color:var(--muted);margin-top:6px">sources: ${(data.sources||[]).join(' · ')} · ${data.updatedAt||''}</div>
+  </div>`;
 }
 
 // ═══ WATCHLIST ═══
@@ -977,29 +1022,29 @@ async function loadCoins(){
     return;
   }
   lastFetch=now;
-  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>intercepting CoinGecko signals for 500 meme coins...</div>';
+  document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 500)...</div>';
   document.getElementById('status-text').textContent='fetching data';
   document.getElementById('coin-count').textContent='loading...';
   selectedCoin=null;document.getElementById('detail-area').innerHTML='';
   try{
-    // Fetch trending coins first for viral scoring
-    await fetchTrending();
-    const [p1,p2]=await Promise.all([
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C7d&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc').then(r=>r.json()),
+    const [, p1, p2]=await Promise.all([
+      fetchTrending(),
+      fetch('/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C7d').then(r=>r.ok?r.json():[]),
+      fetch('/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d').then(r=>r.ok?r.json():[]),
     ]);
     const seen=new Set();
     let raw=[...(Array.isArray(p1)?p1:[]),...(Array.isArray(p2)?p2:[])].filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
+    if(!raw.length) throw new Error('empty');
     allCoins=raw.slice(0,500).map(enrich);
     const sel=document.getElementById('report-coin-select');
     sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
     document.getElementById('status-text').textContent='live scan active';
     document.getElementById('coin-count').textContent=allCoins.length+' coins tracked';
+    stampUpdated();
     currentPage=1;applyFilters();
-    // Load extended coin list for AI Decrypt (extra pages in background)
     loadExtendedCoins();
   }catch(e){
-    document.getElementById('scanner-body').innerHTML=`<div class="error-msg">// CoinGecko API rate limited or unreachable.<br><br>The API allows 100 calls/min. Wait 60 seconds and hit refresh.<br><br>For high traffic: get a free API key at coingecko.com/api and add it as a query param: <code>&x_cg_demo_api_key=YOUR_KEY</code></div>`;
+    document.getElementById('scanner-body').innerHTML='<div class="error-msg">// CoinGecko is rate limited or unreachable.<br><br>Wait about a minute and hit refresh. Market data is cached for 60 seconds on the server.</div>';
     document.getElementById('status-text').textContent='signal lost';
   }
 }
@@ -1010,7 +1055,7 @@ async function loadExtendedCoins(){
   try{
     const pages=[];
     for(let p=3;p<=4;p++){
-      pages.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=${p}&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`).then(r=>r.ok?r.json():[]));
+      pages.push(fetch(`/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=${p}&sparkline=false`).then(r=>r.ok?r.json():[]));
     }
     // Small delay between the two calls to be gentle on rate limits
     const results=[];
@@ -1021,11 +1066,11 @@ async function loadExtendedCoins(){
     const existingIds=new Set(allCoins.map(c=>c.id));
     const extra=results.flat().filter(c=>c&&c.id&&!existingIds.has(c.id)&&c.total_volume>100);
     extendedCoins=extra.map(enrich);
-    // Update AI Decrypt dropdown with all coins
+    // Update Signal Score dropdown with all coins
     const sel=document.getElementById('report-coin-select');
     const allForSelect=[...allCoins,...extendedCoins].sort((a,b)=>a.symbol.localeCompare(b.symbol));
     sel.innerHTML='<option value="">— select coin —</option>'+allForSelect.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
-    console.log(`📡 AI Decrypt: ${allForSelect.length} coins available (${allCoins.length} scanner + ${extendedCoins.length} extended)`);
+    console.log('Signal Score list: '+allForSelect.length+' coins ('+allCoins.length+' scanner + '+extendedCoins.length+' extended)');
   }catch(e){
     console.log('Extended coin fetch skipped:',e.message);
   }
@@ -1165,20 +1210,12 @@ async function selectCoin(id){
       <div class="section-label">contract info</div>
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
-        <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">AI decrypt ↗</button>
+        <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">signal score ↗</button>
         <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
         <button id="hp-btn-detail" class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3);opacity:.5;pointer-events:none">check honeypot ↗</button>
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>
       </div>
       <div id="contract-address-area"></div>
-      <!-- SPONSORED PLACEMENT IN DETAIL VIEW -->
-      <div style="margin-top:1rem;padding:12px 16px;background:linear-gradient(135deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border:1px solid rgba(255,180,0,.2);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,180,0,.2);padding:2px 6px;border-radius:2px">ad</span>
-          <span style="font-size:12px;color:var(--text)">New to crypto? Start with <strong style="color:#ffb400">$10 free</strong> on Coinbase</span>
-        </div>
-        <a href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 14px;border-radius:4px;background:#ffb400;color:#000;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap">claim bonus ↗</a>
-      </div>
       <!-- ADSENSE SLOT (replace with your AdSense code once approved) -->
       <div id="ad-detail-slot" style="margin-top:.75rem;min-height:90px;display:flex;align-items:center;justify-content:center">
         <!-- INSERT GOOGLE ADSENSE CODE HERE AFTER APPROVAL -->
@@ -1197,7 +1234,7 @@ async function selectCoin(id){
   // Fetch real contract data from CoinGecko (with retry)
   async function fetchContractData(retries=2){
     try{
-      const res=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+      const res=await fetch('/api/coingecko/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
       if(res.status===429&&retries>0){
         // Rate limited — wait and retry
         const infoEl=document.getElementById('contract-info');
@@ -1299,38 +1336,31 @@ function renderContractInfo(c){
 function openAIReport(id){document.getElementById('report-coin-select').value=id;switchTab('report');}
 
 // TABS
-const TAB_URLS={scanner:'/',report:'/ai-decrypt',quiz:'/profile',cipherpot:'/cipherpot',rwa:'/on-chain-stocks'};
-const URL_TABS={'/':'scanner','/ai-decrypt':'report','/profile':'quiz','/cipherpot':'cipherpot','/on-chain-stocks':'rwa'};
+const TAB_URLS={scanner:'/',report:'/ai-decrypt',quiz:'/profile',cipherpot:'/cipherpot',rwa:'/on-chain-stocks',radar:'/rug-radar'};
+const URL_TABS={'/':'scanner','/ai-decrypt':'report','/profile':'quiz','/cipherpot':'cipherpot','/on-chain-stocks':'rwa','/rug-radar':'radar'};
 
-function switchTab(n){
+function activateTab(n){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+n).classList.add('active');
-  ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===n)document.querySelectorAll('.tab')[i].classList.add('active');});
+  const panel=document.getElementById('tab-'+n);
+  if(panel) panel.classList.add('active');
+  const btn=document.querySelector('.tab[data-tab="'+n+'"]');
+  if(btn) btn.classList.add('active');
   if(n==='rwa')loadRWA();
+  if(n==='radar')loadRadar();
+}
+function switchTab(n){
+  activateTab(n);
   const url=TAB_URLS[n]||'/';
-  history.pushState({tab:n},'',url);
+  if(window.location.pathname!==url) history.pushState({tab:n},'',url);
 }
 function loadTabFromURL(){
-  const path=window.location.pathname;
-  const tab=URL_TABS[path]||'scanner';
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
-  if(tab==='rwa')loadRWA();
+  const path=window.location.pathname.replace(/\/$/,'')||'/';
+  activateTab(URL_TABS[path]||'scanner');
 }
 window.addEventListener('popstate',function(e){
-  if(e.state&&e.state.tab){
-    const tab=e.state.tab;
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('tab-'+tab).classList.add('active');
-    ['scanner','report','quiz','cipherpot','rwa'].forEach((nm,i)=>{if(nm===tab)document.querySelectorAll('.tab')[i].classList.add('active');});
-  if(tab==='rwa')loadRWA();
-  } else {
-    loadTabFromURL();
-  }
+  if(e.state&&e.state.tab) activateTab(e.state.tab);
+  else loadTabFromURL();
 });
 
 // AI REPORT — LOOKUP BY CONTRACT ADDRESS OR NAME
@@ -1354,7 +1384,7 @@ async function lookupAndDecrypt(){
       const platforms=['ethereum','binance-smart-chain','base','solana','polygon-pos','arbitrum-one'];
       for(const platform of platforms){
         try{
-          const res=await fetch(`https://api.coingecko.com/api/v3/coins/${platform}/contract/${input}?x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+          const res=await fetch(`/api/coingecko/coins/${platform}/contract/${input}`);
           if(res.ok){
             const data=await res.json();
             if(data&&data.id){
@@ -1378,14 +1408,14 @@ async function lookupAndDecrypt(){
     } else {
       // Search by name/symbol via CoinGecko search
       try{
-        const res=await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(input)}&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+        const res=await fetch(`/api/coingecko/search?query=${encodeURIComponent(input)}`);
         if(res.ok){
           const data=await res.json();
           const coins=data.coins||[];
           if(coins.length>0){
             // Get full market data for the top result
             const topResult=coins[0];
-            const mktRes=await fetch(`https://api.coingecko.com/api/v3/coins/${topResult.id}?localization=false&tickers=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+            const mktRes=await fetch(`/api/coingecko/coins/${topResult.id}?localization=false&tickers=false&community_data=false&developer_data=false`);
             if(mktRes.ok){
               const mktData=await mktRes.json();
               coinData={
@@ -1442,7 +1472,7 @@ async function generateReport(){
   const c=findCoin(id);
   if(!c){alert('coin not found — try refreshing data');return;}
   const btn=document.getElementById('gen-btn'),out=document.getElementById('report-output'),cta=document.getElementById('report-cta');
-  btn.disabled=true;btn.textContent='decrypting...';cta.style.display='none';
+  btn.disabled=true;btn.textContent='scoring...';cta.style.display='none';
   out.innerHTML='<span style="color:var(--muted);font-size:11px">// intercepting signals for '+c.symbol.toUpperCase()+'...</span>';
 
   const sym=c.symbol.toUpperCase();
@@ -1472,10 +1502,10 @@ async function generateReport(){
     :`Viral potential is ${c.viral}/100 — pretty quiet out there ser. Nobody is really talking about this one right now. Might be early, might just be dead.`;
 
   const rugRead=c.rug>=70
-    ?`Rug risk is ${c.rug}/100 — this is a HIGH RISK play fren. Contract signals are sketchy as hell. Only ape in what you can afford to lose entirely, and even then think twice.`
+    ?`Market-structure risk is ${c.rug}/100 — small cap, violent move, or thin volume. This is not a contract audit. Run CipherPot before treating it as tradable.`
     :c.rug>=40
-    ?`Rug risk at ${c.rug}/100 — moderate risk, not the sketchiest thing on the market but not exactly battle-tested either. DYOR hard before putting real money in.`
-    :`Rug risk is ${c.rug}/100 — relatively clean signals for a meme coin. Contract looks more legit than most in this category which is honestly a low bar but still.`;
+    ?`Market-structure risk is ${c.rug}/100 — middle of the meme-coin pack on size and volatility. Still not a contract check. CipherPot is the contract check.`
+    :`Market-structure risk is ${c.rug}/100 — larger or calmer than most names on this list. That still says nothing about the contract. CipherPot does.`;
 
   const verdict=c.sentiment>=65&&c.viral>=60
     ?'🟢 VERDICT: SEND IT — momentum and sentiment are aligned ser. This is the play.'
@@ -1488,7 +1518,7 @@ async function generateReport(){
   // Fetch contract data if not cached
   if(!c._contractFetched){
     try{
-      const cRes=await fetch('https://api.coingecko.com/api/v3/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+      const cRes=await fetch('/api/coingecko/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
       if(cRes.ok){
         const cData=await cRes.json();
         const platforms=cData.detail_platforms||cData.platforms||{};
@@ -1503,7 +1533,7 @@ async function generateReport(){
     }catch(e){}
   }
 
-  await new Promise(r=>setTimeout(r,900));
+  await new Promise(r=>setTimeout(r,200));
   out.innerHTML='';let i=0;
   const iv=setInterval(()=>{
     if(i>=report.length){
@@ -1524,7 +1554,7 @@ async function generateReport(){
         </div>`;
       }
       out.innerHTML+=linksHtml;
-      cta.style.display='block';btn.disabled=false;btn.textContent='decrypt coin';
+      cta.style.display='block';btn.disabled=false;btn.textContent='score coin';
       return;
     }
     out.textContent+=report[i];i++;
@@ -1549,7 +1579,7 @@ const RES={
 const RK=Object.keys(RES);
 let qStep=0,qAns=[];
 function tweetResult(coin,tagline){
-  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(`just took the CIPHER meme coin personality quiz and I'm ${coin} — "${tagline}" 💀\n\nfind out which coin you are 🔐\nwww.ciphersignal.xyz`),'_blank');
+  window.open('https://x.com/intent/tweet?text='+encodeURIComponent(`just took the CIPHER meme coin personality quiz and I'm ${coin} — "${tagline}"\n\nvia @ciphersignal_\nhttps://www.ciphersignal.xyz/profile`),'_blank','noopener,noreferrer');
 }
 function renderQuiz(){
   const a=document.getElementById('quiz-area');
@@ -1684,7 +1714,7 @@ function feelingLucky(){
     const banner=document.createElement('div');
     banner.id='lucky-banner';
     banner.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.4);border-radius:6px;padding:10px 20px;font-family:"Orbitron",monospace;font-size:10px;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;z-index:9999;box-shadow:0 0 20px rgba(255,180,0,.2);animation:fadeInDown .3s ease';
-    banner.innerHTML=`🎲 feeling lucky — decrypting ${coin.symbol.toUpperCase()} · always dyor 🔐`;
+    banner.innerHTML=`🎲 feeling lucky — opening ${coin.symbol.toUpperCase()} · always dyor`;
     document.body.appendChild(banner);
     setTimeout(()=>{banner.remove();window._isLucky=false;},4000);
   },100);
@@ -1749,7 +1779,8 @@ async function checkHoneypot(){
     return;
   }
   btn.textContent='scanning...';btn.disabled=true;
-  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:12px;letter-spacing:.08em"><div class="spinner"></div>intercepting contract signals for ${chain==='sol'?'Solana':'EVM'} chain...</div>`;
+  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:12px;letter-spacing:.08em"><div class="spinner"></div>checking honeypot.is or RugCheck, plus GoPlus…</div>`;
+  const securityPromise=fetch('/api/security?chain='+encodeURIComponent(chain)+'&address='+encodeURIComponent(address)).then(r=>r.ok?r.json():null).catch(()=>null);
 
   try{
     if(chain==='sol'){
@@ -1800,6 +1831,8 @@ async function checkHoneypot(){
       const top10Pct=topHolders.slice(0,10).reduce((sum,h)=>sum+(h.pct||0),0);
       const top1Pct=topHolders.length>0?(topHolders[0].pct||0):0;
 
+      const solStamp=isRugged?'RUGGED':(score>=300?'CAUTION':'CLEAN');
+      lastScanShare={symbol:symbol,verdict:solStamp,stamp:solStamp,chain:'sol',chainName:'Solana',address:address,blurb:'RugCheck score '+score};
       result.innerHTML=`
         ${isRugged?'<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ff3355;line-height:1.6">🚨 <strong>WARNING:</strong> This token has been identified as a rug pull. Do NOT buy this token.</div>':''}
         ${isSuspicious?'<div style="background:rgba(255,180,0,.1);border:1px solid rgba(255,180,0,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ffb400;line-height:1.6">⚠️ <strong>Heads up:</strong> This token returned minimal data. A low score does NOT mean it\'s safe — it may mean the scanner couldn\'t fully analyze it. Always verify on multiple sources before buying.</div>':''}
@@ -1850,9 +1883,8 @@ async function checkHoneypot(){
           <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
           ${shareButtonHtml()}
         </div>`;
-      lastScanShare={symbol:symbol,verdict:isRugged?'RUGGED':(score>=900?'HIGH':score>=600?'HIGH':score>=300?'MEDIUM':'LOW'),chainName:'Solana',address:address};
       result.innerHTML+=`
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
+        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
 
     } else {
       // EVM via honeypot.is
@@ -1893,6 +1925,8 @@ async function checkHoneypot(){
       if(sellTax>49) flags.push(cpFlag('🚨',`Extreme sell tax: ${sellTax.toFixed(1)}% — effectively a honeypot`,'#ff6680'));
       if(!flags.length&&!isHoneypot) flags.push(cpFlag('✅','No major flags detected','#00ff99'));
 
+      const evmStamp=isHoneypot?'HONEYPOT':(risk==='LOW'?'CLEAN':'CAUTION');
+      lastScanShare={symbol:symbol,verdict:evmStamp,stamp:evmStamp,chain:chain,chainName:chainName,address:address,blurb:'Buy '+(buyTax==null?'n/a':buyTax.toFixed(1)+'%')+' · Sell '+(sellTax==null?'n/a':sellTax.toFixed(1)+'%')};
       result.innerHTML=`
         <div style="border:1px solid ${vBorder};background:${vBg};border-radius:8px;padding:1.5rem;margin-bottom:1rem;position:relative;overflow:hidden">
           <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,${vColor},transparent)"></div>
@@ -1933,8 +1967,16 @@ async function checkHoneypot(){
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
           ${shareButtonHtml()}
         </div>
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
-      lastScanShare={symbol:symbol,verdict:isHoneypot?'HONEYPOT':risk,chainName:chainName,address:address};
+        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
+    }
+    const security=await securityPromise;
+    if(security&&security.ok){
+      result.insertAdjacentHTML('beforeend', securityPills(security));
+      if(lastScanShare&&security.stamp&&(security.stamp==='HONEYPOT'||security.stamp==='RUGGED')) lastScanShare.stamp=security.stamp;
+    }
+    if(lastScanShare){
+      const path=scanPermalink(lastScanShare.chain,lastScanShare.address);
+      history.replaceState({tab:'cipherpot',scan:path},'',path);
     }
   }catch(e){
     const msg=(e&&e.message)||'unknown';
@@ -1982,8 +2024,7 @@ function renderTrending(){
   const trending = [...allCoins].sort((a,b)=>b.viral-a.viral).slice(0,8);
   const wrap = document.getElementById('trending-wrap');
   if(!wrap) return;
-  const buzzWords = ['going crazy rn','CT is watching','degens aping in','volume spiking','influencers posting','viral thread live','community going off','pumping on X'];
-  wrap.innerHTML = trending.map((c,i)=>{
+  wrap.innerHTML = trending.map((c)=>{
     const chg = c.price_change_percentage_24h||0;
     const chgStr = (chg>=0?'+':'')+chg.toFixed(2)+'%';
     const chgCol = chg>=0?'#00ff99':'#ff3355';
@@ -1994,7 +2035,7 @@ function renderTrending(){
         <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#d8e8ff">${c.symbol.toUpperCase()}</span>
         <span style="font-size:10px;font-weight:700;color:${chgCol};margin-left:auto">${chgStr}</span>
       </div>
-      <div style="font-size:10px;color:#6a7a9a;line-height:1.5">${buzzWords[i%buzzWords.length]}</div>
+      <div style="font-size:10px;color:#6a7a9a;line-height:1.5">vol ${fmtMcap(c.total_volume)} · mcap ${fmtMcap(c.market_cap)}</div>
       <div style="margin-top:6px;display:flex;align-items:center;gap:4px">
         <div style="height:2px;flex:1;background:#111625;border-radius:1px;overflow:hidden"><div style="height:100%;width:${c.viral}%;background:#00e5ff;border-radius:1px"></div></div>
         <span style="font-size:9px;color:#00e5ff;font-family:'Orbitron',monospace">${c.viral}</span>
@@ -2111,7 +2152,7 @@ function renderCotdDisplay(coin){
   
   actions.innerHTML=`
     <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${coin.id}'),100)" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">view profile</button>
-    <button onclick="document.getElementById('report-coin-select').value='${coin.id}';switchTab('report');generateReport()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">AI decrypt</button>
+    <button onclick="document.getElementById('report-coin-select').value='${coin.id}';switchTab('report');generateReport()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">signal score</button>
     <a href="https://www.coingecko.com/en/coins/${coin.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">CoinGecko 🦎</a>`;
 }
 
@@ -2120,7 +2161,7 @@ let rwaLoaded=false;
 async function loadRWA(){
   if(rwaLoaded) return;
   try{
-    const res=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=robinhood-chain-stocks-ecosystem&order=market_cap_desc&per_page=50&page=1&sparkline=false&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc');
+    const res=await fetch('/api/coingecko/coins/markets?vs_currency=usd&category=robinhood-chain-stocks-ecosystem&order=market_cap_desc&per_page=50&page=1&sparkline=false');
     const data=await res.json();
     if(!Array.isArray(data)||!data.length){
       document.getElementById('rwa-body').innerHTML='<div class="error-msg">// could not load on-chain stock data. try again in a minute.</div>';
@@ -2202,7 +2243,7 @@ async function loadPriceChart(coin){
   if(!wrap) return;
   try{
     if(!coin._chart){
-      const res=await fetch(`https://api.coingecko.com/api/v3/coins/${coin.id}/market_chart?vs_currency=usd&days=7&x_cg_demo_api_key=CG-wTACRRcrcaCYD5HDiqSyDDJc`);
+      const res=await fetch(`/api/coingecko/coins/${coin.id}/market_chart?vs_currency=usd&days=7`);
       if(!res.ok)throw new Error('rate');
       const data=await res.json();
       coin._chart=(data.prices||[]).map(p=>p[1]);
@@ -2259,19 +2300,43 @@ document.addEventListener('click',function(e){
   }
 });
 
-// INIT
-// Check if we were redirected from 404.html (GitHub Pages SPA workaround)
-const redirectPath=sessionStorage.getItem('redirect_path');
-if(redirectPath){
-  sessionStorage.removeItem('redirect_path');
-  history.replaceState({},'',(redirectPath));
+// RUG RADAR
+function escHtml(s){return String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+let radarLoaded=false;
+async function loadRadar(){
+  const body=document.getElementById('radar-body');
+  const meta=document.getElementById('radar-updated');
+  if(!body||radarLoaded) return;
+  try{
+    const res=await fetch('/api/radar');
+    const data=await res.json();
+    if(!data||!Array.isArray(data.items)||!data.items.length){
+      body.innerHTML='<div class="error-msg">// Rug Radar has no rows right now. '+escHtml((data&&data.error)||'DexScreener or GoPlus did not respond.')+'</div>';
+      if(meta&&data&&data.updatedAt) meta.textContent='Last attempt '+data.updatedAt;
+      return;
+    }
+    radarLoaded=true;
+    if(meta) meta.textContent='Updated '+data.updatedAt+' UTC. '+data.source;
+    const color={HONEYPOT:'#ff3355',RUGGED:'#ff3355',CAUTION:'#ffb400',CLEAN:'#00ff99',UNKNOWN:'#6a7a9a'};
+    body.innerHTML='<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th></tr></thead><tbody>'+data.items.map(item=>{
+      const col=color[item.stamp]||'#6a7a9a';
+      const why=(item.reasons||[]).slice(0,2).map(escHtml).join(' · ');
+      return '<tr onclick="location.href=\''+escHtml(item.scanPath)+'\'"><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:12px;color:#8a9ab8">'+why+'</td></tr>';
+    }).join('')+'</tbody></table></div><div style="font-size:11px;color:var(--muted);margin-top:8px">Click a row for the shareable scan page (honeypot.is or RugCheck plus this GoPlus pass).</div>';
+  }catch(e){
+    body.innerHTML='<div class="error-msg">// Rug Radar is temporarily unavailable.</div>';
+  }
 }
+
+// INIT
 loadTabFromURL();
 renderQuiz();
 updateWatchCount();
 loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();renderPrediction();startSignalFeed();setTimeout(showWatchlistHint,4000);});
 setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))loadCoins().then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();renderPrediction();});},600000);
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CQVB0E2CMB');</script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
