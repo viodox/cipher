@@ -1,0 +1,46 @@
+{
+  "updates": [
+    {
+      "id": "price-alerts",
+      "date": "2026-11-01",
+      "title": "Price alert signup",
+      "summary": "Leave an email, a CoinGecko coin id, and a USD price threshold. CIPHER stores the signup and does not send mail until a delivery provider is connected.",
+      "href": "/alerts"
+    },
+    {
+      "id": "top-movers",
+      "date": "2026-11-01",
+      "title": "Top Movers",
+      "summary": "A daily board of 24h meme-coin gainers, losers, and volume spikes. Each row links to a coin page, and the page includes the where-to-buy referral section.",
+      "href": "/movers"
+    },
+    {
+      "id": "coin-pages",
+      "date": "2026-11-01",
+      "title": "Coin pages",
+      "summary": "Every market snapshot has a public page at /coin/{id} with price, meta tags, structured data, a share-to-X link, and a contract scan when the token is on Ethereum, BSC, Base, or Solana.",
+      "href": "/coin/dogecoin"
+    },
+    {
+      "id": "rug-radar",
+      "date": "2026-11-01",
+      "title": "Rug Radar",
+      "summary": "Tokens drawing DexScreener attention, checked with the free GoPlus security API. Open any row for a full CipherPot scan.",
+      "href": "/rug-radar"
+    },
+    {
+      "id": "shareable-scans",
+      "date": "2026-11-01",
+      "title": "Shareable scan links",
+      "summary": "CipherPot results have a public URL at /scan/{chain}/{address}, an Open Graph card, and a share-on-X button prefilled with that URL.",
+      "href": "/cipherpot"
+    },
+    {
+      "id": "signal-score",
+      "date": "2026-11-01",
+      "title": "Signal Score",
+      "summary": "A written read of hype, mood, and market-structure risk. The words SEND IT, WAIT, and NGMI come from a formula over CoinGecko numbers, not from a language model.",
+      "href": "/ai-decrypt"
+    }
+  ]
+}
