@@ -33,9 +33,9 @@
 :root{
   --bg:#060810;--surface:#0b0e1a;--surface2:#111625;--border:#1a2035;--border2:#243050;
   --accent:#00e5ff;--accent3:#00ff99;--accent4:#ff3355;
-  --text:#d8e8ff;--muted:#6a7a9a;--font-mono:'Share Tech Mono',monospace;--font-disp:'Orbitron',monospace;
+  --text:#e8eef8;--muted:#a8b8d4;--font-mono:'Share Tech Mono',monospace;--font-disp:'Orbitron',monospace;
 }
-html,body{min-height:100vh;background:var(--bg);color:#c8d8f0;font-family:var(--font-mono);font-size:15px}
+html,body{min-height:100vh;background:var(--bg);color:#e4eef8;font-family:var(--font-mono);font-size:16.5px;line-height:1.6}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.013) 2px,rgba(0,229,255,.013) 4px);pointer-events:none;z-index:9999}
 .app{max-width:1200px;margin:0 auto;padding:1.5rem 1rem 4rem;overflow-x:visible}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
@@ -44,41 +44,41 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .logo-icon::before{content:'';position:absolute;width:18px;height:18px;border:1.5px solid var(--accent);border-radius:50%;opacity:.5}
 .logo-icon::after{content:'';position:absolute;width:1.5px;height:100%;background:var(--accent);opacity:.4}
 .logo-text{font-family:var(--font-disp);font-size:24px;font-weight:900;letter-spacing:.15em;color:var(--accent);text-shadow:0 0 24px rgba(0,229,255,.35)}
-.logo-sub{font-size:9px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.logo-sub{font-size:12px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
 .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.status-pill{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--accent3);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(0,255,153,.2);padding:5px 12px;border-radius:4px;background:rgba(0,255,153,.05)}
+.status-pill{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--accent3);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(0,255,153,.2);padding:5px 12px;border-radius:4px;background:rgba(0,255,153,.05)}
 .status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite}
-.coin-count{font-size:10px;color:var(--muted);letter-spacing:.06em}
+.coin-count{font-size:13px;color:var(--muted);letter-spacing:.06em}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,153,.4)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(0,255,153,0)}}
 @keyframes fadeInDown{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .banner-slot{background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:10px 16px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.banner-label{font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.banner-label{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
 .banner-content{display:flex;align-items:center;gap:10px;flex:1;justify-content:center}
-.banner-text{font-size:11px;color:var(--text);letter-spacing:.04em}
-.banner-cta{font-size:9px;padding:5px 12px;border-radius:3px;background:var(--accent);color:#000;text-decoration:none;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;font-weight:700;white-space:nowrap;transition:background .2s}
+.banner-text{font-size:15px;color:var(--text);letter-spacing:.04em}
+.banner-cta{font-size:12px;padding:5px 12px;border-radius:3px;background:var(--accent);color:#000;text-decoration:none;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;font-weight:700;white-space:nowrap;transition:background .2s}
 .banner-cta:hover{background:#33eeff}
 .tabs{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--border2);border-radius:6px;overflow:hidden}
-.tab{flex:1;font-family:var(--font-disp);font-size:10px;padding:11px 6px;background:none;border:none;border-right:1px solid var(--border2);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;white-space:nowrap;font-weight:700}
+.tab{flex:1;font-family:var(--font-disp);font-size:13px;padding:11px 6px;background:none;border:none;border-right:1px solid var(--border2);color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;white-space:nowrap;font-weight:700}
 .tab:last-child{border-right:none}
 .tab:hover{color:var(--text);background:var(--surface)}
 .tab.active{color:var(--accent);background:var(--surface2);box-shadow:inset 0 -2px 0 var(--accent);font-weight:900;letter-spacing:.1em}
 .tab-panel{display:none}.tab-panel.active{display:block}
 .controls{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
-.search-input{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;width:180px;transition:border-color .2s}
+.search-input{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 12px;border-radius:4px;outline:none;width:180px;transition:border-color .2s}
 .search-input:focus{border-color:var(--accent)}
 .search-input::placeholder{color:var(--muted)}
-.filter-btn{font-size:9px;padding:7px 10px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
+.filter-btn{font-size:12px;padding:7px 10px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
 .filter-btn:hover,.filter-btn.active{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
-.scan-btn{font-size:9px;padding:7px 13px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s;margin-left:auto}
+.scan-btn{font-size:12px;padding:7px 13px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s;margin-left:auto}
 .scan-btn:hover{color:var(--text);border-color:var(--text)}
-.loading{display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:12px;letter-spacing:.08em}
+.loading{display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:16px;letter-spacing:.08em}
 .spinner{width:16px;height:16px;border:1.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.error-msg{padding:1.5rem;color:var(--accent4);font-size:12px;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.8}
+.error-msg{padding:1.5rem;color:var(--accent4);font-size:16px;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.8}
 .table-wrap{overflow-x:auto;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:16px}
 thead tr{border-bottom:1px solid var(--border2)}
-th{font-size:10px;color:#6a7a9a;letter-spacing:.12em;text-transform:uppercase;padding:8px 6px;text-align:left;font-weight:400;cursor:pointer;white-space:nowrap;transition:color .2s;user-select:none}
+th{font-size:13px;color:#a8b8d4;letter-spacing:.12em;text-transform:uppercase;padding:8px 6px;text-align:left;font-weight:400;cursor:pointer;white-space:nowrap;transition:color .2s;user-select:none}
 th:last-child,td:last-child{padding-right:20px}
 th:hover{color:var(--accent)}
 th.sort-active{color:var(--accent)}
@@ -86,115 +86,116 @@ tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:backgro
 tbody tr:hover{background:var(--surface)}
 tbody tr.selected{background:var(--surface2)}
 td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
-.td-rank{color:var(--muted);font-size:10px;min-width:28px}
+.td-rank{color:var(--muted);font-size:13px;min-width:28px}
 .td-coin{display:flex;align-items:center;gap:8px}
 .coin-img{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--border2)}
-.coin-sym{font-family:var(--font-disp);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--text)}
-.coin-name-sm{font-size:11px;color:#6a7a9a;margin-top:1px;max-width:100px;overflow:hidden;text-overflow:ellipsis}
+.coin-sym{font-family:var(--font-disp);font-size:16px;font-weight:700;letter-spacing:.06em;color:var(--text)}
+.coin-name-sm{font-size:15px;color:#a8b8d4;margin-top:1px;max-width:160px;overflow:hidden;text-overflow:ellipsis}
 .pos{color:#00ff99}.neg{color:#ff3355}
-.td-mcap{font-size:11px;color:var(--muted)}
+.num,.td-mcap,.pos,.neg,.score-val,.sbox-val{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.td-mcap{font-size:16px;color:var(--text)}
 .bar-cell{width:80px;display:inline-block}
 .bar-wrap{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
 .bar-fill{height:100%;border-radius:2px}
-.score-val{font-family:var(--font-disp);font-size:11px;font-weight:700}
-.ctag{font-size:10px;padding:3px 6px;border-radius:2px;font-weight:700;text-transform:uppercase;border:1px solid;white-space:nowrap}
+.score-val{font-family:var(--font-disp);font-size:15px;font-weight:700}
+.ctag{font-size:13px;padding:3px 6px;border-radius:2px;font-weight:700;text-transform:uppercase;border:1px solid;white-space:nowrap}
 .ctag-g{background:rgba(0,255,153,.08);color:#00ff99;border-color:rgba(0,255,153,.25)}
 .ctag-r{background:rgba(255,51,85,.08);color:#ff6680;border-color:rgba(255,51,85,.25)}
 .ctag-b{background:rgba(0,229,255,.08);color:#00e5ff;border-color:rgba(0,229,255,.25)}
 .ctag-y{background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)}
 .detail{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem;margin-top:.75rem;position:relative;overflow:hidden}
-.detail::before{content:'CIPHER//ANALYSIS';position:absolute;top:10px;right:14px;font-size:8px;color:var(--muted);letter-spacing:.15em}
+.detail::before{content:'CIPHER//ANALYSIS';position:absolute;top:10px;right:14px;font-size:12px;color:var(--muted);letter-spacing:.15em}
 .d-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap}
 .d-img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid var(--border2)}
 .d-name{font-family:var(--font-disp);font-size:24px;font-weight:900;letter-spacing:.1em;color:var(--accent)}
-.d-fullname{font-size:13px;color:var(--muted);margin-top:4px}
+.d-fullname{font-size:16px;color:var(--muted);margin-top:4px}
 .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
 .sbox{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px 12px}
-.sbox-lbl{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.sbox-lbl{font-size:15px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
 .sbox-val{font-family:var(--font-disp);font-size:18px;font-weight:700}
-.sbox-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.sbox-sub{font-size:16px;color:var(--muted);margin-top:3px}
 .sbox-bar{height:1.5px;background:var(--border);margin-top:8px;overflow:hidden;border-radius:1px}
 .sbox-fill{height:100%;border-radius:1px}
-.section-label{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-label{font-size:15px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .flags-wrap{margin-bottom:1rem}
-.flag{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.flag{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:16.5px;line-height:1.6}
 .flag:last-child{border:none}
-.flag-lv{font-size:10px;letter-spacing:.06em;min-width:40px;font-weight:700}
+.flag-lv{font-size:13px;letter-spacing:.06em;min-width:40px;font-weight:700}
 .detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
-.dact-btn{font-size:11px;padding:9px 16px;border-radius:4px;border:1px solid;background:none;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.dact-btn{font-size:15px;padding:9px 16px;border-radius:4px;border:1px solid;background:none;cursor:pointer;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
 .report-card{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem}
 .rc-top{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
-.ai-tag{font-size:8px;padding:3px 9px;border-radius:3px;background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.25);letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-disp)}
-.cipher-select{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:11px;padding:7px 10px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s;max-width:220px}
+.ai-tag{font-size:12px;padding:3px 9px;border-radius:3px;background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.25);letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-disp)}
+.cipher-select{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:15px;padding:7px 10px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s;max-width:220px}
 .cipher-select:focus{border-color:var(--accent)}
 .cipher-select option{background:#0b0e1a}
-.gen-btn{font-family:var(--font-disp);font-size:9px;padding:8px 18px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.gen-btn{font-family:var(--font-disp);font-size:12px;padding:8px 18px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
 .gen-btn:hover{background:rgba(0,229,255,.18)}
 .gen-btn:disabled{border-color:var(--border);color:var(--muted);background:none;cursor:not-allowed}
-.report-out{margin-top:1rem;font-size:14px;line-height:1.9;color:var(--text);min-height:80px;border-left:2px solid var(--border2);padding-left:1rem}
+.report-out{margin-top:1rem;font-size:16.5px;line-height:1.9;color:var(--text);min-height:80px;border-left:2px solid var(--border2);padding-left:1rem}
 .aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
 .aff-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px;text-decoration:none;transition:all .18s;display:block}
 .aff-card:hover{border-color:var(--accent);transform:translateY(-1px)}
-.aff-name{font-family:var(--font-disp);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:3px}
-.aff-desc{font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:6px}
-.aff-link{font-size:9px;color:var(--accent3)}
+.aff-name{font-family:var(--font-disp);font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:3px}
+.aff-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.aff-link{font-size:12px;color:var(--accent3)}
 .quiz-wrap{max-width:560px}
 .prog{height:1px;background:var(--border);margin-bottom:1.5rem;overflow:hidden}
 .prog-fill{height:100%;background:var(--accent);transition:width .4s ease}
-.q-step{font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
-.q-text{font-family:var(--font-disp);font-size:16px;font-weight:700;letter-spacing:.04em;color:var(--text);margin-bottom:1.25rem;line-height:1.5}
+.q-step{font-size:12px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.q-text{font-family:var(--font-disp);font-size:17px;font-weight:700;letter-spacing:.04em;color:var(--text);margin-bottom:1.25rem;line-height:1.5}
 .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.q-opt{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:14px;cursor:pointer;font-size:13px;color:#8a9ab8;transition:all .18s;text-align:left;font-family:var(--font-mono);line-height:1.5}
+.q-opt{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:14px;cursor:pointer;font-size:16px;color:#c9d4e6;transition:all .18s;text-align:left;font-family:var(--font-mono);line-height:1.5}
 .q-opt:hover{border-color:var(--accent);color:var(--text);background:var(--surface2)}
 .result-box{background:var(--surface);border:1px solid rgba(0,229,255,.3);border-radius:8px;padding:1.5rem;text-align:center;position:relative;overflow:hidden}
 .result-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.res-label{font-size:9px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
+.res-label{font-size:12px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
 .res-coin{font-family:var(--font-disp);font-size:32px;font-weight:900;color:var(--accent);letter-spacing:.15em;margin-bottom:.25rem;text-shadow:0 0 30px rgba(0,229,255,.3)}
-.res-tagline{font-size:11px;color:var(--accent3);letter-spacing:.06em;margin-bottom:.75rem;text-transform:uppercase}
-.res-desc{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;max-width:420px;margin-left:auto;margin-right:auto}
+.res-tagline{font-size:15px;color:var(--accent3);letter-spacing:.06em;margin-bottom:.75rem;text-transform:uppercase}
+.res-desc{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;max-width:420px;margin-left:auto;margin-right:auto}
 .res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.res-trade{font-size:10px;padding:10px 20px;border-radius:4px;background:var(--accent);color:#000;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .2s}
+.res-trade{font-size:13px;padding:10px 20px;border-radius:4px;background:var(--accent);color:#000;font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .2s}
 .res-trade:hover{background:#33eeff}
-.res-tweet{font-size:10px;padding:10px 20px;border-radius:4px;border:1px solid rgba(29,161,242,.5);color:#1da1f2;background:rgba(29,161,242,.08);font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:700}
+.res-tweet{font-size:13px;padding:10px 20px;border-radius:4px;border:1px solid rgba(29,161,242,.5);color:#1da1f2;background:rgba(29,161,242,.08);font-family:var(--font-disp);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:700}
 .res-tweet:hover{background:rgba(29,161,242,.15)}
-.res-retry{font-size:10px;padding:10px 20px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;font-family:var(--font-mono);cursor:pointer;transition:all .2s}
+.res-retry{font-size:13px;padding:10px 20px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;font-family:var(--font-mono);cursor:pointer;transition:all .2s}
 .res-retry:hover{color:var(--text)}
 .newsletter{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem;margin-top:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .nl-text{flex:1;min-width:200px}
-.nl-title{font-family:var(--font-disp);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:4px;text-transform:uppercase}
-.nl-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.nl-title{font-family:var(--font-disp);font-size:16px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:4px;text-transform:uppercase}
+.nl-desc{font-size:15px;color:var(--muted);line-height:1.5}
 .nl-form{display:flex;gap:8px;flex-wrap:wrap}
-.nl-input{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;width:200px;transition:border-color .2s}
+.nl-input{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 12px;border-radius:4px;outline:none;width:200px;transition:border-color .2s}
 .nl-input:focus{border-color:var(--accent)}
 .nl-input::placeholder{color:var(--muted)}
-.nl-btn{font-family:var(--font-disp);font-size:9px;padding:9px 16px;border-radius:4px;border:none;background:var(--accent);color:#000;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;font-weight:700;transition:all .2s;white-space:nowrap}
+.nl-btn{font-family:var(--font-disp);font-size:12px;padding:9px 16px;border-radius:4px;border:none;background:var(--accent);color:#000;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;font-weight:700;transition:all .2s;white-space:nowrap}
 .nl-btn:hover{background:#33eeff}
 .footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .footer-logo{font-family:var(--font-disp);font-size:18px;font-weight:900;letter-spacing:.15em;color:var(--muted)}
 .footer-links{display:flex;gap:16px;flex-wrap:wrap}
-.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.footer-links a{font-size:16px;color:var(--muted);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
 .footer-links a:hover{color:var(--accent)}
-.x-link{font-family:var(--font-disp);font-size:10px;letter-spacing:.08em;color:var(--muted);text-decoration:none;text-transform:none;border:1px solid var(--border2);padding:6px 10px;border-radius:4px}
+.x-link{font-family:var(--font-disp);font-size:13px;letter-spacing:.08em;color:var(--muted);text-decoration:none;text-transform:none;border:1px solid var(--border2);padding:6px 10px;border-radius:4px}
 .x-link:hover{color:var(--accent);border-color:rgba(0,229,255,.4)}
 .site-nav{display:flex;gap:8px;flex-wrap:wrap;margin:-.35rem 0 1.15rem}
-.site-nav a{font-family:var(--font-disp);font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--border2);padding:7px 10px;border-radius:4px}
+.site-nav a{font-family:var(--font-disp);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--border2);padding:7px 10px;border-radius:4px}
 .site-nav a:hover{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
-.new-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
-.soon-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
-.nfa{font-size:12px;color:#8a9ab8;line-height:1.55;margin:-0.35rem 0 1rem;max-width:760px}
-.buy-note{font-size:12px;color:#8a9ab8;line-height:1.6;margin-bottom:12px}
+.new-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
+.soon-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
+.nfa{font-size:16.5px;color:#c9d4e6;line-height:1.6;margin:-0.35rem 0 1rem;max-width:760px}
+.buy-note{font-size:16px;color:#c9d4e6;line-height:1.6;margin-bottom:12px}
 .scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
-.scores h2{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
-.scores p,.scores li{font-size:13px;color:#8a9ab8;line-height:1.7}
+.scores h2{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.scores p,.scores li{font-size:16px;color:#c9d4e6;line-height:1.7}
 .scores ul{margin:0 0 .5rem 1.1rem}
-.scores strong{color:#c8d8f0}
-.disclaimer{font-size:9px;color:var(--muted);text-align:center;margin-top:1rem;letter-spacing:.06em;line-height:1.7}
+.scores strong{color:#e4eef8}
+.disclaimer{font-size:15px;color:var(--muted);text-align:center;margin-top:1rem;letter-spacing:.04em;line-height:1.6}
 .pagination{display:flex;align-items:center;gap:6px;margin-top:1rem;flex-wrap:wrap}
-.page-btn{font-size:9px;padding:6px 11px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
+.page-btn{font-size:12px;padding:6px 11px;background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;cursor:pointer;font-family:var(--font-disp);letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
 .page-btn:hover{color:var(--text);border-color:var(--text)}
 .page-btn.active{color:var(--accent);border-color:rgba(0,229,255,.4)}
-.page-info{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
+.page-info{font-size:13px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
 @media(max-width:600px){
   /* App container: tighter padding, less horizontal drift */
   .app{padding:0.75rem 0.6rem 3rem}
@@ -202,7 +203,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   
   /* Tabs: horizontally scrollable, larger tap targets */
   .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;gap:6px;padding-bottom:4px}
-  .tab{min-width:auto;flex-shrink:0;padding:12px 14px;font-size:11px;min-height:44px}
+  .tab{min-width:auto;flex-shrink:0;padding:12px 14px;font-size:15px;min-height:44px}
   
   /* Quiz: stack options */
   .q-opts{grid-template-columns:1fr}
@@ -210,7 +211,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   .about-grid{grid-template-columns:1fr!important}
   
   /* Signal feed: shorter on mobile */
-  #signal-feed{height:120px!important;font-size:10px!important;padding:8px 10px!important;line-height:1.7!important}
+  #signal-feed{height:120px!important;font-size:13px!important;padding:8px 10px!important;line-height:1.7!important}
   
   /* Prediction game: cleaner spacing */
   #predict-wrap{padding:12px 14px!important}
@@ -221,9 +222,9 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   
   /* Controls: filters wrap cleanly with better spacing */
   .controls{gap:6px;flex-wrap:wrap;margin-bottom:0.75rem}
-  .controls input.search-input{width:100%;order:-1;padding:11px 14px;font-size:13px;min-height:44px}
-  .filter-btn{padding:10px 12px;font-size:10px;min-height:40px;flex-grow:1;min-width:calc(50% - 3px)}
-  .scan-btn{padding:10px 12px;font-size:10px;min-height:40px;width:100%;margin-top:4px}
+  .controls input.search-input{width:100%;order:-1;padding:11px 14px;font-size:16px;min-height:44px}
+  .filter-btn{padding:10px 12px;font-size:13px;min-height:40px;flex-grow:1;min-width:calc(50% - 3px)}
+  .scan-btn{padding:10px 12px;font-size:13px;min-height:40px;width:100%;margin-top:4px}
   
   /* ═══ SCANNER TABLE → CARDS on mobile ═══ */
   .table-wrap{overflow-x:visible}
@@ -235,12 +236,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   /* Star column becomes floating top-right */
   table tr td:first-child{position:absolute;top:10px;right:10px;padding:0;width:auto}
   /* Rank as small subscript on symbol row */
-  table td.td-rank{position:absolute;top:12px;left:14px;font-size:9px;color:var(--muted);font-weight:400;padding:0;width:auto}
+  table td.td-rank{position:absolute;top:12px;left:14px;font-size:12px;color:var(--muted);font-weight:400;padding:0;width:auto}
   /* Coin cell full row */
   table td .td-coin{margin-left:26px;margin-bottom:10px}
   .coin-img{width:32px!important;height:32px!important}
-  .coin-sym{font-size:15px!important}
-  .coin-name-sm{font-size:11px!important}
+  .coin-sym{font-size:16.5px!important}
+  .coin-name-sm{font-size:15px!important}
   /* Change/mcap/vol/viral/rug/sentiment: 3-col grid layout inside the card */
   table tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 12px;padding-top:38px}
   table td:nth-child(3){grid-column:1;grid-row:2}  /* 24h */
@@ -252,10 +253,10 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   table td:nth-child(9){grid-column:3;grid-row:5}  /* sentiment */
   table td:nth-child(2){grid-column:1/-1;grid-row:1;padding-top:0}
   /* Column labels for mobile card view */
-  table td:nth-child(3)::before{content:'24h ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
-  table td:nth-child(4)::before{content:'7d ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
-  table td:nth-child(5)::before{content:'mcap ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
-  table td:nth-child(6)::before{content:'volume · ';color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:inline}
+  table td:nth-child(3)::before{content:'24h ';color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(4)::before{content:'7d ';color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(5)::before{content:'mcap ';color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+  table td:nth-child(6)::before{content:'volume · ';color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:inline}
   /* Sponsored row: force full-width for its colspan cell */
   table tr:first-child{grid-template-columns:1fr;padding-top:12px}
   table tr:first-child td[colspan]{grid-column:1/-1}
@@ -264,15 +265,15 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   .d-header{gap:10px}
   .d-img{width:44px!important;height:44px!important}
   .d-name{font-size:20px!important}
-  .d-fullname{font-size:11px!important}
+  .d-fullname{font-size:15px!important}
   #detail-watch-btn{position:static!important;margin-left:auto}
   
   /* Bigger tappable buttons */
-  .dact-btn{padding:11px 14px!important;font-size:10px!important;min-height:44px}
+  .dact-btn{padding:11px 14px!important;font-size:13px!important;min-height:44px}
   
   /* Ticker bar: bigger text */
   #ticker-bar{padding:9px 0!important}
-  #ticker-bar span,#ticker-bar a{font-size:13px!important;margin-right:24px!important}
+  #ticker-bar span,#ticker-bar a{font-size:16px!important;margin-right:24px!important}
   
   /* Coin of the Day: stack cleanly */
   #cotd-wrap{padding:14px 16px!important}
@@ -282,7 +283,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   
   /* Affiliate banners: bigger CTAs, stack content */
   .banner-slot{padding:14px 16px!important}
-  .banner-cta{padding:12px 20px!important;font-size:11px!important;min-height:44px;width:100%;text-align:center;margin-top:8px}
+  .banner-cta{padding:12px 20px!important;font-size:15px!important;min-height:44px;width:100%;text-align:center;margin-top:8px}
   .banner-content{flex-direction:column;align-items:flex-start!important;gap:6px}
   
   /* Pagination */
@@ -306,7 +307,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div class="topbar-right">
       <a class="x-link" href="https://x.com/ciphersignal_" target="_blank" rel="noopener">@ciphersignal_</a>
       <span class="coin-count" id="coin-count">loading...</span>
-      <button onclick="feelingLucky()" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);background:rgba(255,180,0,.07);color:#ffb400;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.07)'">random coin</button>
+      <button onclick="feelingLucky()" style="font-family:'Orbitron',monospace;font-size:12px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);background:rgba(255,180,0,.07);color:#ffb400;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.07)'">random coin</button>
       <div class="status-pill"><div class="status-dot"></div><span id="status-text">fetching data</span></div>
     </div>
   </div>
@@ -325,12 +326,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(0,229,255,.04);border-bottom:1px solid rgba(0,229,255,.12);cursor:pointer" onclick="toggleSignalFeed()">
       <div style="display:flex;align-items:center;gap:10px">
         <span style="width:7px;height:7px;border-radius:50%;background:#00ff99;display:inline-block;animation:pulse 2s infinite"></span>
-        <span style="font-family:var(--font-disp);font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">market notes</span>
-        <span style="font-size:10px;color:var(--muted)">from the latest snapshot, not a live feed</span>
+        <span style="font-family:var(--font-disp);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">market notes</span>
+        <span style="font-size:13px;color:var(--muted)">from the latest snapshot, not a live feed</span>
       </div>
-      <span id="sf-toggle-icon" style="font-size:11px;color:var(--muted)">▼</span>
+      <span id="sf-toggle-icon" style="font-size:15px;color:var(--muted)">▼</span>
     </div>
-    <div id="signal-feed" style="height:150px;overflow-y:auto;padding:10px 14px;font-family:var(--font-mono);font-size:11px;line-height:1.9"></div>
+    <div id="signal-feed" style="height:150px;overflow-y:auto;padding:10px 14px;font-family:var(--font-mono);font-size:15px;line-height:1.9"></div>
   </div>
 
   <!-- DAILY PREDICTION GAME + STREAK -->
@@ -338,16 +339,16 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#ffb400,#00ff99,transparent)"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px">
       <div>
-        <div style="font-family:var(--font-disp);font-size:10px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px">daily guess</div>
-        <div id="predict-headline" style="font-size:12px;color:#c8d8f0"></div>
+        <div style="font-family:var(--font-disp);font-size:13px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px">daily guess</div>
+        <div id="predict-headline" style="font-size:16px;color:#e4eef8"></div>
       </div>
       <div id="streak-badge" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <div style="text-align:right">
-          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">streak</div>
+          <div style="font-family:var(--font-disp);font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">streak</div>
           <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#ffb400">🔥 <span id="streak-days">0</span></div>
         </div>
         <div style="text-align:right">
-          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">hit rate</div>
+          <div style="font-family:var(--font-disp);font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">hit rate</div>
           <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#00ff99"><span id="streak-pct">—</span></div>
         </div>
       </div>
@@ -361,10 +362,10 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
       <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:250px">
         <div>
-          <div style="font-family:'Orbitron',monospace;font-size:9px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">🏆 coin of the day</div>
+          <div style="font-family:'Orbitron',monospace;font-size:12px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">🏆 coin of the day</div>
           <div id="cotd-content" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <div class="spinner" style="width:14px;height:14px;border-width:2px"></div>
-            <span style="font-size:12px;color:var(--muted)">selecting today's pick...</span>
+            <span style="font-size:16px;color:var(--muted)">selecting today's pick...</span>
           </div>
         </div>
       </div>
@@ -393,7 +394,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a class="filter-btn" href="/movers" style="text-decoration:none">top movers</a>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
-    <div id="data-updated" style="font-size:11px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
+    <div id="data-updated" style="font-size:15px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
     <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 1,000 with 24h volume over $500)...</div></div>
     <div id="detail-area"></div>
   </div>
@@ -401,12 +402,12 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <!-- ON-CHAIN STOCKS (RWA) -->
   <div id="tab-rwa" class="tab-panel">
     <div style="margin-bottom:1rem">
-      <span style="font-family:var(--font-disp);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(0,229,255,.3);padding:4px 10px;border-radius:3px;background:rgba(0,229,255,.06)">⚡ Robinhood Chain</span>
-      <span style="font-size:12px;color:var(--muted);margin-left:10px">tokenized stocks · live on-chain</span>
+      <span style="font-family:var(--font-disp);font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(0,229,255,.3);padding:4px 10px;border-radius:3px;background:rgba(0,229,255,.06)">⚡ Robinhood Chain</span>
+      <span style="font-size:16px;color:var(--muted);margin-left:10px">tokenized stocks · live on-chain</span>
     </div>
-    <div style="font-size:13px;color:#8a9ab8;line-height:1.7;margin-bottom:1rem">
+    <div style="font-size:16px;color:#c9d4e6;line-height:1.7;margin-bottom:1rem">
       Robinhood launched its own blockchain in July 2026 — an Ethereum L2 where tokenized stocks like NVIDIA, Tesla &amp; AMD trade 24/7 and plug into DeFi. This is live data for tokens in the Robinhood Chain ecosystem, straight from CoinGecko.
-      <br><span style="color:#6a7a9a;font-size:11px">⚠️ Stock Tokens are debt securities (no shareholder rights) and are not available to US persons. This is information, not investment advice.</span>
+      <br><span style="color:#a8b8d4;font-size:15px">⚠️ Stock Tokens are debt securities (no shareholder rights) and are not available to US persons. This is information, not investment advice.</span>
     </div>
     <div id="rwa-body"><div class="loading"><div class="spinner"></div>loading on-chain stock data...</div></div>
   </div>
@@ -420,14 +421,14 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
         <button class="gen-btn" id="gen-btn" onclick="generateReport()">score coin</button>
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:8px;flex-wrap:wrap">
-        <span style="font-size:11px;color:var(--muted)">or paste a contract address:</span>
-        <input id="report-ca-input" type="text" placeholder="paste contract address or search by name..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')lookupAndDecrypt()">
-        <button onclick="lookupAndDecrypt()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 16px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">search &amp; score</button>
+        <span style="font-size:15px;color:var(--muted)">or paste a contract address:</span>
+        <input id="report-ca-input" type="text" placeholder="paste contract address or search by name..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')lookupAndDecrypt()">
+        <button onclick="lookupAndDecrypt()" style="font-family:'Orbitron',monospace;font-size:13px;padding:8px 16px;border-radius:4px;border:1px solid var(--accent);background:rgba(0,229,255,.08);color:var(--accent);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">search &amp; score</button>
       </div>
-      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">A written read of the signal score, hype, and market-structure risk. Formula over CoinGecko numbers — not a language model. <a href="#how-scores" style="color:var(--accent)">how scores work</a></div>
-      <div class="report-out" id="report-output"><span style="color:var(--muted);font-size:11px">// select a coin above and hit score</span></div>
+      <div style="font-size:15px;color:var(--muted);letter-spacing:.04em;margin-bottom:.25rem">A written read of the signal score, hype, and market-structure risk. Formula over CoinGecko numbers — not a language model. <a href="#how-scores" style="color:var(--accent)">how scores work</a></div>
+      <div class="report-out" id="report-output"><span style="color:var(--muted);font-size:15px">// select a coin above and hit score</span></div>
       <div id="report-cta" style="display:none">
-        <div style="margin-top:1rem;font-size:12px;color:var(--muted)">Looking for a venue? See <a href="#where-to-buy" style="color:var(--accent)">where to buy</a>. Affiliate links, not a recommendation.</div>
+        <div style="margin-top:1rem;font-size:16px;color:var(--muted)">Looking for a venue? See <a href="#where-to-buy" style="color:var(--accent)">where to buy</a>. Affiliate links, not a recommendation.</div>
       </div>
     </div>
   </div>
@@ -442,18 +443,18 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div class="report-card">
       <div class="rc-top">
         <span class="ai-tag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">CIPHERPOT 🍯</span>
-        <span style="font-size:11px;color:var(--muted);letter-spacing:.04em">honeypot & rug detector</span>
+        <span style="font-size:15px;color:var(--muted);letter-spacing:.04em">honeypot & rug detector</span>
       </div>
-      <div style="font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:1rem;line-height:1.7">Paste a contract on Ethereum, BSC, Base, or Solana. CipherPot reads honeypot.is (EVM), RugCheck (Solana), and GoPlus security (mint, proxy, blacklist, owner powers, holder concentration). Each result has a share link at /scan/…</div>
+      <div style="font-size:15px;color:var(--muted);letter-spacing:.04em;margin-bottom:1rem;line-height:1.7">Paste a contract on Ethereum, BSC, Base, or Solana. CipherPot reads honeypot.is (EVM), RugCheck (Solana), and GoPlus security (mint, proxy, blacklist, owner powers, holder concentration). Each result has a share link at /scan/…</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
-        <select id="cp-chain" onchange="cpChainChange()" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:11px;padding:8px 10px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s">
+        <select id="cp-chain" onchange="cpChainChange()" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:15px;padding:8px 10px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s">
           <option value="1">Ethereum</option>
           <option value="56">BSC</option>
           <option value="8453">Base</option>
           <option value="sol">Solana</option>
         </select>
-        <input id="cp-address" type="text" placeholder="paste contract address..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='#ffb400'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')checkHoneypot()">
-        <button onclick="checkHoneypot()" id="cp-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:9px 18px;border-radius:4px;border:1px solid rgba(255,180,0,.4);background:rgba(255,180,0,.08);color:#ffb400;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.18)'" onmouseout="this.style.background='rgba(255,180,0,.08)'">scan contract</button>
+        <input id="cp-address" type="text" placeholder="paste contract address..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='#ffb400'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')checkHoneypot()">
+        <button onclick="checkHoneypot()" id="cp-btn" style="font-family:'Orbitron',monospace;font-size:12px;padding:9px 18px;border-radius:4px;border:1px solid rgba(255,180,0,.4);background:rgba(255,180,0,.08);color:#ffb400;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.18)'" onmouseout="this.style.background='rgba(255,180,0,.08)'">scan contract</button>
       </div>
       <div id="cp-result" style="min-height:60px"></div>
     </div>
@@ -464,9 +465,9 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div class="report-card">
       <div class="rc-top">
         <span class="ai-tag" style="background:rgba(255,51,85,.08);color:#ff6680;border-color:rgba(255,51,85,.3)">RUG RADAR</span>
-        <span style="font-size:11px;color:var(--muted)">DexScreener attention, checked with GoPlus</span>
+        <span style="font-size:15px;color:var(--muted)">DexScreener attention, checked with GoPlus</span>
       </div>
-      <div id="radar-updated" style="font-size:11px;color:var(--muted);margin-bottom:.75rem;line-height:1.6">Loading the latest boosted and newly listed tokens on chains CipherPot supports.</div>
+      <div id="radar-updated" style="font-size:15px;color:var(--muted);margin-bottom:.75rem;line-height:1.6">Loading the latest boosted and newly listed tokens on chains CipherPot supports.</div>
       <div id="radar-body"><div class="loading"><div class="spinner"></div>pulling DexScreener and GoPlus…</div></div>
     </div>
   </div>
@@ -478,39 +479,39 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <!-- TRENDING ON X -->
   <div style="margin-top:1.5rem">
-    <div style="font-size:9px;color:#6a7a9a;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">highest signal scores <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
+    <div style="font-size:12px;color:#a8b8d4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">highest signal scores <span style="flex:1;height:1px;background:#1a2035;display:block"></span></div>
     <div id="trending-wrap" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px"></div>
   </div>
 
   <!-- ABOUT -->
   <div style="background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
     <div>
-      <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">about cipher</div>
-      <p style="font-size:13px;color:#8a9ab8;line-height:1.8;margin-bottom:.75rem">CIPHER was built by a crypto enthusiast with a genuine passion for meme coins and the community around them. Tired of paywalled tools and noisy dashboards, I wanted to build something free, fast, and actually useful for degens at every level.</p>
-      <p style="font-size:13px;color:#8a9ab8;line-height:1.8">Meme coins are fun — that's the point. CIPHER helps you navigate them smarter, catch the signals early, and avoid the rugs. Always free. Always honest.</p>
+      <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">about cipher</div>
+      <p style="font-size:16px;color:#c9d4e6;line-height:1.8;margin-bottom:.75rem">CIPHER was built by a crypto enthusiast with a genuine passion for meme coins and the community around them. Tired of paywalled tools and noisy dashboards, I wanted to build something free, fast, and actually useful for degens at every level.</p>
+      <p style="font-size:16px;color:#c9d4e6;line-height:1.8">Meme coins are fun — that's the point. CIPHER helps you navigate them smarter, catch the signals early, and avoid the rugs. Always free. Always honest.</p>
     </div>
     <div>
-      <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">what cipher does</div>
+      <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">what cipher does</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Tracks up to 1,000 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
+          <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Tracks up to 1,000 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Scores every coin on hype, market mood, and a market-structure risk estimate. See <a href="#how-scores" style="color:var(--accent)">how scores work</a>.</span>
+          <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Scores every coin on hype, market mood, and a market-structure risk estimate. See <a href="#how-scores" style="color:var(--accent)">how scores work</a>.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">Signal Score writes that read in plain language — SEND IT, WAIT, or NGMI. It is a formula, not an AI model.</span>
+          <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Signal Score writes that read in plain language — SEND IT, WAIT, or NGMI. It is a formula, not an AI model.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="color:#ffb400;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">CIPHERPOT 🍯 — paste any contract address to instantly detect honeypots, buy/sell taxes & rug signals across ETH, BSC, Base & Solana</span>
+          <span style="color:#ffb400;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">CIPHERPOT 🍯 — paste any contract address to instantly detect honeypots, buy/sell taxes & rug signals across ETH, BSC, Base & Solana</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
-          <span style="color:#00ff99;font-size:11px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:12px;color:#8a9ab8;line-height:1.6">100% free. No signup required. Affiliate links keep the lights on</span>
+          <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">100% free. No signup required. Affiliate links keep the lights on</span>
         </div>
       </div>
     </div>
@@ -523,57 +524,57 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="background:linear-gradient(135deg,rgba(0,255,153,.08),rgba(0,229,255,.05));border:1px solid rgba(0,255,153,.3);border-radius:6px;padding:14px 18px;margin-bottom:1.25rem">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
         <div>
-          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
-          <div style="font-size:12px;color:#8a9ab8;line-height:1.6">Banner slots and sponsored picks for meme-coin projects. We don't publish a visitor count we can't verify.</div>
+          <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
+          <div style="font-size:16px;color:#c9d4e6;line-height:1.6">Banner slots and sponsored picks for meme-coin projects. We don't publish a visitor count we can't verify.</div>
         </div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input id="adv-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:160px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
-        <input id="adv-project" type="text" placeholder="project / coin name" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:140px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
-        <button onclick="submitAdvert()" id="adv-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:9px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;background:rgba(0,255,153,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</button>
+        <input id="adv-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:160px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
+        <input id="adv-project" type="text" placeholder="project / coin name" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:140px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
+        <button onclick="submitAdvert()" id="adv-btn" style="font-family:'Orbitron',monospace;font-size:12px;padding:9px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;background:rgba(0,255,153,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</button>
       </div>
-      <span id="adv-msg" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em;margin-top:8px">// message received — we'll be in touch ser 🔐</span>
+      <span id="adv-msg" style="display:none;font-size:15px;color:#00ff99;letter-spacing:.04em;margin-top:8px">// message received — we'll be in touch ser 🔐</span>
     </div>
 
     <!-- BOTTOM ROW: unified contact form -->
     <div>
-      <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">get in touch</div>
+      <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">get in touch</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-        <input id="contact-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
-        <select id="contact-type" style="background:#060810;border:1px solid #243050;color:#6a7a9a;font-family:'Share Tech Mono',monospace;font-size:12px;padding:8px 12px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
+        <input id="contact-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid #243050;color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
+        <select id="contact-type" style="background:#060810;border:1px solid #243050;color:#a8b8d4;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;cursor:pointer;transition:border-color .2s" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'">
           <option value="general">general question</option>
           <option value="suggestion">feature suggestion</option>
           <option value="bug">report a bug</option>
           <option value="other">something else</option>
         </select>
       </div>
-      <textarea id="contact-msg" placeholder="what's on your mind? suggestions, bugs, questions — we read everything..." style="width:100%;background:#060810;border:1px solid #243050;color:#c8d8f0;font-family:'Share Tech Mono',monospace;font-size:12px;padding:10px 12px;border-radius:4px;outline:none;resize:none;height:80px;line-height:1.6;transition:border-color .2s;margin-bottom:8px" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
+      <textarea id="contact-msg" placeholder="what's on your mind? suggestions, bugs, questions — we read everything..." style="width:100%;background:#060810;border:1px solid #243050;color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:10px 12px;border-radius:4px;outline:none;resize:none;height:80px;line-height:1.6;transition:border-color .2s;margin-bottom:8px" onfocus="this.style.borderColor='#00e5ff'" onblur="this.style.borderColor='#243050'"></textarea>
       <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="submitContact()" id="contact-btn" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">send message</button>
-        <span id="contact-confirm" style="display:none;font-size:11px;color:#00ff99;letter-spacing:.04em">// message received. gm ser 🔐</span>
+        <button onclick="submitContact()" id="contact-btn" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08);color:#00e5ff;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">send message</button>
+        <span id="contact-confirm" style="display:none;font-size:15px;color:#00ff99;letter-spacing:.04em">// message received. gm ser 🔐</span>
       </div>
     </div>
   </div>
 
   <!-- SUPPORT THE PROJECT -->
   <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:1.25rem;margin-top:1.5rem">
-    <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px">☕ support the project</div>
-    <div style="font-size:13px;color:#8a9ab8;line-height:1.6;margin-bottom:14px">CIPHER is free and always will be. If it's saved you from a rug or helped you find a play, a small tip helps keep the lights on and the scanner running.</div>
+    <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px">☕ support the project</div>
+    <div style="font-size:16px;color:#c9d4e6;line-height:1.6;margin-bottom:14px">CIPHER is free and always will be. If it's saved you from a rug or helped you find a play, a small tip helps keep the lights on and the scanner running.</div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:10px;color:#ffb400;font-weight:700;min-width:35px">BTC</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);word-break:break-all;flex:1">bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:8px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
+        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#ffb400;font-weight:700;min-width:35px">BTC</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4</span>
+        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:10px;color:#00e5ff;font-weight:700;min-width:35px">ETH</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);word-break:break-all;flex:1">0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:8px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
+        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#00e5ff;font-weight:700;min-width:35px">ETH</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99</span>
+        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:10px;color:#00ff99;font-weight:700;min-width:35px">SOL</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);word-break:break-all;flex:1">CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:8px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
+        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#00ff99;font-weight:700;min-width:35px">SOL</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1</span>
+        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
       </div>
     </div>
   </div>
@@ -627,7 +628,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
   <div class="disclaimer">
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
-      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:10px;color:var(--muted);letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='var(--muted)'">data powered by <span style="font-family:var(--font-disp);font-weight:700;color:#8dc63f;letter-spacing:.08em">🦎 CoinGecko</span></a>
+      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:var(--muted);letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='var(--muted)'">data powered by <span style="font-family:var(--font-disp);font-weight:700;color:#8dc63f;letter-spacing:.08em">🦎 CoinGecko</span></a>
     </div>
     Not financial advice. Nothing here is an offer to buy, sell, or bet. Affiliate links may earn CIPHER a commission. Do your own research.<br>© 2026 CIPHER — meme coin intelligence
   </div>
@@ -873,16 +874,16 @@ function renderPrediction(){
   } else {
     headline.textContent=alreadyPicked?'Your guess is locked in — come back tomorrow to see which price moved most. Not a forecast.':'Which of these three do you think moves the most by tomorrow? For fun only — not financial advice.';
   }
-  const foot=alreadyPicked?'':'<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center">Locks for 24 hours, then we compare prices. For fun only. Not financial advice.</div>';
+  const foot=alreadyPicked?'':'<div style="font-size:13px;color:var(--muted);margin-top:8px;text-align:center">Locks for 24 hours, then we compare prices. For fun only. Not financial advice.</div>';
   body.innerHTML=candidates.map(c=>{
     const picked=alreadyPicked && streak.pending.picked===c.id;
     return `<div onclick="${alreadyPicked?'':`makePrediction('${c.id}')`}" style="display:flex;align-items:center;gap:14px;padding:12px;margin-bottom:6px;background:${picked?'rgba(255,180,0,.1)':'var(--bg)'};border:1px solid ${picked?'rgba(255,180,0,.5)':'var(--border)'};border-radius:6px;cursor:${alreadyPicked?'default':'pointer'};transition:all .18s" ${alreadyPicked?'':`onmouseover="this.style.borderColor='rgba(255,180,0,.35)';this.style.background='rgba(255,180,0,.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'"`}>
       ${c.image?`<img src="${c.image}" style="width:32px;height:32px;border-radius:50%" alt="">`:''}
       <div style="flex:1;min-width:0">
-        <div style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:${picked?'#ffb400':'var(--accent)'}">$${c.symbol.toUpperCase()}${picked?' <span style="font-size:9px;color:#ffb400;letter-spacing:.1em">· YOUR PICK</span>':''}</div>
-        <div style="font-size:11px;color:var(--muted)">${c.name} · MCap ${fmtMcap(c.market_cap)} · Viral ${c.viral}</div>
+        <div style="font-family:var(--font-disp);font-size:16.5px;font-weight:700;color:${picked?'#ffb400':'var(--accent)'}">$${c.symbol.toUpperCase()}${picked?' <span style="font-size:12px;color:#ffb400;letter-spacing:.1em">· YOUR PICK</span>':''}</div>
+        <div style="font-size:15px;color:var(--muted)">${c.name} · MCap ${fmtMcap(c.market_cap)} · Viral ${c.viral}</div>
       </div>
-      <div style="font-size:12px;color:${(c.price_change_percentage_24h||0)>=0?'#00ff99':'#ff3355'};font-weight:700;white-space:nowrap">${((c.price_change_percentage_24h||0)>=0?'+':'')}${(c.price_change_percentage_24h||0).toFixed(1)}% 24h</div>
+      <div style="font-size:16px;color:${(c.price_change_percentage_24h||0)>=0?'#00ff99':'#ff3355'};font-weight:700;white-space:nowrap">${((c.price_change_percentage_24h||0)>=0?'+':'')}${(c.price_change_percentage_24h||0).toFixed(1)}% 24h</div>
     </div>`;
   }).join('') + foot;
 }
@@ -952,7 +953,7 @@ function buildSignalEvents(){
   });
   // New entries
   pool.filter(c=>c.isNew).slice(0,4).forEach(c=>{
-    push('🆕','NEW ENTRY',`${c.symbol.toUpperCase()} just entered the scanner`,'#c8d8f0',c.id);
+    push('🆕','NEW ENTRY',`${c.symbol.toUpperCase()} just entered the scanner`,'#e4eef8',c.id);
   });
   // Shuffle so the mix feels organic
   signalQueue=ev.sort(()=>Math.random()-.5);
@@ -967,7 +968,7 @@ function tickSignalFeed(){
   const ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
   const line=document.createElement('div');
   line.style.cssText='opacity:0;transform:translateY(-4px);transition:opacity .4s,transform .4s;cursor:pointer';
-  line.innerHTML=`<span style="color:var(--muted)">[${ts}]</span> <span>${e.icon}</span> <span style="color:${e.color};font-weight:700">${e.tag}</span> <span style="color:#8a9ab8">— ${e.text}</span>`;
+  line.innerHTML=`<span style="color:var(--muted)">[${ts}]</span> <span>${e.icon}</span> <span style="color:${e.color};font-weight:700">${e.tag}</span> <span style="color:#c9d4e6">— ${e.text}</span>`;
   line.onclick=()=>{switchTab('scanner');setTimeout(()=>selectCoin(e.coinId),80);};
   line.onmouseover=()=>{line.style.background='rgba(0,229,255,.04)';};
   line.onmouseout=()=>{line.style.background='';};
@@ -1000,17 +1001,17 @@ function shareButtonHtml(){
   if(!lastScanShare) return '';
   const path=scanPermalink(lastScanShare.chain,lastScanShare.address);
   const abs=SITE_ORIGIN+path;
-  return `<a href="${path}" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase">permalink</a>
-  <button onclick="navigator.clipboard.writeText('${abs}').then(()=>{this.textContent='copied'})" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase">copy link</button>
-  <button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">share on X</button>`;
+  return `<a href="${path}" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase">permalink</a>
+  <button onclick="navigator.clipboard.writeText('${abs}').then(()=>{this.textContent='copied'})" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase">copy link</button>
+  <button onclick="shareScanOnX()" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 16px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.07);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.16)'" onmouseout="this.style.background='rgba(0,229,255,.07)'">share on X</button>`;
 }
 function securityPills(data){
   if(!data||!data.ok) return '';
   const c=data.checks||{};
-  const row=(label,on)=>`<div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px"><div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">${label}</div><div style="font-size:12px;color:${on?'#ffb400':'#00ff99'};font-weight:700">${on?'yes':'no'}</div></div>`;
-  const reasons=(data.reasons||[]).slice(0,6).map(r=>`<div style="font-size:12px;color:#c8d8f0;padding:4px 0;border-bottom:1px solid var(--border)">${escHtml(r)}</div>`).join('');
+  const row=(label,on)=>`<div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px"><div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">${label}</div><div style="font-size:16px;color:${on?'#ffb400':'#00ff99'};font-weight:700">${on?'yes':'no'}</div></div>`;
+  const reasons=(data.reasons||[]).slice(0,6).map(r=>`<div style="font-size:16px;color:#e4eef8;padding:4px 0;border-bottom:1px solid var(--border)">${escHtml(r)}</div>`).join('');
   return `<div style="margin-top:.5rem;margin-bottom:1rem">
-    <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">// goplus + merged security · ${data.stamp||''} · risk ${data.riskScore==null?'n/a':data.riskScore}</div>
+    <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">// goplus + merged security · ${data.stamp||''} · risk ${data.riskScore==null?'n/a':data.riskScore}</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:8px">
       ${row('mintable',!!c.mintable)}
       ${row('proxy',!!c.proxy)}
@@ -1020,7 +1021,7 @@ function securityPills(data){
       ${row('hidden owner',!!c.hiddenOwner)}
     </div>
     ${reasons}
-    <div style="font-size:10px;color:var(--muted);margin-top:6px">sources: ${(data.sources||[]).join(' · ')} · ${data.updatedAt||''}</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:6px">sources: ${(data.sources||[]).join(' · ')} · ${data.updatedAt||''}</div>
   </div>`;
 }
 
@@ -1042,7 +1043,7 @@ function showWatchlistHint(){
     const hint=document.createElement('div');
     hint.id='wl-hint';
     hint.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.45);border-radius:8px;padding:14px 20px;z-index:9998;box-shadow:0 4px 30px rgba(0,0,0,.6);display:flex;align-items:center;gap:14px;max-width:90vw';
-    hint.innerHTML='<span style="font-size:20px">⭐</span><span style="font-size:12px;color:#c8d8f0;line-height:1.5">Click the <strong style="color:#ffb400">☆ star</strong> next to any coin to build your personal watchlist — then filter with the <strong style="color:#ffb400">⭐ watchlist</strong> button</span><button onclick="document.getElementById(\'wl-hint\').remove();localStorage.setItem(\'cipher_wl_hint\',\'1\')" style="font-family:var(--font-disp);font-size:9px;padding:7px 14px;border-radius:4px;border:none;background:#ffb400;color:#000;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap">got it</button>';
+    hint.innerHTML='<span style="font-size:20px">⭐</span><span style="font-size:16px;color:#e4eef8;line-height:1.5">Click the <strong style="color:#ffb400">☆ star</strong> next to any coin to build your personal watchlist — then filter with the <strong style="color:#ffb400">⭐ watchlist</strong> button</span><button onclick="document.getElementById(\'wl-hint\').remove();localStorage.setItem(\'cipher_wl_hint\',\'1\')" style="font-family:var(--font-disp);font-size:12px;padding:7px 14px;border-radius:4px;border:none;background:#ffb400;color:#000;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap">got it</button>';
     document.body.appendChild(hint);
     setTimeout(()=>{const h=document.getElementById('wl-hint');if(h){h.remove();localStorage.setItem('cipher_wl_hint','1');}},15000);
   }catch(e){}
@@ -1157,16 +1158,16 @@ function renderTable(){
   if(currentFilter==='watchlist'&&filteredCoins.length===0){
     document.getElementById('scanner-body').innerHTML=`<div style="text-align:center;padding:3rem 1rem;color:var(--muted)">
       <div style="font-size:32px;margin-bottom:12px">⭐</div>
-      <div style="font-family:var(--font-disp);font-size:13px;color:#c8d8f0;letter-spacing:.08em;margin-bottom:8px">YOUR WATCHLIST IS EMPTY</div>
-      <div style="font-size:12px;line-height:1.7">Click the <span style="color:#ffb400">☆ star</span> next to any coin in the scanner to start tracking it.<br>Your watchlist is saved in your browser — no account needed.</div>
-      <button onclick="setFilter('all')" style="margin-top:16px;font-family:var(--font-disp);font-size:9px;padding:8px 18px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.1em;text-transform:uppercase">← back to all coins</button>
+      <div style="font-family:var(--font-disp);font-size:16px;color:#e4eef8;letter-spacing:.08em;margin-bottom:8px">YOUR WATCHLIST IS EMPTY</div>
+      <div style="font-size:16px;line-height:1.7">Click the <span style="color:#ffb400">☆ star</span> next to any coin in the scanner to start tracking it.<br>Your watchlist is saved in your browser — no account needed.</div>
+      <button onclick="setFilter('all')" style="margin-top:16px;font-family:var(--font-disp);font-size:12px;padding:8px 18px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.1em;text-transform:uppercase">← back to all coins</button>
     </div>`;
     return;
   }
   const start=(currentPage-1)*PAGE_SIZE;
   const page=filteredCoins.slice(start,start+PAGE_SIZE);
   const total=Math.ceil(filteredCoins.length/PAGE_SIZE);
-  if(!page.length){document.getElementById('scanner-body').innerHTML='<div style="padding:2rem;color:var(--muted);font-size:12px">// no coins match this filter</div>';return;}
+  if(!page.length){document.getElementById('scanner-body').innerHTML='<div style="padding:2rem;color:var(--muted);font-size:16px">// no coins match this filter</div>';return;}
   const arr=c=>sortCol===c?(sortDir===-1?'↓':'↑'):'';
   let h=`<div class="table-wrap"><table><thead><tr>
     <th style="width:30px">#</th>
@@ -1181,8 +1182,8 @@ function renderTable(){
   </tr></thead><tbody>
   <tr style="background:linear-gradient(90deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border-bottom:1px solid rgba(255,180,0,.2)">
     <td class="td-rank" style="color:#ffb400">★</td>
-    <td><div class="td-coin"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px">💰</div><div><div class="coin-sym" style="color:#ffb400">YOUR COIN</div><div class="coin-name-sm">advertise here</div></div></div></td>
-    <td colspan="7" style="font-size:11px;color:#6a7a9a;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
+    <td><div class="td-coin"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);display:flex;align-items:center;justify-content:center;font-size:13px">💰</div><div><div class="coin-sym" style="color:#ffb400">YOUR COIN</div><div class="coin-name-sm">advertise here</div></div></div></td>
+    <td colspan="7" style="font-size:15px;color:#a8b8d4;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
     <td><span class="ctag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">sponsored</span></td>
   </tr>`;
   page.forEach((c,i)=>{
@@ -1193,15 +1194,15 @@ function renderTable(){
     const chgCls=chg>=0?'pos':'neg';
     const chg7=c.price_change_percentage_7d_in_currency||0;
     const chg7Str=(chg7>=0?'+':'')+chg7.toFixed(1)+'%';
-    const newBadge=c.isNew?'<span style="font-size:8px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
+    const newBadge=c.isNew?'<span style="font-size:12px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
     const img=c.image?`<img class="coin-img" src="${c.image}" alt="${c.symbol}" onerror="this.style.display='none'">`:'';
     const starred=watchlist.has(c.id);
     h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
-      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:13px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
+      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:16px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
       <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
-      <td><span class="${chgCls}" style="font-size:11px;font-weight:700">${chgStr}</span></td>
-      <td><span class="${chg7>=0?'pos':'neg'}" style="font-size:11px;font-weight:700">${chg7Str}</span></td>
+      <td><span class="${chgCls}" style="font-size:15px;font-weight:700">${chgStr}</span></td>
+      <td><span class="${chg7>=0?'pos':'neg'}" style="font-size:15px;font-weight:700">${chg7Str}</span></td>
       <td class="td-mcap">${fmtMcap(c.market_cap)}</td>
       <td class="td-mcap">${fmtMcap(c.total_volume)}</td>
       <td><div style="display:flex;align-items:center;gap:6px"><div class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div><span class="score-val" style="color:${col(c.viral)}">${c.viral}</span></div></td>
@@ -1209,7 +1210,7 @@ function renderTable(){
       <td><span class="ctag ${sl[1]}">${sl[0]}</span></td>
     </tr>`;
   });
-  h+='</tbody></table></div><div style="font-size:10px;color:var(--muted);padding:4px 2px">Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>';
+  h+='</tbody></table></div><div style="font-size:13px;color:var(--muted);padding:4px 2px">Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>';
   if(total>1){
     h+='<div class="pagination"><span class="page-info">'+filteredCoins.length+' coins · pg '+currentPage+'/'+total+'</span>';
     if(currentPage>1)h+=`<button class="page-btn" onclick="goPage(${currentPage-1})">← prev</button>`;
@@ -1245,8 +1246,8 @@ async function selectCoin(id){
   document.getElementById('detail-area').innerHTML=`
     <div class="detail">
       <div class="d-header">
-        ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:9px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">random coin from the list</div>':''}
-        <button id="detail-watch-btn" onclick="toggleWatch('${c.id}');updateDetailWatchBtn('${c.id}')" style="position:absolute;top:8px;right:110px;font-family:var(--font-disp);font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">${watchlist.has(c.id)?'⭐ watching':'☆ add to watchlist'}</button>
+        ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:12px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">random coin from the list</div>':''}
+        <button id="detail-watch-btn" onclick="toggleWatch('${c.id}');updateDetailWatchBtn('${c.id}')" style="position:absolute;top:8px;right:110px;font-family:var(--font-disp);font-size:12px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">${watchlist.has(c.id)?'⭐ watching':'☆ add to watchlist'}</button>
         ${c.image?`<img class="d-img" src="${c.image}" alt="${c.symbol}">`:''}
         <div>
           <div class="d-name">${c.symbol.toUpperCase()}</div>
@@ -1254,17 +1255,17 @@ async function selectCoin(id){
         </div>
       </div>
       <div class="score-grid">
-        <div class="sbox"><div class="sbox-lbl">🔥 Hype Level</div><div class="sbox-val" style="color:${col(c.viral)};font-size:15px">${c.viral>=70?'High':c.viral>=40?'Medium':'Low'}</div><div class="sbox-sub">${c.viral>=70?'trending — people are watching this':c.viral>=40?'some buzz building':'not much buzz yet'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">📊 Mood</div><div class="sbox-val" style="color:${c.sentiment>=65?'#00ff99':c.sentiment>=35?'#ffb400':'#ff3355'};font-size:15px">${c.sentiment>=65?'Bullish 📈':c.sentiment>=35?'Neutral ➡️':'Bearish 📉'}</div><div class="sbox-sub">${c.sentiment>=65?'buyers in control right now':c.sentiment>=35?'no clear direction':'sellers in control right now'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.sentiment}%;background:${c.sentiment>=65?'#00ff99':c.sentiment>=35?'#ffb400':'#ff3355'}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">⚠️ Risk Level</div><div class="sbox-val" style="color:${c.rug>=70?'#ff3355':c.rug>=40?'#ffb400':'#00ff99'};font-size:15px">${c.rug>=70?'High ❌':c.rug>=40?'Medium ⚠️':'Lower ✅'}</div><div class="sbox-sub">${c.rug>=70?'be very careful with this one':c.rug>=40?'do your research first':'relatively safer for a meme coin'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.rug}%;background:${c.rug>=70?'#ff3355':c.rug>=40?'#ffb400':'#00ff99'}"></div></div></div>
-        <div class="sbox"><div class="sbox-lbl">🏦 Market Cap</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.market_cap)}</div><div class="sbox-sub">rank #${c.market_cap_rank||'—'}</div></div>
-        <div class="sbox"><div class="sbox-lbl">🔊 24h Volume</div><div class="sbox-val" style="color:var(--text);font-size:16px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">how much is being traded</div></div>
-        <div class="sbox"><div class="sbox-lbl">💰 Price</div><div class="sbox-val" style="color:var(--text);font-size:15px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
+        <div class="sbox"><div class="sbox-lbl">🔥 Hype Level</div><div class="sbox-val" style="color:${col(c.viral)};font-size:16.5px">${c.viral>=70?'High':c.viral>=40?'Medium':'Low'}</div><div class="sbox-sub">${c.viral>=70?'trending — people are watching this':c.viral>=40?'some buzz building':'not much buzz yet'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">📊 Mood</div><div class="sbox-val" style="color:${c.sentiment>=65?'#00ff99':c.sentiment>=35?'#ffb400':'#ff3355'};font-size:16.5px">${c.sentiment>=65?'Bullish 📈':c.sentiment>=35?'Neutral ➡️':'Bearish 📉'}</div><div class="sbox-sub">${c.sentiment>=65?'buyers in control right now':c.sentiment>=35?'no clear direction':'sellers in control right now'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.sentiment}%;background:${c.sentiment>=65?'#00ff99':c.sentiment>=35?'#ffb400':'#ff3355'}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">⚠️ Risk Level</div><div class="sbox-val" style="color:${c.rug>=70?'#ff3355':c.rug>=40?'#ffb400':'#00ff99'};font-size:16.5px">${c.rug>=70?'High ❌':c.rug>=40?'Medium ⚠️':'Lower ✅'}</div><div class="sbox-sub">${c.rug>=70?'be very careful with this one':c.rug>=40?'do your research first':'relatively safer for a meme coin'}</div><div class="sbox-bar"><div class="sbox-fill" style="width:${c.rug}%;background:${c.rug>=70?'#ff3355':c.rug>=40?'#ffb400':'#00ff99'}"></div></div></div>
+        <div class="sbox"><div class="sbox-lbl">🏦 Market Cap</div><div class="sbox-val" style="color:var(--text);font-size:17px">${fmtMcap(c.market_cap)}</div><div class="sbox-sub">rank #${c.market_cap_rank||'—'}</div></div>
+        <div class="sbox"><div class="sbox-lbl">🔊 24h Volume</div><div class="sbox-val" style="color:var(--text);font-size:17px">${fmtMcap(c.total_volume)}</div><div class="sbox-sub">how much is being traded</div></div>
+        <div class="sbox"><div class="sbox-lbl">💰 Price</div><div class="sbox-val" style="color:var(--text);font-size:16.5px">${fmtPrice(c.current_price)}</div><div class="sbox-sub" style="color:${chgCol}">${chgStr} today</div></div>
       </div>
       <div class="section-label">7-day price chart</div>
-      <div id="price-chart-wrap" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:1rem"><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>loading chart...</div></div>
+      <div id="price-chart-wrap" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:1rem"><div style="display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>loading chart...</div></div>
       <div class="section-label">contract info</div>
-      <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
+      <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:15px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
         <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">signal score ↗</button>
         <a class="dact-btn" style="color:var(--text);border-color:var(--border2);text-decoration:none" href="/coin/${c.id}">coin page ↗</a>
@@ -1296,7 +1297,7 @@ async function selectCoin(id){
       if(res.status===429&&retries>0){
         // Rate limited — wait and retry
         const infoEl=document.getElementById('contract-info');
-        if(infoEl) infoEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:11px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>rate limited — retrying in 5s...</div>';
+        if(infoEl) infoEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:15px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>rate limited — retrying in 5s...</div>';
         await new Promise(r=>setTimeout(r,5000));
         return fetchContractData(retries-1);
       }
@@ -1343,7 +1344,7 @@ async function selectCoin(id){
       renderContractInfo(c);
     }catch(e){
       const infoEl=document.getElementById('contract-info');
-      if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:14px">⚠️</span><span style="font-size:11px;color:var(--muted)">Could not fetch contract data. <a href="#" onclick="selectCoin(\''+c.id+'\');return false;" style="color:var(--accent);text-decoration:none">tap to retry</a></span></div>';
+      if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:16.5px">⚠️</span><span style="font-size:15px;color:var(--muted)">Could not fetch contract data. <a href="#" onclick="selectCoin(\''+c.id+'\');return false;" style="color:var(--accent);text-decoration:none">tap to retry</a></span></div>';
     }
   }
   fetchContractData();
@@ -1368,7 +1369,7 @@ function renderContractInfo(c){
     if(c._communityScore) realFlags.push({icon:'👥',text:'Community score: '+c._communityScore+'/100',color:c._communityScore>30?'#00ff99':'#ffb400'});
     if(c._liquidityScore) realFlags.push({icon:'💧',text:'Liquidity score: '+c._liquidityScore.toFixed(1),color:c._liquidityScore>20?'#00ff99':'#ffb400'});
 
-    infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:14px">${f.icon}</span><span style="font-size:${f.raw?'12px':'11px'};color:${f.color};word-break:break-all">${f.text}</span></div>`).join('');
+    infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:16.5px">${f.icon}</span><span style="font-size:${f.raw?'12px':'11px'};color:${f.color};word-break:break-all">${f.text}</span></div>`).join('');
 
     // Only show honeypot button for supported chains (ETH, BSC, Base, Solana)
     const supportedChains=['1','56','8453','sol'];
@@ -1381,13 +1382,13 @@ function renderContractInfo(c){
 
     addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
       <div>
-        <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text);word-break:break-all">${contractAddr}</div>
+        <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
+        <div style="font-family:var(--font-mono);font-size:15px;color:var(--text);word-break:break-all">${contractAddr}</div>
       </div>
-      <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:8px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+      <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:12px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
     </div>`;
   } else {
-    infoEl.innerHTML='<div class="flag"><span style="font-size:14px">ℹ️</span><span style="font-size:11px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
+    infoEl.innerHTML='<div class="flag"><span style="font-size:16.5px">ℹ️</span><span style="font-size:15px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
     addrEl.innerHTML='';
   }
 }
@@ -1429,7 +1430,7 @@ async function lookupAndDecrypt(){
   const out=document.getElementById('report-output');
   const cta=document.getElementById('report-cta');
   btn.disabled=true;cta.style.display='none';
-  out.innerHTML='<span style="color:var(--muted);font-size:12px"><div class="spinner" style="display:inline-block;width:14px;height:14px;border-width:2px;vertical-align:middle;margin-right:8px"></div>searching for token...</span>';
+  out.innerHTML='<span style="color:var(--muted);font-size:16px"><div class="spinner" style="display:inline-block;width:14px;height:14px;border-width:2px;vertical-align:middle;margin-right:8px"></div>searching for token...</span>';
 
   try{
     let coinData=null;
@@ -1495,7 +1496,7 @@ async function lookupAndDecrypt(){
     }
 
     if(!coinData){
-      out.innerHTML='<div style="color:#ff3355;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// token not found. double check the contract address or try a different search term.</div>';
+      out.innerHTML='<div style="color:#ff3355;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// token not found. double check the contract address or try a different search term.</div>';
       btn.disabled=false;
       return;
     }
@@ -1518,7 +1519,7 @@ async function lookupAndDecrypt(){
     btn.disabled=false;
     generateReport();
   }catch(e){
-    out.innerHTML='<div style="color:#ff3355;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// search failed. CoinGecko may be rate limited — try again in 60s.</div>';
+    out.innerHTML='<div style="color:#ff3355;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.2);border-radius:6px;background:rgba(255,51,85,.05)">// search failed. CoinGecko may be rate limited — try again in 60s.</div>';
     btn.disabled=false;
   }
 }
@@ -1531,7 +1532,7 @@ async function generateReport(){
   if(!c){alert('coin not found — try refreshing data');return;}
   const btn=document.getElementById('gen-btn'),out=document.getElementById('report-output'),cta=document.getElementById('report-cta');
   btn.disabled=true;btn.textContent='scoring...';cta.style.display='none';
-  out.innerHTML='<span style="color:var(--muted);font-size:11px">// intercepting signals for '+c.symbol.toUpperCase()+'...</span>';
+  out.innerHTML='<span style="color:var(--muted);font-size:15px">// intercepting signals for '+c.symbol.toUpperCase()+'...</span>';
 
   const sym=c.symbol.toUpperCase();
   const chg=(c.price_change_percentage_24h||0).toFixed(2);
@@ -1598,17 +1599,17 @@ async function generateReport(){
       clearInterval(iv);
       // Add CoinGecko link + contract address after report
       let linksHtml='<div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center">';
-      linksHtml+=`<a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:11px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">view on CoinGecko 🦎</a>`;
-      linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){document.getElementById('cp-address').value=coin.contract_address;checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:11px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
+      linksHtml+=`<a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">view on CoinGecko 🦎</a>`;
+      linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){document.getElementById('cp-address').value=coin.contract_address;checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
       linksHtml+='</div>';
       // Show contract address if available
       if(c.contract_address){
         linksHtml+=`<div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
           <div>
-            <div style="font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">contract address${c._chainName?' · '+c._chainName:''}</div>
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--text);word-break:break-all">${c.contract_address}</div>
+            <div style="font-size:13px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">contract address${c._chainName?' · '+c._chainName:''}</div>
+            <div style="font-family:var(--font-mono);font-size:16px;color:var(--text);word-break:break-all">${c.contract_address}</div>
           </div>
-          <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
+          <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:12px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
         </div>`;
       }
       out.innerHTML+=linksHtml;
@@ -1666,7 +1667,7 @@ async function subscribeEmail(){
     });
     if(res.ok||res.status===200||res.status===201){
       document.getElementById('nl-email').value='';
-      document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:12px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
+      document.querySelector('.nl-form').innerHTML='<span style="color:var(--accent3);font-size:16px;letter-spacing:.06em">// access granted. daily drop incoming.</span>';
       fetch('https://formspree.io/f/xykndeqk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,type:'new subscriber — bottom form'})});
     } else {
       btn.textContent='subscribe';btn.disabled=false;
@@ -1771,7 +1772,7 @@ function feelingLucky(){
     // Show lucky banner
     const banner=document.createElement('div');
     banner.id='lucky-banner';
-    banner.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.4);border-radius:6px;padding:10px 20px;font-family:"Orbitron",monospace;font-size:10px;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;z-index:9999;box-shadow:0 0 20px rgba(255,180,0,.2);animation:fadeInDown .3s ease';
+    banner.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.4);border-radius:6px;padding:10px 20px;font-family:"Orbitron",monospace;font-size:13px;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;z-index:9999;box-shadow:0 0 20px rgba(255,180,0,.2);animation:fadeInDown .3s ease';
     banner.innerHTML=`Random coin from the scanner — opening ${coin.symbol.toUpperCase()}. Not a bet. Not financial advice.`;
     document.body.appendChild(banner);
     setTimeout(()=>{banner.remove();window._isLucky=false;},4000);
@@ -1797,14 +1798,14 @@ function cpRiskBar(score,max=100){
 
 function cpStatBox(label,value,sub,color){
   return `<div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px">
-    <div style="font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">${label}</div>
+    <div style="font-size:13px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">${label}</div>
     <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:${color||'var(--text)'}">${value}</div>
-    ${sub?`<div style="font-size:11px;color:var(--muted);margin-top:3px">${sub}</div>`:''}
+    ${sub?`<div style="font-size:15px;color:var(--muted);margin-top:3px">${sub}</div>`:''}
   </div>`;
 }
 
 function cpFlag(icon,text,color){
-  return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:${color||'var(--text)'}"><span style="font-size:14px">${icon}</span>${text}</div>`;
+  return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:16px;color:${color||'var(--text)'}"><span style="font-size:16.5px">${icon}</span>${text}</div>`;
 }
 
 async function checkHoneypot(){
@@ -1813,7 +1814,7 @@ async function checkHoneypot(){
   const btn=document.getElementById('cp-btn');
   const result=document.getElementById('cp-result');
   if(!address){
-    result.innerHTML='<div style="color:#ffb400;font-size:12px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05)">// paste a contract address to scan</div>';
+    result.innerHTML='<div style="color:#ffb400;font-size:16px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05)">// paste a contract address to scan</div>';
     return;
   }
   // Validate address format per chain
@@ -1821,23 +1822,23 @@ async function checkHoneypot(){
   const isEvmFormat=/^0x[a-fA-F0-9]{40}$/.test(address);
   const isSolFormat=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address);
   if(isEvmChain&&!isEvmFormat){
-    result.innerHTML=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+    result.innerHTML=`<div style="color:#ff6680;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
       // that doesn't look like an EVM address<br>
       Expected: <span style="color:var(--text);font-family:var(--font-mono)">0x</span> followed by 40 hex characters<br>
-      <span style="color:var(--muted);font-size:11px">If this is a Solana token, switch the chain dropdown to Solana.</span>
+      <span style="color:var(--muted);font-size:15px">If this is a Solana token, switch the chain dropdown to Solana.</span>
     </div>`;
     return;
   }
   if(chain==='sol'&&!isSolFormat){
-    result.innerHTML=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+    result.innerHTML=`<div style="color:#ff6680;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
       // that doesn't look like a Solana address<br>
       Solana addresses are 32-44 characters, no <span style="font-family:var(--font-mono)">0x</span> prefix.<br>
-      <span style="color:var(--muted);font-size:11px">If this is an Ethereum/BSC/Base token, switch the chain dropdown.</span>
+      <span style="color:var(--muted);font-size:15px">If this is an Ethereum/BSC/Base token, switch the chain dropdown.</span>
     </div>`;
     return;
   }
   btn.textContent='scanning...';btn.disabled=true;
-  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:12px;letter-spacing:.08em"><div class="spinner"></div>checking honeypot.is or RugCheck, plus GoPlus…</div>`;
+  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:16px;letter-spacing:.08em"><div class="spinner"></div>checking honeypot.is or RugCheck, plus GoPlus…</div>`;
   const securityPromise=fetch('/api/security?chain='+encodeURIComponent(chain)+'&address='+encodeURIComponent(address)).then(r=>r.ok?r.json():null).catch(()=>null);
 
   try{
@@ -1892,31 +1893,31 @@ async function checkHoneypot(){
       const solStamp=isRugged?'RUGGED':(score>=300?'CAUTION':'CLEAN');
       lastScanShare={symbol:symbol,verdict:solStamp,stamp:solStamp,chain:'sol',chainName:'Solana',address:address,blurb:'RugCheck score '+score};
       result.innerHTML=`
-        ${isRugged?'<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ff3355;line-height:1.6">🚨 <strong>WARNING:</strong> This token has been identified as a rug pull. Do NOT buy this token.</div>':''}
-        ${isSuspicious?'<div style="background:rgba(255,180,0,.1);border:1px solid rgba(255,180,0,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#ffb400;line-height:1.6">⚠️ <strong>Heads up:</strong> This token returned minimal data. A low score does NOT mean it\'s safe — it may mean the scanner couldn\'t fully analyze it. Always verify on multiple sources before buying.</div>':''}
+        ${isRugged?'<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:16px;color:#ff3355;line-height:1.6">🚨 <strong>WARNING:</strong> This token has been identified as a rug pull. Do NOT buy this token.</div>':''}
+        ${isSuspicious?'<div style="background:rgba(255,180,0,.1);border:1px solid rgba(255,180,0,.3);border-radius:6px;padding:10px 14px;margin-bottom:1rem;font-size:16px;color:#ffb400;line-height:1.6">⚠️ <strong>Heads up:</strong> This token returned minimal data. A low score does NOT mean it\'s safe — it may mean the scanner couldn\'t fully analyze it. Always verify on multiple sources before buying.</div>':''}
         <div style="border:1px solid ${vBorder};background:${vBg};border-radius:8px;padding:1.5rem;margin-bottom:1rem;position:relative;overflow:hidden">
           <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,${vColor},transparent)"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:1rem">
             <div>
               <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:${vColor};letter-spacing:.08em">${verdict}</div>
-              <div style="font-size:13px;color:var(--text);margin-top:4px">${name} <span style="color:var(--muted)">(${symbol})</span> · <span style="font-size:10px;color:var(--muted)">Solana</span></div>
+              <div style="font-size:16px;color:var(--text);margin-top:4px">${name} <span style="color:var(--muted)">(${symbol})</span> · <span style="font-size:13px;color:var(--muted)">Solana</span></div>
             </div>
             <div style="text-align:right">
-              <div style="font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">risk score</div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">risk score</div>
               <div style="font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:${vColor}">${score}</div>
             </div>
           </div>
           <div style="margin-bottom:1.25rem">
-            <div style="font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">risk meter</div>
+            <div style="font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">risk meter</div>
             <div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">
               <div style="height:100%;width:${riskPct}%;background:linear-gradient(90deg,#00ff99,#ffb400,#ff3355);border-radius:5px;transition:width 1s ease"></div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
             <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap">
-              <span style="font-size:9px;color:#00ff99;letter-spacing:.06em">● LOW — score &lt;300</span>
-              <span style="font-size:9px;color:#ffb400;letter-spacing:.06em">● MODERATE — score 300–600</span>
-              <span style="font-size:9px;color:#ff6680;letter-spacing:.06em">● HIGH — score 600–900</span>
-              <span style="font-size:9px;color:#ff3355;letter-spacing:.06em">● CRITICAL — score 900+</span>
+              <span style="font-size:12px;color:#00ff99;letter-spacing:.06em">● LOW — score &lt;300</span>
+              <span style="font-size:12px;color:#ffb400;letter-spacing:.06em">● MODERATE — score 300–600</span>
+              <span style="font-size:12px;color:#ff6680;letter-spacing:.06em">● HIGH — score 600–900</span>
+              <span style="font-size:12px;color:#ff3355;letter-spacing:.06em">● CRITICAL — score 900+</span>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem">
@@ -1927,22 +1928,22 @@ async function checkHoneypot(){
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem">
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
-              <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">mint authority</div>
-              <div style="font-size:12px;color:${mintAuth?'#ff3355':'#00ff99'};font-weight:700">${mintAuth?'⚠️ Still active — can mint more':'✅ Disabled'}</div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">mint authority</div>
+              <div style="font-size:16px;color:${mintAuth?'#ff3355':'#00ff99'};font-weight:700">${mintAuth?'⚠️ Still active — can mint more':'✅ Disabled'}</div>
             </div>
             <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
-              <div style="font-size:8px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">freeze authority</div>
-              <div style="font-size:12px;color:${freezeAuth?'#ff3355':'#00ff99'};font-weight:700">${freezeAuth?'⚠️ Still active — can freeze wallets':'✅ Disabled'}</div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">freeze authority</div>
+              <div style="font-size:16px;color:${freezeAuth?'#ff3355':'#00ff99'};font-weight:700">${freezeAuth?'⚠️ Still active — can freeze wallets':'✅ Disabled'}</div>
             </div>
           </div>
-          ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+(r.description?': '+r.description:'')+(r.value?` (${typeof r.value==='number'?(r.value*100).toFixed(1)+'%':r.value})`:''),r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
+          ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+(r.description?': '+r.description:'')+(r.value?` (${typeof r.value==='number'?(r.value*100).toFixed(1)+'%':r.value})`:''),r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
-          <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:9px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
+          <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
           ${shareButtonHtml()}
         </div>`;
       result.innerHTML+=`
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
+        <div style="font-size:13px;color:var(--muted);letter-spacing:.04em">// data via rugcheck.xyz · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
 
     } else {
       // EVM via honeypot.is
@@ -1991,24 +1992,24 @@ async function checkHoneypot(){
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:1.25rem">
             <div>
               <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:${vColor};letter-spacing:.06em">${verdict}</div>
-              <div style="font-size:13px;color:var(--text);margin-top:4px">${name} <span style="color:var(--muted)">(${symbol})</span> · <span style="font-size:10px;color:var(--muted)">${chainName}</span></div>
+              <div style="font-size:16px;color:var(--text);margin-top:4px">${name} <span style="color:var(--muted)">(${symbol})</span> · <span style="font-size:13px;color:var(--muted)">${chainName}</span></div>
             </div>
             <div style="text-align:right">
-              <div style="font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">risk level</div>
+              <div style="font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">risk level</div>
               <div style="font-family:'Orbitron',monospace;font-size:24px;font-weight:900;color:${vColor}">${isHoneypot?'HONEYPOT':risk}</div>
             </div>
           </div>
           <div style="margin-bottom:1.25rem">
-            <div style="font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">risk meter</div>
+            <div style="font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">risk meter</div>
             <div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">
               <div style="height:100%;width:${riskScore}%;background:linear-gradient(90deg,#00ff99,#ffb400,#ff3355);border-radius:5px;transition:width 1s ease"></div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px"><span>SAFE</span><span>DANGER</span></div>
             <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap">
-              <span style="font-size:9px;color:#00ff99;letter-spacing:.06em">● LOW — no major flags</span>
-              <span style="font-size:9px;color:#ffb400;letter-spacing:.06em">● MEDIUM — proceed with caution</span>
-              <span style="font-size:9px;color:#ff6680;letter-spacing:.06em">● HIGH — significant risk detected</span>
-              <span style="font-size:9px;color:#ff3355;letter-spacing:.06em">● HONEYPOT — do not buy</span>
+              <span style="font-size:12px;color:#00ff99;letter-spacing:.06em">● LOW — no major flags</span>
+              <span style="font-size:12px;color:#ffb400;letter-spacing:.06em">● MEDIUM — proceed with caution</span>
+              <span style="font-size:12px;color:#ff6680;letter-spacing:.06em">● HIGH — significant risk detected</span>
+              <span style="font-size:12px;color:#ff3355;letter-spacing:.06em">● HONEYPOT — do not buy</span>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem">
@@ -2018,14 +2019,14 @@ async function checkHoneypot(){
             ${cpStatBox('holders',holders?holders.toLocaleString():'n/a','',holders>500?'#00ff99':holders?'#ffb400':'var(--muted)')}
           </div>
           <div>
-            <div style="font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// signal flags</div>
+            <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// signal flags</div>
             ${flags.join('')}
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
           ${shareButtonHtml()}
         </div>
-        <div style="font-size:10px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
+        <div style="font-size:13px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
     }
     const security=await securityPromise;
     if(security&&security.ok){
@@ -2040,30 +2041,30 @@ async function checkHoneypot(){
     const msg=(e&&e.message)||'unknown';
     let errorHtml;
     if(msg==='rate_limit'){
-      errorHtml=`<div style="color:#ffb400;font-size:12px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05);line-height:1.7">
+      errorHtml=`<div style="color:#ffb400;font-size:16px;padding:1rem;border:1px solid rgba(255,180,0,.3);border-radius:6px;background:rgba(255,180,0,.05);line-height:1.7">
         // scanner rate limited<br>
         Too many scans in a short time. Wait 30 seconds and try again.
       </div>`;
     } else if(msg==='no_liquidity'){
-      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+      errorHtml=`<div style="color:#ff6680;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
         // no tradeable liquidity found for this token<br>
         <span style="color:var(--muted)">This usually means one of:</span><br>
         <span style="color:var(--text)">·</span> The token has no liquidity pool yet (brand new launch or already rugged)<br>
         <span style="color:var(--text)">·</span> Wrong chain — try switching between Ethereum / BSC / Base<br>
         <span style="color:var(--text)">·</span> The contract exists but isn't traded on a supported DEX<br>
-        <span style="color:var(--muted);font-size:11px;display:block;margin-top:6px">⚠️ A token with no liquidity is not necessarily safe — it may just be too new or too dead to analyze.</span>
+        <span style="color:var(--muted);font-size:15px;display:block;margin-top:6px">⚠️ A token with no liquidity is not necessarily safe — it may just be too new or too dead to analyze.</span>
       </div>`;
     } else if(msg==='not_found'){
-      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+      errorHtml=`<div style="color:#ff6680;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
         // scanner couldn't analyze this contract<br>
         <span style="color:var(--muted)">Most common reasons:</span><br>
         <span style="color:var(--text)">·</span> <strong style="color:#ffb400">No active trading pair</strong> — the scanner simulates a buy/sell, which requires liquidity on a major DEX (Uniswap, PancakeSwap, etc.)<br>
         <span style="color:var(--text)">·</span> Token is dead, delisted, or only on obscure DEXes<br>
         <span style="color:var(--text)">·</span> Wrong chain selected in the dropdown<br>
-        <span style="color:var(--muted);font-size:11px;display:block;margin-top:6px">⚠️ A token that can't be scanned is not automatically safe. It might just be too illiquid, too dead, or too new for the API.</span>
+        <span style="color:var(--muted);font-size:15px;display:block;margin-top:6px">⚠️ A token that can't be scanned is not automatically safe. It might just be too illiquid, too dead, or too new for the API.</span>
       </div>`;
     } else {
-      errorHtml=`<div style="color:#ff6680;font-size:12px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
+      errorHtml=`<div style="color:#ff6680;font-size:16px;padding:1rem;border:1px solid rgba(255,51,85,.25);border-radius:6px;background:rgba(255,51,85,.05);line-height:1.7">
         // scanner is temporarily unavailable<br>
         The rug/honeypot API returned an error. Wait a minute and try again.
       </div>`;
@@ -2090,13 +2091,13 @@ function renderTrending(){
     return `<div style="background:#0b0e1a;border:1px solid #1a2035;border-radius:6px;padding:10px 12px;cursor:pointer;transition:all .18s" onmouseover="this.style.borderColor='#243050'" onmouseout="this.style.borderColor='#1a2035'" onclick="switchTab('scanner');setTimeout(()=>selectCoin('${c.id}'),100)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
         ${img}
-        <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#d8e8ff">${c.symbol.toUpperCase()}</span>
-        <span style="font-size:10px;font-weight:700;color:${chgCol};margin-left:auto">${chgStr}</span>
+        <span style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#e8eef8">${c.symbol.toUpperCase()}</span>
+        <span style="font-size:13px;font-weight:700;color:${chgCol};margin-left:auto">${chgStr}</span>
       </div>
-      <div style="font-size:10px;color:#6a7a9a;line-height:1.5">vol ${fmtMcap(c.total_volume)} · mcap ${fmtMcap(c.market_cap)}</div>
+      <div style="font-size:13px;color:#a8b8d4;line-height:1.5">vol ${fmtMcap(c.total_volume)} · mcap ${fmtMcap(c.market_cap)}</div>
       <div style="margin-top:6px;display:flex;align-items:center;gap:4px">
         <div style="height:2px;flex:1;background:#111625;border-radius:1px;overflow:hidden"><div style="height:100%;width:${c.viral}%;background:#00e5ff;border-radius:1px"></div></div>
-        <span style="font-size:9px;color:#00e5ff;font-family:'Orbitron',monospace">${c.viral}</span>
+        <span style="font-size:12px;color:#00e5ff;font-family:'Orbitron',monospace">${c.viral}</span>
       </div>
     </div>`;
   }).join('');
@@ -2165,13 +2166,13 @@ function renderRugOfTheDay(){
     if(cotd)cotd.insertAdjacentElement('afterend',el);else return;
   }
   el.innerHTML=`<div style="display:flex;align-items:center;gap:12px">
-    <div style="font-family:var(--font-disp);font-size:9px;color:#ff3355;letter-spacing:.15em;text-transform:uppercase">💀 rekt of the day</div>
+    <div style="font-family:var(--font-disp);font-size:12px;color:#ff3355;letter-spacing:.15em;text-transform:uppercase">💀 rekt of the day</div>
     ${rug.image?`<img src="${rug.image}" style="width:24px;height:24px;border-radius:50%;filter:grayscale(60%)" alt="">`:''}
-    <span style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:#c8d8f0">${rug.symbol.toUpperCase()}</span>
-    <span style="font-size:13px;font-weight:700;color:#ff3355">${chg.toFixed(1)}%</span>
-    <span style="font-size:11px;color:var(--muted)">in 24h · F in the chat</span>
+    <span style="font-family:var(--font-disp);font-size:16.5px;font-weight:700;color:#e4eef8">${rug.symbol.toUpperCase()}</span>
+    <span style="font-size:16px;font-weight:700;color:#ff3355">${chg.toFixed(1)}%</span>
+    <span style="font-size:15px;color:var(--muted)">in 24h · F in the chat</span>
   </div>
-  <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${rug.id}'),100)" style="font-family:var(--font-disp);font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,51,85,.3);color:#ff6680;background:rgba(255,51,85,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase">view the damage</button>`;
+  <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${rug.id}'),100)" style="font-family:var(--font-disp);font-size:12px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,51,85,.3);color:#ff6680;background:rgba(255,51,85,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase">view the damage</button>`;
 }
 
 function renderCotdDisplay(coin){
@@ -2196,23 +2197,23 @@ function renderCotdDisplay(coin){
       <div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <span style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--accent);letter-spacing:.08em">${coin.symbol.toUpperCase()}</span>
-          <span style="font-size:13px;color:var(--muted)">${coin.name}</span>
-          <span style="font-size:13px;font-weight:700;color:${chgCol}">${chgStr}</span>
+          <span style="font-size:16px;color:var(--muted)">${coin.name}</span>
+          <span style="font-size:16px;font-weight:700;color:${chgCol}">${chgStr}</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;margin-top:4px;flex-wrap:wrap">
-          <span style="font-size:12px;color:var(--text)">${fmtPrice(coin.current_price)}</span>
-          <span style="font-size:10px;color:var(--muted)">MCap: ${fmtMcap(coin.market_cap)}</span>
-          <span style="font-size:10px;color:var(--muted)">Vol: ${fmtMcap(coin.total_volume)}</span>
-          <span style="font-family:'Orbitron',monospace;font-size:10px;padding:2px 8px;border-radius:3px;border:1px solid ${verdictCol};color:${verdictCol};background:${verdictCol}11;letter-spacing:.06em">${verdict}</span>
-          ${hypeLabel?`<span style="font-size:10px;color:var(--accent)">${hypeLabel}</span>`:''}
+          <span style="font-size:16px;color:var(--text)">${fmtPrice(coin.current_price)}</span>
+          <span style="font-size:13px;color:var(--muted)">MCap: ${fmtMcap(coin.market_cap)}</span>
+          <span style="font-size:13px;color:var(--muted)">Vol: ${fmtMcap(coin.total_volume)}</span>
+          <span style="font-family:'Orbitron',monospace;font-size:13px;padding:2px 8px;border-radius:3px;border:1px solid ${verdictCol};color:${verdictCol};background:${verdictCol}11;letter-spacing:.06em">${verdict}</span>
+          ${hypeLabel?`<span style="font-size:13px;color:var(--accent)">${hypeLabel}</span>`:''}
         </div>
       </div>
     </div>`;
   
   actions.innerHTML=`
-    <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${coin.id}'),100)" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">view profile</button>
-    <button onclick="document.getElementById('report-coin-select').value='${coin.id}';switchTab('report');generateReport()" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">signal score</button>
-    <a href="https://www.coingecko.com/en/coins/${coin.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:10px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">CoinGecko 🦎</a>`;
+    <button onclick="switchTab('scanner');setTimeout(()=>selectCoin('${coin.id}'),100)" style="font-family:'Orbitron',monospace;font-size:13px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">view profile</button>
+    <button onclick="document.getElementById('report-coin-select').value='${coin.id}';switchTab('report');generateReport()" style="font-family:'Orbitron',monospace;font-size:13px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.3);color:#00e5ff;background:rgba(0,229,255,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(0,229,255,.15)'" onmouseout="this.style.background='rgba(0,229,255,.06)'">signal score</button>
+    <a href="https://www.coingecko.com/en/coins/${coin.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:13px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">CoinGecko 🦎</a>`;
 }
 
 // ON-CHAIN STOCKS (Robinhood Chain ecosystem via CoinGecko)
@@ -2232,14 +2233,14 @@ async function loadRWA(){
       const chgCol=chg>=0?'#00ff99':'#ff3355';
       return `<tr onclick="window.open('https://www.coingecko.com/en/coins/${c.id}','_blank')" style="cursor:pointer">
         <td style="color:var(--muted)">${i+1}</td>
-        <td><div style="display:flex;align-items:center;gap:10px">${c.image?`<img src="${c.image}" style="width:26px;height:26px;border-radius:50%" alt="">`:''}<div><div style="font-family:var(--font-disp);font-size:14px;font-weight:700;color:var(--accent)">${(c.symbol||'').toUpperCase()}</div><div style="font-size:10px;color:var(--muted)">${(c.name||'').replace(' • Robinhood Token','')}</div></div></div></td>
+        <td><div style="display:flex;align-items:center;gap:10px">${c.image?`<img src="${c.image}" style="width:26px;height:26px;border-radius:50%" alt="">`:''}<div><div style="font-family:var(--font-disp);font-size:16.5px;font-weight:700;color:var(--accent)">${(c.symbol||'').toUpperCase()}</div><div style="font-size:13px;color:var(--muted)">${(c.name||'').replace(' • Robinhood Token','')}</div></div></div></td>
         <td style="color:${chgCol};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(2)}%</td>
         <td>${fmtPrice(c.current_price)}</td>
         <td style="color:var(--muted)">${fmtMcap(c.market_cap)}</td>
         <td style="color:var(--muted)">${fmtMcap(c.total_volume)}</td>
       </tr>`;
     }).join('');
-    document.getElementById('rwa-body').innerHTML=`<div class="table-wrap"><table><thead><tr><th>#</th><th>token</th><th>24h</th><th>price</th><th>mkt cap</th><th>volume</th></tr></thead><tbody>${rows}</tbody></table></div><div style="font-size:10px;color:var(--muted);margin-top:8px">click any token for full details · Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>`;
+    document.getElementById('rwa-body').innerHTML=`<div class="table-wrap"><table><thead><tr><th>#</th><th>token</th><th>24h</th><th>price</th><th>mkt cap</th><th>volume</th></tr></thead><tbody>${rows}</tbody></table></div><div style="font-size:13px;color:var(--muted);margin-top:8px">click any token for full details · Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>`;
   }catch(e){
     document.getElementById('rwa-body').innerHTML='<div class="error-msg">// rate limited. wait a minute and reopen this tab.</div>';
   }
@@ -2260,7 +2261,7 @@ function renderTickerBar(){
   const items=movers.map(c=>{
     const chg=c.price_change_percentage_24h||0;
     const col=chg>=0?'#00ff99':'#ff3355';
-    return `<a href="javascript:void(0)" onclick="event.stopPropagation();switchTab('scanner');setTimeout(()=>{selectCoin('${c.id}');const el=document.getElementById('detail-area');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},80);" style="margin-right:32px;font-size:12px;text-decoration:none;cursor:pointer;display:inline-block;transition:transform .15s,filter .15s" onmouseover="this.style.transform='translateY(-1px)';this.style.filter='brightness(1.25)'" onmouseout="this.style.transform='';this.style.filter=''"><span style="font-family:var(--font-disp);font-weight:700;color:var(--accent)">${c.symbol.toUpperCase()}</span> <span style="color:${col};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(1)}%</span></a>`;
+    return `<a href="javascript:void(0)" onclick="event.stopPropagation();switchTab('scanner');setTimeout(()=>{selectCoin('${c.id}');const el=document.getElementById('detail-area');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},80);" style="margin-right:32px;font-size:16px;text-decoration:none;cursor:pointer;display:inline-block;transition:transform .15s,filter .15s" onmouseover="this.style.transform='translateY(-1px)';this.style.filter='brightness(1.25)'" onmouseout="this.style.transform='';this.style.filter=''"><span style="font-family:var(--font-disp);font-weight:700;color:var(--accent)">${c.symbol.toUpperCase()}</span> <span style="color:${col};font-weight:700">${(chg>=0?'+':'')+chg.toFixed(1)}%</span></a>`;
   }).join('');
   bar.innerHTML=`<div id="ticker-scroll" style="display:inline-block;animation:tickerScroll 60s linear infinite">${items}${items}</div>`;
   // Pause scroll on hover so users can click accurately
@@ -2308,7 +2309,7 @@ async function loadPriceChart(coin){
       coin._chart=(data.prices||[]).map(p=>p[1]);
     }
     const prices=coin._chart;
-    if(!prices||prices.length<2){wrap.innerHTML='<div style="font-size:11px;color:var(--muted)">// no chart data available</div>';return;}
+    if(!prices||prices.length<2){wrap.innerHTML='<div style="font-size:15px;color:var(--muted)">// no chart data available</div>';return;}
     const w=wrap.clientWidth-24||600,h=140;
     const min=Math.min(...prices),max=Math.max(...prices);
     const range=max-min||1;
@@ -2319,8 +2320,8 @@ async function loadPriceChart(coin){
     const chgPct=((prices[prices.length-1]-prices[0])/prices[0]*100);
     wrap.innerHTML=`
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px">
-        <span style="font-size:11px;color:var(--muted)">7d range: ${fmtPrice(min)} — ${fmtPrice(max)}</span>
-        <span style="font-size:12px;font-weight:700;color:${col}">${(chgPct>=0?'+':'')+chgPct.toFixed(1)}% this week</span><span style="font-size:9px;color:var(--muted)">Powered by <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko API</a></span>
+        <span style="font-size:15px;color:var(--muted)">7d range: ${fmtPrice(min)} — ${fmtPrice(max)}</span>
+        <span style="font-size:16px;font-weight:700;color:${col}">${(chgPct>=0?'+':'')+chgPct.toFixed(1)}% this week</span><span style="font-size:12px;color:var(--muted)">Powered by <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko API</a></span>
       </div>
       <svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block">
         <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity="0.25"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
@@ -2328,7 +2329,7 @@ async function loadPriceChart(coin){
         <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/>
       </svg>`;
   }catch(e){
-    wrap.innerHTML='<div style="font-size:11px;color:var(--muted)">// chart temporarily unavailable (rate limit) — try again shortly</div>';
+    wrap.innerHTML='<div style="font-size:15px;color:var(--muted)">// chart temporarily unavailable (rate limit) — try again shortly</div>';
   }
 }
 
@@ -2376,12 +2377,12 @@ async function loadRadar(){
     }
     radarLoaded=true;
     if(meta) meta.textContent='Updated '+data.updatedAt+' UTC. '+data.source;
-    const color={HONEYPOT:'#ff3355',RUGGED:'#ff3355',CAUTION:'#ffb400',CLEAN:'#00ff99',UNKNOWN:'#6a7a9a'};
+    const color={HONEYPOT:'#ff3355',RUGGED:'#ff3355',CAUTION:'#ffb400',CLEAN:'#00ff99',UNKNOWN:'#a8b8d4'};
     body.innerHTML='<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th></tr></thead><tbody>'+data.items.map(item=>{
-      const col=color[item.stamp]||'#6a7a9a';
+      const col=color[item.stamp]||'#a8b8d4';
       const why=(item.reasons||[]).slice(0,2).map(escHtml).join(' · ');
-      return '<tr onclick="location.href=\''+escHtml(item.scanPath)+'\'"><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:12px;color:#8a9ab8">'+why+'</td></tr>';
-    }).join('')+'</tbody></table></div><div style="font-size:11px;color:var(--muted);margin-top:8px">Click a row for the shareable scan page (honeypot.is or RugCheck plus this GoPlus pass).</div>';
+      return '<tr onclick="location.href=\''+escHtml(item.scanPath)+'\'"><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+why+'</td></tr>';
+    }).join('')+'</tbody></table></div><div style="font-size:15px;color:var(--muted);margin-top:8px">Click a row for the shareable scan page (honeypot.is or RugCheck plus this GoPlus pass).</div>';
   }catch(e){
     body.innerHTML='<div class="error-msg">// Rug Radar is temporarily unavailable.</div>';
   }
