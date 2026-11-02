@@ -1416,6 +1416,7 @@ function switchTab(n){
 function loadTabFromURL(){
   const path=window.location.pathname.replace(/\/$/,'')||'/';
   activateTab(URL_TABS[path]||'scanner');
+  if(path==='/cipherpot') applyCipherpotDeepLink();
 }
 window.addEventListener('popstate',function(e){
   if(e.state&&e.state.tab) activateTab(e.state.tab);
@@ -1600,7 +1601,7 @@ async function generateReport(){
       // Add CoinGecko link + contract address after report
       let linksHtml='<div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center">';
       linksHtml+=`<a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">view on CoinGecko 🦎</a>`;
-      linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){document.getElementById('cp-address').value=coin.contract_address;checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
+      linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){const chain=coin._chainId;if(chain==='1'||chain==='56'||chain==='8453'||chain==='sol')document.getElementById('cp-chain').value=chain;document.getElementById('cp-address').value=coin.contract_address;cpChainChange();checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
       linksHtml+='</div>';
       // Show contract address if available
       if(c.contract_address){
@@ -1780,6 +1781,37 @@ function feelingLucky(){
 }
 
 // CIPHERPOT
+function cipherpotChainValue(raw){
+  const value=String(raw||'').trim().toLowerCase();
+  if(value==='eth'||value==='ethereum'||value==='1') return '1';
+  if(value==='bsc'||value==='56'||value==='binance-smart-chain') return '56';
+  if(value==='base'||value==='8453') return '8453';
+  if(value==='sol'||value==='solana') return 'sol';
+  return '';
+}
+function readCipherpotParams(){
+  const q=new URLSearchParams(window.location.search);
+  const chain=cipherpotChainValue(q.get('chain'));
+  const address=String(q.get('address')||'').trim();
+  if(!chain||!address) return null;
+  return {chain, address, symbol:String(q.get('symbol')||'').trim()};
+}
+let cipherpotDeepLinkKey='';
+function applyCipherpotDeepLink(){
+  const params=readCipherpotParams();
+  if(!params) return;
+  const key=params.chain+'|'+params.address;
+  if(cipherpotDeepLinkKey===key) return;
+  const chainEl=document.getElementById('cp-chain');
+  const addrEl=document.getElementById('cp-address');
+  if(!chainEl||!addrEl) return;
+  cipherpotDeepLinkKey=key;
+  chainEl.value=params.chain;
+  addrEl.value=params.address;
+  window._cipherpotSymbol=params.symbol||'';
+  cpChainChange();
+  checkHoneypot();
+}
 function cpChainChange(){
   const chain=document.getElementById('cp-chain').value;
   const input=document.getElementById('cp-address');
@@ -1838,7 +1870,9 @@ async function checkHoneypot(){
     return;
   }
   btn.textContent='scanning...';btn.disabled=true;
-  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:16px;letter-spacing:.08em"><div class="spinner"></div>checking honeypot.is or RugCheck, plus GoPlus…</div>`;
+  const preset=window._cipherpotSymbol?(' for $'+escHtml(window._cipherpotSymbol)):'';
+  window._cipherpotSymbol='';
+  result.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:2rem;color:var(--muted);font-size:16px;letter-spacing:.08em"><div class="spinner"></div>checking honeypot.is or RugCheck, plus GoPlus${preset}…</div>`;
   const securityPromise=fetch('/api/security?chain='+encodeURIComponent(chain)+'&address='+encodeURIComponent(address)).then(r=>r.ok?r.json():null).catch(()=>null);
 
   try{
