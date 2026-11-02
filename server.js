@@ -6,7 +6,9 @@ const path = require('path');
 const { proxyCoinGecko } = require('./lib/coingecko');
 const { scanToken } = require('./lib/security');
 const { getRadar } = require('./lib/radar');
-const { renderCard, renderMoversCard, renderCoinCard } = require('./lib/og');
+const { renderCard, renderMoversCard, renderCoinCard, renderApeCard } = require('./lib/og');
+const { checkToken, listRecent, loadRasterLogo } = require('./lib/ape');
+const { renderApeRoute } = require('./lib/ape-page');
 const { APP_ROUTES, renderAppRoute, renderScanPage, renderScanError } = require('./lib/pages');
 const { loadMovers, renderMoversPage, coinSitemapXml } = require('./lib/movers');
 const { loadCoin, renderCoinPage } = require('./lib/coin');
@@ -64,6 +66,20 @@ async function handle(req, res) {
 
   if (pathname === '/api/security') {
     const report = await scanToken(url.searchParams.get('chain'), url.searchParams.get('address'));
+    sendJson(res, report.status || (report.ok ? 200 : 502), report, report.ok ? 'public, max-age=60' : 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/check' || pathname.startsWith('/api/check/')) {
+    const parts = pathname.split('/');
+    const chain = parts[3] || url.searchParams.get('chain');
+    const address = parts[4] || url.searchParams.get('address');
+    if (!chain || !address) {
+      const recent = await listRecent();
+      sendJson(res, 200, { ok: true, recent }, 'public, max-age=30');
+      return;
+    }
+    const report = await checkToken(chain, address);
     sendJson(res, report.status || (report.ok ? 200 : 502), report, report.ok ? 'public, max-age=60' : 'no-store');
     return;
   }
@@ -139,6 +155,29 @@ async function handle(req, res) {
     return;
   }
 
+  if (pathname === '/check' || pathname === '/hall' || pathname === '/shame') {
+    const result = await renderApeRoute(pathname.slice(1), queryOf(url));
+    if (result.redirect) {
+      send(res, 302, '', { Location: result.redirect });
+      return;
+    }
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  const apeMatch = pathname.match(/^\/check\/([a-zA-Z0-9]+)\/([^/]+)$/);
+  if (apeMatch) {
+    const result = await renderApeRoute('ape', { chain: apeMatch[1], address: apeMatch[2] });
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
   if (pathname === '/movers' || pathname === '/updates' || pathname === '/alerts') {
     const result = pathname === '/movers'
       ? await renderMoversPage()
@@ -200,6 +239,26 @@ async function handle(req, res) {
     send(res, loaded.ok ? 200 : (loaded.status || 502), png, {
       'Content-Type': 'image/png',
       'Cache-Control': loaded.ok ? 'public, max-age=120' : 'no-store',
+    });
+    return;
+  }
+
+  const apeOgMatch = pathname.match(/^\/og\/check\/([a-zA-Z0-9]+)\/([^/]+)\.png$/);
+  if (apeOgMatch || (pathname === '/api/og' && url.searchParams.get('kind') === 'ape')) {
+    const chain = apeOgMatch ? apeOgMatch[1] : url.searchParams.get('chain');
+    const address = apeOgMatch ? apeOgMatch[2] : url.searchParams.get('address');
+    const report = await checkToken(chain, address);
+    const logo = report.ok ? await loadRasterLogo(report.logo) : '';
+    const png = renderApeCard(report.ok ? report : {
+      letter: '?',
+      symbol: '???',
+      name: report.error || 'Unavailable',
+      verdicts: [report.error || 'Check unavailable'],
+      checks: [],
+    }, logo);
+    send(res, 200, png, {
+      'Content-Type': 'image/png',
+      'Cache-Control': report.ok ? 'public, max-age=300, s-maxage=21600' : 'no-store',
     });
     return;
   }

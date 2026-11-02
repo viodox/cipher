@@ -3,7 +3,8 @@
 const { scanToken } = require('../lib/security');
 const { renderScanPage, renderScanError } = require('../lib/pages');
 const { getRadar } = require('../lib/radar');
-const { renderCard, renderMoversCard, renderCoinCard } = require('../lib/og');
+const { renderCard, renderMoversCard, renderCoinCard, renderApeCard } = require('../lib/og');
+const { checkToken, listRecent, loadRasterLogo } = require('../lib/ape');
 const { loadMovers } = require('../lib/movers');
 const { loadCoin } = require('../lib/coin');
 
@@ -24,8 +25,36 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  if (mode === 'check') {
+    if (!req.query.chain || !req.query.address) {
+      const recent = await listRecent();
+      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+      res.status(200).json({ ok: true, recent });
+      return;
+    }
+    const report = await checkToken(req.query.chain, req.query.address);
+    res.setHeader('Cache-Control', report.ok ? 'public, s-maxage=300, stale-while-revalidate=600' : 'no-store');
+    res.status(report.status || (report.ok ? 200 : 502)).json(report);
+    return;
+  }
+
   if (mode === 'og') {
     const kind = String(req.query.kind || 'scan');
+    if (kind === 'ape') {
+      const report = await checkToken(req.query.chain, req.query.address);
+      const logo = report.ok ? await loadRasterLogo(report.logo) : '';
+      const png = renderApeCard(report.ok ? report : {
+        letter: '?',
+        symbol: '???',
+        name: report.error || 'Unavailable',
+        verdicts: [report.error || 'Check unavailable'],
+        checks: [],
+      }, logo);
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Cache-Control', report.ok ? 'public, s-maxage=21600, stale-while-revalidate=600' : 'no-store');
+      res.status(200).send(png);
+      return;
+    }
     if (kind === 'movers') {
       const data = await loadMovers();
       const png = renderMoversCard(data.ok ? data : { ok: false, gainers: [], losers: [] });

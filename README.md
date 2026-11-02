@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-Opens `http://127.0.0.1:4173` with the same routes Vercel serves: `/ai-decrypt`, `/profile`, `/cipherpot`, `/on-chain-stocks`, `/rug-radar`, `/movers`, `/updates`, `/alerts`, `/coin/{id}`, `/scan/{chain}/{address}`, `/og/scan/{chain}/{address}.png`, `/og/movers.png`, `/og/coin/{id}.png`, `/api/updates`, `/api/movers`, `/api/alerts`, and `/api/coingecko/...`.
+Opens `http://127.0.0.1:4173` with the same routes Vercel serves: `/ai-decrypt`, `/profile`, `/cipherpot`, `/on-chain-stocks`, `/rug-radar`, `/movers`, `/updates`, `/alerts`, `/check`, `/hall`, `/shame`, `/check/{chain}/{address}`, `/coin/{id}`, `/scan/{chain}/{address}`, `/og/scan/{chain}/{address}.png`, `/og/check/{chain}/{address}.png`, `/og/movers.png`, `/og/coin/{id}.png`, `/api/updates`, `/api/movers`, `/api/check`, `/api/alerts`, and `/api/coingecko/...`.
 
 `/coin/{id}`, `/og/coin/{id}.png`, and `/og/movers.png` are rewrites in `vercel.json` (query parameters on a normal function file). Do not add a `[...path].js` catch-all for new routes.
 
