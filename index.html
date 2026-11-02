@@ -182,6 +182,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .site-nav a:hover{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
 .new-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .soon-badge{display:inline-block;margin-left:6px;font-size:8px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
+.nfa{font-size:12px;color:#8a9ab8;line-height:1.55;margin:-0.35rem 0 1rem;max-width:760px}
 .buy-note{font-size:12px;color:#8a9ab8;line-height:1.6;margin-bottom:12px}
 .scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
 .scores h2{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
@@ -305,7 +306,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div class="topbar-right">
       <a class="x-link" href="https://x.com/ciphersignal_" target="_blank" rel="noopener">@ciphersignal_</a>
       <span class="coin-count" id="coin-count">loading...</span>
-      <button onclick="feelingLucky()" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);background:rgba(255,180,0,.07);color:#ffb400;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.07)'">🎲 feeling lucky</button>
+      <button onclick="feelingLucky()" style="font-family:'Orbitron',monospace;font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);background:rgba(255,180,0,.07);color:#ffb400;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.07)'">random coin</button>
       <div class="status-pill"><div class="status-dot"></div><span id="status-text">fetching data</span></div>
     </div>
   </div>
@@ -317,14 +318,15 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <a href="/rug-radar">rug radar</a>
     <a href="#where-to-buy">where to buy</a>
   </nav>
+  <p class="nfa">Not financial advice. Prices are CoinGecko market data. Hype, mood, and risk on this page are formulas, not a forecast and not a contract audit.</p>
 
   <!-- SIGNAL FEED TERMINAL -->
   <div id="signal-feed-wrap" style="background:#04060c;border:1px solid rgba(0,229,255,.2);border-radius:8px;margin-bottom:1.25rem;overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(0,229,255,.04);border-bottom:1px solid rgba(0,229,255,.12);cursor:pointer" onclick="toggleSignalFeed()">
       <div style="display:flex;align-items:center;gap:10px">
         <span style="width:7px;height:7px;border-radius:50%;background:#00ff99;display:inline-block;animation:pulse 2s infinite"></span>
-        <span style="font-family:var(--font-disp);font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">signal feed</span>
-        <span style="font-size:10px;color:var(--muted)">live market events</span>
+        <span style="font-family:var(--font-disp);font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">market notes</span>
+        <span style="font-size:10px;color:var(--muted)">from the latest snapshot, not a live feed</span>
       </div>
       <span id="sf-toggle-icon" style="font-size:11px;color:var(--muted)">▼</span>
     </div>
@@ -336,7 +338,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#ffb400,#00ff99,transparent)"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px">
       <div>
-        <div style="font-family:var(--font-disp);font-size:10px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px">🎯 daily prediction</div>
+        <div style="font-family:var(--font-disp);font-size:10px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px">daily guess</div>
         <div id="predict-headline" style="font-size:12px;color:#c8d8f0"></div>
       </div>
       <div id="streak-badge" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
@@ -345,8 +347,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
           <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#ffb400">🔥 <span id="streak-days">0</span></div>
         </div>
         <div style="text-align:right">
-          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">pick rate</div>
-          <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#00ff99"><span id="streak-pct">0</span>%</div>
+          <div style="font-family:var(--font-disp);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">hit rate</div>
+          <div style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:#00ff99"><span id="streak-pct">—</span></div>
         </div>
       </div>
     </div>
@@ -578,7 +580,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <section class="scores" id="how-scores">
     <h2>how scores work</h2>
-    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many coins came back on the last successful fetch (five market pages, skipping pairs with under $500 of 24h volume). Markets are cached about an hour on the server so the free CoinGecko plan stays inside its monthly cap.</p>
+    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many meme coins came back on the last refresh, skipping pairs with under $500 of 24h volume.</p>
     <ul>
       <li><strong>Hype (viral):</strong> volume relative to market cap, the size of the 24h move, whether CoinGecko currently lists the coin as trending, absolute volume, and a small boost when a tiny cap is trading more than its size. A ±3 daily jitter keeps identical inputs from stacking.</li>
       <li><strong>Mood (sentiment):</strong> starts at 50 and moves with the 24h price change. Very low volume pulls it back toward neutral. High volume relative to market cap amplifies the move.</li>
@@ -627,7 +629,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
       <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:10px;color:var(--muted);letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='var(--muted)'">data powered by <span style="font-family:var(--font-disp);font-weight:700;color:#8dc63f;letter-spacing:.08em">🦎 CoinGecko</span></a>
     </div>
-    cipher // not financial advice · always dyor · affiliate links keep this tool free<br>© 2026 CIPHER — meme coin intelligence
+    Not financial advice. Nothing here is an offer to buy, sell, or bet. Affiliate links may earn CIPHER a commission. Do your own research.<br>© 2026 CIPHER — meme coin intelligence
   </div>
 </div>
 
@@ -657,7 +659,7 @@ function paintAlertsNav(){
 function col(v){return v>=65?'#00ff99':v>=35?'#ffb400':'#ff3355';}
 function sentLbl(v){return v>=65?['Bullish','ctag-g']:v>=35?['Neutral','ctag-y']:['Bearish','ctag-r'];}
 function rugLbl(v){return v>=70?['High Risk','ctag-r']:v>=40?['Moderate','ctag-y']:['Low Risk','ctag-g'];}
-function viralLbl(v){return v>=70?['Crypto Twitter Viral','ctag-b']:v>=40?['Building','ctag-y']:['Low Buzz','ctag-g'];}
+function viralLbl(v){return v>=70?['High buzz','ctag-b']:v>=40?['Building','ctag-y']:['Low buzz','ctag-g'];}
 function fmtPrice(p){if(!p)return'$—';if(p>=1)return'$'+p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=0.01)return'$'+p.toFixed(4);if(p>=0.0001)return'$'+p.toFixed(6);if(p>=0.00000001)return'$'+p.toFixed(10).replace(/0+$/,'');return'$'+p.toFixed(14).replace(/0+$/,'');}
 function fmtMcap(v){if(!v)return'—';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
 
@@ -853,8 +855,9 @@ function renderPrediction(){
   const today=new Date();
   const tKey=dateKey(today);
   document.getElementById('streak-days').textContent=streak.days||0;
-  const pct=streak.total?Math.round((streak.correct||0)/streak.total*100):0;
-  document.getElementById('streak-pct').textContent=pct;
+  const scored=streak.total||0;
+  const pct=scored?Math.round((streak.correct||0)/scored*100):0;
+  document.getElementById('streak-pct').textContent=scored<3?'—':pct+'% · '+scored;
   const candidates=pickTodaysCandidates();
   if(!candidates){ wrap.style.display='none'; return; }
   wrap.style.display='block';
@@ -868,8 +871,9 @@ function renderPrediction(){
     const winner=r.results.find(x=>x.id===r.winnerId);
     headline.innerHTML=`Yesterday: ${okBadge} — winner was <strong style="color:#00e5ff">$${winner.symbol}</strong> at ${winner.change>=0?'+':''}${winner.change.toFixed(1)}%${yourPick?` · your pick $${yourPick.symbol}: ${yourPick.change>=0?'+':''}${yourPick.change.toFixed(1)}%`:''}`;
   } else {
-    headline.textContent=alreadyPicked?'Your pick is locked in — come back tomorrow to see the result':'Which of these 3 coins will pump the most in the next 24 hours?';
+    headline.textContent=alreadyPicked?'Your guess is locked in — come back tomorrow to see which price moved most. Not a forecast.':'Which of these three do you think moves the most by tomorrow? For fun only — not financial advice.';
   }
+  const foot=alreadyPicked?'':'<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center">Locks for 24 hours, then we compare prices. For fun only. Not financial advice.</div>';
   body.innerHTML=candidates.map(c=>{
     const picked=alreadyPicked && streak.pending.picked===c.id;
     return `<div onclick="${alreadyPicked?'':`makePrediction('${c.id}')`}" style="display:flex;align-items:center;gap:14px;padding:12px;margin-bottom:6px;background:${picked?'rgba(255,180,0,.1)':'var(--bg)'};border:1px solid ${picked?'rgba(255,180,0,.5)':'var(--border)'};border-radius:6px;cursor:${alreadyPicked?'default':'pointer'};transition:all .18s" ${alreadyPicked?'':`onmouseover="this.style.borderColor='rgba(255,180,0,.35)';this.style.background='rgba(255,180,0,.05)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'"`}>
@@ -880,7 +884,7 @@ function renderPrediction(){
       </div>
       <div style="font-size:12px;color:${(c.price_change_percentage_24h||0)>=0?'#00ff99':'#ff3355'};font-weight:700;white-space:nowrap">${((c.price_change_percentage_24h||0)>=0?'+':'')}${(c.price_change_percentage_24h||0).toFixed(1)}% 24h</div>
     </div>`;
-  }).join('') + (alreadyPicked?'':'<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center">Pick locks in for 24h · resolves tomorrow · maintain your streak 🔥</div>');
+  }).join('') + foot;
 }
 
 function makePrediction(coinId){
@@ -917,11 +921,13 @@ function buildSignalEvents(){
   });
   // Big pumps
   pool.filter(c=>(c.price_change_percentage_24h||0)>25).slice(0,6).forEach(c=>{
-    push('🚀','PUMP DETECT',`${c.symbol.toUpperCase()} +${(c.price_change_percentage_24h).toFixed(1)}% in 24h — momentum building`,'#00ff99',c.id);
+    const chg=c.price_change_percentage_24h||0;
+    push('🚀','24H MOVE',`${c.symbol.toUpperCase()} ${(chg>=0?'+':'')+chg.toFixed(1)}% in 24h on this snapshot`,'#00ff99',c.id);
   });
   // Big dumps
   pool.filter(c=>(c.price_change_percentage_24h||0)<-25).slice(0,6).forEach(c=>{
-    push('📉','DUMP DETECT',`${c.symbol.toUpperCase()} ${(c.price_change_percentage_24h).toFixed(1)}% · high volatility flagged`,'#ff3355',c.id);
+    const chg=c.price_change_percentage_24h||0;
+    push('📉','24H MOVE',`${c.symbol.toUpperCase()} ${chg.toFixed(1)}% in 24h on this snapshot`,'#ff3355',c.id);
   });
   // Trending entries
   pool.filter(c=>trendingIds.has(c.id)).slice(0,5).forEach(c=>{
@@ -929,7 +935,7 @@ function buildSignalEvents(){
   });
   // High risk flags
   pool.filter(c=>c.rug>=70&&(c.total_volume||0)>100000).slice(0,4).forEach(c=>{
-    push('🚨','RISK FLAG',`${c.symbol.toUpperCase()} rug score elevated — trade carefully`,'#ff6680',c.id);
+    push('🚨','STRUCTURE',`${c.symbol.toUpperCase()} market-structure score is high. That is not a contract audit.`,'#ff6680',c.id);
   });
   // 7d movers
   pool.filter(c=>(c.price_change_percentage_7d_in_currency||0)>60).slice(0,4).forEach(c=>{
@@ -937,10 +943,12 @@ function buildSignalEvents(){
   });
   // Leader
   const top=[...pool].sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0))[0];
-  if(top) push('👑','LEADER',`${top.symbol.toUpperCase()} holds the #1 gainer spot at +${(top.price_change_percentage_24h||0).toFixed(1)}%`,'#ffb400',top.id);
-  // Whale volume
+  if(top){
+    const chg=top.price_change_percentage_24h||0;
+    push('👑','LARGEST MOVE',`${top.symbol.toUpperCase()} is the biggest 24h move on this list at ${(chg>=0?'+':'')+chg.toFixed(1)}%`,'#ffb400',top.id);
+  }
   [...pool].sort((a,b)=>(b.total_volume||0)-(a.total_volume||0)).slice(0,3).forEach(c=>{
-    push('🐋','WHALE VOLUME',`${c.symbol.toUpperCase()} moving ${fmtMcap(c.total_volume)} in 24h volume`,'#00e5ff',c.id);
+    push('📊','24H VOLUME',`${c.symbol.toUpperCase()} traded ${fmtMcap(c.total_volume)} in 24h. This is exchange volume, not a whale tracker.`,'#00e5ff',c.id);
   });
   // New entries
   pool.filter(c=>c.isNew).slice(0,4).forEach(c=>{
@@ -1081,7 +1089,7 @@ async function loadCoins(){
     stampUpdated();
     currentPage=1;applyFilters();
   }catch(e){
-    document.getElementById('scanner-body').innerHTML='<div class="error-msg">// CoinGecko is rate limited or unreachable.<br><br>Wait about a minute and hit refresh. Market data is cached for 60 seconds on the server.</div>';
+    document.getElementById('scanner-body').innerHTML='<div class="error-msg">// CoinGecko is rate limited or unreachable.<br><br>Wait a minute and hit refresh. Saved market data can be up to about an hour old.</div>';
     document.getElementById('status-text').textContent='signal lost';
   }
 }
@@ -1237,7 +1245,7 @@ async function selectCoin(id){
   document.getElementById('detail-area').innerHTML=`
     <div class="detail">
       <div class="d-header">
-        ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:9px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">🎲 feeling lucky pick</div>':''}
+        ${window._isLucky?'<div style="position:absolute;top:10px;left:14px;font-family:var(--font-disp);font-size:9px;color:#ffb400;letter-spacing:.12em;text-transform:uppercase">random coin from the list</div>':''}
         <button id="detail-watch-btn" onclick="toggleWatch('${c.id}');updateDetailWatchBtn('${c.id}')" style="position:absolute;top:8px;right:110px;font-family:var(--font-disp);font-size:9px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">${watchlist.has(c.id)?'⭐ watching':'☆ add to watchlist'}</button>
         ${c.image?`<img class="d-img" src="${c.image}" alt="${c.symbol}">`:''}
         <div>
@@ -1542,14 +1550,14 @@ async function generateReport(){
   const roast=roasts[Math.floor(Math.random()*roasts.length)];
 
   const priceRead=isUp
-    ?`Up ${chg}% in 24h — ${chgAbs>20?'absolutely sending it ser, the bulls are fully in control right now':'modest gains, nothing to write home about but the momentum is quietly there'}.`
-    :`Down ${chg}% in the last 24h — ${chgAbs>20?'getting absolutely cooked right now, the bears are feasting on this one':'bleeding slowly, the kind of pain that makes you question your life choices'}.`;
+    ?`Up ${chg}% in 24h. ${chgAbs>20?'That is a large move on this snapshot.':'The move is modest on this snapshot.'} This is a description of the last day, not a forecast.`
+    :`Down ${chgAbs}% in 24h. ${chgAbs>20?'That is a large drop on this snapshot.':'The drop is modest on this snapshot.'} This is a description of the last day, not a forecast.`;
 
   const viralRead=c.viral>=70
-    ?`Viral potential is ${c.viral}/100 — this thing is primed to blow up on Crypto Twitter. Volume/mcap ratio is spiking and momentum is building fast. One big account picks this up and it could 3x overnight.`
+    ?`Hype score is ${c.viral}/100, from volume versus size, the 24h move, and whether CoinGecko lists it as trending. It does not measure social posts and it is not a price target.`
     :c.viral>=40
-    ?`Viral potential sitting at ${c.viral}/100 — some buzz building but hasn't hit escape velocity yet. Could go either way in the next 48 hours. Watch the volume closely.`
-    :`Viral potential is ${c.viral}/100 — pretty quiet out there ser. Nobody is really talking about this one right now. Might be early, might just be dead.`;
+    ?`Hype score is ${c.viral}/100. Some of the volume and move inputs are elevated. That is not a prediction of the next day.`
+    :`Hype score is ${c.viral}/100. Volume and the daily move are quiet relative to the rest of this list.`;
 
   const rugRead=c.rug>=70
     ?`Market-structure risk is ${c.rug}/100 — small cap, violent move, or thin volume. This is not a contract audit. Run CipherPot before treating it as tradable.`
@@ -1558,10 +1566,10 @@ async function generateReport(){
     :`Market-structure risk is ${c.rug}/100 — larger or calmer than most names on this list. That still says nothing about the contract. CipherPot does.`;
 
   const verdict=c.sentiment>=65&&c.viral>=60
-    ?'🟢 VERDICT: SEND IT — momentum and sentiment are aligned ser. This is the play.'
+    ?'Label: SEND IT — the formula sees a positive 24h move with elevated hype. Not a recommendation.'
     :c.sentiment<35&&c.rug>=70
-    ?'🔴 VERDICT: NGMI — too much risk, too little reward. Hard pass fren, protect the bag.'
-    :'🟡 VERDICT: WAIT — signals are mixed. Set a price alert and watch from the sidelines for now.';
+    ?'Label: NGMI — the formula sees a weak 24h move and a high market-structure score. Not a recommendation. Use CipherPot for the contract.'
+    :'Label: WAIT — the formula inputs are mixed. Not a recommendation.';
 
   const report=`${roast}\n\n${priceRead}\n\n${viralRead}\n\n${rugRead}\n\n${verdict}`;
 
@@ -1764,7 +1772,7 @@ function feelingLucky(){
     const banner=document.createElement('div');
     banner.id='lucky-banner';
     banner.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0b0e1a;border:1px solid rgba(255,180,0,.4);border-radius:6px;padding:10px 20px;font-family:"Orbitron",monospace;font-size:10px;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;z-index:9999;box-shadow:0 0 20px rgba(255,180,0,.2);animation:fadeInDown .3s ease';
-    banner.innerHTML=`🎲 feeling lucky — opening ${coin.symbol.toUpperCase()} · always dyor`;
+    banner.innerHTML=`Random coin from the scanner — opening ${coin.symbol.toUpperCase()}. Not a bet. Not financial advice.`;
     document.body.appendChild(banner);
     setTimeout(()=>{banner.remove();window._isLucky=false;},4000);
   },100);
