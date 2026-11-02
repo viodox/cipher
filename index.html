@@ -313,6 +313,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
   <nav class="site-nav" aria-label="primary">
     <a href="/">scanner</a>
+    <a href="/check">ape check <span class="new-badge">new</span></a>
     <a href="/movers">top movers</a>
     <a href="/alerts" id="nav-alerts">price alerts</a>
     <a href="/updates">what's new <span class="new-badge">new</span></a>
@@ -451,6 +452,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
           <option value="1">Ethereum</option>
           <option value="56">BSC</option>
           <option value="8453">Base</option>
+          <option value="42161">Arbitrum</option>
           <option value="sol">Solana</option>
         </select>
         <input id="cp-address" type="text" placeholder="paste contract address..." style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:200px;transition:border-color .2s" onfocus="this.style.borderColor='#ffb400'" onblur="this.style.borderColor='var(--border2)'" onkeydown="if(event.key==='Enter')checkHoneypot()">
@@ -618,6 +620,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="/what-are-meme-coins.html">what are meme coins?</a>
       <a href="/how-to-spot-rug-pulls.html">rug pull guide</a>
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
+      <a href="/check">ape check</a>
+      <a href="/hall">hall</a>
       <a href="/rug-radar">rug radar</a>
       <a href="/movers">top movers</a>
       <a href="/alerts">price alerts</a>
@@ -770,8 +774,8 @@ function stampUpdated(){
   const scores=document.getElementById('scores-updated');
   if(scores) scores.textContent='Last market-data refresh: '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC.';
 }
-function chainSlug(chain){return chain==='1'?'eth':chain==='56'?'bsc':chain==='8453'?'base':chain==='sol'?'sol':chain;}
-function canonicalScanAddress(chain,address){return (chain==='1'||chain==='56'||chain==='8453')?address.toLowerCase():address;}
+function chainSlug(chain){return chain==='1'?'eth':chain==='56'?'bsc':chain==='8453'?'base':chain==='42161'?'arb':chain==='sol'?'sol':chain;}
+function canonicalScanAddress(chain,address){return (chain==='1'||chain==='56'||chain==='8453'||chain==='42161')?address.toLowerCase():address;}
 function scanPermalink(chain,address){return '/scan/'+chainSlug(chain)+'/'+canonicalScanAddress(chain,address);}
 
 
@@ -1200,7 +1204,7 @@ function renderTable(){
     h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
       <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:16px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
-      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name}</div></div></div></td>
+      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name} · <a href="/check?coin=${encodeURIComponent(c.id)}" onclick="event.stopPropagation()" style="color:#00e5ff;text-decoration:none">grade it</a></div></div></div></td>
       <td><span class="${chgCls}" style="font-size:15px;font-weight:700">${chgStr}</span></td>
       <td><span class="${chg7>=0?'pos':'neg'}" style="font-size:15px;font-weight:700">${chg7Str}</span></td>
       <td class="td-mcap">${fmtMcap(c.market_cap)}</td>
@@ -1268,6 +1272,7 @@ async function selectCoin(id){
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:15px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
         <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">signal score ↗</button>
+        <a class="dact-btn" id="grade-btn-detail" style="color:#00e5ff;border-color:rgba(0,229,255,.35);text-decoration:none" href="/check?coin=${encodeURIComponent(c.id)}">grade it</a>
         <a class="dact-btn" style="color:var(--text);border-color:var(--border2);text-decoration:none" href="/coin/${c.id}">coin page ↗</a>
         <button class="dact-btn" style="color:#1da1f2;border-color:rgba(29,161,242,.45)" onclick="shareDetail('${c.id}')">share on X</button>
         <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
@@ -1315,6 +1320,7 @@ async function selectCoin(id){
       if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
       else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
       else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
+      else if(platforms['arbitrum-one']&&platforms['arbitrum-one'].contract_address){contractAddr=platforms['arbitrum-one'].contract_address;chainId='42161';chainName='Arbitrum';}
       else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
       else if(platformId==='solana'&&data.contract_address){contractAddr=data.contract_address;chainId='sol';chainName='Solana';}
       else{
@@ -1372,7 +1378,13 @@ function renderContractInfo(c){
     infoEl.innerHTML=realFlags.map(f=>`<div class="flag"><span style="font-size:16.5px">${f.icon}</span><span style="font-size:${f.raw?'12px':'11px'};color:${f.color};word-break:break-all">${f.text}</span></div>`).join('');
 
     // Only show honeypot button for supported chains (ETH, BSC, Base, Solana)
-    const supportedChains=['1','56','8453','sol'];
+    const supportedChains=['1','56','8453','42161','sol'];
+    const gradeBtn=document.getElementById('grade-btn-detail');
+    const gradeSlug={ '1':'eth','56':'bsc','8453':'base','42161':'arb','sol':'sol' };
+    if(gradeBtn&&gradeSlug[chainId]&&contractAddr){
+      const graded=chainId==='sol'?contractAddr:String(contractAddr).toLowerCase();
+      gradeBtn.href='/check/'+gradeSlug[chainId]+'/'+graded;
+    }
     if(supportedChains.includes(chainId)){
       hpBtn.style.display='';hpBtn.style.opacity='1';hpBtn.style.pointerEvents='auto';
       hpBtn.onclick=function(){switchTab('cipherpot');document.getElementById('cp-chain').value=chainId;document.getElementById('cp-address').value=contractAddr;checkHoneypot();};
@@ -1585,6 +1597,7 @@ async function generateReport(){
         if(platforms.ethereum&&platforms.ethereum.contract_address){contractAddr=platforms.ethereum.contract_address;chainId='1';chainName='Ethereum';}
         else if(platforms['binance-smart-chain']&&platforms['binance-smart-chain'].contract_address){contractAddr=platforms['binance-smart-chain'].contract_address;chainId='56';chainName='BSC';}
         else if(platforms.base&&platforms.base.contract_address){contractAddr=platforms.base.contract_address;chainId='8453';chainName='Base';}
+        else if(platforms['arbitrum-one']&&platforms['arbitrum-one'].contract_address){contractAddr=platforms['arbitrum-one'].contract_address;chainId='42161';chainName='Arbitrum';}
         else if(platforms.solana&&platforms.solana.contract_address){contractAddr=platforms.solana.contract_address;chainId='sol';chainName='Solana';}
         else{for(const[plat,info] of Object.entries(platforms)){const addr=typeof info==='object'?info.contract_address:info;if(addr&&addr.length>5){contractAddr=addr;chainName=plat;break;}}}
         c.contract_address=contractAddr;c._chainId=chainId;c._chainName=chainName;c._contractFetched=true;
@@ -1818,7 +1831,7 @@ async function checkHoneypot(){
     return;
   }
   // Validate address format per chain
-  const isEvmChain=chain==='1'||chain==='56'||chain==='8453';
+  const isEvmChain=chain==='1'||chain==='56'||chain==='8453'||chain==='42161';
   const isEvmFormat=/^0x[a-fA-F0-9]{40}$/.test(address);
   const isSolFormat=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address);
   if(isEvmChain&&!isEvmFormat){
@@ -2378,10 +2391,11 @@ async function loadRadar(){
     radarLoaded=true;
     if(meta) meta.textContent='Updated '+data.updatedAt+' UTC. '+data.source;
     const color={HONEYPOT:'#ff3355',RUGGED:'#ff3355',CAUTION:'#ffb400',CLEAN:'#00ff99',UNKNOWN:'#a8b8d4'};
-    body.innerHTML='<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th></tr></thead><tbody>'+data.items.map(item=>{
+    body.innerHTML='<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+data.items.map(item=>{
       const col=color[item.stamp]||'#a8b8d4';
       const why=(item.reasons||[]).slice(0,2).map(escHtml).join(' · ');
-      return '<tr onclick="location.href=\''+escHtml(item.scanPath)+'\'"><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+why+'</td></tr>';
+      const grade=item.checkPath||String(item.scanPath||'').replace('/scan/','/check/');
+      return '<tr><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+why+'</td><td><a href="'+escHtml(grade)+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
     }).join('')+'</tbody></table></div><div style="font-size:15px;color:var(--muted);margin-top:8px">Click a row for the shareable scan page (honeypot.is or RugCheck plus this GoPlus pass).</div>';
   }catch(e){
     body.innerHTML='<div class="error-msg">// Rug Radar is temporarily unavailable.</div>';

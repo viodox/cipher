@@ -6,6 +6,7 @@ const { renderUpdatesPage, updatesPayload } = require('../lib/updates');
 const { renderAlertsPage } = require('../lib/alerts');
 const { renderCoinPage } = require('../lib/coin');
 const { loadCanon } = require('../lib/canon');
+const { renderApeRoute } = require('../lib/ape-page');
 
 const APP_PAGES = new Set(['ai-decrypt', 'profile', 'cipherpot', 'on-chain-stocks', 'rug-radar']);
 
@@ -69,6 +70,17 @@ module.exports = async function handler(req, res) {
 
   if (page === 'coin') {
     const result = await renderCoinPage(req.query.id);
+    sendHtml(res, result.status, result.html, result.cacheControl);
+    return;
+  }
+
+  if (page === 'check' || page === 'hall' || page === 'shame' || page === 'ape') {
+    const result = await renderApeRoute(page, req.query || {});
+    if (result.redirect) {
+      res.setHeader('Location', result.redirect);
+      res.status(302).end();
+      return;
+    }
     sendHtml(res, result.status, result.html, result.cacheControl);
     return;
   }

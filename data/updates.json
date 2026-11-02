@@ -1,6 +1,13 @@
 {
   "updates": [
     {
+      "id": "ape-check",
+      "date": "2026-11-02",
+      "title": "Ape Check",
+      "summary": "Paste a contract and get an A+ to F safety grade, a receipt of the public checks, and a card you can share. Hall and Shame list today's best and worst grades.",
+      "href": "/check"
+    },
+    {
       "id": "price-alerts",
       "date": "2026-11-01",
       "title": "Price alert signup",

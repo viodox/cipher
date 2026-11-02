@@ -63,6 +63,12 @@ test('public urls rewrite onto the four functions', () => {
   assert.equal(dest('/movers'), '/api/site?page=movers');
   assert.equal(dest('/coin/pepe'), '/api/site?page=coin&id=pepe');
   assert.equal(dest('/og/movers.png'), '/api/scan?mode=og&kind=movers');
+  assert.equal(dest('/check'), '/api/site?page=check');
+  assert.equal(dest('/hall'), '/api/site?page=hall');
+  assert.equal(dest('/shame'), '/api/site?page=shame');
+  assert.equal(dest('/check/eth/0x6982508145454ce325ddbe47a25d4ec3d2311933'), '/api/site?page=ape&chain=eth&address=0x6982508145454ce325ddbe47a25d4ec3d2311933');
+  assert.equal(dest('/api/check'), '/api/scan?mode=check');
+  assert.equal(dest('/og/check/sol/J1D3X8znX4AzUPMHVWyBLNHqBBqWDPN5jX4KwK3Qpump.png'), '/api/scan?mode=og&kind=ape&chain=sol&address=J1D3X8znX4AzUPMHVWyBLNHqBBqWDPN5jX4KwK3Qpump');
   assert.equal(dest('/sitemap-coins.xml'), '/api/site?page=sitemap');
   assert.equal(dest('/api/coingecko/search/trending').startsWith('/api/coingecko?path='), true);
 });
