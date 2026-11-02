@@ -601,12 +601,13 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <h2>where to buy</h2>
     <p class="buy-note">Affiliate links. CIPHER may earn a commission if you sign up, at no extra cost to you. A listing is not an endorsement, not available in every country, and has nothing to do with a coin's score. <a href="/terms">Terms and disclaimer</a>.</p>
     <div class="aff-grid">
-      <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="noopener sponsored"><div class="aff-name">COINBASE</div><div class="aff-desc">Sign-up bonus for new accounts where the offer applies.</div><div class="aff-link">referral ↗</div></a>
-      <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="noopener sponsored"><div class="aff-name">BINANCE.US</div><div class="aff-desc">US spot exchange. Availability depends on your state.</div><div class="aff-link">referral ↗</div></a>
-      <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="noopener sponsored"><div class="aff-name">KRAKEN</div><div class="aff-desc">Exchange account via referral link.</div><div class="aff-link">referral ↗</div></a>
-      <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="noopener sponsored"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">App signup via referral link.</div><div class="aff-link">referral ↗</div></a>
-      <a class="aff-card" href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="noopener sponsored"><div class="aff-name">ROBINHOOD</div><div class="aff-desc">US brokerage for stocks and crypto. Not the same product as Robinhood Chain stock tokens, which are not offered to US persons.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://coinbase.com/join/QQYSCTU?src=referral-link" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="COINBASE"><div class="aff-name">COINBASE</div><div class="aff-desc">Sign-up bonus for new accounts where the offer applies.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="BINANCE.US"><div class="aff-name">BINANCE.US</div><div class="aff-desc">US spot exchange. Availability depends on your state.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://invite.kraken.com/JDNW/bkxtyuas" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="KRAKEN"><div class="aff-name">KRAKEN</div><div class="aff-desc">Exchange account via referral link.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://crypto.com/app/8hxtmyan6d" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="CRYPTO.COM"><div class="aff-name">CRYPTO.COM</div><div class="aff-desc">App signup via referral link.</div><div class="aff-link">referral ↗</div></a>
+      <a class="aff-card" href="https://www.ciphersignal.xyz/robinhood" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="ROBINHOOD"><div class="aff-name">ROBINHOOD</div><div class="aff-desc">US brokerage for stocks and crypto. Not the same product as Robinhood Chain stock tokens, which are not offered to US persons.</div><div class="aff-link">referral ↗</div></a>
     </div>
+    <p class="buy-disclosure" style="margin-top:.7rem;font-size:15px;line-height:1.5;color:#e4eef8">Referral links: we may earn a commission</p>
   </section>
 
   <div class="footer">
@@ -1642,12 +1643,12 @@ const QS=[
   {q:"Ideal exit strategy?",opts:["I don't exit, I ascend","Sell 10% every 2x","When Crypto Twitter calls it a bluechip","I've never successfully exited"]},
 ];
 const RES={
-  DOGE:{tagline:"the original degen",d:"You've been here since before it was cool and you'll be here long after everyone else rugs. Loyal, stubborn, endearingly chaotic.",ex:"Coinbase",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
-  PEPE:{tagline:"chaos agent",d:"Pure meme energy. You live for the culture, not the profit. You'd rather make Crypto Twitter laugh than make a trade. Cult-brained in the best way.",ex:"Binance US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
-  WIF:{tagline:"deceptively calculating",d:"You look casual but you're three moves ahead. You caught the wave early and you're not telling anyone your entries.",ex:"Kraken",link:"https://invite.kraken.com/JDNW/bkxtyuas"},
-  BONK:{tagline:"community general",d:"Community-first always. You're the one who gets the group chat to ape in. Somehow always right at the most inconvenient times.",ex:"Crypto.com",link:"https://crypto.com/app/8hxtmyan6d"},
-  SHIB:{tagline:"long game player",d:"Quietly accumulating while everyone else chases the new thing. Mildly seething. Fully convinced you'll eventually be right.",ex:"Coinbase",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
-  FLOKI:{tagline:"narrative trader",d:"You need a story to believe in. Branding, lore, roadmap — you read all of it. Either gloriously right or spectacularly wrong. No in-between.",ex:"Binance US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
+  DOGE:{tagline:"the original degen",d:"You've been here since before it was cool and you'll be here long after everyone else rugs. Loyal, stubborn, endearingly chaotic.",ex:"Coinbase",exchange:"COINBASE",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
+  PEPE:{tagline:"chaos agent",d:"Pure meme energy. You live for the culture, not the profit. You'd rather make Crypto Twitter laugh than make a trade. Cult-brained in the best way.",ex:"Binance.US",exchange:"BINANCE.US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
+  WIF:{tagline:"deceptively calculating",d:"You look casual but you're three moves ahead. You caught the wave early and you're not telling anyone your entries.",ex:"Kraken",exchange:"KRAKEN",link:"https://invite.kraken.com/JDNW/bkxtyuas"},
+  BONK:{tagline:"community general",d:"Community-first always. You're the one who gets the group chat to ape in. Somehow always right at the most inconvenient times.",ex:"Crypto.com",exchange:"CRYPTO.COM",link:"https://crypto.com/app/8hxtmyan6d"},
+  SHIB:{tagline:"long game player",d:"Quietly accumulating while everyone else chases the new thing. Mildly seething. Fully convinced you'll eventually be right.",ex:"Coinbase",exchange:"COINBASE",link:"https://coinbase.com/join/QQYSCTU?src=referral-link"},
+  FLOKI:{tagline:"narrative trader",d:"You need a story to believe in. Branding, lore, roadmap — you read all of it. Either gloriously right or spectacularly wrong. No in-between.",ex:"Binance.US",exchange:"BINANCE.US",link:"https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831"},
 };
 const RK=Object.keys(RES);
 let qStep=0,qAns=[];
@@ -1658,7 +1659,7 @@ function renderQuiz(){
   const a=document.getElementById('quiz-area');
   if(qStep>=QS.length){
     const k=RK[Math.floor(Math.random()*RK.length)];const r=RES[k];
-    a.innerHTML=`<div class="result-box"><div class="res-label">cipher profile decoded</div><div class="res-coin">${k}</div><div class="res-tagline">${r.tagline}</div><div class="res-desc">${r.d}</div><div class="res-btns"><a class="res-trade" href="${r.link}" target="_blank" rel="noopener">trade on ${r.ex} ↗</a><button class="res-tweet" onclick="tweetResult('${k}','${r.tagline}')">share on x ↗</button><button class="res-retry" onclick="qStep=0;qAns=[];renderQuiz()">retry</button></div></div>`;
+    a.innerHTML=`<div class="result-box"><div class="res-label">cipher profile decoded</div><div class="res-coin">${k}</div><div class="res-tagline">${r.tagline}</div><div class="res-desc">${r.d}</div><div class="res-btns"><a class="res-trade" href="${r.link}" target="_blank" rel="sponsored noopener" data-referral="1" data-exchange="${r.exchange}">Buy on ${r.ex}</a><button class="res-tweet" onclick="tweetResult('${k}','${r.tagline}')">share on x ↗</button><button class="res-retry" onclick="qStep=0;qAns=[];renderQuiz()">retry</button></div><p style="margin-top:8px;font-size:15px;line-height:1.5;color:#e4eef8">Referral links: we may earn a commission</p></div>`;
     return;
   }
   const q=QS[qStep];const pct=Math.round((qStep/QS.length)*100);
@@ -2446,6 +2447,20 @@ setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('a
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQVB0E2CMB"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CQVB0E2CMB');</script>
+<script>
+(function(){
+  if(window.__cipherReferralClick) return;
+  window.__cipherReferralClick=true;
+  document.addEventListener('click', function(ev){
+    var node = ev.target && ev.target.closest ? ev.target.closest('a[data-referral]') : null;
+    if(!node) return;
+    var exchange = node.getAttribute('data-exchange') || '';
+    var page = location.pathname || '/';
+    if(typeof gtag === 'function') gtag('event', 'referral_click', { exchange: exchange, page: page });
+    if(typeof window.va === 'function') window.va('event', { name: 'referral_click', data: { exchange: exchange, page: page } });
+  });
+})();
+</script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
