@@ -297,7 +297,19 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 }
 </style>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
-<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/rq/s/script.js" data-endpoint="/rq/s"></script>
+<script>
+(function(){
+  var replace = history.replaceState;
+  history.replaceState = function(){
+    var before = location.pathname + location.search;
+    var result = replace.apply(history, arguments);
+    var after = location.pathname + location.search;
+    if(after !== before && typeof window.va === 'function') window.va('pageview', { path: location.pathname });
+    return result;
+  };
+})();
+</script>
 </head>
 <body>
 <div class="app">

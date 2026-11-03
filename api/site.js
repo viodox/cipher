@@ -7,6 +7,7 @@ const { renderAlertsPage } = require('../lib/alerts');
 const { renderCoinPage } = require('../lib/coin');
 const { loadCanon } = require('../lib/canon');
 const { renderApeRoute } = require('../lib/ape-page');
+const { noteApeLookup } = require('../lib/ape-traffic');
 
 const APP_PAGES = new Set(['ai-decrypt', 'profile', 'cipherpot', 'on-chain-stocks', 'rug-radar']);
 
@@ -18,6 +19,13 @@ function sendHtml(res, status, html, cacheControl) {
 
 module.exports = async function handler(req, res) {
   const page = String((req.query && (req.query.page || req.query.route)) || '');
+
+  if (page === 'ape-view') {
+    await noteApeLookup(req, 'view');
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(204).end();
+    return;
+  }
 
   if (page === 'updates-json') {
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
@@ -75,6 +83,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (page === 'check' || page === 'hall' || page === 'shame' || page === 'ape') {
+    if (page === 'ape') await noteApeLookup(req, 'page');
     const result = await renderApeRoute(page, req.query || {});
     if (result.redirect) {
       res.setHeader('Location', result.redirect);

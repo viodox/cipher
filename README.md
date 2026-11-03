@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-Opens `http://127.0.0.1:4173` with the same routes Vercel serves: `/ai-decrypt`, `/profile`, `/cipherpot`, `/on-chain-stocks`, `/rug-radar`, `/movers`, `/updates`, `/alerts`, `/check`, `/hall`, `/shame`, `/check/{chain}/{address}`, `/coin/{id}`, `/scan/{chain}/{address}`, `/og/scan/{chain}/{address}.png`, `/og/check/{chain}/{address}.png`, `/og/movers.png`, `/og/coin/{id}.png`, `/api/updates`, `/api/movers`, `/api/check`, `/api/alerts`, and `/api/coingecko/...`.
+Opens `http://127.0.0.1:4173` with the same routes Vercel serves: `/ai-decrypt`, `/profile`, `/cipherpot`, `/on-chain-stocks`, `/rug-radar`, `/movers`, `/updates`, `/alerts`, `/check`, `/hall`, `/shame`, `/check/{chain}/{address}`, `/coin/{id}`, `/scan/{chain}/{address}`, `/og/scan/{chain}/{address}.png`, `/og/check/{chain}/{address}.png`, `/og/movers.png`, `/og/coin/{id}.png`, `/api/updates`, `/api/movers`, `/api/check`, `/api/ape-view`, `/api/alerts`, and `/api/coingecko/...`.
 
 `/coin/{id}`, `/og/coin/{id}.png`, and `/og/movers.png` are rewrites in `vercel.json` (query parameters on a normal function file). Do not add a `[...path].js` catch-all for new routes.
 
@@ -49,6 +49,24 @@ The Vercel project already has `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOK
 4. Hobby plans only allow a daily cron. This repo schedules `GET /api/alerts/run` at 13:00 UTC and Vercel sends `Authorization: Bearer <CRON_SECRET>`. For a check every 5–15 minutes, add a free job at [cron-job.org](https://cron-job.org) with that same header. The shared secret's name is `CRON_SECRET`. Do not put it in the query string.
 
 Resend's free tier is about 100 emails/day and 3,000/month. A confirmation plus one alert per signup stays inside that if signups stay modest. The daily check only emails rows whose USD price is already across the threshold at check time.
+
+### Ape Check human vs bot counters
+
+These keys live in the same Upstash database. The date is the calendar day in `America/New_York`. Each key expires 40 days after the last write. Nothing is blocked.
+
+| Key | Type | Meaning |
+| --- | --- | --- |
+| `ape:check:human:YYYY-MM-DD` | string counter | Grade page (`/check/{chain}/{address}`) whose script posted `/api/ape-view` with header `x-cipher-view: 1` after load. |
+| `ape:check:bot:YYYY-MM-DD` | string counter | Direct `/api/check/{chain}/{address}` hits, grade-page fetches that are not a browser navigation (bot user agent, or no referrer and no document navigation), and `/api/ape-view` without that header. |
+| `ape:check:bot-ua:YYYY-MM-DD` | sorted set | User agents in the bot bucket. Score is the count. Capped at the top 20. |
+
+```bash
+GET ape:check:human:2026-11-03
+GET ape:check:bot:2026-11-03
+ZREVRANGE ape:check:bot-ua:2026-11-03 0 19 WITHSCORES
+```
+
+A browser navigation is not counted until the page script runs, so a cached HTML response still counts the person. Open-graph image fetches are not counted. Repeated API hits served from the Vercel cache do not reach the function, so the bot counter is uncached lookups.
 
 ### CoinGecko call budget
 
