@@ -5,6 +5,7 @@ const { renderScanPage, renderScanError } = require('../lib/pages');
 const { getRadar } = require('../lib/radar');
 const { renderCard, renderMoversCard, renderCoinCard, renderApeCard } = require('../lib/og');
 const { checkToken, listRecent, loadRasterLogo } = require('../lib/ape');
+const { noteApeLookup } = require('../lib/ape-traffic');
 const { loadMovers } = require('../lib/movers');
 const { loadCoin } = require('../lib/coin');
 
@@ -26,6 +27,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (mode === 'check') {
+    if (req.query.chain && req.query.address) await noteApeLookup(req, 'api');
     if (!req.query.chain || !req.query.address) {
       const recent = await listRecent();
       res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');

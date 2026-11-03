@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/rq/s/:path*", "destination": "https://www.ciphersignal.xyz/_vercel/insights/:path*" },
+    { "source": "/api/ape-view", "destination": "/api/site?page=ape-view" },
     { "source": "/ai-decrypt", "destination": "/api/site?page=ai-decrypt" },
     { "source": "/profile", "destination": "/api/site?page=profile" },
     { "source": "/cipherpot", "destination": "/api/site?page=cipherpot" },

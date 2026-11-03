@@ -8,6 +8,7 @@ const { scanToken } = require('./lib/security');
 const { getRadar } = require('./lib/radar');
 const { renderCard, renderMoversCard, renderCoinCard, renderApeCard } = require('./lib/og');
 const { checkToken, listRecent, loadRasterLogo } = require('./lib/ape');
+const { noteApeLookup } = require('./lib/ape-traffic');
 const { renderApeRoute } = require('./lib/ape-page');
 const { APP_ROUTES, renderAppRoute, renderScanPage, renderScanError } = require('./lib/pages');
 const { loadMovers, renderMoversPage, coinSitemapXml } = require('./lib/movers');
@@ -70,10 +71,17 @@ async function handle(req, res) {
     return;
   }
 
+  if (pathname === '/api/ape-view') {
+    await noteApeLookup(req, 'view');
+    send(res, 204, '', { 'Cache-Control': 'no-store' });
+    return;
+  }
+
   if (pathname === '/api/check' || pathname.startsWith('/api/check/')) {
     const parts = pathname.split('/');
     const chain = parts[3] || url.searchParams.get('chain');
     const address = parts[4] || url.searchParams.get('address');
+    if (chain && address) await noteApeLookup(req, 'api');
     if (!chain || !address) {
       const recent = await listRecent();
       sendJson(res, 200, { ok: true, recent }, 'public, max-age=30');
@@ -170,6 +178,7 @@ async function handle(req, res) {
 
   const apeMatch = pathname.match(/^\/check\/([a-zA-Z0-9]+)\/([^/]+)$/);
   if (apeMatch) {
+    await noteApeLookup(req, 'page');
     const result = await renderApeRoute('ape', { chain: apeMatch[1], address: apeMatch[2] });
     send(res, result.status || 200, result.html, {
       'Content-Type': 'text/html; charset=utf-8',

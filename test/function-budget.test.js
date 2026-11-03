@@ -68,6 +68,10 @@ test('public urls rewrite onto the four functions', () => {
   assert.equal(dest('/shame'), '/api/site?page=shame');
   assert.equal(dest('/check/eth/0x6982508145454ce325ddbe47a25d4ec3d2311933'), '/api/site?page=ape&chain=eth&address=0x6982508145454ce325ddbe47a25d4ec3d2311933');
   assert.equal(dest('/api/check'), '/api/scan?mode=check');
+  assert.equal(dest('/api/ape-view'), '/api/site?page=ape-view');
+  assert.equal(dest('/rq/s/script.js'), 'https://www.ciphersignal.xyz/_vercel/insights/script.js');
+  assert.equal(dest('/rq/s/view'), 'https://www.ciphersignal.xyz/_vercel/insights/view');
+  assert.equal(dest('/rq/s/event'), 'https://www.ciphersignal.xyz/_vercel/insights/event');
   assert.equal(dest('/og/check/sol/J1D3X8znX4AzUPMHVWyBLNHqBBqWDPN5jX4KwK3Qpump.png'), '/api/scan?mode=og&kind=ape&chain=sol&address=J1D3X8znX4AzUPMHVWyBLNHqBBqWDPN5jX4KwK3Qpump');
   assert.equal(dest('/sitemap-coins.xml'), '/api/site?page=sitemap');
   assert.equal(dest('/api/coingecko/search/trending').startsWith('/api/coingecko?path='), true);
