@@ -16,6 +16,8 @@ const {
   listBookings,
   decideCotd,
   pickOrganicCotd,
+  clientPayload,
+  sellHtml,
 } = require('../lib/sponsor');
 
 const NOW = Date.parse('2026-11-05T16:00:00Z');
@@ -233,10 +235,21 @@ test('homepage sells Forced Coin of the Day and injects the active booking', () 
   });
   assert.match(html, /id="advertise"/);
   assert.match(html, /Forced Coin of the Day/);
-  assert.match(html, /\$99/);
-  assert.match(html, /\$249/);
-  assert.match(html, /\$399/);
+  assert.equal(html.includes('$99'), false);
+  assert.equal(html.includes('$249'), false);
+  assert.equal(html.includes('$399'), false);
+  assert.equal(html.includes('from $'), false);
+  assert.match(html, /I'm interested in/);
+  assert.match(html, /Banner row/);
+  assert.match(html, /Fortune \+ Coin of the Day/);
+  assert.match(html, /Reach out/);
+  assert.match(html, /class="ad-strip"/);
+  assert.match(html, /class="nav-ad"/);
   assert.match(html, /Book Coin of the Day/);
+  const sold = sellHtml(NOW);
+  assert.equal(sold.includes('$'), false);
+  const payload = clientPayload(NOW, { bookings: [], env: {} });
+  payload.packages.forEach((pack) => assert.equal(Object.prototype.hasOwnProperty.call(pack, 'price'), false));
   assert.match(html, /id="adv-package"/);
   assert.match(html, /id="adv-ticker"/);
   assert.match(html, /id="adv-ref"/);
