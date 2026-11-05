@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
 
   if (page === 'boot') {
     const { loadBoot } = require('../lib/boot');
-    const boot = await loadBoot();
+    const boot = await loadBoot({ refreshDex: true });
     res.setHeader('Cache-Control', boot && boot.coins && boot.coins.length ? 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' : 'no-store');
     res.status(200).json(boot || { ok: false, coins: [], board: [] });
     return;
@@ -108,6 +108,7 @@ module.exports = async function handler(req, res) {
       gainers: data.gainers,
       losers: data.losers,
       volumeSpikes: data.volumeSpikes,
+      fresh: data.fresh || [],
     } : { ok: false, error: data.error || 'unavailable' };
     res.setHeader('Cache-Control', data.ok ? 'public, s-maxage=120, stale-while-revalidate=300' : 'no-store');
     res.status(data.ok ? 200 : (data.status || 502)).json(body);

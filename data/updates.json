@@ -1,6 +1,13 @@
 {
   "updates": [
     {
+      "id": "dex-universe",
+      "date": "2026-11-05",
+      "title": "On-chain universe",
+      "summary": "The scanner now merges CoinGecko meme markets with live GeckoTerminal new and trending pools and DexScreener boosts and profiles. Fresh on-chain is its own filter. Coin of the Day still ignores unlisted contracts. Not financial advice.",
+      "href": "/"
+    },
+    {
       "id": "forced-cotd",
       "date": "2026-11-05",
       "title": "Forced Coin of the Day",

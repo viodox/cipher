@@ -266,7 +266,7 @@ function tpl13(coins) {
     `$${top[0].symbol} ${fC(top[0].change24h)} today and most of you missed it\n\nCIPHER had it on the scanner all morning 🔐\n\n${CONFIG.SITE_URL}`,
     `Your friend: "bro just buy $${pick(topN(coins,'volume',5)).symbol}"\n\nCipherPot: "honeypot risk detected"\n\nWho you listening to? 🍯\n\n${CONFIG.SITE_URL}`,
     `$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} all pumping today\n\nBut did you check the contracts? 🍯\n\nFree scanner → ${CONFIG.SITE_URL}`,
-    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER tracks up to 500 meme coins. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
+    `POV: $${vol.symbol} doing ${fV(vol.volume)} in volume and you\'re not tracking it\n\nCIPHER tracks CoinGecko meme markets plus live DEX pools. Free.\n\n🔐 ${CONFIG.SITE_URL}`,
     `Meme coin season is not about finding pumps\n\nIt\'s about avoiding rugs\n\n$${top[0].symbol} $${top[1].symbol} $${top[2].symbol} are moving — but are they safe?\n\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return pick(takes);
@@ -319,7 +319,7 @@ function tpl18(coins) {
 function tpl19(coins) {
   const hot = topN(coins,'change24h',3);
   const facts = [
-    `CIPHER tracks up to 500 meme coins including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol}\n\nCompletely free. No signup. No paywall.`,
+    `CIPHER tracks CoinGecko meme markets plus live DEX pools, including $${hot[0].symbol} $${hot[1].symbol} $${hot[2].symbol}\n\nCompletely free. No signup. No paywall.`,
     `CipherPot has caught honeypots on coins that looked legit on the surface\n\nPaste any CA → instant scan\n\nETH · BSC · Base · Solana`,
     `$${hot[0].symbol} is up ${fC(hot[0].change24h)} today\n\nCIPHER\'s viral score flagged unusual volume before the pump 📡\n\nReal signals. Not vibes.`,
     `You can search $${hot[0].symbol} $${hot[1].symbol} or any coin by contract address on CIPHER\n\nNot just ticker names. Paste any CA and get a full breakdown.`,
