@@ -194,7 +194,7 @@ test('movers keeps a sticky Buy on bar', () => {
 });
 
 test('the homepage where-to-buy block keeps the same codes and the click event', () => {
-  const index = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const index = fs.readFileSync(path.join(__dirname, '..', 'templates', 'home.html'), 'utf8');
   CODES.forEach((code) => assert.ok(index.includes(code), code));
   assert.match(index, /data-exchange="COINBASE"/);
   assert.match(index, /data-exchange="BINANCE\.US"/);

@@ -50,6 +50,18 @@ The Vercel project already has `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOK
 
 Resend's free tier is about 100 emails/day and 3,000/month. A confirmation plus one alert per signup stays inside that if signups stay modest. The daily check only emails rows whose USD price is already across the threshold at check time.
 
+### Daily digest, Smart Money, compare
+
+Hobby still has one cron. `GET /api/alerts/run` sends price alerts and then the daily digest. The digest is top movers, one hall grade, one shame grade, Fear & Greed when `api.alternative.me` answers, and a link to `/smart-money`. Signup is `/digest`. Unsubscribe is the same one-click pattern as alerts (`list=digest`). Domain verification in Resend is a dashboard fact, not something this repo can mark true.
+
+`GET /api/alerts?action=digest&dry=1` with `Authorization: Bearer <CRON_SECRET>` returns the email and does not send it.
+
+Smart Money Watch (`/smart-money`) reads public explorers and caches the feed in Upstash for a few minutes. `HELIUS_API_KEY` is optional. Without it, Solana uses a public RPC. The wallet list is `lib/wallets.js`.
+
+`/compare?a=eth:0x…&b=sol:…` grades two contracts side by side. The homepage is served by `api/site.js` (`page=home`) so a cached CoinGecko page can be in the first HTML. The scanner no longer waits 1.5s between market pages; the edge cache on `/api/coingecko` absorbs those calls.
+
+Still four serverless functions: `api/alerts.js`, `api/coingecko.js`, `api/scan.js`, `api/site.js`.
+
 ### Ape Check human vs bot counters
 
 These keys live in the same Upstash database. The date is the calendar day in `America/New_York`. Each key expires 40 days after the last write. Nothing is blocked.

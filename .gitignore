@@ -3,3 +3,5 @@ node_modules/
 *.log
 data/alerts.json
 data/alerts.json.tmp
+data/digest.json
+data/digest.json.tmp

@@ -1,6 +1,16 @@
 {
   "rewrites": [
     { "source": "/rq/s/:path*", "destination": "https://www.ciphersignal.xyz/_vercel/insights/:path*" },
+    { "source": "/", "destination": "/api/site?page=home" },
+    { "source": "/index.html", "destination": "/api/site?page=home" },
+    { "source": "/smart-money", "destination": "/api/site?page=smart-money" },
+    { "source": "/compare", "destination": "/api/site?page=compare" },
+    { "source": "/digest", "destination": "/api/site?page=digest" },
+    { "source": "/api/boot", "destination": "/api/site?page=boot" },
+    { "source": "/api/board", "destination": "/api/site?page=board" },
+    { "source": "/api/smart-money", "destination": "/api/site?page=smart-money-json" },
+    { "source": "/api/digest", "destination": "/api/alerts?action=digest" },
+    { "source": "/og/smart-money.png", "destination": "/api/scan?mode=og&kind=smart-money" },
     { "source": "/api/ape-view", "destination": "/api/site?page=ape-view" },
     { "source": "/ai-decrypt", "destination": "/api/site?page=ai-decrypt" },
     { "source": "/profile", "destination": "/api/site?page=profile" },
@@ -39,7 +49,7 @@
   "functions": {
     "api/coingecko.js": { "maxDuration": 10 },
     "api/alerts.js": { "maxDuration": 10 },
-    "api/site.js": { "includeFiles": "index.html", "maxDuration": 10 },
+    "api/site.js": { "includeFiles": "templates/home.html", "maxDuration": 10 },
     "api/scan.js": { "includeFiles": "fonts/**", "maxDuration": 10 }
   }
 }

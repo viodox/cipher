@@ -16,6 +16,13 @@ const { loadCoin, renderCoinPage } = require('./lib/coin');
 const { updatesPayload, renderUpdatesPage } = require('./lib/updates');
 const { handleAlertHttp, handleRun, handleUnsubscribe, renderAlertsPage } = require('./lib/alerts');
 const { loadCanon } = require('./lib/canon');
+const { loadBootBounded, renderHomeHtml } = require('./lib/boot');
+const { loadSmartMoney, renderSmartMoneyPage } = require('./lib/smart-money');
+const { loadGradedBoard } = require('./lib/board');
+const { renderComparePage } = require('./lib/compare');
+const { renderDigestPage, createDigestSignup, digestInputFromRequest, unsubscribeDigest } = require('./lib/digest');
+const { renderSmartMoneyCard } = require('./lib/og');
+const { emailConfigured, storageMode } = require('./lib/alerts-ready');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 4173;
@@ -119,9 +126,93 @@ async function handle(req, res) {
     return;
   }
 
+  if (pathname === '/' || pathname === '/index.html') {
+    const boot = await loadBootBounded();
+    const html = renderHomeHtml(boot);
+    const warm = boot && boot.coins && boot.coins.length;
+    send(res, 200, html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': warm ? 'public, max-age=60, s-maxage=180, stale-while-revalidate=600' : 'public, max-age=0, s-maxage=30',
+    });
+    return;
+  }
+
+  if (pathname === '/api/boot') {
+    const { loadBoot } = require('./lib/boot');
+    const boot = await loadBoot();
+    sendJson(res, 200, boot || { ok: false, coins: [], board: [] }, boot && boot.coins && boot.coins.length ? 'public, max-age=60' : 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/board') {
+    const board = await loadGradedBoard();
+    sendJson(res, 200, board, 'public, max-age=60');
+    return;
+  }
+
+  if (pathname === '/api/smart-money') {
+    const feed = await loadSmartMoney({ fill: 3 });
+    sendJson(res, 200, feed, 'public, max-age=30');
+    return;
+  }
+
+  if (pathname === '/smart-money') {
+    const feed = await loadSmartMoney({ fill: 3 });
+    const result = renderSmartMoneyPage(feed);
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  if (pathname === '/compare') {
+    const result = await renderComparePage(queryOf(url));
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  if (pathname === '/digest') {
+    const result = renderDigestPage({ email: emailConfigured(), storage: storageMode() });
+    send(res, 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  if (pathname === '/api/digest') {
+    const dry = url.searchParams.get('dry') === '1';
+    const gate = await handleRun(Object.assign({}, req, { query: { action: 'digest', dry: dry ? '1' : '' } }), { digestOnly: true, dry });
+    sendJson(res, gate.status || 500, gate.body, 'no-store');
+    return;
+  }
+
   if (pathname === '/api/alerts/run') {
     const result = await handleRun(req);
     sendJson(res, result.status || 500, result.body, 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/alerts/unsubscribe' && url.searchParams.get('list') === 'digest') {
+    const token = url.searchParams.get('token');
+    const confirm = url.searchParams.get('confirm') === '1' || String(req.method || '').toUpperCase() === 'POST';
+    if (!confirm) {
+      send(res, 200, '<!DOCTYPE html><html lang="en"><body style="background:#060810;color:#e4eef8;font-family:monospace;padding:2rem"><form method="post" action="/api/alerts/unsubscribe?list=digest&amp;confirm=1&amp;token=' + encodeURIComponent(token || '') + '"><button>unsubscribe</button></form></body></html>', {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+      });
+      return;
+    }
+    const result = await unsubscribeDigest(token);
+    const message = result.ok ? 'You are off the daily digest.' : 'That unsubscribe link is not valid.';
+    send(res, result.status || 200, '<!DOCTYPE html><html lang="en"><body style="background:#060810;color:#e4eef8;font-family:monospace;padding:2rem"><p>' + message + '</p></body></html>', {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+    });
     return;
   }
 
@@ -131,6 +222,20 @@ async function handle(req, res) {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-store',
     });
+    return;
+  }
+
+  if (pathname === '/api/alerts' && url.searchParams.get('action') === 'digest-signup') {
+    const input = await digestInputFromRequest(req);
+    const result = await createDigestSignup(input);
+    sendJson(res, result.status || 500, result.body, 'no-store');
+    return;
+  }
+
+  if (pathname === '/api/alerts' && url.searchParams.get('action') === 'digest') {
+    const dry = url.searchParams.get('dry') === '1';
+    const result = await handleRun(req, { digestOnly: true, dry });
+    sendJson(res, result.status || 500, result.body, 'no-store');
     return;
   }
 
@@ -227,6 +332,14 @@ async function handle(req, res) {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=60',
     });
+    return;
+  }
+
+  if (pathname === '/og/smart-money.png' || (pathname === '/api/og' && url.searchParams.get('kind') === 'smart-money')) {
+    let feed = { buys: [] };
+    try { feed = await loadSmartMoney({ fill: 0, refresh: false }); } catch (err) { feed = { buys: [] }; }
+    const png = renderSmartMoneyCard(feed);
+    send(res, 200, png, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=300' });
     return;
   }
 
