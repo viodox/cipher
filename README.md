@@ -1,6 +1,6 @@
 # CIPHER
 
-Free meme coin scanner for up to 500 CoinGecko meme-token markets, plus contract checks. Signal scores are formulas, not an AI model.
+Free meme coin scanner for CoinGecko meme-token markets plus live GeckoTerminal and DexScreener pools, including tokens CoinGecko has not listed. Signal scores are formulas, not an AI model.
 
 ## Where this is deployed
 
@@ -130,7 +130,19 @@ Demo plan limits used here: about **30 calls/minute** and **10,000 calls/month**
 | Optional 15-minute external pinger | one batch per run | 96 × 30 = **2,880** extra — still under the cap if coin-page traffic is the quiet case |
 | **Default total (no extra pinger)** | | **about 7,000**, leaving roughly 3,000 calls of headroom |
 
-The browser staggers the five market pages by 1.5 seconds so a cold start stays under 30 calls/minute. Scanner, coin-of-the-day, rekt, prediction, ticker, and Top Movers drop coins whose name or ticker copies a top-100 coin unless the CoinGecko id is the real one, and they require at least $500k market cap and $50k of 24h volume. Markets responses do not include a separate liquidity figure, so 24h volume is the tradability check.
+The browser staggers the five market pages by 1.5 seconds so a cold start stays under 30 calls/minute. Scanner, coin-of-the-day, rekt, prediction, ticker, and Top Movers drop coins whose name or ticker copies a top-100 coin unless the CoinGecko id is the real one, and they require at least $500k market cap and $50k of 24h volume. Markets responses do not include a separate liquidity figure, so 24h volume is the tradability check. Unlisted DEX rows never enter those spotlight surfaces.
+
+### DEX discovery (free, not CoinGecko Demo)
+
+Homepage boot and `/api/boot` attach a cached on-chain universe. It does **not** send `COINGECKO_API_KEY`.
+
+| Feed | Calls per refresh | Cache |
+| --- | --- | --- |
+| GeckoTerminal public `new_pools` + `trending_pools` for `solana`, `base`, `bsc`, `eth` (page 1, `include=base_token`) | 8 | 12 min memory, 6 h stale in Upstash |
+| DexScreener boosts latest, boosts top, profiles latest | 3 | same snapshot |
+| DexScreener `tokens/v1` only for boosts/profiles still missing a price | up to 4 | same snapshot |
+
+A 429 sets a 10 minute backoff and the last good snapshot is served. Movers and Rug Radar read that cache only, so they do not start a second burst. CoinGecko movers also request meme-market page 2, which stays on the existing 60 minute market cache.
 
 No new paid services. Scan pages and OG images still cache about 60 seconds. Rug Radar caches about 120 seconds.
 

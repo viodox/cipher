@@ -116,6 +116,7 @@ async function handle(req, res) {
       gainers: data.gainers,
       losers: data.losers,
       volumeSpikes: data.volumeSpikes,
+      fresh: data.fresh || [],
     } : { ok: false, error: data.error || 'unavailable' };
     sendJson(res, data.ok ? 200 : (data.status || 502), body, data.ok ? 'public, max-age=120' : 'no-store');
     return;
@@ -139,7 +140,7 @@ async function handle(req, res) {
 
   if (pathname === '/api/boot') {
     const { loadBoot } = require('./lib/boot');
-    const boot = await loadBoot();
+    const boot = await loadBoot({ refreshDex: true });
     sendJson(res, 200, boot || { ok: false, coins: [], board: [] }, boot && boot.coins && boot.coins.length ? 'public, max-age=60' : 'no-store');
     return;
   }

@@ -113,8 +113,18 @@ function isImpostor(coin, canon) {
   return false;
 }
 
+function isUnlisted(coin) {
+  // Raw DEX rows are not CoinGecko listings. Spotlight surfaces (coin of the
+  // day, rekt, ticker, movers ranks) ignore them. Keep in sync with isDexRow.
+  if (!coin) return false;
+  if (coin.listed === false) return true;
+  const source = String(coin.source || '').toLowerCase();
+  if (source === 'geckoterminal' || source === 'dexscreener' || source === 'dex') return true;
+  return /^dex-(eth|bsc|base|arb|sol)-/i.test(String(coin.id || ''));
+}
+
 function spotlightOk(coin, canon) {
-  if (!coin || isImpostor(coin, canon)) return false;
+  if (!coin || isUnlisted(coin) || isImpostor(coin, canon)) return false;
   if (hexBlobSymbol(coin.symbol || coin.sym)) return false;
   const sym = normalizeSymbol(coin.symbol || coin.sym);
   if (sym.length < 2 || sym.length > 12) return false;
@@ -136,6 +146,7 @@ const api = {
   staticCanon,
   canonFromMarkets,
   isImpostor,
+  isUnlisted,
   hexBlobSymbol,
   spotlightOk,
 };

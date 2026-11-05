@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- route-meta:start -->
 <title>CIPHER — Meme Coin Intelligence</title>
-<meta name="description" content="Free meme coin scanner for up to 1,000 coins from CoinGecko. Signal scores are formulas over price, volume, and market cap — not an AI model. CipherPot checks contracts.">
+<meta name="description" content="Free meme coin scanner. CoinGecko meme markets plus live GeckoTerminal and DexScreener pools, including tokens CoinGecko has not listed. Signal scores are formulas, not an AI model. Not financial advice.">
 <link rel="canonical" href="https://www.ciphersignal.xyz/">
 <meta property="og:title" content="CIPHER — Meme Coin Intelligence">
-<meta property="og:description" content="Up to 1,000 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
+<meta property="og:description" content="CoinGecko meme markets plus live DEX new and trending pools. Signal scores and contract checks. Free. Not financial advice.">
 <meta property="og:image" content="https://www.ciphersignal.xyz/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ciphersignal_">
 <meta name="twitter:title" content="CIPHER — Meme Coin Intelligence">
-<meta name="twitter:description" content="Up to 1,000 meme coins, signal scores from live market data, and contract checks. Free. Not financial advice.">
+<meta name="twitter:description" content="CoinGecko meme markets plus live DEX new and trending pools. Signal scores and contract checks. Free. Not financial advice.">
 <meta name="twitter:image" content="https://www.ciphersignal.xyz/og-image.png">
 <!-- route-meta:end -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -442,7 +442,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <strong>Spin the wheel, land on a random coin, get today’s decoded breakdown.</strong>
     <span class="fortune-sub">Free. For fun. Not a prediction. Open the wheel.</span>
   </a>
-  <p class="nfa">Not financial advice. Prices are CoinGecko market data. Hype, mood, and risk on this page are formulas, not a forecast and not a contract audit.</p>
+  <p class="nfa">Not financial advice. Listed prices are CoinGecko. Fresh rows are GeckoTerminal and DexScreener pool data, including tokens CoinGecko has not listed. Hype, mood, and risk are formulas, not a forecast and not a contract audit.</p>
 
 
   <section id="graded-board" class="graded-board" aria-label="Graded movers">
@@ -529,12 +529,14 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="filter-btn" id="f-bullish" onclick="setFilter('bullish')">bullish</button>
       <button class="filter-btn" id="f-bearish" onclick="setFilter('bearish')">bearish</button>
       <button class="filter-btn" id="f-highrisk" onclick="setFilter('highrisk')">high rug risk</button>
+      <button class="filter-btn" id="f-fresh" onclick="setFilter('fresh')" title="New and trending on-chain pools that are not in the CoinGecko meme list">fresh on-chain</button>
       <button class="filter-btn" id="f-watchlist" onclick="setFilter('watchlist')">⭐ watchlist</button>
       <a class="filter-btn" href="/movers" style="text-decoration:none">top movers</a>
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
     <div id="data-updated" style="font-size:15px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
-    <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 1,000 with 24h volume over $500)...</div></div>
+    <div id="universe-note" style="font-size:15px;color:#c9d4e6;margin:-4px 0 10px;line-height:1.5">CoinGecko meme markets (24h volume over $500) plus live GeckoTerminal new and trending pools on Solana, Base, BSC, and Ethereum, and DexScreener boosts and profiles. Fresh on-chain is the filter for contracts CoinGecko has not listed. Coin of the Day stays on listed names. Not financial advice.</div>
+    <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme markets and live DEX pools…</div></div>
     <div id="detail-area"></div>
   </div>
 
@@ -605,7 +607,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div class="report-card">
       <div class="rc-top">
         <span class="ai-tag" style="background:rgba(255,51,85,.08);color:#ff6680;border-color:rgba(255,51,85,.3)">RUG RADAR</span>
-        <span style="font-size:15px;color:var(--muted)">DexScreener attention, checked with GoPlus</span>
+        <span style="font-size:15px;color:#c9d4e6">DexScreener attention, checked with GoPlus. Fresh pools are labeled and are not that check.</span>
       </div>
       <div id="radar-updated" style="font-size:15px;color:var(--muted);margin-bottom:.75rem;line-height:1.6">Loading the latest boosted and newly listed tokens on chains CipherPot supports.</div>
       <div id="radar-body"><div class="loading"><div class="spinner"></div>pulling DexScreener and GoPlus…</div></div>
@@ -635,7 +637,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Tracks up to 1,000 meme coins from CoinGecko's meme-token list (24h volume over $500). The header shows the live count.</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Tracks CoinGecko meme-token markets (24h volume over $500) and adds live on-chain pools from GeckoTerminal and DexScreener, including tokens CoinGecko has not listed. The header shows the live count and the split.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
@@ -692,15 +694,15 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <section class="scores" id="how-scores">
     <h2>how scores work</h2>
-    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> market data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is however many meme coins came back on the last refresh, skipping pairs with under $500 of 24h volume.</p>
+    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> meme markets and from <strong>GeckoTerminal</strong> and <strong>DexScreener</strong> pool data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is the last refresh: CoinGecko rows with 24h volume over $500, plus on-chain pools that cleared a small liquidity floor. Each on-chain row is labeled with its source.</p>
     <ul>
       <li><strong>Hype (viral):</strong> volume relative to market cap, the size of the 24h move, whether CoinGecko currently lists the coin as trending, absolute volume, and a small boost when a tiny cap is trading more than its size. A ±3 daily jitter keeps identical inputs from stacking.</li>
       <li><strong>Mood (sentiment):</strong> starts at 50 and moves with the 24h price change. Very low volume pulls it back toward neutral. High volume relative to market cap amplifies the move.</li>
       <li><strong>Risk level:</strong> a market-structure guess. Smaller market caps, violent 24h moves, and dead volume raise it. Large caps and healthy volume lower it. It does <strong>not</strong> read the contract. Use CipherPot for that.</li>
       <li><strong>Signal Score:</strong> the same three numbers, written out as SEND IT / WAIT / NGMI, plus a line of color. No model is called.</li>
       <li><strong>CipherPot:</strong> <strong>honeypot.is</strong> on Ethereum, BSC, and Base (honeypot simulation, taxes, liquidity, holders); <strong>RugCheck</strong> on Solana; <strong>GoPlus</strong> token security on both (mintable, proxy, blacklist function, owner privileges, holder concentration). DexScreener supplies extra liquidity when the other sources don't.</li>
-      <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. Cached about two minutes on the server. Open a row for the full scan.</li>
-      <li><strong>Top Movers:</strong> a separate page at <a href="/movers">/movers</a> ranks 24h gainers, losers, and volume relative to market cap. Each name links to a coin page such as <a href="/coin/dogecoin">/coin/dogecoin</a>.</li>
+      <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. A short fresh-pool list from the same cached DEX feed is labeled separately and is not a GoPlus pass. Cached about two minutes on the server. Open a row for the full scan.</li>
+      <li><strong>Top Movers:</strong> a separate page at <a href="/movers">/movers</a> ranks 24h gainers, losers, and volume relative to market cap from CoinGecko meme pages 1–2. Fresh on-chain names, when the DEX cache is warm, sit in their own section and link to Ape Check. Listed names link to a coin page such as <a href="/coin/dogecoin">/coin/dogecoin</a>.</li>
       <li><strong>On-chain stocks:</strong> CoinGecko's Robinhood Chain stocks category. Those tokens are debt securities and are not offered to US persons. That is separate from the Robinhood brokerage link under where to buy.</li>
     </ul>
     <p id="scores-updated">Last market-data refresh: waiting for the first CoinGecko response.</p>
@@ -747,13 +749,18 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   </div>
   <div class="disclaimer">
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
-      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:var(--muted);letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='var(--muted)'">data powered by <span style="font-family:var(--font-disp);font-weight:700;color:#8dc63f;letter-spacing:.08em">🦎 CoinGecko</span></a>
+      <a href="https://www.coingecko.com/en/api?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:#c9d4e6;letter-spacing:.04em;transition:color .2s" onmouseover="this.style.color='#8dc63f'" onmouseout="this.style.color='#c9d4e6'">CoinGecko</a>
+      <span style="color:#a8b8d4">·</span>
+      <a href="https://www.geckoterminal.com" target="_blank" rel="noopener" style="font-size:13px;color:#c9d4e6;text-decoration:none">GeckoTerminal</a>
+      <span style="color:#a8b8d4">·</span>
+      <a href="https://dexscreener.com" target="_blank" rel="noopener" style="font-size:13px;color:#c9d4e6;text-decoration:none">DexScreener</a>
     </div>
     Not financial advice. Nothing here is an offer to buy, sell, or bet. Affiliate links may earn CIPHER a commission. Do your own research.<br>© 2026 CIPHER — meme coin intelligence
   </div>
 </div>
 
 <script src="/quality.js"></script>
+<script src="/universe.js"></script>
 <script>
 // STATE
 let allCoins=[],filteredCoins=[],currentFilter='all',currentPage=1,selectedCoin=null,sortCol='viral',sortDir=-1;
@@ -888,13 +895,65 @@ function calcRug(c){
   return Math.round(Math.max(5,Math.min(95,r)));
 }
 function enrich(c){return{...c,viral:calcViral(c),sentiment:calcSentiment(c),rug:calcRug(c)};}
+function isDexCoin(c){return !!(window.CipherUniverse&&CipherUniverse.isDexRow(c));}
+function sourceLabel(c){
+  if(!isDexCoin(c)) return 'CoinGecko';
+  return c.source==='geckoterminal'?'GeckoTerminal':'DexScreener';
+}
+function fmtSigned(v,digits){
+  if(v==null||!isFinite(Number(v))) return null;
+  const n=Number(v);
+  return {text:(n>=0?'+':'')+n.toFixed(digits),pos:n>=0};
+}
+let dexRows=[];
+let dexAt=0;
+function rememberDex(list){
+  if(!Array.isArray(list)||!list.length) return;
+  dexRows=list;
+  dexAt=Date.now();
+}
+function coinOption(c){
+  const sym=escHtml(String(c.symbol||'').toUpperCase());
+  const name=escHtml(c.name||'');
+  const extra=isDexCoin(c)?(' ('+escHtml(c.chainName||c.chain||'')+' · '+escHtml(sourceLabel(c))+')'):'';
+  return '<option value="'+escHtml(c.id)+'">'+sym+' — '+name+extra+'</option>';
+}
+function paintCount(){
+  const dexCount=allCoins.filter(isDexCoin).length;
+  const cgCount=allCoins.length-dexCount;
+  const el=document.getElementById('coin-count');
+  if(el) el.textContent=allCoins.length+' coins · '+cgCount+' CoinGecko · '+dexCount+' on-chain';
+}
+function composeUniverse(cgCoins){
+  const merged=window.CipherUniverse?CipherUniverse.mergeUniverse(cgCoins,dexRows):(cgCoins||[]);
+  return merged.map(enrich);
+}
+async function ensureDex(){
+  const boot=window.__CIPHER_BOOT__;
+  if(!dexRows.length&&boot&&Array.isArray(boot.dex)&&boot.dex.length){
+    dexRows=boot.dex;
+    dexAt=Date.now();
+  }
+  if(dexRows.length&&Date.now()-dexAt<8*60*1000) return dexRows;
+  try{
+    const res=await fetch('/api/boot');
+    if(res.ok){
+      const data=await res.json();
+      if(data&&Array.isArray(data.dex)){
+        dexRows=data.dex;
+        dexAt=Date.now();
+      }
+    }
+  }catch(e){}
+  return dexRows;
+}
 function stampUpdated(){
   dataUpdatedAt=new Date();
-  const label='market data updated '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC · source: CoinGecko';
+  const label='market data updated '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC · CoinGecko meme markets + GeckoTerminal / DexScreener pools';
   const el=document.getElementById('data-updated');
   if(el) el.textContent=label;
   const scores=document.getElementById('scores-updated');
-  if(scores) scores.textContent='Last market-data refresh: '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC.';
+  if(scores) scores.textContent='Last market-data refresh: '+dataUpdatedAt.toISOString().replace('T',' ').slice(0,19)+' UTC. On-chain rows use the cached DEX snapshot.';
 }
 function chainSlug(chain){return chain==='1'?'eth':chain==='56'?'bsc':chain==='8453'?'base':chain==='42161'?'arb':chain==='sol'?'sol':chain;}
 function canonicalScanAddress(chain,address){return (chain==='1'||chain==='56'||chain==='8453'||chain==='42161')?address.toLowerCase():address;}
@@ -1190,12 +1249,12 @@ function marketUrl(p){
 }
 function paintMarket(coins){
   const seen=new Set();
-  const raw=(coins||[]).filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&((c.total_volume||0)>500||c.total_volume==null));
-  if(!raw.length) return false;
-  allCoins=raw.map(enrich);
+  const raw=(coins||[]).filter(c=>c&&c.id&&!isDexCoin(c)&&!seen.has(c.id)&&seen.add(c.id)&&((c.total_volume||0)>500||c.total_volume==null));
+  if(!raw.length&&!dexRows.length) return false;
+  allCoins=composeUniverse(raw);
   const sel=document.getElementById('report-coin-select');
-  if(sel) sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(c=>`<option value="${c.id}">${String(c.symbol||'').toUpperCase()} — ${c.name}</option>`).join('');
-  document.getElementById('coin-count').textContent=allCoins.length+' coins tracked';
+  if(sel) sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(coinOption).join('');
+  paintCount();
   currentPage=1;applyFilters();
   return true;
 }
@@ -1228,6 +1287,7 @@ async function loadCoins(){
     return;
   }
   const boot=window.__CIPHER_BOOT__;
+  if(boot&&Array.isArray(boot.dex)) rememberDex(boot.dex);
   if(boot&&Array.isArray(boot.coins)&&boot.coins.length&&!allCoins.length){
     paintMarket(boot.coins);
     document.getElementById('status-text').textContent='cached snapshot';
@@ -1239,6 +1299,7 @@ async function loadCoins(){
         const data=await res.json();
         if(data&&Array.isArray(data.coins)&&data.coins.length){
           window.__CIPHER_BOOT__=data;
+          if(Array.isArray(data.dex)) rememberDex(data.dex);
           paintMarket(data.coins);
           const el=document.getElementById('data-updated');
           if(el&&data.updatedAt) el.textContent='market data: cached snapshot '+String(data.updatedAt).replace('T',' ').slice(0,19)+' UTC · refreshing';
@@ -1249,7 +1310,7 @@ async function loadCoins(){
     }catch(e){}
   }
   if(!allCoins.length){
-    document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme coins (up to 1,000 with 24h volume over $500)...</div>';
+    document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme markets and live DEX pools…</div>';
     document.getElementById('status-text').textContent='fetching data';
     document.getElementById('coin-count').textContent='loading...';
   } else {
@@ -1260,6 +1321,7 @@ async function loadCoins(){
   refreshGradedBoard();
   try{
     const trendingPromise=fetchTrending();
+    const dexPromise=ensureDex();
     const firstRes=await fetch(marketUrl(1));
     const first=firstRes.ok?await firstRes.json():[];
     if(Array.isArray(first)&&first.length) paintMarket(first);
@@ -1267,17 +1329,18 @@ async function loadCoins(){
       return fetch(marketUrl(p)).then(function(r){return r.ok?r.json():[];}).catch(function(){return [];});
     }));
     await trendingPromise;
+    await dexPromise;
     const seen=new Set();
-    const raw=[].concat(first, rest.flat()).filter(c=>c&&c.id&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
-    if(!raw.length){
+    const raw=[].concat(first, rest.flat()).filter(c=>c&&c.id&&!isDexCoin(c)&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
+    if(!raw.length&&!dexRows.length){
       if(allCoins.length){ document.getElementById('status-text').textContent='showing saved snapshot'; return; }
       throw new Error('empty');
     }
-    allCoins=raw.map(enrich);
+    allCoins=composeUniverse(raw);
     const sel=document.getElementById('report-coin-select');
-    sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
+    sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(coinOption).join('');
     document.getElementById('status-text').textContent='live scan active';
-    document.getElementById('coin-count').textContent=allCoins.length+' coins tracked';
+    paintCount();
     stampUpdated();
     currentPage=1;applyFilters();
   }catch(e){
@@ -1309,8 +1372,8 @@ async function loadExtendedCoins(){
     extendedCoins=extra.map(enrich);
     // Update Signal Score dropdown with all coins
     const sel=document.getElementById('report-coin-select');
-    const allForSelect=[...allCoins,...extendedCoins].sort((a,b)=>a.symbol.localeCompare(b.symbol));
-    sel.innerHTML='<option value="">— select coin —</option>'+allForSelect.map(c=>`<option value="${c.id}">${c.symbol.toUpperCase()} — ${c.name}</option>`).join('');
+    const allForSelect=[...allCoins,...extendedCoins].sort((a,b)=>String(a.symbol||'').localeCompare(String(b.symbol||'')));
+    sel.innerHTML='<option value="">— select coin —</option>'+allForSelect.map(coinOption).join('');
     console.log('Signal Score list: '+allForSelect.length+' coins ('+allCoins.length+' scanner + '+extendedCoins.length+' extended)');
   }catch(e){
     console.log('Extended coin fetch skipped:',e.message);
@@ -1331,8 +1394,9 @@ function setFilter(f){
 function applyFilters(){
   const q=(document.getElementById('search').value||'').toLowerCase();
   filteredCoins=allCoins.filter(c=>{
-    const ms=!q||c.symbol.toLowerCase().includes(q)||c.name.toLowerCase().includes(q);
-    const mf=currentFilter==='all'||(currentFilter==='bullish'&&c.sentiment>=65)||(currentFilter==='bearish'&&c.sentiment<35)||(currentFilter==='highrisk'&&c.rug>=70)||(currentFilter==='watchlist'&&watchlist.has(c.id));
+    const addr=String(c.address||'').toLowerCase();
+    const ms=!q||c.symbol.toLowerCase().includes(q)||c.name.toLowerCase().includes(q)||(addr&&addr.includes(q));
+    const mf=currentFilter==='all'||(currentFilter==='bullish'&&c.sentiment>=65)||(currentFilter==='bearish'&&c.sentiment<35)||(currentFilter==='highrisk'&&c.rug>=70)||(currentFilter==='watchlist'&&watchlist.has(c.id))||(currentFilter==='fresh'&&isDexCoin(c));
     return ms&&mf;
   });
   sortCoins();
@@ -1343,6 +1407,12 @@ function sortCoins(){
     const bv=sortCol==='viral'?b.viral:sortCol==='sentiment'?b.sentiment:sortCol==='rug'?b.rug:sortCol==='change'?(b.price_change_percentage_24h||0):sortCol==='change7d'?(b.price_change_percentage_7d_in_currency||0):sortCol==='mcap'?(b.market_cap||0):b.viral;
     return(av-bv)*sortDir;
   });
+  if(currentFilter==='all'&&sortCol==='viral'){
+    const listed=[];
+    const fresh=[];
+    filteredCoins.forEach(c=>{(isDexCoin(c)?fresh:listed).push(c);});
+    filteredCoins=listed.concat(fresh);
+  }
   renderTable();
 }
 // (7d sort handled in applyFilters via sortCol)
@@ -1379,20 +1449,24 @@ function renderTable(){
   page.forEach((c,i)=>{
     const rank=start+i+1;
     const sl=sentLbl(c.sentiment),rl=rugLbl(c.rug);
-    const chg=c.price_change_percentage_24h||0;
-    const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-    const chgCls=chg>=0?'pos':'neg';
-    const chg7=c.price_change_percentage_7d_in_currency||0;
-    const chg7Str=(chg7>=0?'+':'')+chg7.toFixed(1)+'%';
+    const chgInfo=fmtSigned(c.price_change_percentage_24h,2);
+    const chgStr=chgInfo?chgInfo.text+'%':'—';
+    const chgCls=chgInfo?(chgInfo.pos?'pos':'neg'):'';
+    const chg7Info=fmtSigned(c.price_change_percentage_7d_in_currency,1);
+    const chg7Str=chg7Info?chg7Info.text+'%':'—';
+    const dex=isDexCoin(c);
     const newBadge=c.isNew?'<span style="font-size:12px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
-    const img=c.image?`<img class="coin-img" src="${c.image}" alt="${c.symbol}" onerror="this.style.display='none'">`:'';
+    const srcBadge=dex?'<span style="font-size:12px;font-family:var(--font-disp);color:#e4eef8;border:1px solid #a8b8d4;padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">'+escHtml(sourceLabel(c)==='GeckoTerminal'?'GT':'DEX')+' · '+escHtml(c.chainName||c.chain||'')+'</span>':'';
+    const img=c.image?`<img class="coin-img" src="${escHtml(c.image)}" alt="${escHtml(c.symbol)}" onerror="this.style.display='none'">`:'';
     const starred=watchlist.has(c.id);
-    h+=`<tr onclick="selectCoin('${c.id}')" class="${selectedCoin===c.id?'selected':''}">
-      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${c.id}')" style="cursor:pointer;font-size:16px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
+    const gradeHref=dex?(c.checkPath||('/check/'+c.chain+'/'+c.address)):('/check?coin='+encodeURIComponent(c.id));
+    const safeId=String(c.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    h+=`<tr onclick="selectCoin('${safeId}')" class="${selectedCoin===c.id?'selected':''}">
+      <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${safeId}')" style="cursor:pointer;font-size:16px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
-      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${c.symbol.toUpperCase()}${newBadge}</div><div class="coin-name-sm">${c.name} · <a href="/check?coin=${encodeURIComponent(c.id)}" onclick="event.stopPropagation()" style="color:#00e5ff;text-decoration:none">grade it</a></div></div></div></td>
+      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${escHtml(String(c.symbol||'').toUpperCase())}${newBadge}${srcBadge}</div><div class="coin-name-sm">${escHtml(c.name||'')} · <a href="${escHtml(gradeHref)}" onclick="event.stopPropagation()" style="color:#00e5ff;text-decoration:none">grade it</a></div></div></div></td>
       <td><span class="${chgCls}" style="font-size:15px;font-weight:700">${chgStr}</span></td>
-      <td><span class="${chg7>=0?'pos':'neg'}" style="font-size:15px;font-weight:700">${chg7Str}</span></td>
+      <td><span class="${chg7Info?(chg7Info.pos?'pos':'neg'):''}" style="font-size:15px;font-weight:700">${chg7Str}</span></td>
       <td class="td-mcap">${fmtMcap(c.market_cap)}</td>
       <td class="td-mcap">${fmtMcap(c.total_volume)}</td>
       <td><div style="display:flex;align-items:center;gap:6px"><div class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:${c.viral}%;background:${col(c.viral)}"></div></div></div><span class="score-val" style="color:${col(c.viral)}">${c.viral}</span></div></td>
@@ -1400,7 +1474,7 @@ function renderTable(){
       <td><span class="ctag ${sl[1]}">${sl[0]}</span></td>
     </tr>`;
   });
-  h+='</tbody></table></div><div style="font-size:13px;color:var(--muted);padding:4px 2px">Data provided by <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a></div>';
+  h+='</tbody></table></div><div style="font-size:13px;color:#c9d4e6;padding:4px 2px;line-height:1.5">Listed rows: <a href="https://www.coingecko.com?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">CoinGecko</a>. On-chain rows: <a href="https://www.geckoterminal.com" target="_blank" rel="noopener" style="color:#c9d4e6">GeckoTerminal</a> and <a href="https://dexscreener.com" target="_blank" rel="noopener" style="color:#c9d4e6">DexScreener</a>. A DEX label is not a CoinGecko listing. Not financial advice.</div>';
   if(total>1){
     h+='<div class="pagination"><span class="page-info">'+filteredCoins.length+' coins · pg '+currentPage+'/'+total+'</span>';
     if(currentPage>1)h+=`<button class="page-btn" onclick="goPage(${currentPage-1})">← prev</button>`;
@@ -1413,13 +1487,15 @@ function renderTable(){
 function goPage(p){currentPage=p;selectedCoin=null;document.getElementById('detail-area').innerHTML='';renderTable();window.scrollTo({top:0,behavior:'smooth'});}
 
 function shareDetail(id){
-  if(!/^[a-z0-9-]+$/.test(id)) return;
   const c=allCoins.find(x=>x.id===id);
   if(!c) return;
-  const chg=c.price_change_percentage_24h||0;
-  const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-  const url=SITE_ORIGIN+'/coin/'+c.id;
-  const text='$'+String(c.symbol||'').toUpperCase()+' '+chgStr+' in 24h\n\nvia @ciphersignal_\n'+url;
+  const chgInfo=fmtSigned(c.price_change_percentage_24h,2);
+  const chgStr=chgInfo?chgInfo.text+'%':'';
+  let url='';
+  if(isDexCoin(c)) url=SITE_ORIGIN+(c.checkPath||('/check/'+c.chain+'/'+c.address));
+  else if(/^[a-z0-9-]+$/.test(String(id))) url=SITE_ORIGIN+'/coin/'+c.id;
+  if(!url) return;
+  const text='$'+String(c.symbol||'').toUpperCase()+' '+(chgStr?chgStr+' in 24h\n\n':'')+'via @ciphersignal_\n'+url;
   window.open('https://x.com/intent/tweet?text='+encodeURIComponent(text),'_blank','noopener');
 }
 
@@ -1428,9 +1504,16 @@ async function selectCoin(id){
   selectedCoin=id;
   const c=allCoins.find(x=>x.id===id);if(!c)return;
   renderTable();
-  const chg=c.price_change_percentage_24h||0;
-  const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-  const chgCol=chg>=0?'#00ff99':'#ff3355';
+  const dex=isDexCoin(c);
+  const chgInfo=fmtSigned(c.price_change_percentage_24h,2);
+  const chgStr=chgInfo?chgInfo.text+'%':'—';
+  const chgCol=chgInfo?(chgInfo.pos?'#00ff99':'#ff3355'):'#c9d4e6';
+  const safeId=String(c.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const gradeHref=dex?(c.checkPath||('/check/'+c.chain+'/'+c.address)):('/check?coin='+encodeURIComponent(c.id));
+  const sourceLine=dex?'<div style="font-size:13px;color:#c9d4e6;margin-top:4px">Source: '+escHtml(sourceLabel(c))+' · '+escHtml(c.chainName||c.chain||'')+' · not a CoinGecko id</div>':'';
+  const pageLinks=dex
+    ? '<a class="dact-btn" style="color:#00e5ff;border-color:rgba(0,229,255,.35);text-decoration:none" href="'+escHtml(gradeHref)+'">ape check ↗</a>'+(c.cgId?'<a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/'+escHtml(c.cgId)+'" target="_blank" rel="noopener">coingecko ↗</a>':'')
+    : '<a class="dact-btn" style="color:var(--text);border-color:var(--border2);text-decoration:none" href="/coin/'+escHtml(c.id)+'">coin page ↗</a><a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/'+escHtml(c.id)+'" target="_blank" rel="noopener">coingecko ↗</a>';
 
   // Show initial detail with loading state for contract info
   document.getElementById('detail-area').innerHTML=`
@@ -1440,8 +1523,9 @@ async function selectCoin(id){
         <button id="detail-watch-btn" onclick="toggleWatch('${c.id}');updateDetailWatchBtn('${c.id}')" style="position:absolute;top:8px;right:110px;font-family:var(--font-disp);font-size:12px;padding:6px 12px;border-radius:4px;border:1px solid rgba(255,180,0,.35);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">${watchlist.has(c.id)?'⭐ watching':'☆ add to watchlist'}</button>
         ${c.image?`<img class="d-img" src="${c.image}" alt="${c.symbol}">`:''}
         <div>
-          <div class="d-name">${c.symbol.toUpperCase()}</div>
-          <div class="d-fullname">${c.name} · ${fmtPrice(c.current_price)} · <span style="color:${chgCol}">${chgStr} 24h</span></div>
+          <div class="d-name">${escHtml(String(c.symbol||'').toUpperCase())}</div>
+          <div class="d-fullname">${escHtml(c.name||'')} · ${fmtPrice(c.current_price)} · <span style="color:${chgCol}">${chgStr} 24h</span></div>
+          ${sourceLine}
         </div>
       </div>
       <div class="score-grid">
@@ -1457,11 +1541,10 @@ async function selectCoin(id){
       <div class="section-label">contract info</div>
       <div id="contract-info" class="flags-wrap"><div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:15px;color:var(--muted)"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>fetching contract data...</div></div>
       <div class="detail-actions">
-        <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${c.id}')">signal score ↗</button>
-        <a class="dact-btn" id="grade-btn-detail" style="color:#00e5ff;border-color:rgba(0,229,255,.35);text-decoration:none" href="/check?coin=${encodeURIComponent(c.id)}">grade it</a>
-        <a class="dact-btn" style="color:var(--text);border-color:var(--border2);text-decoration:none" href="/coin/${c.id}">coin page ↗</a>
-        <button class="dact-btn" style="color:#1da1f2;border-color:rgba(29,161,242,.45)" onclick="shareDetail('${c.id}')">share on X</button>
-        <a class="dact-btn" style="color:#00ff99;border-color:rgba(0,255,153,.3);text-decoration:none" href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener">coingecko ↗</a>
+        <button class="dact-btn" style="color:var(--accent);border-color:rgba(0,229,255,.3)" onclick="openAIReport('${safeId}')">signal score ↗</button>
+        <a class="dact-btn" id="grade-btn-detail" style="color:#00e5ff;border-color:rgba(0,229,255,.35);text-decoration:none" href="${escHtml(gradeHref)}">grade it</a>
+        ${pageLinks}
+        <button class="dact-btn" style="color:#1da1f2;border-color:rgba(29,161,242,.45)" onclick="shareDetail('${safeId}')">share on X</button>
         <button id="hp-btn-detail" class="dact-btn" style="color:#ffb400;border-color:rgba(255,180,0,.3);opacity:.5;pointer-events:none">check honeypot ↗</button>
         <button class="dact-btn" style="color:var(--muted);border-color:var(--border)" onclick="loadCoins()">refresh data</button>
       </div>
@@ -1538,6 +1621,17 @@ async function selectCoin(id){
       const infoEl=document.getElementById('contract-info');
       if(infoEl) infoEl.innerHTML='<div class="flag"><span style="font-size:16.5px">⚠️</span><span style="font-size:15px;color:var(--muted)">Could not fetch contract data. <a href="#" onclick="selectCoin(\''+c.id+'\');return false;" style="color:var(--accent);text-decoration:none">tap to retry</a></span></div>';
     }
+  }
+  if(dex){
+    const chainSelect={eth:'1',bsc:'56',base:'8453',arb:'42161',sol:'sol'};
+    c.contract_address=c.address||'';
+    c._chainId=chainSelect[c.chain]||'';
+    c._chainName=c.chainName||c.chain||'';
+    c._contractFetched=true;
+    renderContractInfo(c);
+    const wrap=document.getElementById('price-chart-wrap');
+    if(wrap) wrap.innerHTML='<div style="font-size:15px;color:#c9d4e6;line-height:1.5">No CoinGecko chart for this contract. The price is the on-chain pool price from '+escHtml(sourceLabel(c))+'. Not a CoinGecko listing and not financial advice.</div>';
+    return;
   }
   fetchContractData();
   loadPriceChart(c);
@@ -1632,9 +1726,12 @@ async function lookupAndDecrypt(){
     const isCA=input.startsWith('0x')||(/^[A-HJ-NP-Za-km-z1-9]{32,44}$/.test(input));
 
     if(isCA){
+      const local=allCoins.find(c=>c.address&&String(c.address).toLowerCase()===input.toLowerCase());
+      if(local) coinData=local;
       // Try multiple platforms for contract address lookup
       const platforms=['ethereum','binance-smart-chain','base','solana','polygon-pos','arbitrum-one'];
       for(const platform of platforms){
+        if(coinData) break;
         try{
           const res=await fetch(`/api/coingecko/coins/${platform}/contract/${input}`);
           if(res.ok){
@@ -1658,8 +1755,12 @@ async function lookupAndDecrypt(){
         }catch(e){}
       }
     } else {
+      const q=input.toLowerCase();
+      const local=allCoins.find(c=>String(c.symbol||'').toLowerCase()===q||String(c.name||'').toLowerCase()===q);
+      if(local) coinData=local;
       // Search by name/symbol via CoinGecko search
       try{
+        if(!coinData){
         const res=await fetch(`/api/coingecko/search?query=${encodeURIComponent(input)}`);
         if(res.ok){
           const data=await res.json();
@@ -1684,6 +1785,7 @@ async function lookupAndDecrypt(){
               coinData=enrich(coinData);
             }
           }
+        }
         }
       }catch(e){}
     }
@@ -1767,8 +1869,14 @@ async function generateReport(){
 
   const report=`${roast}\n\n${priceRead}\n\n${viralRead}\n\n${rugRead}\n\n${verdict}`;
 
-  // Fetch contract data if not cached
-  if(!c._contractFetched){
+  // Fetch contract data if not cached. DEX rows already carry a contract.
+  if(isDexCoin(c)){
+    const chainSelect={eth:'1',bsc:'56',base:'8453',arb:'42161',sol:'sol'};
+    c.contract_address=c.address||'';
+    c._chainId=chainSelect[c.chain]||'';
+    c._chainName=c.chainName||c.chain||'';
+    c._contractFetched=true;
+  } else if(!c._contractFetched){
     try{
       const cRes=await fetch('/api/coingecko/coins/'+c.id+'?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false');
       if(cRes.ok){
@@ -1793,7 +1901,13 @@ async function generateReport(){
       clearInterval(iv);
       // Add CoinGecko link + contract address after report
       let linksHtml='<div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center">';
+      if(isDexCoin(c)){
+        const href=c.checkPath||('/check/'+c.chain+'/'+c.address);
+        linksHtml+='<a href="'+escHtml(href)+'" style="font-family:\'Orbitron\',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(0,229,255,.35);color:#00e5ff;background:rgba(0,229,255,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase">ape check</a>';
+        linksHtml+='<span style="font-size:15px;color:#c9d4e6">Source: '+escHtml(sourceLabel(c))+'. Not a CoinGecko listing.</span>';
+      } else {
       linksHtml+=`<a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" rel="noopener" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(141,198,63,.3);color:#8dc63f;background:rgba(141,198,63,.06);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(141,198,63,.15)'" onmouseout="this.style.background='rgba(141,198,63,.06)'">view on CoinGecko 🦎</a>`;
+      }
       linksHtml+=`<button onclick="switchTab('cipherpot');setTimeout(()=>{const coin=findCoin('${c.id}');if(coin&&coin.contract_address){const chain=coin._chainId;if(chain==='1'||chain==='56'||chain==='8453'||chain==='sol')document.getElementById('cp-chain').value=chain;document.getElementById('cp-address').value=coin.contract_address;cpChainChange();checkHoneypot();}else{document.getElementById('cp-address').focus();}},100)" style="font-family:'Orbitron',monospace;font-size:15px;padding:8px 14px;border-radius:4px;border:1px solid rgba(255,180,0,.3);color:#ffb400;background:rgba(255,180,0,.06);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(255,180,0,.15)'" onmouseout="this.style.background='rgba(255,180,0,.06)'">scan on CipherPot 🍯</button>`;
       linksHtml+='</div>';
       // Show contract address if available
@@ -2316,7 +2430,7 @@ async function checkHoneypot(){
 // TRENDING ON X — simulated with real coin data weighted by viral score
 function renderTrending(){
   if(!allCoins.length) return;
-  const trending = [...allCoins].sort((a,b)=>b.viral-a.viral).slice(0,8);
+  const trending = [...allCoins].filter(c=>!isDexCoin(c)).sort((a,b)=>b.viral-a.viral).slice(0,8);
   const wrap = document.getElementById('trending-wrap');
   if(!wrap) return;
   wrap.innerHTML = trending.map((c)=>{
@@ -2732,15 +2846,23 @@ async function loadRadar(){
   try{
     const res=await fetch('/api/radar');
     const data=await res.json();
-    if(!data||!Array.isArray(data.items)||!data.items.length){
+    if(!data||!Array.isArray(data.items)||(!data.items.length&&!(data.fresh||[]).length)){
       body.innerHTML='<div class="error-msg">// Rug Radar has no rows right now. '+escHtml((data&&data.error)||'DexScreener or GoPlus did not respond.')+'</div>';
       if(meta&&data&&data.updatedAt) meta.textContent='Last attempt '+data.updatedAt;
       return;
     }
+    if(!data.items.length) data.items=[];
     radarLoaded=true;
     if(meta) meta.textContent='Updated '+data.updatedAt+' UTC. '+data.source;
     const color={HONEYPOT:'#ff3355',RUGGED:'#ff3355',CAUTION:'#ffb400',CLEAN:'#00ff99',UNKNOWN:'#a8b8d4'};
-    body.innerHTML='<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+data.items.map(item=>{
+    const fresh=(data.fresh||[]).map(function(row){
+      const change=fmtSigned(row.change24h,1);
+      const changeText=change?change.text+'%':'—';
+      const source=row.source==='geckoterminal'?'GeckoTerminal':'DexScreener';
+      return '<tr><td><span class="ctag" style="color:#e4eef8;border-color:#a8b8d4">FRESH</span></td><td><div class="coin-sym">'+escHtml(row.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(row.name||'').slice(0,48))+'</div></td><td>'+escHtml(row.chainName||row.chain||'')+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+escHtml(source)+' pool · '+escHtml(changeText)+' · not a GoPlus check</td><td><a href="'+escHtml(row.checkPath||'')+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
+    }).join('');
+    const freshBlock=fresh?'<div style="font-size:15px;color:#c9d4e6;margin:0 0 8px;line-height:1.5">Fresh on-chain pools from the cached feed. These rows are not a security check.</div><div class="table-wrap" style="margin-bottom:14px"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+fresh+'</tbody></table></div>':'';
+    body.innerHTML=freshBlock+'<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+data.items.map(item=>{
       const col=color[item.stamp]||'#a8b8d4';
       const why=(item.reasons||[]).slice(0,2).map(escHtml).join(' · ');
       const grade=item.checkPath||String(item.scanPath||'').replace('/scan/','/check/');
