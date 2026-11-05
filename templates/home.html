@@ -209,6 +209,29 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .site-nav{display:flex;gap:8px;flex-wrap:wrap;margin:-.35rem 0 1.15rem}
 .site-nav a{font-family:var(--font-disp);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--border2);padding:7px 10px;border-radius:4px}
 .site-nav a:hover{color:var(--accent);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
+.site-nav a.nav-ad{color:var(--on-warn);background:var(--warn);border-color:var(--warn);font-weight:700}
+.site-nav a.nav-ad:hover{color:var(--on-warn);background:var(--warn);border-color:var(--warn);filter:brightness(1.08)}
+.footer-links a.foot-ad{color:var(--warn);font-weight:700}
+.footer-links a.foot-ad:hover{color:var(--warn)}
+.graded-line{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.graded-line .graded-row{flex:1;min-width:0;border-bottom:0}
+.ad-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--warn);border-radius:8px;padding:12px 14px;margin:0 0 1.1rem;color:var(--text)}
+.ad-strip p{margin:0;font-size:16px;line-height:1.55;color:var(--text);max-width:46rem}
+.ad-strip strong{color:var(--text)}
+.ad-strip a{font-family:var(--font-disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--warn);color:var(--on-warn);border-radius:4px;padding:10px 12px;font-weight:700;min-height:44px;display:inline-flex;align-items:center}
+.ad-strip a:hover{filter:brightness(1.08);color:var(--on-warn)}
+.ca{display:inline-flex;align-items:center;gap:8px;max-width:100%;vertical-align:middle;flex-wrap:wrap}
+.ca-text{font-family:'Share Tech Mono',monospace;font-size:15px;line-height:1.45;color:var(--text);cursor:pointer;user-select:all;-webkit-user-select:all;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:min(46vw,15rem)}
+.ca-open .ca-text{max-width:100%;white-space:normal;overflow:visible;text-overflow:clip;word-break:break-all}
+.ca-copy{font-family:Orbitron,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;min-height:36px;padding:6px 10px;border-radius:4px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);cursor:pointer}
+.ca-copy:hover{border-color:var(--text)}
+.ca-copy:focus-visible,.ca-text:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.ca-copy.is-copied{background:var(--pos);color:var(--on-pos);border-color:var(--pos)}
+.ca-link{color:var(--accent);font-size:15px;text-decoration:underline;text-underline-offset:2px}
+.ca-toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%) translateY(8px);background:var(--surface);color:var(--text);border:1px solid var(--pos);padding:10px 16px;border-radius:6px;font-family:Orbitron,monospace;font-size:13px;letter-spacing:.08em;text-transform:uppercase;z-index:10000;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease}
+.ca-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.tip-row{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px}
+.tip-asset{font-family:var(--font-disp);font-size:13px;font-weight:700;min-width:35px;padding-top:8px}
 .new-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .soon-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .nfa{font-size:16.5px;color:#c9d4e6;line-height:1.6;margin:-0.35rem 0 1rem;max-width:760px}
@@ -338,8 +361,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .ad-pack{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:12px 12px 14px;color:var(--text)}
 .ad-pack.featured{border-color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn)}
 .ad-pack .ad-name{font-family:var(--font-disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);margin-bottom:6px;line-height:1.4}
-.ad-price{font-family:var(--font-disp);font-size:26px;font-weight:700;color:var(--text);letter-spacing:.02em}
-.ad-price span{font-size:14px;letter-spacing:.08em;color:var(--text);font-weight:500}
+.ad-ask{font-family:var(--font-disp);font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-top:8px}
 .ad-pack p{font-size:15px;line-height:1.5;color:var(--text);margin:8px 0 0}
 .ad-flag{display:inline-block;margin-bottom:6px;background:var(--warn);color:var(--on-warn);font-family:var(--font-disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border-radius:2px;font-weight:700}
 .ad-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -413,7 +435,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <a href="/updates">what's new <span class="new-badge">new</span></a>
     <a href="/rug-radar">rug radar</a>
     <a href="#where-to-buy">where to buy</a>
-    <a href="#advertise">advertise</a>
+    <a class="nav-ad" href="#advertise">advertise</a>
   </nav>
   <a class="fortune-teaser" href="/cipher-fortune">
     <span class="fortune-kicker">Cipher Fortune</span>
@@ -484,6 +506,11 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div id="cotd-actions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
     </div>
   </div>
+
+  <aside class="ad-strip">
+    <p><strong>Book Coin of the Day.</strong> Banner row, homepage takeover, or a Fortune lock. Labeled SPONSORED. Reach out — there is no public rate card.</p>
+    <a href="#advertise">Book Coin of the Day</a>
+  </aside>
 
   <div class="tabs">
     <button class="tab active" data-tab="scanner" onclick="switchTab('scanner')">01 // scanner</button>
@@ -657,21 +684,9 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px">☕ support the project</div>
     <div style="font-size:16px;color:#c9d4e6;line-height:1.6;margin-bottom:14px">CIPHER is free and always will be. If it's saved you from a rug or helped you find a play, a small tip helps keep the lights on and the scanner running.</div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#ffb400;font-weight:700;min-width:35px">BTC</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#00e5ff;font-weight:700;min-width:35px">ETH</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;cursor:pointer" onclick="navigator.clipboard.writeText('CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1').then(()=>{this.querySelector('.cp-lbl').textContent='copied!'});setTimeout(()=>this.querySelector('.cp-lbl').textContent='click to copy',1500)">
-        <span style="font-family:'Orbitron',monospace;font-size:13px;color:#00ff99;font-weight:700;min-width:35px">SOL</span>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text);word-break:break-all;flex:1">CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1</span>
-        <span class="cp-lbl" style="font-family:'Orbitron',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;white-space:nowrap">click to copy</span>
-      </div>
+      <div class="tip-row"><span class="tip-asset" style="color:var(--warn)">BTC</span><span class="ca ca-open"><span class="ca-text" data-address="bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4" title="bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4">bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4</span><button type="button" class="ca-copy" data-copy-address="bc1qalau7sh8wx2fscn8y8a0n7c3p7pm4sf72jw3e4" aria-label="Copy BTC address">Copy</button></span></div>
+      <div class="tip-row"><span class="tip-asset" style="color:var(--accent)">ETH</span><span class="ca ca-open"><span class="ca-text" data-address="0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99" title="0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99">0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99</span><button type="button" class="ca-copy" data-copy-address="0x1C2c32F369Ae7dfb8C642bf2d5bB8304b1C14C99" aria-label="Copy ETH address">Copy</button></span></div>
+      <div class="tip-row"><span class="tip-asset" style="color:var(--pos)">SOL</span><span class="ca ca-open"><span class="ca-text" data-address="CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1" title="CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1">CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1</span><button type="button" class="ca-copy" data-copy-address="CLSCpDJoGZhNAP4v5XHypACLZ3BwdDcKN2sd9eN12xP1" aria-label="Copy SOL address">Copy</button></span></div>
     </div>
   </div>
 
@@ -717,7 +732,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
       <a href="/smart-money">smart money</a>
       <a href="/cipher-fortune">cipher fortune</a>
-      <a href="#advertise">advertise</a>
+      <a class="foot-ad" href="#advertise">advertise</a>
       <a href="/check">ape check</a>
       <a href="/compare">compare</a>
       <a href="/hall">hall</a>
@@ -746,6 +761,13 @@ const PAGE_SIZE=25;
 let lastFetch=0;const FETCH_COOLDOWN=60000;
 let dataUpdatedAt=null;
 const SITE_ORIGIN='https://www.ciphersignal.xyz';
+function copyAddrHtml(address, label, full){
+  const value=String(address||'').trim();
+  if(!value) return '';
+  const safe=escHtml(value);
+  const name=escHtml(label||'Copy address');
+  return '<span class="ca'+(full?' ca-open':'')+'"><span class="ca-text" data-address="'+safe+'" title="'+safe+'">'+safe+'</span><button type="button" class="ca-copy" data-copy-address="'+safe+'" aria-label="'+name+'">Copy</button></span>';
+}
 const MARKET_PAGES=5;
 let canon=window.CipherQuality?CipherQuality.staticCanon():{symbols:{},names:{},ids:{}};
 function spotlightOk(c){return window.CipherQuality?CipherQuality.spotlightOk(c,canon):false;}
@@ -1191,7 +1213,7 @@ function renderGradedBoard(rows){
     const head=String(letter).charAt(0).toLowerCase();
     const g='grade-'+(head==='a'||head==='b'||head==='c'||head==='d'?head:'f');
     const href=row.href||('/check/'+row.chain+'/'+row.address);
-    return '<a class="graded-row" href="'+escHtml(href)+'"><span class="graded-letter '+g+'">'+escHtml(letter)+'</span><span><b>$'+escHtml(row.symbol||'')+'</b><span class="graded-sub">'+escHtml(row.name||'')+' · '+escHtml(row.chain||'')+'</span></span><span class="'+cls+'">'+escHtml(change)+'</span></a>';
+    return '<div class="graded-line"><a class="graded-row" href="'+escHtml(href)+'"><span class="graded-letter '+g+'">'+escHtml(letter)+'</span><span><b>$'+escHtml(row.symbol||'')+'</b><span class="graded-sub">'+escHtml(row.name||'')+' · '+escHtml(row.chain||'')+'</span></span><span class="'+cls+'">'+escHtml(change)+'</span></a>'+copyAddrHtml(row.address,'Copy contract address')+'</div>';
   }).join('');
 }
 function refreshGradedBoard(){
@@ -1534,7 +1556,7 @@ function renderContractInfo(c){
   if(contractAddr){
     const realFlags=[];
     if(chainName) realFlags.push({icon:'🔗',text:'Chain: '+chainName,color:'var(--text)'});
-    realFlags.push({icon:'📄',text:`<span style="cursor:pointer;transition:color .2s" onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>{this.style.color='#00ff99';this.textContent='copied!';setTimeout(()=>{this.style.color='var(--text)';this.textContent='${contractAddr}'},1500)})" title="click to copy">${contractAddr}</span>`,color:'var(--text)',raw:true});
+    realFlags.push({icon:'📄',text:'Contract on file',color:'var(--text)'});
     if(c._watchlists) realFlags.push({icon:'👀',text:c._watchlists.toLocaleString()+' watchlists on CoinGecko',color:'#00ff99'});
     if(c._communityScore) realFlags.push({icon:'👥',text:'Community score: '+c._communityScore+'/100',color:c._communityScore>30?'#00ff99':'#ffb400'});
     if(c._liquidityScore) realFlags.push({icon:'💧',text:'Liquidity score: '+c._liquidityScore.toFixed(1),color:c._liquidityScore>20?'#00ff99':'#ffb400'});
@@ -1556,13 +1578,7 @@ function renderContractInfo(c){
       hpBtn.style.display='none';
     }
 
-    addrEl.innerHTML=`<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-      <div>
-        <div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">contract address · ${chainName}</div>
-        <div style="font-family:var(--font-mono);font-size:15px;color:var(--text);word-break:break-all">${contractAddr}</div>
-      </div>
-      <button onclick="navigator.clipboard.writeText('${contractAddr}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:12px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
-    </div>`;
+    addrEl.innerHTML='<div style="margin-top:1rem;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px"><div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">contract address'+(chainName?' · '+escHtml(chainName):'')+'</div>'+copyAddrHtml(contractAddr,'Copy contract address',true)+'</div>';
   } else {
     infoEl.innerHTML='<div class="flag"><span style="font-size:16.5px">ℹ️</span><span style="font-size:15px;color:var(--muted)">Contract address not available via CoinGecko free tier</span></div>';
     addrEl.innerHTML='';
@@ -1782,13 +1798,7 @@ async function generateReport(){
       linksHtml+='</div>';
       // Show contract address if available
       if(c.contract_address){
-        linksHtml+=`<div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-          <div>
-            <div style="font-size:13px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">contract address${c._chainName?' · '+c._chainName:''}</div>
-            <div style="font-family:var(--font-mono);font-size:16px;color:var(--text);word-break:break-all">${c.contract_address}</div>
-          </div>
-          <button onclick="navigator.clipboard.writeText('${c.contract_address}').then(()=>this.textContent='copied!');setTimeout(()=>this.textContent='copy',1500)" style="font-family:'Orbitron',monospace;font-size:12px;padding:6px 12px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">copy</button>
-        </div>`;
+        linksHtml+='<div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px"><div style="font-size:13px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">contract address'+(c._chainName?' · '+escHtml(c._chainName):'')+'</div>'+copyAddrHtml(c.contract_address,'Copy contract address',true)+'</div>';
       }
       out.innerHTML+=linksHtml;
       cta.style.display='block';btn.disabled=false;btn.textContent='score coin';
@@ -1884,7 +1894,7 @@ async function submitContact(){
   }catch(e){btn.textContent='send message';btn.disabled=false;alert('connection error');}
 }
 
-// ADVERTISING — Forced Coin of the Day. Prices live in lib/sponsor.js (PACKAGES).
+// ADVERTISING — Forced Coin of the Day. Public pages do not show package prices.
 function submitAdvert(ev){
   if(ev&&ev.preventDefault) ev.preventDefault();
   const email=document.getElementById('adv-email').value.trim();
@@ -2162,7 +2172,8 @@ async function checkHoneypot(){
           </div>
           ${risks.length?`<div style="margin-bottom:.5rem"><div style="font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">// risk flags</div>${risks.slice(0,6).map(r=>cpFlag(r.level==='danger'?'🚨':r.level==='warn'?'⚠️':'ℹ️',r.name+(r.description?': '+r.description:'')+(r.value?` (${typeof r.value==='number'?(r.value*100).toFixed(1)+'%':r.value})`:''),r.level==='danger'?'#ff6680':r.level==='warn'?'#ffb400':'var(--muted)')).join('')}</div>`:''}
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+          ${copyAddrHtml(address,'Copy contract address',true)}
           <button onclick="window.open('https://rugcheck.xyz/tokens/${address}','_blank')" style="font-family:'Orbitron',monospace;font-size:12px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);background:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">full report ↗</button>
           ${shareButtonHtml()}
         </div>`;
@@ -2247,7 +2258,8 @@ async function checkHoneypot(){
             ${flags.join('')}
           </div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+          ${copyAddrHtml(address,'Copy contract address',true)}
           ${shareButtonHtml()}
         </div>
         <div style="font-size:13px;color:var(--muted);letter-spacing:.04em">// data via honeypot.is · scanned ${new Date().toISOString().replace('T',' ').slice(0,19)} UTC · <a href="https://www.coingecko.com/en/coins/${chainName.toLowerCase()}/${address}?utm_source=ciphersignal&utm_medium=referral" target="_blank" rel="noopener" style="color:#8dc63f;text-decoration:none">view on CoinGecko 🦎</a> · always dyor · not financial advice</div>`;
@@ -2367,11 +2379,6 @@ function bannerForNyDay(){
   if(!row||row.package!=='banner') return null;
   return row;
 }
-function packagePrice(id,fallback){
-  const packs=(window.__CIPHER_SPONSOR__&&window.__CIPHER_SPONSOR__.packages)||[];
-  const hit=packs.find(p=>p&&p.id===id);
-  return hit&&isFinite(hit.price)?hit.price:fallback;
-}
 function findSponsorCoin(booking){
   if(!booking) return null;
   const pools=[allCoins];
@@ -2400,9 +2407,7 @@ function sponsorRowHtml(){
     const logo=banner.logo?'<img class="coin-img" src="'+escHtml(banner.logo)+'" alt="" onerror="this.style.display=\'none\'">':'<div class="sponsor-mark" aria-hidden="true">★</div>';
     return '<tr class="sponsor-row"><td class="td-rank">★</td><td><div class="td-coin">'+logo+'<div><div class="coin-sym">'+sym+'</div><div class="coin-name-sm">'+name+'</div></div></div></td><td colspan="7" class="sponsor-pitch">'+blurb+' · <a href="'+escHtml(href)+'"'+sponsorLinkAttrs(href)+'>open</a> · <a href="#advertise">Book Coin of the Day</a></td><td><span class="ctag sponsor-tag">SPONSORED</span></td></tr>';
   }
-  const price=packagePrice('cotd',249);
-  const combo=packagePrice('combo',399);
-  return '<tr class="sponsor-row"><td class="td-rank">★</td><td><div class="td-coin"><div class="sponsor-mark" aria-hidden="true">★</div><div><div class="coin-sym">YOUR COIN</div><div class="coin-name-sm">take over Coin of the Day</div></div></div></td><td colspan="7" class="sponsor-pitch">Forced Coin of the Day · top of this page for the whole New York day · labeled SPONSORED · optional Cipher Fortune lock · from $'+price+'/day · Fortune lock $'+combo+'/day · <a href="#advertise">Book Coin of the Day</a></td><td><span class="ctag sponsor-tag">SPONSORED</span></td></tr>';
+  return '<tr class="sponsor-row"><td class="td-rank">★</td><td><div class="td-coin"><div class="sponsor-mark" aria-hidden="true">★</div><div><div class="coin-sym">YOUR COIN</div><div class="coin-name-sm">Book Coin of the Day</div></div></div></td><td colspan="7" class="sponsor-pitch">Forced Coin of the Day sits at the top of this page for the whole New York day, labeled SPONSORED. Banner row, homepage takeover, or Fortune lock. <a href="#advertise">Book Coin of the Day</a></td><td><span class="ctag sponsor-tag">SPONSORED</span></td></tr>';
 }
 function renderSponsoredCotd(booking, live){
   const wrap=document.getElementById('cotd-wrap');
@@ -2441,6 +2446,7 @@ function renderSponsoredCotd(booking, live){
     +lock+'</div></div>';
   const liveId=coin.id&&/^[a-z0-9-]+$/.test(coin.id)?coin.id:'';
   let buttons='<a class="cotd-btn cotd-btn-primary" href="'+escHtml(href)+'"'+sponsorLinkAttrs(href)+'>open coin</a>';
+  buttons+='<a class="cotd-btn" href="#advertise">Book Coin of the Day</a>';
   if(liveId){
     buttons+='<button type="button" class="cotd-btn" onclick="switchTab(\'scanner\');setTimeout(()=>selectCoin(\''+liveId+'\'),100)">view profile</button>';
     buttons+='<button type="button" class="cotd-btn" onclick="document.getElementById(\'report-coin-select\').value=\''+liveId+'\';switchTab(\'report\');generateReport()">signal score</button>';
@@ -2738,7 +2744,8 @@ async function loadRadar(){
       const col=color[item.stamp]||'#a8b8d4';
       const why=(item.reasons||[]).slice(0,2).map(escHtml).join(' · ');
       const grade=item.checkPath||String(item.scanPath||'').replace('/scan/','/check/');
-      return '<tr><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div></td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+why+'</td><td><a href="'+escHtml(grade)+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
+      const dex=item.dexUrl?' <a href="'+escHtml(item.dexUrl)+'" target="_blank" rel="noopener">DexScreener</a>':'';
+      return '<tr><td><span class="ctag" style="color:'+col+';border-color:'+col+'">'+escHtml(item.stamp)+'</span></td><td><div class="coin-sym">'+escHtml(item.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(item.name||'').slice(0,48))+'</div>'+copyAddrHtml(item.address,'Copy contract address')+dex+'</td><td>'+escHtml(item.chainName)+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+why+'</td><td><a href="'+escHtml(grade)+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
     }).join('')+'</tbody></table></div><div style="font-size:15px;color:var(--muted);margin-top:8px">Click a row for the shareable scan page (honeypot.is or RugCheck plus this GoPlus pass).</div>';
   }catch(e){
     body.innerHTML='<div class="error-msg">// Rug Radar is temporarily unavailable.</div>';
@@ -2772,5 +2779,78 @@ setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('a
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2382bf7a026c49308ca0a646e46d7b84"}'></script><!-- End Cloudflare Web Analytics -->
 <script>(function(){var KEY="cipher-theme";var buttons=document.querySelectorAll("[data-theme-set]");function apply(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem(KEY,t);}catch(e){}buttons.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-theme-set")===t?"true":"false");});}buttons.forEach(function(b){b.addEventListener("click",function(){apply(b.getAttribute("data-theme-set"));});});apply(document.documentElement.getAttribute("data-theme")||"og");})();</script>
+<script>
+(function(){
+  if(window.__cipherCopyAddress) return;
+  window.__cipherCopyAddress=true;
+  function toast(msg){
+    var el=document.getElementById('ca-toast');
+    if(!el){
+      el=document.createElement('div');
+      el.id='ca-toast';
+      el.setAttribute('role','status');
+      el.setAttribute('aria-live','polite');
+      el.className='ca-toast';
+      document.body.appendChild(el);
+    }
+    el.textContent=msg;
+    el.className='ca-toast show';
+    clearTimeout(el._t);
+    el._t=setTimeout(function(){ el.className='ca-toast'; }, 1600);
+  }
+  function writeText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function(resolve,reject){
+      var ta=document.createElement('textarea');
+      ta.value=text;
+      ta.setAttribute('readonly','');
+      ta.style.position='fixed';
+      ta.style.left='-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy')?resolve():reject(new Error('copy')); }
+      catch(e){ reject(e); }
+      finally{ document.body.removeChild(ta); }
+    });
+  }
+  function flash(btn){
+    if(!btn) return;
+    var prev=btn.getAttribute('data-copy-label')||btn.textContent;
+    var prevLabel=btn.getAttribute('data-copy-aria')||btn.getAttribute('aria-label')||prev;
+    btn.setAttribute('data-copy-label', prev);
+    btn.setAttribute('data-copy-aria', prevLabel);
+    btn.textContent='Copied';
+    btn.setAttribute('aria-label','Copied');
+    btn.classList.add('is-copied');
+    clearTimeout(btn._t);
+    btn._t=setTimeout(function(){
+      btn.textContent=prev;
+      btn.setAttribute('aria-label', prevLabel);
+      btn.classList.remove('is-copied');
+    }, 1500);
+  }
+  document.addEventListener('click', function(ev){
+    var node=ev.target&&ev.target.closest?ev.target.closest('[data-copy-address], .ca-text'):null;
+    if(!node) return;
+    var btn=node.closest('[data-copy-address]');
+    var text=btn?null:node.closest('.ca-text');
+    if(!btn&&!text) return;
+    if(text){
+      var selected=window.getSelection?String(window.getSelection()):'';
+      if(selected) return;
+    }
+    ev.preventDefault();
+    ev.stopPropagation();
+    var value=btn?(btn.getAttribute('data-copy-address')||''):(text.getAttribute('data-address')||text.textContent||'');
+    value=String(value).trim();
+    if(!value) return;
+    var chip=btn||text.parentNode;
+    writeText(value).then(function(){
+      flash(btn||(chip&&chip.querySelector?chip.querySelector('.ca-copy'):null));
+      toast('Copied');
+    }).catch(function(){ toast('Could not copy'); });
+  }, true);
+})();
+</script>
 </body>
 </html>
