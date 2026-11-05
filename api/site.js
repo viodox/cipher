@@ -8,6 +8,12 @@ const { renderCoinPage } = require('../lib/coin');
 const { loadCanon } = require('../lib/canon');
 const { renderApeRoute } = require('../lib/ape-page');
 const { noteApeLookup } = require('../lib/ape-traffic');
+const { loadBootBounded, renderHomeHtml } = require('../lib/boot');
+const { loadSmartMoney, renderSmartMoneyPage } = require('../lib/smart-money');
+const { loadGradedBoard } = require('../lib/board');
+const { renderComparePage } = require('../lib/compare');
+const { renderDigestPage } = require('../lib/digest');
+const { emailConfigured, storageMode } = require('../lib/alerts-ready');
 
 const APP_PAGES = new Set(['ai-decrypt', 'profile', 'cipherpot', 'on-chain-stocks', 'rug-radar']);
 
@@ -19,6 +25,55 @@ function sendHtml(res, status, html, cacheControl) {
 
 module.exports = async function handler(req, res) {
   const page = String((req.query && (req.query.page || req.query.route)) || '');
+
+  if (page === 'home') {
+    const boot = await loadBootBounded();
+    const html = renderHomeHtml(boot);
+    const warm = boot && boot.coins && boot.coins.length;
+    sendHtml(res, 200, html, warm ? 'public, max-age=60, s-maxage=180, stale-while-revalidate=600' : 'public, max-age=0, s-maxage=30');
+    return;
+  }
+
+  if (page === 'boot') {
+    const { loadBoot } = require('../lib/boot');
+    const boot = await loadBoot();
+    res.setHeader('Cache-Control', boot && boot.coins && boot.coins.length ? 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' : 'no-store');
+    res.status(200).json(boot || { ok: false, coins: [], board: [] });
+    return;
+  }
+
+  if (page === 'board') {
+    const board = await loadGradedBoard();
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+    res.status(200).json(board);
+    return;
+  }
+
+  if (page === 'smart-money-json') {
+    const feed = await loadSmartMoney({ fill: 3 });
+    res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=120, stale-while-revalidate=300');
+    res.status(200).json(feed);
+    return;
+  }
+
+  if (page === 'smart-money') {
+    const feed = await loadSmartMoney({ fill: 3 });
+    const result = renderSmartMoneyPage(feed);
+    sendHtml(res, result.status, result.html, result.cacheControl);
+    return;
+  }
+
+  if (page === 'compare') {
+    const result = await renderComparePage(req.query || {});
+    sendHtml(res, result.status, result.html, result.cacheControl);
+    return;
+  }
+
+  if (page === 'digest') {
+    const result = renderDigestPage({ email: emailConfigured(), storage: storageMode() });
+    sendHtml(res, result.status, result.html, result.cacheControl);
+    return;
+  }
 
   if (page === 'ape-view') {
     await noteApeLookup(req, 'view');

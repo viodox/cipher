@@ -21,7 +21,7 @@ function contrast(hex, bg) {
 }
 
 test('body, secondary, and muted text clear WCAG AA on the dark surfaces', () => {
-  const index = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const index = fs.readFileSync(path.join(__dirname, '..', 'templates', 'home.html'), 'utf8');
   const chrome = fs.readFileSync(path.join(__dirname, '..', 'lib', 'chrome.js'), 'utf8');
   assert.match(index, /font-size:16\.5px;line-height:1\.6/);
   assert.match(chrome, /font-size:16\.5px;line-height:1\.6/);

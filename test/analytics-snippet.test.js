@@ -28,7 +28,7 @@ test('every static page loads the first-party analytics script', () => {
     assert.ok(html.includes(ANALYTICS_SNIPPET), file);
     assert.equal(html.includes('src="/_vercel/insights/script.js"'), false, file);
   }
-  const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const index = fs.readFileSync(path.join(ROOT, 'templates', 'home.html'), 'utf8');
   assert.match(index, /history\.replaceState = function/);
   assert.match(index, /window\.va\('pageview', \{ path: location\.pathname \}\)/);
 });

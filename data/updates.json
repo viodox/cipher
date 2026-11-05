@@ -1,6 +1,55 @@
 {
   "updates": [
     {
+      "id": "smart-money",
+      "date": "2026-11-05",
+      "title": "Smart Money Watch",
+      "summary": "A live 24h feed of public Solana and Ethereum wallets — notable addresses and named trading desks — with an Ape Check grade on each token when the chain is ETH, BSC, Base, or Solana.",
+      "href": "/smart-money"
+    },
+    {
+      "id": "graded-movers",
+      "date": "2026-11-05",
+      "title": "Graded movers",
+      "summary": "The homepage board fills Ape Check grades on trending tokens so you can open a receipt without pasting a contract. Rows that cannot be graded are left off.",
+      "href": "/"
+    },
+    {
+      "id": "post-grade",
+      "date": "2026-11-05",
+      "title": "Post this grade on X",
+      "summary": "Ape Check results have a button that opens an X post with the letter and the grade link, so the preview card can attach.",
+      "href": "/check"
+    },
+    {
+      "id": "daily-digest",
+      "date": "2026-11-05",
+      "title": "Daily digest",
+      "summary": "One email a day: five movers, a hall grade, a shame grade, Fear and Greed when it is available, and a link to Smart Money Watch. One-click unsubscribe.",
+      "href": "/digest"
+    },
+    {
+      "id": "compare",
+      "date": "2026-11-05",
+      "title": "Compare grades",
+      "summary": "Paste two contracts, optionally a third. The page puts the Ape Check receipts side by side and says which score is higher. The link is shareable.",
+      "href": "/compare"
+    },
+    {
+      "id": "faster-markets",
+      "date": "2026-11-05",
+      "title": "Faster market snapshot",
+      "summary": "The homepage can paint from a cached CoinGecko snapshot instead of waiting on five staggered requests. Refresh still replaces it with the live pages.",
+      "href": "/"
+    },
+    {
+      "id": "themes",
+      "date": "2026-11-05",
+      "title": "Four color themes",
+      "summary": "OG teal and black stays the default. Voltage, Mint, and Paper are optional and remembered in the browser.",
+      "href": "/"
+    },
+    {
       "id": "ape-check",
       "date": "2026-11-02",
       "title": "Ape Check",

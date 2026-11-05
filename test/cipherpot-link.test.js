@@ -42,7 +42,7 @@ test('an ethereum scan uses the CipherPot chain value', () => {
 });
 
 test('the cipherpot page reads chain and address on load', () => {
-  const index = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const index = fs.readFileSync(path.join(__dirname, '..', 'templates', 'home.html'), 'utf8');
   assert.match(index, /function readCipherpotParams\(/);
   assert.match(index, /function applyCipherpotDeepLink\(/);
   assert.match(index, /if\(path==='\/cipherpot'\) applyCipherpotDeepLink\(\)/);
