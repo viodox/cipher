@@ -327,6 +327,46 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   /* Prediction cards need bigger tap targets */
   #predict-body > div{padding:14px 12px!important;min-height:56px}
 }
+#advertise{scroll-margin-top:16px}
+.ad-sell{background:var(--surface);border:1px solid var(--warn);border-radius:8px;padding:1.15rem 1.2rem;margin:1.5rem 0 1rem;color:var(--text)}
+.ad-kicker{font-family:var(--font-disp);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--warn)}
+.ad-sell h2{font-family:var(--font-disp);font-size:22px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin:4px 0 8px;line-height:1.3}
+.ad-lead{font-size:16px;line-height:1.6;color:var(--text);margin:0 0 10px}
+.ad-benefits{margin:0 0 14px 1.15rem;padding:0}
+.ad-benefits li{font-size:16px;line-height:1.55;color:var(--text);margin:0 0 4px}
+.ad-packages{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0 0 14px}
+.ad-pack{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:12px 12px 14px;color:var(--text)}
+.ad-pack.featured{border-color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn)}
+.ad-pack .ad-name{font-family:var(--font-disp);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);margin-bottom:6px;line-height:1.4}
+.ad-price{font-family:var(--font-disp);font-size:26px;font-weight:700;color:var(--text);letter-spacing:.02em}
+.ad-price span{font-size:14px;letter-spacing:.08em;color:var(--text);font-weight:500}
+.ad-pack p{font-size:15px;line-height:1.5;color:var(--text);margin:8px 0 0}
+.ad-flag{display:inline-block;margin-bottom:6px;background:var(--warn);color:var(--on-warn);font-family:var(--font-disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border-radius:2px;font-weight:700}
+.ad-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ad-form label{display:flex;flex-direction:column;gap:4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}
+.ad-form input,.ad-form select,.ad-form textarea{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-mono);font-size:16px;padding:8px 10px;border-radius:4px;width:100%;text-transform:none;letter-spacing:0}
+.ad-form textarea{min-height:76px;resize:vertical}
+.ad-form input:focus,.ad-form select:focus,.ad-form textarea:focus{outline:2px solid var(--focus);outline-offset:1px}
+.ad-form .wide{grid-column:1/-1}
+.ad-submit{font-family:var(--font-disp);font-size:14px;padding:12px 16px;border-radius:4px;border:none;background:var(--warn);color:var(--on-warn);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-weight:700;min-height:44px}
+.ad-submit:hover{filter:brightness(1.08)}
+.ad-note{font-size:15px;line-height:1.55;color:var(--text);margin:8px 0 0}
+#adv-msg{display:none;font-size:16px;color:var(--text);margin-top:8px}
+.cotd-kicker{font-family:var(--font-disp);font-size:12px;color:var(--warn);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cotd-kicker a{font-family:var(--font-mono);font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--text);text-decoration:underline;text-underline-offset:2px}
+.cotd-flag{display:inline-block;background:var(--warn);color:var(--on-warn);font-family:var(--font-disp);font-size:11px;font-weight:700;letter-spacing:.14em;padding:3px 7px;border-radius:3px}
+.cotd-blurb,.cotd-lock{color:var(--text);font-size:16px;line-height:1.5;margin-top:4px}
+.cotd-btn{font-family:var(--font-disp);font-size:13px;padding:8px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--text);background:var(--bg);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.cotd-btn-primary{background:var(--warn);color:var(--on-warn);border-color:var(--warn)}
+.sponsor-row{background:var(--surface);box-shadow:inset 3px 0 0 var(--warn)}
+.sponsor-row .coin-sym{color:var(--warn)}
+.sponsor-row .coin-name-sm{color:var(--text);max-width:240px;white-space:normal}
+.sponsor-pitch{white-space:normal;font-size:15px;line-height:1.5;color:var(--text)}
+.sponsor-pitch a{color:var(--warn);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.sponsor-tag{background:var(--warn);color:var(--on-warn);border-color:var(--warn)}
+.sponsor-mark{width:24px;height:24px;border-radius:50%;background:var(--warn);color:var(--on-warn);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+#cotd-wrap.cotd-sponsored{background:var(--surface)!important;border:1px solid var(--warn)!important}
+@media(max-width:700px){.ad-form{grid-template-columns:1fr}.ad-sell h2{font-size:18px}}
 @media(max-width:600px){
   #ticker-bar{position:sticky;top:0;z-index:50;background:var(--surface);box-shadow:0 4px 12px rgba(0,0,0,.4)}
 }
@@ -373,6 +413,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <a href="/updates">what's new <span class="new-badge">new</span></a>
     <a href="/rug-radar">rug radar</a>
     <a href="#where-to-buy">where to buy</a>
+    <a href="#advertise">advertise</a>
   </nav>
   <a class="fortune-teaser" href="/cipher-fortune">
     <span class="fortune-kicker">Cipher Fortune</span>
@@ -433,7 +474,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
       <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:250px">
         <div>
-          <div style="font-family:'Orbitron',monospace;font-size:12px;color:#ffb400;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">🏆 coin of the day</div>
+          <div id="cotd-kicker" class="cotd-kicker">🏆 coin of the day <a href="#advertise">Book this spot</a></div>
           <div id="cotd-content" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <div class="spinner" style="width:14px;height:14px;border-width:2px"></div>
             <span style="font-size:16px;color:var(--muted)">selecting today's pick...</span>
@@ -589,25 +630,8 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     </div>
   </div>
 
-  <!-- CONTACT + SUGGESTIONS + ADVERTISING -->
+  <!-- SPONSOR_SELL -->
   <div style="background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem">
-    
-    <!-- TOP ROW: advertising banner -->
-    <div style="background:linear-gradient(135deg,rgba(0,255,153,.08),rgba(0,229,255,.05));border:1px solid rgba(0,255,153,.3);border-radius:6px;padding:14px 18px;margin-bottom:1.25rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
-        <div>
-          <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#00ff99;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">💰 advertise on cipher</div>
-          <div style="font-size:16px;color:#c9d4e6;line-height:1.6">Banner slots and sponsored picks for meme-coin projects. We don't publish a visitor count we can't verify.</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input id="adv-email" type="email" placeholder="your@email.com" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:160px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
-        <input id="adv-project" type="text" placeholder="project / coin name" style="background:#060810;border:1px solid rgba(0,255,153,.2);color:#e4eef8;font-family:'Share Tech Mono',monospace;font-size:16px;padding:8px 12px;border-radius:4px;outline:none;flex:1;min-width:140px;transition:border-color .2s" onfocus="this.style.borderColor='#00ff99'" onblur="this.style.borderColor='rgba(0,255,153,.2)'">
-        <button onclick="submitAdvert()" id="adv-btn" style="font-family:'Orbitron',monospace;font-size:12px;padding:9px 18px;border-radius:4px;border:1px solid rgba(0,255,153,.4);color:#00ff99;background:rgba(0,255,153,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(0,255,153,.2)'" onmouseout="this.style.background='rgba(0,255,153,.1)'">get featured ↗</button>
-      </div>
-      <span id="adv-msg" style="display:none;font-size:15px;color:#00ff99;letter-spacing:.04em;margin-top:8px">// message received — we'll be in touch ser 🔐</span>
-    </div>
-
     <!-- BOTTOM ROW: unified contact form -->
     <div>
       <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#00e5ff;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase">get in touch</div>
@@ -693,6 +717,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
       <a href="/smart-money">smart money</a>
       <a href="/cipher-fortune">cipher fortune</a>
+      <a href="#advertise">advertise</a>
       <a href="/check">ape check</a>
       <a href="/compare">compare</a>
       <a href="/hall">hall</a>
@@ -1328,12 +1353,7 @@ function renderTable(){
     <th onclick="setSort('rug')" class="${sortCol==='rug'?'sort-active':''}">rug risk ${arr('rug')}</th>
     <th onclick="setSort('sentiment')" class="${sortCol==='sentiment'?'sort-active':''}">sentiment ${arr('sentiment')}</th>
   </tr></thead><tbody>
-  <tr style="background:linear-gradient(90deg,rgba(255,180,0,.06),rgba(255,180,0,.02));border-bottom:1px solid rgba(255,180,0,.2)">
-    <td class="td-rank" style="color:#ffb400">★</td>
-    <td><div class="td-coin"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);display:flex;align-items:center;justify-content:center;font-size:13px">💰</div><div><div class="coin-sym" style="color:#ffb400">YOUR COIN</div><div class="coin-name-sm">advertise here</div></div></div></td>
-    <td colspan="7" style="font-size:15px;color:#a8b8d4;letter-spacing:.04em">🔥 Prime placement · seen by every visitor · perfect for new launches & meme coins · <a href="#" onclick="document.querySelector('#adv-email').focus();document.querySelector('.footer').scrollIntoView({behavior:'smooth'});return false;" style="color:#ffb400;text-decoration:none">get featured ↗</a></td>
-    <td><span class="ctag" style="background:rgba(255,180,0,.08);color:#ffb400;border-color:rgba(255,180,0,.25)">sponsored</span></td>
-  </tr>`;
+  ${sponsorRowHtml()}`;
   page.forEach((c,i)=>{
     const rank=start+i+1;
     const sl=sentLbl(c.sentiment),rl=rugLbl(c.rug);
@@ -1864,29 +1884,42 @@ async function submitContact(){
   }catch(e){btn.textContent='send message';btn.disabled=false;alert('connection error');}
 }
 
-// ADVERTISING
-async function submitAdvert(){
+// ADVERTISING — Forced Coin of the Day. Prices live in lib/sponsor.js (PACKAGES).
+function submitAdvert(ev){
+  if(ev&&ev.preventDefault) ev.preventDefault();
   const email=document.getElementById('adv-email').value.trim();
   const project=document.getElementById('adv-project').value.trim();
+  const packEl=document.getElementById('adv-package');
+  const packageId=packEl?packEl.value:'cotd';
+  const packageLabel=packEl&&packEl.selectedOptions&&packEl.selectedOptions[0]?packEl.selectedOptions[0].textContent.trim():packageId;
+  const ticker=document.getElementById('adv-ticker').value.trim();
+  const contractOrId=document.getElementById('adv-ref').value.trim();
+  const preferredDate=document.getElementById('adv-date').value;
+  const note=document.getElementById('adv-note').value.trim();
   const btn=document.getElementById('adv-btn');
   const msg=document.getElementById('adv-msg');
-  if(!email||!email.includes('@')){alert('enter your email first');return;}
+  if(!email||!email.includes('@')){alert('enter your email first');return false;}
+  if(!project){alert('add the project name');return false;}
+  if(!ticker){alert('add the ticker');return false;}
   btn.textContent='sending...';btn.disabled=true;
-  try{
-    const res=await fetch('https://formspree.io/f/xzdjaele',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({email,project,inquiry:'Advertising on CIPHER'})
-    });
-    const data=await res.json();
-    if(data.ok||res.ok){
+  fetch('https://formspree.io/f/xzdjaele',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({email,project,package:packageLabel,packageId,ticker,contractOrId,preferredDate,note,inquiry:'Forced Coin of the Day'})
+  }).then(res=>res.json().then(data=>({ok:res.ok||data.ok}))).then(result=>{
+    if(result.ok){
       document.getElementById('adv-email').value='';
       document.getElementById('adv-project').value='';
-      btn.textContent='get featured ↗';btn.disabled=false;
+      document.getElementById('adv-ticker').value='';
+      document.getElementById('adv-ref').value='';
+      document.getElementById('adv-date').value='';
+      document.getElementById('adv-note').value='';
+      if(packEl) packEl.value='cotd';
+      btn.textContent='Book Coin of the Day';btn.disabled=false;
       msg.style.display='block';
-      setTimeout(()=>msg.style.display='none',5000);
-    } else {btn.textContent='get featured ↗';btn.disabled=false;alert('something went wrong');}
-  }catch(e){btn.textContent='get featured ↗';btn.disabled=false;alert('connection error');}
+    } else {btn.textContent='Book Coin of the Day';btn.disabled=false;alert('something went wrong');}
+  }).catch(()=>{btn.textContent='Book Coin of the Day';btn.disabled=false;alert('connection error');});
+  return false;
 }
 async function submitSuggestion(){
   const input=document.getElementById('suggestion-input');
@@ -2295,7 +2328,133 @@ function renderTrending(){
 }
 
 // COIN OF THE DAY
+// Paid override comes from window.__CIPHER_SPONSOR__ (data/sponsored-cotd.json
+// and SPONSORED_COTD_* env, injected by the server). Organic filters stay below.
+function nyDateKey(date){
+  const d=date||new Date();
+  try{
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);
+    const get=t=>parts.find(p=>p.type===t).value;
+    return get('year')+'-'+get('month')+'-'+get('day');
+  }catch(e){
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+}
+function escHtml(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function safeSponsorHref(href,fallback){
+  const value=String(href||'').trim();
+  if(/^https:\/\//i.test(value)) return value;
+  if(value.startsWith('/')&&!value.startsWith('//')) return value;
+  return fallback||'#advertise';
+}
+function bookingForToday(){
+  const bag=window.__CIPHER_SPONSOR__;
+  if(!bag||!Array.isArray(bag.bookings)) return null;
+  const day=nyDateKey();
+  let hit=null;
+  bag.bookings.forEach(row=>{if(row&&row.date===day) hit=row;});
+  return hit;
+}
+function sponsorForNyDay(){
+  const row=bookingForToday();
+  if(!row||row.package==='banner') return null;
+  return row;
+}
+function bannerForNyDay(){
+  const row=bookingForToday();
+  if(!row||row.package!=='banner') return null;
+  return row;
+}
+function packagePrice(id,fallback){
+  const packs=(window.__CIPHER_SPONSOR__&&window.__CIPHER_SPONSOR__.packages)||[];
+  const hit=packs.find(p=>p&&p.id===id);
+  return hit&&isFinite(hit.price)?hit.price:fallback;
+}
+function findSponsorCoin(booking){
+  if(!booking) return null;
+  const pools=[allCoins];
+  if(typeof extendedCoins!=='undefined'&&extendedCoins&&extendedCoins.length) pools.push(extendedCoins);
+  const id=String(booking.id||'').toLowerCase();
+  const sym=String(booking.symbol||'').toUpperCase();
+  for(let p=0;p<pools.length;p++){
+    const list=pools[p]||[];
+    const byId=list.find(c=>String(c.id||'').toLowerCase()===id);
+    if(byId) return byId;
+    const bySym=list.find(c=>String(c.symbol||'').toUpperCase()===sym);
+    if(bySym) return bySym;
+  }
+  return null;
+}
+function sponsorLinkAttrs(href){
+  return /^https?:/i.test(href)?' target="_blank" rel="sponsored noopener"':' rel="sponsored"';
+}
+function sponsorRowHtml(){
+  const banner=bannerForNyDay();
+  if(banner){
+    const sym=escHtml(String(banner.symbol||'COIN').toUpperCase());
+    const name=escHtml(banner.name||'');
+    const blurb=escHtml(banner.blurb||'Paid scanner row for this New York day.');
+    const href=safeSponsorHref(banner.href,'#advertise');
+    const logo=banner.logo?'<img class="coin-img" src="'+escHtml(banner.logo)+'" alt="" onerror="this.style.display=\'none\'">':'<div class="sponsor-mark" aria-hidden="true">★</div>';
+    return '<tr class="sponsor-row"><td class="td-rank">★</td><td><div class="td-coin">'+logo+'<div><div class="coin-sym">'+sym+'</div><div class="coin-name-sm">'+name+'</div></div></div></td><td colspan="7" class="sponsor-pitch">'+blurb+' · <a href="'+escHtml(href)+'"'+sponsorLinkAttrs(href)+'>open</a> · <a href="#advertise">Book Coin of the Day</a></td><td><span class="ctag sponsor-tag">SPONSORED</span></td></tr>';
+  }
+  const price=packagePrice('cotd',249);
+  const combo=packagePrice('combo',399);
+  return '<tr class="sponsor-row"><td class="td-rank">★</td><td><div class="td-coin"><div class="sponsor-mark" aria-hidden="true">★</div><div><div class="coin-sym">YOUR COIN</div><div class="coin-name-sm">take over Coin of the Day</div></div></div></td><td colspan="7" class="sponsor-pitch">Forced Coin of the Day · top of this page for the whole New York day · labeled SPONSORED · optional Cipher Fortune lock · from $'+price+'/day · Fortune lock $'+combo+'/day · <a href="#advertise">Book Coin of the Day</a></td><td><span class="ctag sponsor-tag">SPONSORED</span></td></tr>';
+}
+function renderSponsoredCotd(booking, live){
+  const wrap=document.getElementById('cotd-wrap');
+  const content=document.getElementById('cotd-content');
+  const actions=document.getElementById('cotd-actions');
+  const kicker=document.getElementById('cotd-kicker');
+  if(!wrap||!content||!actions) return;
+  wrap.classList.add('cotd-sponsored');
+  wrap.style.display='block';
+  wrap.style.background='var(--surface)';
+  wrap.style.border='1px solid var(--warn)';
+  if(kicker) kicker.innerHTML='<span class="cotd-flag">SPONSORED</span> Forced Coin of the Day';
+  const coin=live||{};
+  const symbol=escHtml(String((booking.symbol||coin.symbol||'COIN')).replace(/^\$/,'').toUpperCase());
+  const name=escHtml(booking.name||coin.name||'');
+  const blurb=escHtml(booking.blurb||'Paid placement for this New York day.');
+  const imgUrl=booking.logo||coin.image||'';
+  const href=safeSponsorHref(booking.href, coin.id?'/coin/'+encodeURIComponent(coin.id):'#advertise');
+  const chg=coin.price_change_percentage_24h;
+  const hasChg=typeof chg==='number'&&isFinite(chg);
+  const chgStr=hasChg?((chg>=0?'+':'')+chg.toFixed(2)+'%'):'';
+  const chgCol=hasChg?(chg>=0?'var(--pos)':'var(--neg)'):'var(--text)';
+  const price=coin.current_price!=null?fmtPrice(coin.current_price):'';
+  const lock=booking.forceFortune?'<div class="cotd-lock">Cipher Fortune is locked to this coin today. Not a prediction.</div>':'';
+  content.innerHTML='<div style="display:flex;align-items:center;gap:10px">'
+    +(imgUrl?'<img src="'+escHtml(imgUrl)+'" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--warn)" alt="">':'')
+    +'<div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    +'<span style="font-family:var(--font-disp);font-size:18px;font-weight:900;color:var(--text);letter-spacing:.08em">$'+symbol+'</span>'
+    +'<span class="cotd-name">'+name+'</span>'
+    +(chgStr?'<span style="font-size:16px;font-weight:700;color:'+chgCol+'">'+chgStr+'</span>':'')
+    +'</div><div class="cotd-blurb">'+blurb+'</div>'
+    +(price?'<div style="display:flex;gap:12px;margin-top:4px;flex-wrap:wrap"><span style="font-size:16px;color:var(--text)">'+escHtml(price)+'</span>'
+      +(coin.market_cap?'<span style="font-size:13px;color:var(--text)">MCap: '+escHtml(fmtMcap(coin.market_cap))+'</span>':'')
+      +(coin.total_volume?'<span style="font-size:13px;color:var(--text)">Vol: '+escHtml(fmtMcap(coin.total_volume))+'</span>':'')
+      +'</div>':'')
+    +lock+'</div></div>';
+  const liveId=coin.id&&/^[a-z0-9-]+$/.test(coin.id)?coin.id:'';
+  let buttons='<a class="cotd-btn cotd-btn-primary" href="'+escHtml(href)+'"'+sponsorLinkAttrs(href)+'>open coin</a>';
+  if(liveId){
+    buttons+='<button type="button" class="cotd-btn" onclick="switchTab(\'scanner\');setTimeout(()=>selectCoin(\''+liveId+'\'),100)">view profile</button>';
+    buttons+='<button type="button" class="cotd-btn" onclick="document.getElementById(\'report-coin-select\').value=\''+liveId+'\';switchTab(\'report\');generateReport()">signal score</button>';
+  }
+  const shareText='$'+String(booking.symbol||coin.symbol||'COIN').toUpperCase()+' is Forced Coin of the Day on CipherSignal\n\n'+(href.startsWith('http')?href:(location.origin+href));
+  buttons+='<a class="cotd-btn" href="https://x.com/intent/tweet?text='+encodeURIComponent(shareText)+'" target="_blank" rel="noopener">share</a>';
+  actions.innerHTML=buttons;
+}
 function renderCoinOfTheDay(){
+  const paid=sponsorForNyDay();
+  if(paid){
+    renderSponsoredCotd(paid, findSponsorCoin(paid));
+    return;
+  }
   if(!allCoins.length) return;
   
   // If we already picked a COTD today, keep it
@@ -2367,7 +2526,14 @@ function renderRugOfTheDay(){
 }
 
 function renderCotdDisplay(coin){
-  
+  const wrap=document.getElementById('cotd-wrap');
+  if(wrap){
+    wrap.classList.remove('cotd-sponsored');
+    wrap.style.background='linear-gradient(135deg,rgba(0,229,255,.05),rgba(255,180,0,.03))';
+    wrap.style.border='1px solid rgba(0,229,255,.25)';
+  }
+  const kicker=document.getElementById('cotd-kicker');
+  if(kicker) kicker.innerHTML='🏆 coin of the day <a href="#advertise">Book this spot</a>';
   const chg=coin.price_change_percentage_24h||0;
   const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
   const chgCol=chg>=0?'#00ff99':'#ff3355';
@@ -2376,7 +2542,6 @@ function renderCotdDisplay(coin){
   const verdictCol=verdict==='SEND IT'?'#00ff99':verdict==='BULLISH'?'#00e5ff':'#ffb400';
   const hypeLabel=coin.viral>=70?'🔥 Trending':coin.viral>=40?'📈 Building':coin.viral>=20?'👀 On radar':'';
   
-  const wrap=document.getElementById('cotd-wrap');
   const content=document.getElementById('cotd-content');
   const actions=document.getElementById('cotd-actions');
   
@@ -2585,6 +2750,7 @@ loadTabFromURL();
 renderQuiz();
 updateWatchCount();
 paintAlertsNav();
+(function paintPaidCotd(){const paid=sponsorForNyDay();if(paid) renderSponsoredCotd(paid,null);})();
 Promise.all([refreshCanon(),loadCoins()]).then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();markNewCoins();renderPrediction();startSignalFeed();setTimeout(showWatchlistHint,4000);});
 setInterval(()=>{if(document.getElementById('tab-scanner').classList.contains('active'))Promise.all([refreshCanon(),loadCoins()]).then(()=>{renderTrending();renderCoinOfTheDay();renderRugOfTheDay();renderTickerBar();renderPrediction();});},600000);
 </script>

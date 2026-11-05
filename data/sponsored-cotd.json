@@ -1,0 +1,4 @@
+{
+  "_note": "To book a paid day, add an object to bookings or set the SPONSORED_COTD_* env vars, then redeploy. Leads come from the homepage form (#advertise, Formspree). TODO: Stripe Checkout later if card payment should happen on the site — fold it into api/site.js or api/alerts.js. Do not add a fifth serverless function.",
+  "bookings": []
+}
