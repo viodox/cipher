@@ -124,6 +124,9 @@ function isUnlisted(coin) {
 }
 
 function spotlightOk(coin, canon) {
+  // Scanner can show a listed coin at $100 of volume. Spotlight (coin of the
+  // day, rekt, ticker, prediction) still requires the floors below, and it
+  // never takes an unlisted DEX row.
   if (!coin || isUnlisted(coin) || isImpostor(coin, canon)) return false;
   if (hexBlobSymbol(coin.symbol || coin.sym)) return false;
   const sym = normalizeSymbol(coin.symbol || coin.sym);

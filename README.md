@@ -117,20 +117,21 @@ A browser navigation is not counted until the page script runs, so a cached HTML
 
 ### CoinGecko call budget
 
-Demo plan limits used here: about **30 calls/minute** and **10,000 calls/month**. A 5-minute cache on five market pages would be `5 × 12 × 24 × 30 = 43,200` calls/month if the site is requested all month, which blows the cap. The cache is therefore longer:
+Demo plan limits used here: **100 calls/minute** and **10,000 calls/month**. A 5-minute cache on five market pages would be `5 × 12 × 24 × 30 = 43,200` calls/month if the site is requested all month, which blows the cap. The cache is therefore longer:
 
 | Call | Cache | Steady-state calls/month |
 | --- | --- | --- |
-| 5 meme-market pages (250 each; the meme-token category currently fills 4 pages, about 1,000 coins, and the scanner keeps those with 24h volume over $500) | 60 min | 5 × 24 × 30 = **3,600** |
+| Meme-market page 1 (250 names, keep 24h volume of at least $100) | 60 min | **720** |
+| Extra meme pages. Cold start fetches 4 pages (2–5, the old scanner window). After that, one page every 30 min until volume falls below $100 or page 16, then hold 10 hours. Not all ~27 category pages, and not every hour. | 10 h hold, 12 h Upstash | a full walk to page 16 is about **700**/month; a short walk is a few hundred |
 | Trending | 60 min | **720** |
 | Top-100 names for the impostor filter | 6 hours | **120** |
 | Coin pages, assume 15 hot ids watched continuously | 30 min | 15 × 48 × 30 = **1,800** if they are hit every window; quiet coins add nothing |
 | 7-day charts, assume 10 hot ids | 60 min | **720** |
 | Alert check, one `simple/price` batch per day | 10 min server cache, but the cron is daily | **30** |
 | Optional 15-minute external pinger | one batch per run | 96 × 30 = **2,880** extra — still under the cap if coin-page traffic is the quiet case |
-| **Default total (no extra pinger)** | | **about 7,000**, leaving roughly 3,000 calls of headroom |
+| **Default total (no extra pinger)** | | **about 5,500** at the page-16 cap, leaving more than 4,000 calls of headroom |
 
-The browser staggers the five market pages by 1.5 seconds so a cold start stays under 30 calls/minute. Scanner, coin-of-the-day, rekt, prediction, ticker, and Top Movers drop coins whose name or ticker copies a top-100 coin unless the CoinGecko id is the real one, and they require at least $500k market cap and $50k of 24h volume. Markets responses do not include a separate liquidity figure, so 24h volume is the tradability check. Unlisted DEX rows never enter those spotlight surfaces.
+The homepage no longer asks the browser for five market pages. `/api/boot` serves page 1 plus the slow tail, and the HTML document only embeds page 1 plus a short on-chain preview. Scanner, coin-of-the-day, rekt, prediction, ticker, and Top Movers drop coins whose name or ticker copies a top-100 coin unless the CoinGecko id is the real one, and they require at least $500k market cap and $50k of 24h volume. A listed name at $100 of volume can appear in the scanner and still miss those slots. Markets responses do not include a separate liquidity figure, so 24h volume is the tradability check. Unlisted DEX rows never enter those spotlight surfaces.
 
 ### DEX discovery (free, not CoinGecko Demo)
 
@@ -138,11 +139,13 @@ Homepage boot and `/api/boot` attach a cached on-chain universe. It does **not**
 
 | Feed | Calls per refresh | Cache |
 | --- | --- | --- |
-| GeckoTerminal public `new_pools` + `trending_pools` for `solana`, `base`, `bsc`, `eth` (page 1, `include=base_token`) | 8 | 12 min memory, 6 h stale in Upstash |
-| DexScreener boosts latest, boosts top, profiles latest | 3 | same snapshot |
-| DexScreener `tokens/v1` only for boosts/profiles still missing a price | up to 4 | same snapshot |
+| GeckoTerminal public pools. Four of the eight page-1 `new_pools` / `trending_pools` jobs for `solana`, `base`, `bsc`, `eth`, plus one rotating extra (page 2, or Arbitrum) | 5 | merged into `cipher:dex:v1` |
+| DexScreener boosts latest, boosts top, profiles latest | 3 | same archive |
+| DexScreener `tokens/v1` only for boosts/profiles still missing a price | up to 4, inside the 7s budget | same archive |
 
-A 429 sets a 10 minute backoff and the last good snapshot is served. Movers and Rug Radar read that cache only, so they do not start a second burst. CoinGecko movers also request meme-market page 2, which stays on the existing 60 minute market cache.
+Each refresh merges new rows into the Upstash archive. It does not replace the archive. A row stays when it has at least $100 of 24h volume or $1,000 of liquidity. A boost or profile needs a real ticker and that same floor. A row drops when it has not been seen for about 2–3 days, or its last volume and liquidity have stayed under the floor that long. The key is kept for 3 days so a quiet stretch does not wipe the archive before that expiry runs. Memory still refreshes about every 12 minutes. A 429 sets a 10 minute backoff and the last good archive is served.
+
+The HTML boot document embeds page 1 and at most 24 on-chain rows. Search and the header count use `/api/boot`, which returns the merged list. Movers and Rug Radar read the cache only, so they do not start a second burst. Rug Radar still runs GoPlus on the short boost/profile list, not on every archived row. CoinGecko movers also request meme-market page 2, which now sits on the 10 hour proxy cache.
 
 No new paid services. Scan pages and OG images still cache about 60 seconds. Rug Radar caches about 120 seconds.
 

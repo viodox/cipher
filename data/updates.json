@@ -1,6 +1,13 @@
 {
   "updates": [
     {
+      "id": "wider-universe",
+      "date": "2026-11-05",
+      "title": "More traded tokens",
+      "summary": "The scanner keeps CoinGecko meme coins with at least $100 of 24h volume and grows an on-chain archive of pools with $100 volume or $1,000 liquidity. Zero-volume names stay off. Quiet pools drop after about 2–3 days. Coin of the Day still uses the larger listed names. Not financial advice.",
+      "href": "/"
+    },
+    {
       "id": "dex-universe",
       "date": "2026-11-05",
       "title": "On-chain universe",

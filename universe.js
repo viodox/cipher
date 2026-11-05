@@ -20,8 +20,15 @@ const QUOTES = {
   BNB: 1, WBNB: 1, DAI: 1, BUSD: 1, WBTC: 1,
 };
 
-const DEX_FEEDS = { boosts_latest: 1, boosts_top: 1, profiles_latest: 1 };
-const MAX_DEX = 240;
+const LISTED_MIN_VOLUME = 100;
+const DEX_MIN_VOLUME = 100;
+const DEX_MIN_RESERVE = 1000;
+// About 2.5 days. A pool that is not seen again, or whose last volume and
+// liquidity stay under the floor, leaves the archive inside a 2–3 day window.
+const ARCHIVE_QUIET_MS = 60 * 60 * 60 * 1000;
+const ARCHIVE_MAX = 2000;
+const HTML_DEX_PREVIEW = 24;
+const MAX_DEX = ARCHIVE_MAX;
 
 function chainInfo(network) {
   return CHAINS[String(network || '').toLowerCase()] || null;
@@ -236,15 +243,56 @@ function dedupeRows(rows) {
   return [...best.values()];
 }
 
+function listedVolumeOk(coin) {
+  const volume = Number(coin && coin.total_volume);
+  return Number.isFinite(volume) && volume >= LISTED_MIN_VOLUME;
+}
+
+function meetsDexFloor(row) {
+  const volume = Number(row && row.total_volume);
+  const reserve = Number(row && row.reserve_usd);
+  if (Number.isFinite(volume) && volume >= DEX_MIN_VOLUME) return true;
+  if (Number.isFinite(reserve) && reserve >= DEX_MIN_RESERVE) return true;
+  return false;
+}
+
 function acceptDexRow(row) {
   if (!row || !row.symbol || !row.chain || !row.address || !row.id) return false;
+  if (String(row.symbol).length < 2) return false;
   if (QUOTES[String(row.symbol).toUpperCase()]) return false;
-  if (DEX_FEEDS[row.feed]) return true;
-  const volume = Number(row.total_volume);
-  const reserve = Number(row.reserve_usd);
-  if (Number.isFinite(volume) && volume >= 100) return true;
-  if (Number.isFinite(reserve) && reserve >= 1000) return true;
-  return false;
+  // Boosts and profiles need a real ticker and the same floor. A ticker alone
+  // is not trading.
+  return meetsDexFloor(row);
+}
+
+function judgeListedPage(raw) {
+  const rows = Array.isArray(raw) ? raw : [];
+  let min = null;
+  rows.forEach((coin) => {
+    const volume = Number(coin && coin.total_volume);
+    if (!Number.isFinite(volume)) return;
+    if (min == null || volume < min) min = volume;
+  });
+  const stop = !rows.length || rows.length < 250 || (min != null && min < LISTED_MIN_VOLUME);
+  return { stop: stop, minVolume: min, count: rows.length };
+}
+
+function slimListedCoin(coin) {
+  if (!coin || !coin.id || isDexRow(coin)) return null;
+  if (!listedVolumeOk(coin)) return null;
+  const volume = Number(coin.total_volume);
+  return {
+    id: String(coin.id),
+    symbol: coin.symbol || '',
+    name: coin.name || '',
+    image: coin.image || '',
+    current_price: Number.isFinite(Number(coin.current_price)) ? Number(coin.current_price) : null,
+    market_cap: Number.isFinite(Number(coin.market_cap)) ? Number(coin.market_cap) : 0,
+    total_volume: volume,
+    price_change_percentage_24h: Number.isFinite(Number(coin.price_change_percentage_24h)) ? Number(coin.price_change_percentage_24h) : null,
+    price_change_percentage_7d_in_currency: Number.isFinite(Number(coin.price_change_percentage_7d_in_currency)) ? Number(coin.price_change_percentage_7d_in_currency) : null,
+    market_cap_rank: coin.market_cap_rank || null,
+  };
 }
 
 function capRows(rows, limit) {
@@ -277,7 +325,95 @@ function capRows(rows, limit) {
 }
 
 function finalizeDexList(rows, limit) {
-  return capRows(dedupeRows(rows).filter(acceptDexRow), limit || MAX_DEX);
+  const accepted = dedupeRows(rows).filter(acceptDexRow);
+  if (!limit) return accepted;
+  return capRows(accepted, limit);
+}
+
+function cloneDexRow(row) {
+  return {
+    id: row.id,
+    cgId: row.cgId || null,
+    listed: false,
+    source: row.source,
+    feed: row.feed || '',
+    symbol: row.symbol,
+    name: row.name,
+    image: row.image || '',
+    chain: row.chain,
+    chainName: row.chainName,
+    address: row.address,
+    checkPath: row.checkPath,
+    current_price: row.current_price,
+    market_cap: row.market_cap || 0,
+    total_volume: row.total_volume,
+    price_change_percentage_24h: row.price_change_percentage_24h,
+    price_change_percentage_7d_in_currency: null,
+    market_cap_rank: null,
+    reserve_usd: row.reserve_usd,
+    seenAt: row.seenAt || null,
+    firstSeen: row.firstSeen || null,
+    quietSince: row.quietSince || null,
+  };
+}
+
+function fillGap(next, prev, field) {
+  const value = next[field];
+  if (value == null || value === '') next[field] = prev[field];
+}
+
+function mergeArchive(previous, incoming, now, opts) {
+  const options = opts || {};
+  const quietMs = options.quietMs || ARCHIVE_QUIET_MS;
+  const max = options.max || ARCHIVE_MAX;
+  const stamp = Number(now) || Date.now();
+  const map = new Map();
+  (Array.isArray(previous) ? previous : []).forEach((row) => {
+    if (!row || !row.chain || !row.address || !row.id) return;
+    const copy = cloneDexRow(row);
+    if (!copy.seenAt) copy.seenAt = stamp;
+    if (!copy.firstSeen) copy.firstSeen = copy.seenAt;
+    if (!meetsDexFloor(copy) && !copy.quietSince) copy.quietSince = stamp;
+    map.set(addressKey(copy), copy);
+  });
+  dedupeRows(incoming).forEach((row) => {
+    if (!row || !row.symbol || !row.chain || !row.address || !row.id) return;
+    if (QUOTES[String(row.symbol).toUpperCase()]) return;
+    const key = addressKey(row);
+    const prev = map.get(key);
+    const meets = meetsDexFloor(row);
+    if (!meets && !prev) return;
+    const next = cloneDexRow(row);
+    if (prev) {
+      fillGap(next, prev, 'image');
+      fillGap(next, prev, 'name');
+      fillGap(next, prev, 'symbol');
+      if (!(next.current_price > 0) && prev.current_price) next.current_price = prev.current_price;
+      if (next.total_volume == null && prev.total_volume != null) next.total_volume = prev.total_volume;
+      if (!(next.reserve_usd > 0) && prev.reserve_usd) next.reserve_usd = prev.reserve_usd;
+      if (!(next.market_cap > 0) && prev.market_cap) next.market_cap = prev.market_cap;
+      next.firstSeen = prev.firstSeen || stamp;
+    } else {
+      next.firstSeen = stamp;
+    }
+    next.seenAt = stamp;
+    next.quietSince = meets ? null : ((prev && prev.quietSince) || stamp);
+    map.set(key, next);
+  });
+  const kept = [];
+  map.forEach((row) => {
+    const seenAt = Number(row.seenAt) || 0;
+    if (!seenAt || stamp - seenAt >= quietMs) return;
+    if (row.quietSince && stamp - Number(row.quietSince) >= quietMs) return;
+    kept.push(row);
+  });
+  kept.sort((a, b) => (Number(b.total_volume) || 0) - (Number(a.total_volume) || 0) || (Number(b.seenAt) || 0) - (Number(a.seenAt) || 0));
+  const rows = kept.slice(0, max);
+  return {
+    rows: rows,
+    visible: rows.filter(meetsDexFloor),
+    held: rows.filter((row) => !meetsDexFloor(row)),
+  };
 }
 
 function tagCoinGecko(coin) {
@@ -329,6 +465,12 @@ function summarize(rows) {
 
 const api = {
   MAX_DEX,
+  LISTED_MIN_VOLUME,
+  DEX_MIN_VOLUME,
+  DEX_MIN_RESERVE,
+  ARCHIVE_QUIET_MS,
+  ARCHIVE_MAX,
+  HTML_DEX_PREVIEW,
   chainInfo,
   isDexRow,
   dexId,
@@ -338,8 +480,13 @@ const api = {
   normalizeDexList,
   applyDexPair,
   dedupeRows,
+  listedVolumeOk,
+  meetsDexFloor,
   acceptDexRow,
+  judgeListedPage,
+  slimListedCoin,
   finalizeDexList,
+  mergeArchive,
   mergeUniverse,
   summarize,
   canonicalAddress,

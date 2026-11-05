@@ -8,7 +8,7 @@ const { renderCoinPage } = require('../lib/coin');
 const { loadCanon } = require('../lib/canon');
 const { renderApeRoute } = require('../lib/ape-page');
 const { noteApeLookup } = require('../lib/ape-traffic');
-const { loadBootBounded, renderHomeHtml } = require('../lib/boot');
+const { loadBootBounded, renderHomeHtml, publicBoot } = require('../lib/boot');
 const { loadSmartMoney, renderSmartMoneyPage } = require('../lib/smart-money');
 const { loadFortuneBounded, renderFortunePage, cookieReveals } = require('../lib/fortune');
 const { loadGradedBoard } = require('../lib/board');
@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
 
   if (page === 'boot') {
     const { loadBoot } = require('../lib/boot');
-    const boot = await loadBoot({ refreshDex: true });
+    const boot = publicBoot(await loadBoot({ refreshDex: true }));
     res.setHeader('Cache-Control', boot && boot.coins && boot.coins.length ? 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' : 'no-store');
     res.status(200).json(boot || { ok: false, coins: [], board: [] });
     return;

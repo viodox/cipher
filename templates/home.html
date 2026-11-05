@@ -524,7 +524,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <!-- SCANNER -->
   <div id="tab-scanner" class="tab-panel active">
     <div class="controls">
-      <input class="search-input" type="text" id="search" placeholder="search coin..." oninput="applyFilters()">
+      <input class="search-input" type="text" id="search" placeholder="search symbol, name, or contract" oninput="applyFilters()">
       <button class="filter-btn active" id="f-all" onclick="setFilter('all')">all</button>
       <button class="filter-btn" id="f-bullish" onclick="setFilter('bullish')">bullish</button>
       <button class="filter-btn" id="f-bearish" onclick="setFilter('bearish')">bearish</button>
@@ -535,7 +535,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <button class="scan-btn" onclick="loadCoins()">↻ refresh</button>
     </div>
     <div id="data-updated" style="font-size:15px;color:var(--muted);margin:-4px 0 10px;letter-spacing:.03em">market data: waiting for CoinGecko…</div>
-    <div id="universe-note" style="font-size:15px;color:#c9d4e6;margin:-4px 0 10px;line-height:1.5">CoinGecko meme markets (24h volume over $500) plus live GeckoTerminal new and trending pools on Solana, Base, BSC, and Ethereum, and DexScreener boosts and profiles. Fresh on-chain is the filter for contracts CoinGecko has not listed. Coin of the Day stays on listed names. Not financial advice.</div>
+    <div id="universe-note" style="font-size:16.5px;color:#e4eef8;margin:-4px 0 10px;line-height:1.6">Volume rules: no $0-volume dust. CoinGecko memes need at least $100 traded in 24h, highest volume first. On-chain pools need $100 of volume or $1,000 of liquidity, and a quiet pool drops after about 2–3 days. Fresh on-chain is that archive. Coin of the Day, rekt, and the ticker stay on larger listed names. Not financial advice.</div>
     <div id="scanner-body"><div class="loading"><div class="spinner"></div>loading CoinGecko meme markets and live DEX pools…</div></div>
     <div id="detail-area"></div>
   </div>
@@ -637,7 +637,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
-          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Tracks CoinGecko meme-token markets (24h volume over $500) and adds live on-chain pools from GeckoTerminal and DexScreener, including tokens CoinGecko has not listed. The header shows the live count and the split.</span>
+          <span style="font-size:16px;color:#c9d4e6;line-height:1.6">Tracks CoinGecko meme coins with at least $100 of 24h volume, highest first, and a growing on-chain archive from GeckoTerminal and DexScreener. A pool needs $100 of volume or $1,000 of liquidity. Zero-volume names stay off. The header count is the live split after that merge.</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:10px">
           <span style="color:#00ff99;font-size:15px;margin-top:2px;flex-shrink:0">▸</span>
@@ -694,14 +694,14 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 
   <section class="scores" id="how-scores">
     <h2>how scores work</h2>
-    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> meme markets and from <strong>GeckoTerminal</strong> and <strong>DexScreener</strong> pool data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is the last refresh: CoinGecko rows with 24h volume over $500, plus on-chain pools that cleared a small liquidity floor. Each on-chain row is labeled with its source.</p>
+    <p>Scanner numbers are computed in your browser from <strong>CoinGecko</strong> meme markets and from <strong>GeckoTerminal</strong> and <strong>DexScreener</strong> pool data. They are not an AI model, not a smart-contract audit, and not a promise about what happens next. The header count is the live split: CoinGecko rows with at least $100 of 24h volume, plus on-chain rows with at least $100 of volume or $1,000 of liquidity. $0 volume is left off. A pool that is not seen again, or that stays under that floor, drops after about 2–3 days. Each on-chain row is labeled with its source.</p>
     <ul>
       <li><strong>Hype (viral):</strong> volume relative to market cap, the size of the 24h move, whether CoinGecko currently lists the coin as trending, absolute volume, and a small boost when a tiny cap is trading more than its size. A ±3 daily jitter keeps identical inputs from stacking.</li>
       <li><strong>Mood (sentiment):</strong> starts at 50 and moves with the 24h price change. Very low volume pulls it back toward neutral. High volume relative to market cap amplifies the move.</li>
       <li><strong>Risk level:</strong> a market-structure guess. Smaller market caps, violent 24h moves, and dead volume raise it. Large caps and healthy volume lower it. It does <strong>not</strong> read the contract. Use CipherPot for that.</li>
       <li><strong>Signal Score:</strong> the same three numbers, written out as SEND IT / WAIT / NGMI, plus a line of color. No model is called.</li>
       <li><strong>CipherPot:</strong> <strong>honeypot.is</strong> on Ethereum, BSC, and Base (honeypot simulation, taxes, liquidity, holders); <strong>RugCheck</strong> on Solana; <strong>GoPlus</strong> token security on both (mintable, proxy, blacklist function, owner privileges, holder concentration). DexScreener supplies extra liquidity when the other sources don't.</li>
-      <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. A short fresh-pool list from the same cached DEX feed is labeled separately and is not a GoPlus pass. Cached about two minutes on the server. Open a row for the full scan.</li>
+      <li><strong>Rug Radar:</strong> DexScreener's free boosted and latest-profile lists, then one GoPlus batch per chain. A short fresh list from the on-chain archive is labeled separately and is not a GoPlus pass. The archive itself is not sent through GoPlus. Cached about two minutes on the server. Open a row for the full scan.</li>
       <li><strong>Top Movers:</strong> a separate page at <a href="/movers">/movers</a> ranks 24h gainers, losers, and volume relative to market cap from CoinGecko meme pages 1–2. Fresh on-chain names, when the DEX cache is warm, sit in their own section and link to Ape Check. Listed names link to a coin page such as <a href="/coin/dogecoin">/coin/dogecoin</a>.</li>
       <li><strong>On-chain stocks:</strong> CoinGecko's Robinhood Chain stocks category. Those tokens are debt securities and are not offered to US persons. That is separate from the Robinhood brokerage link under where to buy.</li>
     </ul>
@@ -775,7 +775,7 @@ function copyAddrHtml(address, label, full){
   const name=escHtml(label||'Copy address');
   return '<span class="ca'+(full?' ca-open':'')+'"><span class="ca-text" data-address="'+safe+'" title="'+safe+'">'+safe+'</span><button type="button" class="ca-copy" data-copy-address="'+safe+'" aria-label="'+name+'">Copy</button></span>';
 }
-const MARKET_PAGES=5;
+const LISTED_MIN_VOLUME=window.CipherUniverse&&CipherUniverse.LISTED_MIN_VOLUME||100;
 let canon=window.CipherQuality?CipherQuality.staticCanon():{symbols:{},names:{},ids:{}};
 function spotlightOk(c){return window.CipherQuality?CipherQuality.spotlightOk(c,canon):false;}
 function refreshCanon(){
@@ -906,11 +906,9 @@ function fmtSigned(v,digits){
   return {text:(n>=0?'+':'')+n.toFixed(digits),pos:n>=0};
 }
 let dexRows=[];
-let dexAt=0;
 function rememberDex(list){
   if(!Array.isArray(list)||!list.length) return;
   dexRows=list;
-  dexAt=Date.now();
 }
 function coinOption(c){
   const sym=escHtml(String(c.symbol||'').toUpperCase());
@@ -927,25 +925,6 @@ function paintCount(){
 function composeUniverse(cgCoins){
   const merged=window.CipherUniverse?CipherUniverse.mergeUniverse(cgCoins,dexRows):(cgCoins||[]);
   return merged.map(enrich);
-}
-async function ensureDex(){
-  const boot=window.__CIPHER_BOOT__;
-  if(!dexRows.length&&boot&&Array.isArray(boot.dex)&&boot.dex.length){
-    dexRows=boot.dex;
-    dexAt=Date.now();
-  }
-  if(dexRows.length&&Date.now()-dexAt<8*60*1000) return dexRows;
-  try{
-    const res=await fetch('/api/boot');
-    if(res.ok){
-      const data=await res.json();
-      if(data&&Array.isArray(data.dex)){
-        dexRows=data.dex;
-        dexAt=Date.now();
-      }
-    }
-  }catch(e){}
-  return dexRows;
 }
 function stampUpdated(){
   dataUpdatedAt=new Date();
@@ -1244,12 +1223,13 @@ function updateWatchCount(){
 }
 
 // FETCH
-function marketUrl(p){
-  return '/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page='+p+'&sparkline=false&price_change_percentage=24h%2C7d';
+function listedTradable(c){
+  const volume=Number(c&&c.total_volume);
+  return !!(c&&c.id&&!isDexCoin(c)&&Number.isFinite(volume)&&volume>=LISTED_MIN_VOLUME);
 }
 function paintMarket(coins){
   const seen=new Set();
-  const raw=(coins||[]).filter(c=>c&&c.id&&!isDexCoin(c)&&!seen.has(c.id)&&seen.add(c.id)&&((c.total_volume||0)>500||c.total_volume==null));
+  const raw=(coins||[]).filter(c=>listedTradable(c)&&!seen.has(c.id)&&seen.add(c.id));
   if(!raw.length&&!dexRows.length) return false;
   allCoins=composeUniverse(raw);
   const sel=document.getElementById('report-coin-select');
@@ -1292,22 +1272,6 @@ async function loadCoins(){
     paintMarket(boot.coins);
     document.getElementById('status-text').textContent='cached snapshot';
     if(boot.board) renderGradedBoard(boot.board);
-  } else if(!allCoins.length){
-    try{
-      const res=await fetch('/api/boot');
-      if(res.ok){
-        const data=await res.json();
-        if(data&&Array.isArray(data.coins)&&data.coins.length){
-          window.__CIPHER_BOOT__=data;
-          if(Array.isArray(data.dex)) rememberDex(data.dex);
-          paintMarket(data.coins);
-          const el=document.getElementById('data-updated');
-          if(el&&data.updatedAt) el.textContent='market data: cached snapshot '+String(data.updatedAt).replace('T',' ').slice(0,19)+' UTC · refreshing';
-          document.getElementById('status-text').textContent='cached snapshot';
-          if(data.board) renderGradedBoard(data.board);
-        }
-      }
-    }catch(e){}
   }
   if(!allCoins.length){
     document.getElementById('scanner-body').innerHTML='<div class="loading"><div class="spinner"></div>loading CoinGecko meme markets and live DEX pools…</div>';
@@ -1321,24 +1285,19 @@ async function loadCoins(){
   refreshGradedBoard();
   try{
     const trendingPromise=fetchTrending();
-    const dexPromise=ensureDex();
-    const firstRes=await fetch(marketUrl(1));
-    const first=firstRes.ok?await firstRes.json():[];
-    if(Array.isArray(first)&&first.length) paintMarket(first);
-    const rest=await Promise.all([2,3,4,5].map(function(p){
-      return fetch(marketUrl(p)).then(function(r){return r.ok?r.json():[];}).catch(function(){return [];});
-    }));
+    const res=await fetch('/api/boot');
+    const data=res.ok?await res.json():null;
     await trendingPromise;
-    await dexPromise;
+    if(data&&Array.isArray(data.dex)) rememberDex(data.dex);
     const seen=new Set();
-    const raw=[].concat(first, rest.flat()).filter(c=>c&&c.id&&!isDexCoin(c)&&!seen.has(c.id)&&seen.add(c.id)&&c.total_volume>500);
+    const raw=(data&&Array.isArray(data.coins)?data.coins:[]).filter(c=>listedTradable(c)&&!seen.has(c.id)&&seen.add(c.id));
     if(!raw.length&&!dexRows.length){
       if(allCoins.length){ document.getElementById('status-text').textContent='showing saved snapshot'; return; }
       throw new Error('empty');
     }
     allCoins=composeUniverse(raw);
     const sel=document.getElementById('report-coin-select');
-    sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(coinOption).join('');
+    if(sel) sel.innerHTML='<option value="">— select coin —</option>'+allCoins.map(coinOption).join('');
     document.getElementById('status-text').textContent='live scan active';
     paintCount();
     stampUpdated();
@@ -1353,33 +1312,7 @@ async function loadCoins(){
   }
 }
 
-// EXTENDED COINS FOR AI DECRYPT (loads pages 3-4 in background = coins 501-1000)
 let extendedCoins=[];
-async function loadExtendedCoins(){
-  try{
-    const pages=[];
-    for(let p=3;p<=4;p++){
-      pages.push(fetch(`/api/coingecko/coins/markets?vs_currency=usd&category=meme-token&order=volume_desc&per_page=250&page=${p}&sparkline=false`).then(r=>r.ok?r.json():[]));
-    }
-    // Small delay between the two calls to be gentle on rate limits
-    const results=[];
-    for(let i=0;i<pages.length;i++){
-      results.push(await pages[i]);
-      if(i<pages.length-1) await new Promise(r=>setTimeout(r,2000));
-    }
-    const existingIds=new Set(allCoins.map(c=>c.id));
-    const extra=results.flat().filter(c=>c&&c.id&&!existingIds.has(c.id)&&c.total_volume>100);
-    extendedCoins=extra.map(enrich);
-    // Update Signal Score dropdown with all coins
-    const sel=document.getElementById('report-coin-select');
-    const allForSelect=[...allCoins,...extendedCoins].sort((a,b)=>String(a.symbol||'').localeCompare(String(b.symbol||'')));
-    sel.innerHTML='<option value="">— select coin —</option>'+allForSelect.map(coinOption).join('');
-    console.log('Signal Score list: '+allForSelect.length+' coins ('+allCoins.length+' scanner + '+extendedCoins.length+' extended)');
-  }catch(e){
-    console.log('Extended coin fetch skipped:',e.message);
-  }
-}
-
 function findCoin(id){
   return allCoins.find(x=>x.id===id)||extendedCoins.find(x=>x.id===id);
 }
@@ -1458,13 +1391,14 @@ function renderTable(){
     const newBadge=c.isNew?'<span style="font-size:12px;font-family:var(--font-disp);color:#ffb400;border:1px solid rgba(255,180,0,.4);padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">NEW</span>':'';
     const srcBadge=dex?'<span style="font-size:12px;font-family:var(--font-disp);color:#e4eef8;border:1px solid #a8b8d4;padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.06em">'+escHtml(sourceLabel(c)==='GeckoTerminal'?'GT':'DEX')+' · '+escHtml(c.chainName||c.chain||'')+'</span>':'';
     const img=c.image?`<img class="coin-img" src="${escHtml(c.image)}" alt="${escHtml(c.symbol)}" onerror="this.style.display='none'">`:'';
+    const addrChip=c.address?copyAddrHtml(c.address,'Copy contract address'):'';
     const starred=watchlist.has(c.id);
     const gradeHref=dex?(c.checkPath||('/check/'+c.chain+'/'+c.address)):('/check?coin='+encodeURIComponent(c.id));
     const safeId=String(c.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     h+=`<tr onclick="selectCoin('${safeId}')" class="${selectedCoin===c.id?'selected':''}">
       <td style="width:26px;text-align:center"><span onclick="event.stopPropagation();toggleWatch('${safeId}')" style="cursor:pointer;font-size:16px;opacity:${starred?'1':'.55'};transition:opacity .15s,transform .15s" onmouseover="this.style.opacity='1';this.style.transform='scale(1.25)'" onmouseout="this.style.opacity='${starred?'1':'.55'}';this.style.transform=''" title="${starred?'remove from':'add to'} watchlist">${starred?'⭐':'☆'}</span></td>
       <td class="td-rank">${rank}</td>
-      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${escHtml(String(c.symbol||'').toUpperCase())}${newBadge}${srcBadge}</div><div class="coin-name-sm">${escHtml(c.name||'')} · <a href="${escHtml(gradeHref)}" onclick="event.stopPropagation()" style="color:#00e5ff;text-decoration:none">grade it</a></div></div></div></td>
+      <td><div class="td-coin">${img}<div><div class="coin-sym" style="color:var(--accent);cursor:pointer">${escHtml(String(c.symbol||'').toUpperCase())}${newBadge}${srcBadge}</div><div class="coin-name-sm">${escHtml(c.name||'')} · <a href="${escHtml(gradeHref)}" onclick="event.stopPropagation()" style="color:#00e5ff;text-decoration:none">grade it</a></div>${addrChip}</div></div></td>
       <td><span class="${chgCls}" style="font-size:15px;font-weight:700">${chgStr}</span></td>
       <td><span class="${chg7Info?(chg7Info.pos?'pos':'neg'):''}" style="font-size:15px;font-weight:700">${chg7Str}</span></td>
       <td class="td-mcap">${fmtMcap(c.market_cap)}</td>
@@ -2859,7 +2793,7 @@ async function loadRadar(){
       const change=fmtSigned(row.change24h,1);
       const changeText=change?change.text+'%':'—';
       const source=row.source==='geckoterminal'?'GeckoTerminal':'DexScreener';
-      return '<tr><td><span class="ctag" style="color:#e4eef8;border-color:#a8b8d4">FRESH</span></td><td><div class="coin-sym">'+escHtml(row.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(row.name||'').slice(0,48))+'</div></td><td>'+escHtml(row.chainName||row.chain||'')+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+escHtml(source)+' pool · '+escHtml(changeText)+' · not a GoPlus check</td><td><a href="'+escHtml(row.checkPath||'')+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
+      return '<tr><td><span class="ctag" style="color:#e4eef8;border-color:#a8b8d4">FRESH</span></td><td><div class="coin-sym">'+escHtml(row.symbol)+'</div><div class="coin-name-sm">'+escHtml(String(row.name||'').slice(0,48))+'</div>'+copyAddrHtml(row.address,'Copy contract address')+'</td><td>'+escHtml(row.chainName||row.chain||'')+'</td><td style="white-space:normal;font-size:16px;color:#c9d4e6">'+escHtml(source)+' pool · '+escHtml(changeText)+' · not a GoPlus check</td><td><a href="'+escHtml(row.checkPath||'')+'" style="color:#00e5ff;text-decoration:none">grade it</a></td></tr>';
     }).join('');
     const freshBlock=fresh?'<div style="font-size:15px;color:#c9d4e6;margin:0 0 8px;line-height:1.5">Fresh on-chain pools from the cached feed. These rows are not a security check.</div><div class="table-wrap" style="margin-bottom:14px"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+fresh+'</tbody></table></div>':'';
     body.innerHTML=freshBlock+'<div class="table-wrap"><table><thead><tr><th>stamp</th><th>token</th><th>chain</th><th>why</th><th>grade</th></tr></thead><tbody>'+data.items.map(item=>{
