@@ -309,7 +309,7 @@ function tpl18(coins) {
   const shouts = [
     `Drop your best meme coin play this week\n\nMost liked reply gets a CIPHER shoutout 🔐\n\n$${top.symbol} is leading the board at ${fC(top.change24h)}\n\n${CONFIG.SITE_URL}`,
     `What $ticker are you most bullish on rn?\n\nWe\'ll scan the top reply on CipherPot live 🍯\n\n${CONFIG.SITE_URL}`,
-    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\nUp to 500 meme coins tracked\n\n${CONFIG.SITE_URL}`,
+    `Reply with a $ticker and we\'ll tell you what CIPHER sees 👀\n\nListed memes with real volume, plus on-chain pools that are actually trading\n\n${CONFIG.SITE_URL}`,
     `RT if you\'ve dodged a rug pull by scanning the contract first 🫡\n\nIf you haven\'t started:\n🍯 ${CONFIG.SITE_URL}`,
   ];
   return `🔐 ${pick(shouts)}`;

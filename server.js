@@ -16,7 +16,7 @@ const { loadCoin, renderCoinPage } = require('./lib/coin');
 const { updatesPayload, renderUpdatesPage } = require('./lib/updates');
 const { handleAlertHttp, handleRun, handleUnsubscribe, renderAlertsPage } = require('./lib/alerts');
 const { loadCanon } = require('./lib/canon');
-const { loadBootBounded, renderHomeHtml } = require('./lib/boot');
+const { loadBootBounded, renderHomeHtml, publicBoot } = require('./lib/boot');
 const { loadSmartMoney, renderSmartMoneyPage } = require('./lib/smart-money');
 const { loadFortune, loadFortuneBounded, renderFortunePage, cookieReveals } = require('./lib/fortune');
 const { loadGradedBoard } = require('./lib/board');
@@ -140,7 +140,7 @@ async function handle(req, res) {
 
   if (pathname === '/api/boot') {
     const { loadBoot } = require('./lib/boot');
-    const boot = await loadBoot({ refreshDex: true });
+    const boot = publicBoot(await loadBoot({ refreshDex: true }));
     sendJson(res, 200, boot || { ok: false, coins: [], board: [] }, boot && boot.coins && boot.coins.length ? 'public, max-age=60' : 'no-store');
     return;
   }
