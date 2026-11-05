@@ -62,6 +62,41 @@ Smart Money Watch (`/smart-money`) reads public explorers and caches the feed in
 
 Still four serverless functions: `api/alerts.js`, `api/coingecko.js`, `api/scan.js`, `api/site.js`.
 
+### Forced Coin of the Day
+
+Paid days are a checked-in file or env vars. No new serverless function. Leads come from the homepage form (`#advertise`, Formspree `https://formspree.io/f/xzdjaele`). There is no card checkout.
+
+TODO: Stripe Checkout later, if card payment should happen on the site. Fold it into an existing function (`api/site.js` or `api/alerts.js`). Do not add a fifth function on the Hobby plan.
+
+To book a day, edit `data/sponsored-cotd.json` or set the env vars below, then redeploy. An env booking whose date matches replaces the JSON row for that same date. Other JSON dates still apply. Prices live in one place: `PACKAGES` in `lib/sponsor.js` (banner row **$99/day**, Forced Coin of the Day **$249/day**, Fortune + Coin of the Day **$399/day**).
+
+| Variable | Purpose |
+| --- | --- |
+| `SPONSORED_COTD_DATE` | `YYYY-MM-DD` in `America/New_York`. Required for an env booking. |
+| `SPONSORED_COTD_ID` | CoinGecko id. |
+| `SPONSORED_COTD_SYMBOL` | Ticker, without `$`. |
+| `SPONSORED_COTD_NAME` | Display name on the banner. |
+| `SPONSORED_COTD_LOGO` | Optional `https` logo URL. |
+| `SPONSORED_COTD_BLURB` | Optional short line on the banner. |
+| `SPONSORED_COTD_HREF` | Optional coin page, contract, or DEX link (`https://` or a site path). |
+| `SPONSORED_COTD_FORCE_FORTUNE` | `true` locks Cipher Fortune’s daily spin to this coin. Bonus spins stay random. |
+| `SPONSORED_COTD_PACKAGE` | `cotd` (default), `combo` (same as force fortune), or `banner` (gold table row only; Coin of the Day stays organic). |
+
+`forceFortune: true` is the $399 combo. Omit it for the $249 homepage takeover. `"package": "banner"` is the $99 row and does not replace Coin of the Day.
+
+```json
+{
+  "date": "2026-12-01",
+  "id": "your-coingecko-id",
+  "symbol": "TICKER",
+  "name": "Display Name",
+  "logo": "https://example.com/logo.png",
+  "blurb": "One short line visitors can read.",
+  "href": "/coin/your-coingecko-id",
+  "forceFortune": true
+}
+```
+
 ### Ape Check human vs bot counters
 
 These keys live in the same Upstash database. The date is the calendar day in `America/New_York`. Each key expires 40 days after the last write. Nothing is blocked.
