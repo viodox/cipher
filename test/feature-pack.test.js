@@ -6,7 +6,8 @@ const os = require('os');
 const path = require('path');
 const { test } = require('node:test');
 const { THEMES, themeBootScript, themeCss } = require('../lib/theme');
-const { parseBlockscoutV2, parseSolanaTransaction, parseHeliusSwaps, keepRow, renderSmartMoneyPage, resetSmartMoneyMemory } = require('../lib/smart-money');
+const { parseBlockscoutV2, parseSolanaTransaction, parseHeliusSwaps, keepRow, renderSmartMoneyPage, resetSmartMoneyMemory, summarizeFeed, applyDexMeta, gradeApplies, looksLikeSwap, freshenFeed } = require('../lib/smart-money');
+const { nyDayKey, hashIndex, wheelEase, segmentAt, landingRotation, bonusIndex, modelFromCoins, renderFortunePage, cookieReveals } = require('../lib/fortune');
 const { rowsFromBoosts, loadGradedBoard, resetBoardMemory } = require('../lib/board');
 const { slotsFromQuery, judge, renderComparePage } = require('../lib/compare');
 const { composeDigest, createDigestSignup, runDigest } = require('../lib/digest');
@@ -156,6 +157,151 @@ test('smart money page renders a grade, an explorer link, and an empty state', (
   assert.equal(html.toLowerCase().includes('scam'), false);
   const empty = renderSmartMoneyPage({ ok: true, buys: [], wallets: [], updatedAt: '2026-11-05T12:00:00.000Z' }).html;
   assert.match(empty, /Nothing in the window/);
+  assert.match(empty, /0 received · 0 swaps/);
+  assert.match(html, /0 received · 1 swap/);
+  assert.match(html, /data-swaps="1"/);
+  assert.match(html, /data-received="0"/);
+  assert.match(html, /data-priced="1"/);
+  assert.match(html, /Active/);
+  assert.equal(html.toLowerCase().includes('whale buy'), false);
+});
+
+test('smart money summary matches the rows and does not treat desk inflows as buys', () => {
+  const now = Date.parse('2026-11-05T04:00:00Z');
+  const feed = {
+    updatedAt: '2026-11-05T03:00:00.000Z',
+    wallets: [
+      { id: 'jump', name: 'Jump Trading', kind: 'desk', why: 'Desk.', chains: ['eth'] },
+      { id: 'vitalik', name: 'vitalik.eth', kind: 'notable', why: 'Public.', chains: ['eth'] },
+    ],
+    buys: [
+      { walletId: 'jump', walletName: 'Jump Trading', walletKind: 'desk', chain: 'eth', symbol: 'ATH', usd: 6000, side: 'in', ts: now - 24 * 60 * 1000, tokenAddress: '0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b', tx: '0x1', letter: 'F', ago: 'stale', checkHref: '/check/eth/0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b' },
+      { walletId: 'jump', walletName: 'Jump Trading', walletKind: 'desk', chain: 'eth', symbol: 'LIT', usd: 2000, side: 'in', ts: now - 60 * 60 * 1000, tokenAddress: '0x232ce3bd40fcd6', tx: '0x2', letter: 'C-', ago: 'stale', checkHref: '/check/eth/0x232ce3bd40fcd6' },
+    ],
+  };
+  const summary = summarizeFeed(feed);
+  assert.equal(summary.rows, 2);
+  assert.equal(summary.received, 2);
+  assert.equal(summary.swaps, 0);
+  assert.equal(summary.usd, 8000);
+  assert.equal(summary.priced, 2);
+  assert.equal(summary.active.length, 1);
+  assert.equal(summary.quiet.length, 1);
+  assert.equal(summary.quiet[0].name, 'vitalik.eth');
+  const html = renderSmartMoneyPage(feed, { now }).html;
+  assert.match(html, /2 received · 0 swaps/);
+  assert.match(html, /\$8\.0K on 2 priced rows/);
+  assert.match(html, /1 of 2 wallets active/);
+  assert.match(html, /Jump Trading 2 received \(desk\)/);
+  assert.match(html, /Every row on screen is a desk wallet receiving tokens/);
+  assert.match(html, /Quiet · no rows in the last 24 hours/);
+  assert.match(html, /vitalik\.eth/);
+  assert.match(html, /24m ago/);
+  assert.match(html, /1h ago/);
+  assert.equal(html.includes('stale'), false);
+  assert.match(html, /How this works/);
+  assert.match(html, /plain transfer/);
+  assert.match(html, /not a buy/);
+  assert.match(html, /HELIUS_API_KEY/);
+  assert.equal(/whale buy/i.test(html), false);
+});
+
+test('prices and grades stick to the matching token only', () => {
+  assert.equal(looksLikeSwap('', '0xa9059cbb'), false);
+  assert.equal(looksLikeSwap('', '0x38ed1739'), true);
+  const rows = [
+    { chain: 'eth', tokenAddress: '0xabc', symbol: 'PEPE', amount: 10, usd: null, side: 'in' },
+    { chain: 'eth', tokenAddress: '0xdef', symbol: 'NOPE', amount: 2, usd: null, side: 'in' },
+  ];
+  applyDexMeta(rows, [{
+    liquidity: { usd: 1000 },
+    priceUsd: '3',
+    baseToken: { address: '0xAbC', symbol: 'PEPE', name: 'Pepe' },
+  }]);
+  assert.equal(rows[0].usd, 30);
+  assert.equal(rows[1].usd, null);
+  const report = { ok: true, letter: 'A', chain: 'eth', address: '0xabc', symbol: 'OTHER' };
+  assert.equal(gradeApplies(rows[0], report), false);
+  assert.equal(gradeApplies(rows[0], { ok: true, letter: 'B', chain: 'eth', address: '0xABC', symbol: 'PEPE' }), true);
+  assert.equal(gradeApplies(rows[1], { ok: true, letter: 'B', chain: 'eth', address: '0xABC', symbol: 'PEPE' }), false);
+  const fresh = freshenFeed({ buys: [{ ts: Date.parse('2026-11-05T03:00:00Z'), ago: 'stale' }] }, Date.parse('2026-11-05T03:10:00Z'));
+  assert.equal(fresh.buys[0].ago, '10m ago');
+});
+
+test('cipher fortune pick is stable for a New York date and the page is not a wager', () => {
+  assert.equal(nyDayKey('2026-11-05T04:59:00Z'), '2026-11-04');
+  assert.equal(nyDayKey('2026-11-05T05:00:00Z'), '2026-11-05');
+  const coins = [];
+  for (let i = 0; i < 40; i += 1) {
+    coins.push({
+      id: 'coin-' + i,
+      symbol: 'c' + i,
+      name: 'Coin ' + i,
+      current_price: 1 + i,
+      market_cap: 1000000 - i * 1000,
+      total_volume: 50000,
+      price_change_percentage_24h: i - 10,
+    });
+  }
+  const now = Date.parse('2026-11-05T16:00:00Z');
+  const first = modelFromCoins(coins, [{ symbol: 'C3', letter: 'B', chain: 'eth', address: '0x1111111111111111111111111111111111111111', href: '/check/eth/0x1111111111111111111111111111111111111111', coinId: 'coin-3' }], now);
+  const second = modelFromCoins(coins, [], now);
+  assert.equal(first.ok, true);
+  assert.equal(first.dayKey, '2026-11-05');
+  assert.equal(first.segments.length, 32);
+  assert.equal(first.segments[first.winnerSlot].id, first.winner.id);
+  assert.equal(second.winner.id, first.winner.id);
+  assert.equal(new Set(first.segments.map((row) => row.id)).size, 32);
+  const locked = modelFromCoins(coins, [], now, { storedId: 'coin-7' });
+  assert.equal(locked.winner.id, 'coin-7');
+  assert.equal(locked.source, 'day-cache');
+  assert.equal(hashIndex('cipher-fortune-v1|2026-11-05', 40), hashIndex('cipher-fortune-v1|2026-11-05', 40));
+  for (let i = 0; i < 32; i += 1) {
+    assert.equal(segmentAt(landingRotation(12, i, 32, 6), 32), i);
+  }
+  assert.equal(wheelEase(0), 0);
+  assert.equal(wheelEase(1), 1);
+  assert.ok(wheelEase(0.3) > wheelEase(0.08));
+  let peak = 0;
+  for (let step = 0; step <= 100; step += 1) peak = Math.max(peak, wheelEase(step / 100));
+  assert.ok(peak > 1);
+  const early = (wheelEase(0.1) - wheelEase(0.02)) / 0.08;
+  const coast = (wheelEase(0.4) - wheelEase(0.25)) / 0.15;
+  const late = (wheelEase(0.86) - wheelEase(0.78)) / 0.08;
+  assert.ok(coast > early);
+  assert.ok(coast > late);
+  assert.equal(bonusIndex(5, 32, 5), 6);
+  const graded = first.segments.find((row) => row.id === 'coin-3');
+  if (graded) assert.equal(graded.letter, 'B');
+  const html = renderFortunePage(first, { revealed: false }).html;
+  assert.equal(html.includes('Cipher Fortune'), true);
+  assert.match(html, /Spin the wheel, land on a random coin, get today’s decoded breakdown/);
+  assert.match(html, /Free\. For fun\. Not a prediction/);
+  assert.match(html, /No prizes and no paid spins/);
+  assert.match(html, /SHA-256/);
+  assert.match(html, /America\/New_York|New York date/);
+  assert.match(html, /Spin again/);
+  assert.match(html, /AudioContext/);
+  assert.match(html, /navigator\.vibrate/);
+  assert.match(html, /prefers-reduced-motion/);
+  assert.match(html, /REDUCED_MS = 480/);
+  assert.match(html, /FULL_MS = 6400/);
+  assert.match(html, /id="cf-sound"/);
+  assert.match(html, /Post this fortune on X/);
+  assert.match(html, /data-referral/);
+  assert.match(html, /https:\/\/x\.com\/intent\/post\?text=/);
+  const withoutFooter = html.replace(/offer to buy, sell, or bet/g, '');
+  assert.equal(/jackpot|wager|casino|gambl|payout|you won|win money|\bbet\b/i.test(withoutFooter), false);
+  assert.equal(/lucky seal|seal of fortune|seal face/i.test(html), false);
+  assert.equal(cookieReveals('cf_fortune=' + encodeURIComponent(first.dayKey + ':' + first.winner.id), first), true);
+  assert.equal(cookieReveals('cf_fortune=nope', first), false);
+  const shown = renderFortunePage(first, { revealed: true }).html;
+  assert.match(shown, new RegExp('\\$' + first.winner.symbol));
+  assert.match(shown, /Today’s Cipher Fortune/);
+  const home = require('fs').readFileSync(require('path').join(__dirname, '..', 'templates', 'home.html'), 'utf8');
+  assert.match(home, /href="\/cipher-fortune"/);
+  assert.match(home, /spin a real coin/);
+  assert.match(home, /Spin the wheel, land on a random coin, get today’s decoded breakdown/);
 });
 
 test('boosts skip unknown chains and the board drops tokens that do not grade', async () => {
@@ -326,7 +472,7 @@ test('linked feature routes answer 200 even when upstream data is empty', async 
   const { server } = require('../server');
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const port = server.address().port;
-  const paths = ['/compare', '/digest', '/smart-money', '/updates', '/check', '/og/smart-money.png'];
+  const paths = ['/', '/compare', '/digest', '/smart-money', '/cipher-fortune', '/updates', '/check', '/og/smart-money.png', '/og/cipher-fortune.png'];
   try {
     for (const pathname of paths) {
       const res = await fetch('http://127.0.0.1:' + port + pathname);

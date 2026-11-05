@@ -212,6 +212,13 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
 .new-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#04140c;background:#00ff99;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .soon-badge{display:inline-block;margin-left:6px;font-size:12px;letter-spacing:.12em;color:#041018;background:#ffb400;padding:1px 4px;border-radius:2px;font-weight:700;vertical-align:1px}
 .nfa{font-size:16.5px;color:#c9d4e6;line-height:1.6;margin:-0.35rem 0 1rem;max-width:760px}
+.site-nav a.nav-fortune{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.15;padding:8px 12px;min-height:44px}
+.nav-hook{display:block;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;text-transform:none;color:#e4eef8;font-weight:400}
+.fortune-teaser{display:block;text-decoration:none;background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(6,8,16,.2));border:1px solid rgba(0,229,255,.55);border-radius:8px;padding:14px 16px;margin:0 0 1rem;min-height:44px}
+.fortune-teaser:hover{border-color:#00e5ff}
+.fortune-kicker{display:block;font-family:var(--font-disp);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#00e5ff;margin-bottom:4px}
+.fortune-teaser strong{display:block;color:#e8eef8;font-size:18px;line-height:1.45;font-weight:700}
+.fortune-sub{display:block;margin-top:6px;color:#c9d4e6;font-size:16px;line-height:1.5}
 .buy-note{font-size:16px;color:#c9d4e6;line-height:1.6;margin-bottom:12px}
 .scores{background:#0b0e1a;border:1px solid #243050;border-radius:8px;padding:1.25rem;margin-top:1.5rem}
 .scores h2{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#00e5ff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
@@ -357,6 +364,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
   <nav class="site-nav" aria-label="primary">
     <a href="/">scanner</a>
     <a class="flagship" href="/smart-money">smart money <span class="new-badge">live</span></a>
+    <a class="nav-fortune" href="/cipher-fortune">cipher fortune<span class="nav-hook">spin a real coin</span></a>
     <a href="/check">ape check <span class="new-badge">new</span></a>
     <a href="/compare">compare</a>
     <a href="/movers">top movers</a>
@@ -366,6 +374,11 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
     <a href="/rug-radar">rug radar</a>
     <a href="#where-to-buy">where to buy</a>
   </nav>
+  <a class="fortune-teaser" href="/cipher-fortune">
+    <span class="fortune-kicker">Cipher Fortune</span>
+    <strong>Spin the wheel, land on a random coin, get today’s decoded breakdown.</strong>
+    <span class="fortune-sub">Free. For fun. Not a prediction. Open the wheel.</span>
+  </a>
   <p class="nfa">Not financial advice. Prices are CoinGecko market data. Hype, mood, and risk on this page are formulas, not a forecast and not a contract audit.</p>
 
 
@@ -679,6 +692,7 @@ td{padding:9px 10px;vertical-align:middle;white-space:nowrap}
       <a href="/how-to-spot-rug-pulls.html">rug pull guide</a>
       <a href="/how-to-use-cipher.html">how to use CIPHER</a>
       <a href="/smart-money">smart money</a>
+      <a href="/cipher-fortune">cipher fortune</a>
       <a href="/check">ape check</a>
       <a href="/compare">compare</a>
       <a href="/hall">hall</a>
