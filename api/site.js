@@ -10,6 +10,7 @@ const { renderApeRoute } = require('../lib/ape-page');
 const { noteApeLookup } = require('../lib/ape-traffic');
 const { loadBootBounded, renderHomeHtml } = require('../lib/boot');
 const { loadSmartMoney, renderSmartMoneyPage } = require('../lib/smart-money');
+const { loadFortuneBounded, renderFortunePage, cookieReveals } = require('../lib/fortune');
 const { loadGradedBoard } = require('../lib/board');
 const { renderComparePage } = require('../lib/compare');
 const { renderDigestPage } = require('../lib/digest');
@@ -59,6 +60,14 @@ module.exports = async function handler(req, res) {
   if (page === 'smart-money') {
     const feed = await loadSmartMoney({ fill: 3 });
     const result = renderSmartMoneyPage(feed);
+    sendHtml(res, result.status, result.html, result.cacheControl);
+    return;
+  }
+
+  if (page === 'cipher-fortune') {
+    const model = await loadFortuneBounded({ grade: 1 });
+    const header = req.headers && (req.headers.cookie || req.headers.Cookie);
+    const result = renderFortunePage(model, { revealed: cookieReveals(header, model) });
     sendHtml(res, result.status, result.html, result.cacheControl);
     return;
   }

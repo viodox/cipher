@@ -6,7 +6,7 @@ const path = require('path');
 const { proxyCoinGecko } = require('./lib/coingecko');
 const { scanToken } = require('./lib/security');
 const { getRadar } = require('./lib/radar');
-const { renderCard, renderMoversCard, renderCoinCard, renderApeCard } = require('./lib/og');
+const { renderCard, renderMoversCard, renderCoinCard, renderApeCard, renderSmartMoneyCard, renderFortuneCard } = require('./lib/og');
 const { checkToken, listRecent, loadRasterLogo } = require('./lib/ape');
 const { noteApeLookup } = require('./lib/ape-traffic');
 const { renderApeRoute } = require('./lib/ape-page');
@@ -18,10 +18,10 @@ const { handleAlertHttp, handleRun, handleUnsubscribe, renderAlertsPage } = requ
 const { loadCanon } = require('./lib/canon');
 const { loadBootBounded, renderHomeHtml } = require('./lib/boot');
 const { loadSmartMoney, renderSmartMoneyPage } = require('./lib/smart-money');
+const { loadFortune, loadFortuneBounded, renderFortunePage, cookieReveals } = require('./lib/fortune');
 const { loadGradedBoard } = require('./lib/board');
 const { renderComparePage } = require('./lib/compare');
 const { renderDigestPage, createDigestSignup, digestInputFromRequest, unsubscribeDigest } = require('./lib/digest');
-const { renderSmartMoneyCard } = require('./lib/og');
 const { emailConfigured, storageMode } = require('./lib/alerts-ready');
 
 const ROOT = __dirname;
@@ -159,6 +159,16 @@ async function handle(req, res) {
   if (pathname === '/smart-money') {
     const feed = await loadSmartMoney({ fill: 3 });
     const result = renderSmartMoneyPage(feed);
+    send(res, result.status || 200, result.html, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': result.cacheControl || 'no-store',
+    });
+    return;
+  }
+
+  if (pathname === '/cipher-fortune') {
+    const model = await loadFortuneBounded({ grade: 1 });
+    const result = renderFortunePage(model, { revealed: cookieReveals(req.headers && req.headers.cookie, model) });
     send(res, result.status || 200, result.html, {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': result.cacheControl || 'no-store',
@@ -339,6 +349,15 @@ async function handle(req, res) {
     let feed = { buys: [] };
     try { feed = await loadSmartMoney({ fill: 0, refresh: false }); } catch (err) { feed = { buys: [] }; }
     const png = renderSmartMoneyCard(feed);
+    send(res, 200, png, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=300' });
+    return;
+  }
+
+  if (pathname === '/og/cipher-fortune.png' || (pathname === '/api/og' && url.searchParams.get('kind') === 'fortune')) {
+    let model = null;
+    try { model = await loadFortune({ skipDetail: true, grade: 0 }); }
+    catch (err) { model = null; }
+    const png = renderFortuneCard(model);
     send(res, 200, png, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=300' });
     return;
   }

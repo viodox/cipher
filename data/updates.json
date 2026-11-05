@@ -1,6 +1,20 @@
 {
   "updates": [
     {
+      "id": "cipher-fortune",
+      "date": "2026-11-05",
+      "title": "Cipher Fortune",
+      "summary": "Spin the wheel, land on a random coin, get today’s decoded breakdown. Free and for fun. Not a prediction. The New York date picks one shared coin, and you can spin again as a labeled bonus.",
+      "href": "/cipher-fortune"
+    },
+    {
+      "id": "smart-money-clarity",
+      "date": "2026-11-05",
+      "title": "Smart Money, explained",
+      "summary": "The board now counts received and swap separately, marks quiet wallets, and says plainly that a desk inflow is not a buy. Same public list. Still not a signal.",
+      "href": "/smart-money"
+    },
+    {
       "id": "smart-money",
       "date": "2026-11-05",
       "title": "Smart Money Watch",

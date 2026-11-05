@@ -65,6 +65,7 @@ test('public urls rewrite onto the four functions', () => {
   assert.equal(dest('/og/movers.png'), '/api/scan?mode=og&kind=movers');
   assert.equal(dest('/'), '/api/site?page=home');
   assert.equal(dest('/smart-money'), '/api/site?page=smart-money');
+  assert.equal(dest('/cipher-fortune'), '/api/site?page=cipher-fortune');
   assert.equal(dest('/compare'), '/api/site?page=compare');
   assert.equal(dest('/digest'), '/api/site?page=digest');
   assert.equal(dest('/api/boot'), '/api/site?page=boot');
@@ -72,6 +73,7 @@ test('public urls rewrite onto the four functions', () => {
   assert.equal(dest('/api/smart-money'), '/api/site?page=smart-money-json');
   assert.equal(dest('/api/digest'), '/api/alerts?action=digest');
   assert.equal(dest('/og/smart-money.png'), '/api/scan?mode=og&kind=smart-money');
+  assert.equal(dest('/og/cipher-fortune.png'), '/api/scan?mode=og&kind=fortune');
   assert.equal(dest('/check'), '/api/site?page=check');
   assert.equal(dest('/hall'), '/api/site?page=hall');
   assert.equal(dest('/shame'), '/api/site?page=shame');
