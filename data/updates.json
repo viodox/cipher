@@ -1,6 +1,13 @@
 {
   "updates": [
     {
+      "id": "smart-money-wallets",
+      "date": "2026-11-10",
+      "title": "Smart Money wallets that move",
+      "summary": "The board now follows current public hot wallets for Wintermute on Ethereum and Base, plus Cumberland, B2C2, FalconX, Galaxy Digital, and a Solscan-named Wintermute Solana bot. A slow explorer no longer throws away rows that already came back. A received transfer is still not a buy. Not financial advice.",
+      "href": "/smart-money"
+    },
+    {
       "id": "wider-universe",
       "date": "2026-11-05",
       "title": "More traded tokens",
