@@ -1,6 +1,13 @@
 {
   "updates": [
     {
+      "id": "smart-money-sources",
+      "date": "2026-11-13",
+      "title": "Smart Money names a failed explorer",
+      "summary": "Ethereum and Base inflows are read from Blockscout’s priced transfer list again, with Routescan as the fallback. If a wallet’s explorer fails, the note names that wallet and the source. A received transfer is still not a buy. Not financial advice.",
+      "href": "/smart-money"
+    },
+    {
       "id": "smart-money-wallets",
       "date": "2026-11-10",
       "title": "Smart Money wallets that move",
