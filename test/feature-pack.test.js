@@ -293,6 +293,9 @@ test('cipher fortune pick is stable for a New York date and the page is not a wa
   assert.match(html, /rotate\(/);
   assert.equal(html.includes('cf-glyphs'), false);
   assert.match(html, /Post this fortune on X/);
+  assert.match(html, /via @ciphersignal_/);
+  assert.match(html, /via%20%40ciphersignal_/);
+  assert.match(html, /https%3A%2F%2Fwww\.ciphersignal\.xyz%2Fcipher-fortune/);
   assert.match(html, /data-referral/);
   assert.match(html, /https:\/\/x\.com\/intent\/post\?text=/);
   const withoutFooter = html.replace(/offer to buy, sell, or bet/g, '');
@@ -388,6 +391,7 @@ test('grade post opens an X intent with the permalink', () => {
   };
   const text = gradePostText(report);
   assert.match(text, /Ape Check B/);
+  assert.match(text, /via @ciphersignal_/);
   assert.match(text, /https:\/\/www\.ciphersignal\.xyz\/check\/eth\/0x6982508145454ce325ddbe47a25d4ec3d2311933/);
   assert.ok(text.length < 280);
   const href = postHref(text);
@@ -395,6 +399,8 @@ test('grade post opens an X intent with the permalink', () => {
   const html = renderGrade(report).html;
   assert.match(html, /Post this grade on X/);
   assert.match(html, /https:\/\/x\.com\/intent\/post\?text=/);
+  assert.match(html, /data-share="[^"]*@ciphersignal_/);
+  assert.match(html, /btn\.getAttribute\('data-share'\)/);
   assert.equal(html.toLowerCase().includes('scam'), false);
 });
 
@@ -477,13 +483,21 @@ test('linked feature routes answer 200 even when upstream data is empty', async 
   const { server } = require('../server');
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const port = server.address().port;
-  const paths = ['/', '/compare', '/digest', '/smart-money', '/cipher-fortune', '/updates', '/check', '/og/smart-money.png', '/og/cipher-fortune.png'];
+  const paths = ['/', '/compare', '/digest', '/smart-money', '/cipher-fortune', '/updates', '/check', '/advertise', '/go/coinbase', '/go/binance-us', '/go/kraken', '/go/crypto-com', '/go/robinhood', '/og/smart-money.png', '/og/cipher-fortune.png'];
   try {
     for (const pathname of paths) {
       const res = await fetch('http://127.0.0.1:' + port + pathname);
       assert.equal(res.status, 200, pathname + ' ' + res.status);
       await res.arrayBuffer();
     }
+    const missing = await fetch('http://127.0.0.1:' + port + '/go/evil?url=https://evil.example');
+    assert.equal(missing.status, 404);
+    await missing.arrayBuffer();
+    const hopped = await fetch('http://127.0.0.1:' + port + '/go/kraken?url=https://evil.example');
+    assert.equal(hopped.status, 200);
+    const hoppedHtml = await hopped.text();
+    assert.equal(hoppedHtml.includes('evil.example'), false);
+    assert.match(hoppedHtml, /invite\.kraken\.com\/JDNW\/bkxtyuas/);
   } finally {
     await new Promise((resolve) => server.close(resolve));
   }
