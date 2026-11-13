@@ -160,7 +160,7 @@ test('a slow explorer does not wipe rows that already arrived', async () => {
   const slow = '0x2222222222222222222222222222222222222222';
   const wallets = [
     { id: 'fast', name: 'Fast Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: fast }] },
-    { id: 'slow', name: 'Slow Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: slow }] },
+    { id: 'slow', name: 'Late Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: slow }] },
   ];
   const fetchImpl = (url) => {
     const href = String(url);
@@ -215,7 +215,57 @@ test('a finished empty window is not described as a slow explorer', async () => 
     budgetMs: 2000,
     force: true,
   });
-  assert.match(failed.note, /public explorers were slow/);
+  assert.match(failed.note, /Quiet Desk ETH:/);
+  assert.match(failed.note, /blockscout v2 HTTP 500/);
+  assert.match(failed.note, /routescan HTTP 500/);
+  resetSmartMoneyMemory();
+});
+
+test('a blockscout price keeps the inflow when routescan and dexscreener fail', async () => {
+  resetSmartMoneyMemory();
+  const now = Date.now();
+  const wallet = '0x1111111111111111111111111111111111111111';
+  const other = '0x2222222222222222222222222222222222222222';
+  const fetchImpl = (url) => {
+    const href = String(url);
+    if (href.includes(other) || href.includes('routescan') || href.includes('dexscreener') || href.includes('module=account')) {
+      return jsonResponse({ message: 'nope' }, false);
+    }
+    return jsonResponse({
+      items: [{
+        timestamp: new Date(now - 60000).toISOString(),
+        transaction_hash: '0xabc',
+        method: '0xa9059cbb',
+        from: { hash: '0x3333333333333333333333333333333333333333', name: null },
+        to: { hash: wallet },
+        token: {
+          address_hash: '0x6982508145454ce325ddbe47a25d4ec3d2311933',
+          symbol: 'PEPE',
+          name: 'Pepe',
+          decimals: '18',
+          exchange_rate: '0.00001',
+        },
+        total: { value: '50000000000000000000000000', decimals: '18' },
+      }],
+    });
+  };
+  const feed = await loadSmartMoney({
+    fetchImpl,
+    wallets: [
+      { id: 'desk', name: 'Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: wallet }] },
+      { id: 'other', name: 'Other Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: other }] },
+    ],
+    now,
+    fill: 0,
+    budgetMs: 4000,
+    force: true,
+  });
+  const pepe = feed.buys.find((row) => row.symbol === 'PEPE');
+  assert.ok(pepe, JSON.stringify(feed.note));
+  assert.ok(pepe.usd >= 200);
+  assert.equal(pepe.side, 'in');
+  assert.match(feed.note, /Other Desk ETH:/);
+  assert.match(feed.note, /HTTP 500/);
   resetSmartMoneyMemory();
 });
 
