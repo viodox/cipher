@@ -56,7 +56,7 @@ Hobby still has one cron. `GET /api/alerts/run` sends price alerts and then the 
 
 `GET /api/alerts?action=digest&dry=1` with `Authorization: Bearer <CRON_SECRET>` returns the email and does not send it.
 
-Smart Money Watch (`/smart-money`) reads public explorers and caches the feed in Upstash for a few minutes. `HELIUS_API_KEY` is optional. Without it, Solana uses a public RPC. The wallet list is `lib/wallets.js`.
+Smart Money Watch (`/smart-money`) reads public explorers and caches the feed in Upstash for a few minutes. Ethereum token transfers try the free Routescan API first and fall back to Blockscout, because Blockscout’s v2 list for a busy hot wallet was slower than the page budget. If that budget runs out, rows that already arrived are kept. `HELIUS_API_KEY` is optional. Without it, Solana uses a public RPC. The wallet list is `lib/wallets.js`.
 
 `/compare?a=eth:0x…&b=sol:…` grades two contracts side by side. The homepage is served by `api/site.js` (`page=home`) so a cached CoinGecko page can be in the first HTML. The scanner no longer waits 1.5s between market pages; the edge cache on `/api/coingecko` absorbs those calls.
 

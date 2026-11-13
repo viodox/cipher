@@ -6,7 +6,7 @@ const os = require('os');
 const path = require('path');
 const { test } = require('node:test');
 const { THEMES, themeBootScript, themeCss } = require('../lib/theme');
-const { parseBlockscoutV2, parseSolanaTransaction, parseHeliusSwaps, keepRow, renderSmartMoneyPage, resetSmartMoneyMemory, summarizeFeed, applyDexMeta, gradeApplies, looksLikeSwap, freshenFeed } = require('../lib/smart-money');
+const { parseBlockscoutV2, parseSolanaTransaction, parseHeliusSwaps, keepRow, renderSmartMoneyPage, resetSmartMoneyMemory, summarizeFeed, applyDexMeta, gradeApplies, looksLikeSwap, freshenFeed, loadSmartMoney } = require('../lib/smart-money');
 const { SEGMENT_COUNT, nyDayKey, hashIndex, wheelEase, segmentAt, landingRotation, bonusIndex, modelFromCoins, renderFortunePage, cookieReveals } = require('../lib/fortune');
 const { rowsFromBoosts, loadGradedBoard, resetBoardMemory } = require('../lib/board');
 const { slotsFromQuery, judge, renderComparePage } = require('../lib/compare');
@@ -92,6 +92,8 @@ test('blockscout inflows become swap rows and ignore dust and stables', () => {
   assert.ok(rows[0].usd > 200);
   assert.equal(keepRow({ symbol: 'PEPE', usd: 10, side: 'swap' }), false);
   assert.equal(keepRow({ symbol: 'PEPE', usd: null, side: 'swap' }), true);
+  assert.equal(keepRow({ symbol: '', usd: null, side: 'swap' }), true);
+  assert.equal(keepRow({ symbol: '', usd: null, side: 'in' }), false);
 });
 
 test('solana balance increases from the signer count as swaps', () => {
@@ -115,12 +117,106 @@ test('solana balance increases from the signer count as swaps', () => {
   assert.equal(rows.length, 1);
   assert.equal(rows[0].amount, 4);
   assert.equal(rows[0].side, 'swap');
+  const received = parseSolanaTransaction({
+    blockTime: Math.floor(now / 1000) - 60,
+    signature: 'sig-in',
+    transaction: {
+      signatures: ['sig-in'],
+      message: { accountKeys: [{ pubkey: wallet, signer: false }, { pubkey: 'Other1111111111111111111111111111111111111', signer: true }] },
+    },
+    meta: {
+      preTokenBalances: [],
+      postTokenBalances: [
+        { owner: wallet, mint: 'Mint111111111111111111111111111111111111111', uiTokenAmount: { uiAmount: 10 } },
+      ],
+    },
+  }, wallet, now);
+  assert.equal(received.length, 1);
+  assert.equal(received[0].side, 'in');
+  assert.equal(received[0].amount, 10);
   const helius = parseHeliusSwaps([{
     timestamp: Math.floor(now / 1000) - 30,
     signature: 'sig2',
     tokenTransfers: [{ mint: 'Mint222', tokenAmount: 3, toUserAccount: wallet }],
   }], wallet, now);
   assert.equal(helius[0].tx, 'sig2');
+});
+
+function jsonResponse(body, ok) {
+  const text = JSON.stringify(body);
+  return Promise.resolve({
+    ok: ok !== false,
+    status: ok === false ? 500 : 200,
+    text: async () => text,
+    json: async () => body,
+  });
+}
+
+test('a slow explorer does not wipe rows that already arrived', async () => {
+  resetSmartMoneyMemory();
+  const now = Date.now();
+  const ts = Math.floor(now / 1000) - 120;
+  const fast = '0x1111111111111111111111111111111111111111';
+  const slow = '0x2222222222222222222222222222222222222222';
+  const wallets = [
+    { id: 'fast', name: 'Fast Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: fast }] },
+    { id: 'slow', name: 'Slow Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: slow }] },
+  ];
+  const fetchImpl = (url) => {
+    const href = String(url);
+    if (href.includes(slow)) return new Promise(() => {});
+    if (href.includes('dexscreener')) {
+      return jsonResponse([{
+        priceUsd: '1',
+        liquidity: { usd: 5000 },
+        baseToken: { address: '0x6982508145454ce325ddbe47a25d4ec3d2311933', symbol: 'PEPE', name: 'Pepe' },
+      }]);
+    }
+    return jsonResponse({
+      status: '1',
+      message: 'OK',
+      result: [{
+        timeStamp: String(ts),
+        from: '0x3333333333333333333333333333333333333333',
+        to: fast,
+        tokenSymbol: 'PEPE',
+        tokenName: 'Pepe',
+        contractAddress: '0x6982508145454ce325ddbe47a25d4ec3d2311933',
+        tokenDecimal: '18',
+        value: '1000000000000000000000000',
+        hash: '0xabc',
+        functionName: 'swapExactTokensForTokens(uint256,uint256,address[],address,uint256)',
+        input: '0x38ed1739',
+      }],
+    });
+  };
+  const started = Date.now();
+  const feed = await loadSmartMoney({ fetchImpl, wallets, now, fill: 0, budgetMs: 1200, force: true });
+  assert.ok(Date.now() - started < 4000);
+  assert.ok(feed.buys.some((row) => row.symbol === 'PEPE' && row.side === 'swap'));
+  assert.equal(String(feed.note || '').toLowerCase().includes('slow'), false);
+  resetSmartMoneyMemory();
+});
+
+test('a finished empty window is not described as a slow explorer', async () => {
+  resetSmartMoneyMemory();
+  const wallets = [
+    { id: 'quiet', name: 'Quiet Desk', kind: 'desk', why: 'Test.', chains: [{ chain: 'eth', address: '0x4444444444444444444444444444444444444444' }] },
+  ];
+  const fetchImpl = () => jsonResponse({ status: '1', message: 'OK', result: [] });
+  const empty = await loadSmartMoney({ fetchImpl, wallets, fill: 0, budgetMs: 2000, force: true });
+  assert.equal(empty.buys.length, 0);
+  assert.match(empty.note, /No tracked inflows/);
+  assert.equal(empty.note.toLowerCase().includes('slow'), false);
+  const failed = await loadSmartMoney({
+    fetchImpl: () => jsonResponse({ message: 'nope' }, false),
+    wallets,
+    fill: 0,
+    budgetMs: 2000,
+    force: true,
+  });
+  assert.match(failed.note, /public explorers were slow/);
+  resetSmartMoneyMemory();
 });
 
 test('smart money page renders a grade, an explorer link, and an empty state', () => {
