@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIPHER → Binance.US</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.ciphersignal.xyz/go/binance-us">
+<meta http-equiv="refresh" content="3;url=https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+body{margin:0;min-height:100vh;background:#060810;color:#e4eef8;font-family:ui-monospace,monospace;font-size:16.5px;line-height:1.6;display:flex;align-items:center;justify-content:center}
+.box{max-width:32rem;padding:2rem 1.25rem}
+.kicker{margin:0 0 .75rem;color:#00e5ff;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+p{margin:0 0 1rem}
+a{color:#00e5ff}
+a:focus-visible{outline:2px solid #e4eef8;outline-offset:3px}
+</style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/rq/s/script.js" data-endpoint="/rq/s"></script>
+</head>
+<body>
+<div class="box">
+  <p class="kicker">// referral</p>
+  <p>Redirecting to Binance.US…</p>
+  <p><a href="https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831" rel="sponsored nofollow noopener">Continue to Binance.US</a></p>
+</div>
+<script>
+(function(){
+  var dest = "https://www.binance.us/universal_JHHGDSKDJ/auth/registration?ref=52095831";
+  var left = false;
+  function leave(){
+    if(left) return;
+    left = true;
+    location.replace(dest);
+  }
+  var orig = window.fetch;
+  if(typeof orig === 'function'){
+    window.fetch = function(input){
+      var url = typeof input === 'string' ? input : (input && input.url) || '';
+      var result = orig.apply(this, arguments);
+      if(!left && String(url).indexOf('/rq/s/view') !== -1) window.setTimeout(leave, 100);
+      return result;
+    };
+  }
+  window.setTimeout(leave, 1800);
+})();
+</script>
+</body>
+</html>

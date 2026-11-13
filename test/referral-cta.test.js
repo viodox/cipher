@@ -10,12 +10,12 @@ const { renderGrade } = require('../lib/ape-page');
 const { renderCoinHtml } = require('../lib/coin');
 const { renderMoversPageFrom } = require('../lib/movers');
 
-const CODES = [
-  'QQYSCTU',
-  '52095831',
-  'bkxtyuas',
-  '8hxtmyan6d',
-  'https://www.ciphersignal.xyz/robinhood',
+const GO_PATHS = [
+  '/go/coinbase',
+  '/go/binance-us',
+  '/go/kraken',
+  '/go/crypto-com',
+  '/go/robinhood',
 ];
 
 function hrefs(html) {
@@ -24,31 +24,40 @@ function hrefs(html) {
 
 function referralHrefs(html) {
   const allowed = new Set(AFFILIATES.map((item) => item.href));
-  return hrefs(html).filter((href) => /coinbase|binance|kraken|crypto\.com|robinhood/i.test(href) && !allowed.has(href));
+  const hops = new Set(AFFILIATES.map((item) => '/go/' + item.slug));
+  return hrefs(html).filter((href) => {
+    if (hops.has(href)) return false;
+    return /coinbase|binance\.us|kraken|crypto\.com|join\.robinhood/i.test(href) && !allowed.has(href);
+  });
 }
 
-test('buy buttons reuse only the stored referral URLs', () => {
+test('buy buttons point at the allowlisted /go routes', () => {
   const html = buyButtonsHtml({ heading: 'Buy on an exchange' });
-  assert.deepEqual(hrefs(html).filter((href) => href.startsWith('http')), AFFILIATES.map((item) => item.href));
-  CODES.forEach((code) => assert.ok(html.includes(code), code));
+  assert.deepEqual(hrefs(html).filter((href) => href.startsWith('/go/')), AFFILIATES.map((item) => '/go/' + item.slug));
+  assert.deepEqual(hrefs(html).filter((href) => href.startsWith('/go/')), GO_PATHS);
+  assert.equal(hrefs(html).some((href) => /^https?:/i.test(href)), false);
   assert.equal(referralHrefs(html).length, 0);
   assert.match(html, /Buy on Coinbase/);
   assert.match(html, /Buy on Binance\.US/);
   assert.match(html, /Buy on Kraken/);
   assert.match(html, /Buy on Crypto\.com/);
   assert.match(html, /Buy on Robinhood/);
-  assert.match(html, /rel="sponsored noopener"/);
+  assert.match(html, /rel="sponsored nofollow noopener"/);
   assert.match(html, /target="_blank"/);
+  assert.match(html, /data-referral="1"/);
   assert.ok(html.includes(REFERRAL_DISCLOSURE));
   assert.match(html, /color:#e4eef8/);
   assert.equal(html.includes('casino'), false);
   assert.equal(html.includes('#6a7a9a'), false);
+  assert.equal(html.includes('coinbase.com'), false);
+  assert.equal(html.includes('invite.kraken.com'), false);
 });
 
 test('a named subset still cannot invent a new exchange link', () => {
   const html = buyButtonsHtml({ names: ['KRAKEN', 'NOPE'] });
-  const links = hrefs(html).filter((href) => href.startsWith('http'));
-  assert.deepEqual(links, ['https://invite.kraken.com/JDNW/bkxtyuas']);
+  const links = hrefs(html).filter((href) => href.startsWith('/go/'));
+  assert.deepEqual(links, ['/go/kraken']);
+  assert.equal(html.includes('invite.kraken.com'), false);
 });
 
 test('a referral click reports exchange and page to gtag and va', () => {
@@ -193,14 +202,18 @@ test('movers keeps a sticky Buy on bar', () => {
   assert.equal(referralHrefs(html).length, 0);
 });
 
-test('the homepage where-to-buy block keeps the same codes and the click event', () => {
+test('the homepage where-to-buy block points at /go and still fires referral_click', () => {
   const index = fs.readFileSync(path.join(__dirname, '..', 'templates', 'home.html'), 'utf8');
-  CODES.forEach((code) => assert.ok(index.includes(code), code));
+  GO_PATHS.forEach((route) => assert.ok(index.includes('href="' + route + '"'), route));
   assert.match(index, /data-exchange="COINBASE"/);
   assert.match(index, /data-exchange="BINANCE\.US"/);
   assert.match(index, /data-exchange="ROBINHOOD"/);
+  assert.match(index, /rel="sponsored nofollow noopener"/);
   assert.match(index, /G-CQVB0E2CMB/);
   assert.match(index, /referral_click/);
   assert.match(index, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
+  assert.equal(index.includes('coinbase.com/join'), false);
+  assert.equal(index.includes('invite.kraken.com'), false);
+  assert.equal(index.includes('QQYSCTU'), false);
   assert.equal(index.includes('casino'), false);
 });
