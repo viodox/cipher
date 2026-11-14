@@ -18,7 +18,7 @@ const { handleAlertHttp, handleRun, handleUnsubscribe, renderAlertsPage } = requ
 const { loadCanon } = require('./lib/canon');
 const { loadBootBounded, renderHomeHtml, publicBoot } = require('./lib/boot');
 const { loadSmartMoney, renderSmartMoneyPage } = require('./lib/smart-money');
-const { loadFortune, loadFortuneBounded, renderFortunePage, cookieReveals } = require('./lib/fortune');
+const { loadFortune, loadFortuneBounded, renderFortunePage, cookieReveals, fortuneCardModel, fortuneOgCacheControl } = require('./lib/fortune');
 const { loadGradedBoard } = require('./lib/board');
 const { renderComparePage } = require('./lib/compare');
 const { renderDigestPage, createDigestSignup, digestInputFromRequest, unsubscribeDigest } = require('./lib/digest');
@@ -169,7 +169,10 @@ async function handle(req, res) {
 
   if (pathname === '/cipher-fortune') {
     const model = await loadFortuneBounded({ grade: 1 });
-    const result = renderFortunePage(model, { revealed: cookieReveals(req.headers && req.headers.cookie, model) });
+    const result = renderFortunePage(model, {
+      revealed: cookieReveals(req.headers && req.headers.cookie, model),
+      query: queryOf(url),
+    });
     send(res, result.status || 200, result.html, {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': result.cacheControl || 'no-store',
@@ -358,8 +361,9 @@ async function handle(req, res) {
     let model = null;
     try { model = await loadFortune({ skipDetail: true, grade: 0 }); }
     catch (err) { model = null; }
-    const png = renderFortuneCard(model);
-    send(res, 200, png, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=300' });
+    const query = queryOf(url);
+    const png = renderFortuneCard(fortuneCardModel(model, query));
+    send(res, 200, png, { 'Content-Type': 'image/png', 'Cache-Control': fortuneOgCacheControl(query) });
     return;
   }
 

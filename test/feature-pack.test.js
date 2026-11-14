@@ -7,7 +7,8 @@ const path = require('path');
 const { test } = require('node:test');
 const { THEMES, themeBootScript, themeCss } = require('../lib/theme');
 const { parseBlockscoutV2, parseSolanaTransaction, parseHeliusSwaps, keepRow, renderSmartMoneyPage, resetSmartMoneyMemory, summarizeFeed, applyDexMeta, gradeApplies, looksLikeSwap, freshenFeed, loadSmartMoney } = require('../lib/smart-money');
-const { SEGMENT_COUNT, nyDayKey, hashIndex, wheelEase, segmentAt, landingRotation, bonusIndex, modelFromCoins, renderFortunePage, cookieReveals } = require('../lib/fortune');
+const { SEGMENT_COUNT, nyDayKey, hashIndex, wheelEase, segmentAt, landingRotation, bonusIndex, modelFromCoins, renderFortunePage, cookieReveals, fortuneShareUrl, fortuneImageUrl, fortuneCardModel, fortuneOgCacheControl } = require('../lib/fortune');
+const { renderFortuneCard } = require('../lib/og');
 const { rowsFromBoosts, loadGradedBoard, resetBoardMemory } = require('../lib/board');
 const { slotsFromQuery, judge, renderComparePage } = require('../lib/compare');
 const { composeDigest, createDigestSignup, runDigest } = require('../lib/digest');
@@ -458,6 +459,111 @@ test('cipher fortune pick is stable for a New York date and the page is not a wa
   assert.match(home, /Spin the wheel, land on a random coin, get today’s decoded breakdown/);
 });
 
+test('cipher fortune shares version the page and image by New York date and coin', () => {
+  const coins = [];
+  for (let i = 0; i < 40; i += 1) {
+    coins.push({
+      id: 'coin-' + i,
+      symbol: 'c' + i,
+      name: 'Coin ' + i,
+      current_price: 1 + i,
+      market_cap: 1000000 - i * 1000,
+      total_volume: 50000,
+      price_change_percentage_24h: i - 10,
+    });
+  }
+  const now = Date.parse('2026-11-05T16:00:00Z');
+  const model = modelFromCoins(coins, [], now);
+  const winner = model.winner;
+  const bonus = model.segments.find((row) => row.id !== winner.id);
+  const offWheel = coins.find((coin) => !model.segments.some((row) => row.id === coin.id));
+  assert.ok(bonus);
+  assert.ok(offWheel);
+  assert.equal(fortuneShareUrl(model.dayKey, winner.id), 'https://www.ciphersignal.xyz/cipher-fortune?d=2026-11-05&c=' + winner.id);
+  assert.equal(fortuneImageUrl(model.dayKey, bonus.id), 'https://www.ciphersignal.xyz/og/cipher-fortune.png?d=2026-11-05&c=' + bonus.id);
+  assert.equal(fortuneShareUrl('nope', winner.id), 'https://www.ciphersignal.xyz/cipher-fortune');
+  assert.equal(fortuneShareUrl(model.dayKey, '<script>'), 'https://www.ciphersignal.xyz/cipher-fortune');
+
+  const plain = renderFortunePage(model, { revealed: false }).html;
+  const imageQuery = 'd=2026-11-05&amp;c=' + winner.id;
+  assert.match(plain, new RegExp('property="og:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + imageQuery + '"'));
+  assert.match(plain, new RegExp('name="twitter:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + imageQuery + '"'));
+  assert.match(plain, /rel="canonical" href="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune"/);
+  assert.match(plain, /property="og:url" content="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune"/);
+  assert.match(plain, /<title>Cipher Fortune — spin the wheel, land on a random coin<\/title>/);
+  assert.equal(plain.includes('bonus spin for'), false);
+  const encodedDaily = encodeURIComponent(fortuneShareUrl(model.dayKey, winner.id));
+  assert.match(plain, new RegExp(encodedDaily.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(plain, /function sharePage\(token\)/);
+  assert.match(plain, /encodeURIComponent\(day\) \+ '&c=' \+ encodeURIComponent\(id\)/);
+  assert.match(plain, /"winnerId":"/);
+  assert.match(plain, new RegExp('"winnerId":"' + winner.id + '"'));
+  assert.match(plain, /cipher-fortune-v1/);
+  assert.match(plain, /cf_fortune=/);
+
+  const daily = renderFortunePage(model, { revealed: true, query: { d: '2026-11-05', c: winner.id } }).html;
+  assert.match(daily, new RegExp('<title>Cipher Fortune — \\$' + winner.symbol + '</title>'));
+  assert.match(daily, new RegExp('property="og:title" content="Cipher Fortune — \\$' + winner.symbol + '"'));
+  assert.match(daily, new RegExp('name="twitter:title" content="Cipher Fortune — \\$' + winner.symbol + '"'));
+  assert.match(daily, new RegExp('is today’s Cipher Fortune'));
+  assert.match(daily, new RegExp('property="og:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + imageQuery + '"'));
+  assert.match(daily, /rel="canonical" href="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune"/);
+  assert.match(daily, new RegExp('property="og:url" content="https://www\\.ciphersignal\\.xyz/cipher-fortune\\?' + imageQuery + '"'));
+  assert.equal(daily.includes('bonus spin for'), false);
+  assert.match(daily, new RegExp('"winnerId":"' + winner.id + '"'));
+  assert.match(daily, /Today’s Cipher Fortune/);
+
+  const bonusQuery = 'd=2026-11-05&amp;c=' + bonus.id;
+  const spun = renderFortunePage(model, { revealed: true, query: { d: ['2026-11-05'], c: bonus.id } }).html;
+  assert.match(spun, new RegExp('<title>Cipher Fortune bonus spin — \\$' + bonus.symbol + '</title>'));
+  assert.match(spun, new RegExp('property="og:description" content="\\$' + bonus.symbol + ' is a Cipher Fortune bonus spin\\.'));
+  assert.match(spun, new RegExp('property="og:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + bonusQuery + '"'));
+  assert.match(spun, new RegExp('name="twitter:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + bonusQuery + '"'));
+  assert.match(spun, /rel="canonical" href="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune"/);
+  assert.match(spun, new RegExp('This link is a bonus spin for \\$' + bonus.symbol + '\\. Today’s Cipher Fortune is unchanged\\.'));
+  assert.match(spun, new RegExp('"winnerId":"' + winner.id + '"'));
+  assert.equal(spun.includes('"winnerId":"' + bonus.id + '"'), false);
+  assert.match(spun, /cf_fortune=' \+ encodeURIComponent\(data\.dayKey \+ ':' \+ data\.winnerId\)/);
+  assert.match(spun, /shareText\(token, bonus\)/);
+  assert.match(spun, new RegExp(encodeURIComponent(fortuneShareUrl(model.dayKey, winner.id)).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.equal(spun.includes(encodeURIComponent(fortuneShareUrl(model.dayKey, bonus.id))), false);
+
+  const unknown = renderFortunePage(model, { revealed: false, query: { d: '2026-11-05', c: 'not-a-coin' } }).html;
+  assert.match(unknown, new RegExp('<title>Cipher Fortune — \\$' + winner.symbol + '</title>'));
+  assert.match(unknown, new RegExp('property="og:image" content="https://www\\.ciphersignal\\.xyz/og/cipher-fortune\\.png\\?' + imageQuery + '"'));
+  assert.match(unknown, /property="og:url" content="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune\?d=2026-11-05&amp;c=not-a-coin"/);
+  assert.equal(unknown.includes('bonus spin for'), false);
+  assert.match(unknown, new RegExp('"winnerId":"' + winner.id + '"'));
+  const nasty = renderFortunePage(model, { query: { d: '2026-11-05', c: '"><img' } }).html;
+  assert.equal(nasty.includes('"><img'), false);
+  assert.equal(nasty.includes('c=%22'), false);
+
+  const before = winner.id;
+  const card = fortuneCardModel(model, { d: '2026-11-05', c: offWheel.id });
+  assert.equal(card.winner.id, offWheel.id);
+  assert.equal(card.winner.symbol, String(offWheel.symbol).toUpperCase());
+  assert.equal(model.winner.id, before);
+  const dailyPng = Buffer.from(renderFortuneCard(model));
+  const bonusPng = Buffer.from(renderFortuneCard(fortuneCardModel(model, { d: model.dayKey, c: bonus.id })));
+  const offPng = Buffer.from(renderFortuneCard(card));
+  assert.equal(dailyPng.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  assert.equal(dailyPng.equals(bonusPng), false);
+  assert.equal(dailyPng.equals(offPng), false);
+  assert.equal(bonusPng.equals(offPng), false);
+  const same = fortuneCardModel(model, { d: '2026-11-05', c: winner.id.toUpperCase() });
+  assert.equal(same.winner.id, winner.id);
+  assert.equal(same, model);
+  const fallback = fortuneCardModel(model, { c: 'missing-coin' });
+  assert.equal(fallback, model);
+  assert.equal(fortuneCardModel(null, { c: 'coin-1' }).winner, null);
+
+  assert.match(fortuneOgCacheControl({ d: '2026-11-05', c: bonus.id }), /max-age=86400/);
+  assert.match(fortuneOgCacheControl({ d: '2026-11-05', c: bonus.id }), /s-maxage=86400/);
+  assert.match(fortuneOgCacheControl({}), /max-age=300/);
+  assert.equal(fortuneOgCacheControl({ d: 'yesterday', c: bonus.id }).includes('86400'), false);
+  assert.equal(fortuneOgCacheControl({ d: '2026-11-05', c: '<script>' }).includes('86400'), false);
+});
+
 test('boosts skip unknown chains and the board drops tokens that do not grade', async () => {
   resetBoardMemory();
   const rows = rowsFromBoosts([
@@ -639,6 +745,22 @@ test('linked feature routes answer 200 even when upstream data is empty', async 
     const missing = await fetch('http://127.0.0.1:' + port + '/go/evil?url=https://evil.example');
     assert.equal(missing.status, 404);
     await missing.arrayBuffer();
+    const versionedImage = await fetch('http://127.0.0.1:' + port + '/og/cipher-fortune.png?d=2026-11-14&c=pepe');
+    assert.equal(versionedImage.status, 200);
+    assert.match(versionedImage.headers.get('cache-control') || '', /max-age=86400/);
+    assert.equal(versionedImage.headers.get('content-type'), 'image/png');
+    await versionedImage.arrayBuffer();
+    const plainImage = await fetch('http://127.0.0.1:' + port + '/og/cipher-fortune.png');
+    assert.equal(plainImage.status, 200);
+    assert.match(plainImage.headers.get('cache-control') || '', /max-age=300/);
+    assert.equal((plainImage.headers.get('cache-control') || '').includes('86400'), false);
+    await plainImage.arrayBuffer();
+    const sharedPage = await fetch('http://127.0.0.1:' + port + '/cipher-fortune?d=2026-11-14&c=pepe');
+    assert.equal(sharedPage.status, 200);
+    const sharedHtml = await sharedPage.text();
+    assert.match(sharedHtml, /rel="canonical" href="https:\/\/www\.ciphersignal\.xyz\/cipher-fortune"/);
+    assert.match(sharedHtml, /property="og:image" content="https:\/\/www\.ciphersignal\.xyz\/og\/cipher-fortune\.png\?d=/);
+    assert.match(sharedHtml, /name="twitter:image" content="https:\/\/www\.ciphersignal\.xyz\/og\/cipher-fortune\.png\?d=/);
     const hopped = await fetch('http://127.0.0.1:' + port + '/go/kraken?url=https://evil.example');
     assert.equal(hopped.status, 200);
     const hoppedHtml = await hopped.text();

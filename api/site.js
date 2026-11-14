@@ -67,7 +67,10 @@ module.exports = async function handler(req, res) {
   if (page === 'cipher-fortune') {
     const model = await loadFortuneBounded({ grade: 1 });
     const header = req.headers && (req.headers.cookie || req.headers.Cookie);
-    const result = renderFortunePage(model, { revealed: cookieReveals(header, model) });
+    const result = renderFortunePage(model, {
+      revealed: cookieReveals(header, model),
+      query: req.query || {},
+    });
     sendHtml(res, result.status, result.html, result.cacheControl);
     return;
   }
