@@ -5,7 +5,7 @@ const { renderScanPage, renderScanError } = require('../lib/pages');
 const { getRadar } = require('../lib/radar');
 const { renderCard, renderMoversCard, renderCoinCard, renderApeCard, renderSmartMoneyCard, renderFortuneCard } = require('../lib/og');
 const { loadSmartMoney } = require('../lib/smart-money');
-const { loadFortune } = require('../lib/fortune');
+const { loadFortune, fortuneCardModel, fortuneOgCacheControl } = require('../lib/fortune');
 const { checkToken, listRecent, loadRasterLogo } = require('../lib/ape');
 const { noteApeLookup } = require('../lib/ape-traffic');
 const { loadMovers } = require('../lib/movers');
@@ -73,9 +73,9 @@ module.exports = async function handler(req, res) {
       let model = null;
       try { model = await loadFortune({ skipDetail: true, grade: 0 }); }
       catch (err) { model = null; }
-      const png = renderFortuneCard(model);
+      const png = renderFortuneCard(fortuneCardModel(model, req.query || {}));
       res.setHeader('Content-Type', 'image/png');
-      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      res.setHeader('Cache-Control', fortuneOgCacheControl(req.query || {}));
       res.status(200).send(png);
       return;
     }
