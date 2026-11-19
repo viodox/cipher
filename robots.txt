@@ -1,7 +1,33 @@
-User-agent: *
-Allow: /
+# Share-card fetchers. Twitterbot will not load an image that this file blocks,
+# so these bots may read /og/ even though every other crawler may not.
+User-agent: Twitterbot
+User-agent: facebookexternalhit
+User-agent: Facebot
+User-agent: LinkedInBot
+User-agent: Slackbot
+User-agent: Slackbot-LinkExpanding
+User-agent: Discordbot
+User-agent: TelegramBot
+User-agent: WhatsApp
+User-agent: Pinterestbot
+User-agent: redditbot
+User-agent: Applebot
+User-agent: Iframely
+User-agent: Embedly
 Disallow: /api/
 Disallow: /go/
+Allow: /og/
+Allow: /
+
+User-agent: *
+Disallow: /api/
+Disallow: /go/
+Disallow: /check/
+Disallow: /scan/
+Disallow: /og/
+Allow: /check$
+Allow: /coin/
+Allow: /
 
 Sitemap: https://www.ciphersignal.xyz/sitemap.xml
 Sitemap: https://www.ciphersignal.xyz/sitemap-coins.xml
