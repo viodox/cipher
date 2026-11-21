@@ -195,7 +195,8 @@ test('a grade page pings after load and an API lookup counts as bot', async () =
       query: { mode: 'check', chain: 'nope', address: '0x123' },
       headers: { 'user-agent': 'curl/8.7.1' },
     }, bot);
-    assert.equal(bot.statusCode, 400);
+    assert.equal(bot.statusCode, 403);
+    assert.equal(bot.body, 'Forbidden');
   } finally {
     global.fetch = original;
     if (prevUrl == null) delete process.env.UPSTASH_REDIS_REST_URL;

@@ -204,14 +204,21 @@ describe('coingecko quota guard', { concurrency: 1 }, () => {
     assert.equal(calls.length, 2);
   });
 
-  test('monthly-cap wording pauses later CoinGecko calls', async () => {
-    const { calls } = installFetch(() => jsonResponse(429, { error: 'API key usage exceeded' }));
+  test('monthly-cap wording pauses the demo key and uses the public endpoint', async () => {
+    const { calls } = installFetch((href) => {
+      if (href.includes('x_cg_demo_api_key')) return jsonResponse(429, { error: 'API key usage exceeded' });
+      if (href.includes('/search/trending')) return jsonResponse(200, { coins: [{ item: { id: 'vine', name: 'Vine', symbol: 'VINE' } }] });
+      return jsonResponse(200, { gecko_says: 'pong' });
+    });
     const first = await proxyCoinGeckoJson('ping', {});
-    assert.equal(first.status, 429);
+    assert.equal(first.ok, true);
+    assert.equal(first.fallback, true);
+    assert.equal(first.json.gecko_says, 'pong');
+    assert.equal(calls.filter((href) => href.includes('x_cg_demo_api_key')).length, 1);
     const second = await proxyCoinGeckoJson('search/trending', {});
-    assert.equal(second.status, 429);
-    assert.equal(second.ok, false);
-    assert.equal(calls.length, 1);
+    assert.equal(second.ok, true);
+    assert.equal(second.json.coins[0].item.id, 'vine');
+    assert.equal(calls.filter((href) => href.includes('x_cg_demo_api_key')).length, 1);
   });
 
   test('two callers share one in-flight CoinGecko request', async () => {
@@ -382,7 +389,10 @@ describe('coingecko quota guard', { concurrency: 1 }, () => {
     const second = await checkToken('eth', PEPE);
     assert.equal(second.ok, true);
     assert.equal(second.name, 'Pepe');
-    assert.equal(calls.filter((href) => href.includes('api.coingecko.com')).length, 1);
+    const cgCalls = calls.filter((href) => href.includes('api.coingecko.com'));
+    assert.equal(cgCalls.length, 2);
+    assert.equal(cgCalls[0].includes('x_cg_demo_api_key'), true);
+    assert.equal(cgCalls[1].includes('x_cg_demo_api_key'), false);
     const page = await renderApeRoute('ape', { chain: 'eth', address: PEPE });
     assert.equal(page.status, 200);
     assert.match(page.html, /noindex, nofollow/);
@@ -411,7 +421,7 @@ describe('coingecko quota guard', { concurrency: 1 }, () => {
 
     const scan = require('../api/scan');
     const card = mockRes();
-    await scan({ query: { mode: 'og', kind: 'fortune' }, headers: {} }, card);
+    await scan({ query: { mode: 'og', kind: 'fortune' } }, card);
     assert.equal(card.statusCode, 200);
     assert.equal(card.headers['content-type'], 'image/png');
     assert.ok(Buffer.isBuffer(card.body));

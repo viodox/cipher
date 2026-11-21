@@ -15,6 +15,7 @@ const { loadGradedBoard } = require('../lib/board');
 const { renderComparePage } = require('../lib/compare');
 const { renderDigestPage } = require('../lib/digest');
 const { emailConfigured, storageMode } = require('../lib/alerts-ready');
+const { decide, sendDenied, runWithTraffic } = require('../lib/traffic');
 
 const APP_PAGES = new Set(['ai-decrypt', 'profile', 'cipherpot', 'on-chain-stocks', 'rug-radar']);
 
@@ -24,7 +25,7 @@ function sendHtml(res, status, html, cacheControl) {
   res.status(status || 200).send(html);
 }
 
-module.exports = async function handler(req, res) {
+async function dispatch(req, res) {
   const page = String((req.query && (req.query.page || req.query.route)) || '');
 
   if (page === 'home') {
@@ -183,4 +184,12 @@ module.exports = async function handler(req, res) {
   }
 
   res.status(404).send('Not found');
+}
+
+module.exports = async function handler(req, res) {
+  const page = String((req.query && (req.query.page || req.query.route)) || '');
+  const kind = page === 'coin' ? 'coin' : page === 'ape' ? 'check' : '';
+  const decision = await decide(req, kind);
+  if (decision.deny) return sendDenied(res);
+  return runWithTraffic(decision, () => dispatch(req, res));
 };

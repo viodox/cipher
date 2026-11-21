@@ -23,6 +23,7 @@ const { loadGradedBoard } = require('./lib/board');
 const { renderComparePage } = require('./lib/compare');
 const { renderDigestPage, createDigestSignup, digestInputFromRequest, unsubscribeDigest } = require('./lib/digest');
 const { emailConfigured, storageMode } = require('./lib/alerts-ready');
+const { decide, sendDenied, runWithTraffic, kindFromPath } = require('./lib/traffic');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 4173;
@@ -58,7 +59,7 @@ function queryOf(url) {
   return params;
 }
 
-async function handle(req, res) {
+async function dispatch(req, res) {
   const url = new URL(req.url, 'http://127.0.0.1');
   const pathname = decodeURIComponent(url.pathname);
 
@@ -449,6 +450,14 @@ async function handle(req, res) {
 
   const missing = fs.readFileSync(path.join(ROOT, '404.html'));
   send(res, 404, missing, { 'Content-Type': 'text/html; charset=utf-8' });
+}
+
+async function handle(req, res) {
+  const url = new URL(req.url, 'http://127.0.0.1');
+  const pathname = decodeURIComponent(url.pathname);
+  const decision = await decide(req, kindFromPath(pathname));
+  if (decision.deny) return sendDenied(res);
+  return runWithTraffic(decision, () => dispatch(req, res));
 }
 
 const server = http.createServer((req, res) => {
