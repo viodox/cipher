@@ -10,8 +10,16 @@ const { checkToken, listRecent, loadRasterLogo } = require('../lib/ape');
 const { noteApeLookup } = require('../lib/ape-traffic');
 const { loadMovers } = require('../lib/movers');
 const { loadCoin } = require('../lib/coin');
+const { decide, sendDenied, runWithTraffic } = require('../lib/traffic');
 
-module.exports = async function handler(req, res) {
+function scanKind(mode) {
+  if (mode === 'og') return 'og';
+  if (mode === 'check') return 'check';
+  if (mode === 'scan') return 'scan';
+  return '';
+}
+
+async function dispatch(req, res) {
   const mode = String((req.query && req.query.mode) || 'scan');
 
   if (mode === 'security') {
@@ -121,4 +129,11 @@ module.exports = async function handler(req, res) {
   }
   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
   res.status(200).send(renderScanPage(report));
+}
+
+module.exports = async function handler(req, res) {
+  const mode = String((req.query && req.query.mode) || 'scan');
+  const decision = await decide(req, scanKind(mode));
+  if (decision.deny) return sendDenied(res);
+  return runWithTraffic(decision, () => dispatch(req, res));
 };

@@ -93,13 +93,25 @@ function loadHandler() {
   return require('../api/coingecko');
 }
 
+const KV_ENV = ['KV_REST_API_URL', 'KV_REST_API_TOKEN', 'UPSTASH_REDIS_REST_URL', 'UPSTASH_REDIS_REST_TOKEN'];
+const savedKv = {};
+
 beforeEach(() => {
   process.env.COINGECKO_API_KEY = SERVER_KEY;
+  // This file replaces global fetch. A live Upstash URL would be treated as CoinGecko.
+  KV_ENV.forEach((key) => {
+    savedKv[key] = process.env[key];
+    delete process.env[key];
+  });
 });
 
 afterEach(() => {
   delete process.env.COINGECKO_API_KEY;
   delete global.fetch;
+  KV_ENV.forEach((key) => {
+    if (savedKv[key] == null) delete process.env[key];
+    else process.env[key] = savedKv[key];
+  });
 });
 
 test('vercel compiles the catch-all onto one function and leaves the other api routes alone', () => {

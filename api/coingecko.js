@@ -1,6 +1,7 @@
 'use strict';
 
 const { proxyCoinGecko } = require('../lib/coingecko');
+const { decide, sendDenied, runWithTraffic } = require('../lib/traffic');
 
 // Plain Vercel functions only match one `[segment]`. A file named
 // `[...path].js` is not a catch-all here — production treats it as a single
@@ -29,11 +30,17 @@ function requestPath(req) {
   }
 }
 
-module.exports = async function handler(req, res) {
+async function dispatch(req, res) {
   const params = Object.assign({}, req.query);
   delete params.path;
   const result = await proxyCoinGecko(requestPath(req), params);
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', result.ok ? (result.cacheControl || 'public, max-age=60, s-maxage=60') : 'no-store');
   res.status(result.status).send(result.body);
+}
+
+module.exports = async function handler(req, res) {
+  const decision = await decide(req, 'coingecko');
+  if (decision.deny) return sendDenied(res);
+  return runWithTraffic(decision, () => dispatch(req, res));
 };
